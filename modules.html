@@ -1,0 +1,566 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>Modules - The Python Tutorial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <script>
+        const theme_storage_key = "mdbook-theme";
+        const default_light_theme = "light";
+        const default_dark_theme = "navy";
+        window.theme_storage_key = theme_storage_key;
+        window.default_light_theme = default_light_theme;
+        window.default_dark_theme = default_dark_theme;
+        (function () {
+            const html = document.documentElement;
+            let storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem(theme_storage_key);
+            } catch (err) {
+                storedTheme = null;
+            }
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const resolved = (!storedTheme || storedTheme === 'default_theme')
+                ? (prefersDark ? default_dark_theme : default_light_theme)
+                : storedTheme;
+            html.classList.remove('light');
+            html.classList.add(resolved);
+            window.default_theme = resolved;
+        })();
+    </script>
+    <link rel="icon" href="favicon-de23e50b.svg">
+    <link rel="shortcut icon" href="favicon-8114d1fc.png">
+    <link rel="stylesheet" href="css/variables-3865ffda.css">
+    <link rel="stylesheet" href="css/general-4c35105a.css">
+    <link rel="stylesheet" href="css/chrome-c0e702bf.css">
+    <link rel="stylesheet" href="css/print-ad67d350.css" media="print">
+    <link rel="stylesheet" href="FontAwesome/css/font-awesome-799aeb25.css">
+    <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+    <link rel="stylesheet" id="highlight-css" href="highlight-493f70e1.css">
+    <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+    <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight-56612340.css">
+    <link rel="stylesheet" href="ferris-d33b75bf.css">
+    <link rel="stylesheet" href="theme/2018-edition-4e126c62.css">
+    <link rel="stylesheet" href="theme/semantic-notes-9b5766c0.css">
+    <link rel="stylesheet" href="theme/listing-cab26221.css">
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div id="body-container">
+    <input type="checkbox" id="sidebar-toggle-anchor" class="hidden" checked>
+    <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <div class="sidebar-scrollbox">
+            <ol class="chapter"><li class="chapter-item expanded"><a href="index.html">The Python Tutorial</a></li><li class="chapter-item expanded"><a href="appetite.html"><strong aria-hidden="true">1.</strong> Whetting Your Appetite</a></li><li class="chapter-item expanded"><a href="interpreter.html"><strong aria-hidden="true">2.</strong> Using the Python Interpreter</a></li><li class="chapter-item expanded"><a href="introduction.html"><strong aria-hidden="true">3.</strong> An Informal Introduction to Python</a></li><li class="chapter-item expanded"><a href="controlflow.html"><strong aria-hidden="true">4.</strong> More Control Flow Tools</a></li><li class="chapter-item expanded"><a href="datastructures.html"><strong aria-hidden="true">5.</strong> Data Structures</a></li><li class="chapter-item expanded active"><a href="modules.html" data-current="true"><strong aria-hidden="true">6.</strong> Modules</a></li><li class="chapter-item expanded"><a href="inputoutput.html"><strong aria-hidden="true">7.</strong> Input and Output</a></li><li class="chapter-item expanded"><a href="errors.html"><strong aria-hidden="true">8.</strong> Errors and Exceptions</a></li><li class="chapter-item expanded"><a href="classes.html"><strong aria-hidden="true">9.</strong> Classes</a></li><li class="chapter-item expanded"><a href="stdlib.html"><strong aria-hidden="true">10.</strong> Brief Tour of the Standard Library</a></li><li class="chapter-item expanded"><a href="stdlib2.html"><strong aria-hidden="true">11.</strong> Brief Tour of the Standard Library --- Part II</a></li><li class="chapter-item expanded"><a href="venv.html"><strong aria-hidden="true">12.</strong> Virtual Environments and Packages</a></li><li class="chapter-item expanded"><a href="whatnow.html"><strong aria-hidden="true">13.</strong> What Now?</a></li><li class="chapter-item expanded"><a href="interactive.html"><strong aria-hidden="true">14.</strong> Interactive Input Editing and History Substitution</a></li><li class="chapter-item expanded"><a href="floatingpoint.html"><strong aria-hidden="true">15.</strong> Floating-Point Arithmetic:  Issues and Limitations</a></li><li class="chapter-item expanded"><a href="appendix.html"><strong aria-hidden="true">16.</strong> Appendix</a></li></ol>
+        </div>
+        <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div class="sidebar-resize-indicator"></div>
+        </div>
+    </nav>
+    <div id="page-wrapper" class="page-wrapper">
+        <div class="page">
+            <div id="menu-bar-hover-placeholder"></div>
+            <div id="menu-bar" class="menu-bar sticky">
+                <div class="left-buttons">
+                    <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <i class="fa fa-bars"></i>
+                    </label>
+                    <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                        <i class="fa fa-paint-brush"></i>
+                    </button>
+                    <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu" style="display: none;">
+                        <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                    </ul>
+                </div>
+                <h1 class="menu-title">The Python Tutorial</h1>
+                <div class="right-buttons"></div>
+            </div>
+            <main id="content" class="content">
+            <p>If you quit from the Python interpreter and enter it again, the definitions you
+            have made (functions and variables) are lost. Therefore, if you want to write a
+            somewhat longer program, you are better off using a text editor to prepare the
+            input for the interpreter and running it with that file as input instead.  This
+            is known as creating a <em>script</em>.  As your program gets longer, you may want to
+            split it into several files for easier maintenance.  You may also want to use a
+            handy function that you've written in several programs without copying its
+            definition into each program.</p>
+            <p>To support this, Python has a way to put definitions in a file and use them in a
+            script or in an interactive instance of the interpreter. Such a file is called a
+            <em>module</em>; definitions from a module can be <em>imported</em> into other modules or into
+            the <em>main</em> module (the collection of variables that you have access to in a
+            script executed at the top level and in calculator mode).</p>
+            <p>A module is a file containing Python definitions and statements.  The file name
+            is the module name with the suffix <span class="docutils literal">.py</span> appended.  Within a module, the
+            module's name (as a string) is available as the value of the global variable
+            <span class="docutils literal">__name__</span>.  For instance, use your favorite text editor to create a file
+            called <span class="docutils literal">fibo.py</span> in the current directory with the following contents:</p>
+            <pre class="literal-block"># Fibonacci numbers module
+
+            def fib(n):
+                &quot;&quot;&quot;Write Fibonacci series up to n.&quot;&quot;&quot;
+                a, b = 0, 1
+                while a &lt; n:
+                    print(a, end=' ')
+                    a, b = b, a+b
+                print()
+
+            def fib2(n):
+                &quot;&quot;&quot;Return Fibonacci series up to n.&quot;&quot;&quot;
+                result = []
+                a, b = 0, 1
+                while a &lt; n:
+                    result.append(a)
+                    a, b = b, a+b
+                return result</pre>
+            <p>Now enter the Python interpreter and import this module with the following
+            command:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import fibo</pre>
+            <p>This does not add the names of the functions defined in <span class="docutils literal">fibo</span>  directly to
+            the current <em>namespace</em> (see <a class="internal-ref reference external" href="classes.html#tut-scopes">tut-scopes</a> for more details);
+            it only adds the module name <span class="docutils literal">fibo</span> there. Using
+            the module name you can access the functions:</p>
+            <pre class="literal-block">&gt;&gt;&gt; fibo.fib(1000)
+            0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987
+            &gt;&gt;&gt; fibo.fib2(100)
+            [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+            &gt;&gt;&gt; fibo.__name__
+            'fibo'</pre>
+            <p>If you intend to use a function often you can assign it to a local name:</p>
+            <pre class="literal-block">&gt;&gt;&gt; fib = fibo.fib
+            &gt;&gt;&gt; fib(500)
+            0 1 1 2 3 5 8 13 21 34 55 89 144 233 377</pre>
+            <section id="more-on-modules">
+            <span id="tut-moremodules"></span><h2>More on Modules</h2>
+            <p>A module can contain executable statements as well as function definitions.
+            These statements are intended to initialize the module. They are executed only
+            the <em>first</em> time the module name is encountered in an import statement. <a class="footnote-reference brackets" href="#footnote-1" id="footnote-reference-1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>
+            (They are also run if the file is executed as a script.)</p>
+            <p>Each module has its own private namespace, which is used as the global namespace
+            by all functions defined in the module. Thus, the author of a module can
+            use global variables in the module without worrying about accidental clashes
+            with a user's global variables. On the other hand, if you know what you are
+            doing you can touch a module's global variables with the same notation used to
+            refer to its functions, <span class="docutils literal">modname.itemname</span>.</p>
+            <p>Modules can import other modules.  It is customary but not required to place all
+            <span class="docutils literal">import</span> statements at the beginning of a module (or script, for that
+            matter).  The imported module names, if placed at the top level of a module
+            (outside any functions or classes), are added to the module's global namespace.</p>
+            <p>There is a variant of the <span class="docutils literal">import</span> statement that imports names from a
+            module directly into the importing module's namespace.  For example:</p>
+            <pre class="literal-block">&gt;&gt;&gt; from fibo import fib, fib2
+            &gt;&gt;&gt; fib(500)
+            0 1 1 2 3 5 8 13 21 34 55 89 144 233 377</pre>
+            <p>This does not introduce the module name from which the imports are taken in the
+            local namespace (so in the example, <span class="docutils literal">fibo</span> is not defined).</p>
+            <p>There is even a variant to import all names that a module defines:</p>
+            <pre class="literal-block">&gt;&gt;&gt; from fibo import *
+            &gt;&gt;&gt; fib(500)
+            0 1 1 2 3 5 8 13 21 34 55 89 144 233 377</pre>
+            <p>This imports all names except those beginning with an underscore (<span class="docutils literal">_</span>).
+            In most cases Python programmers do not use this facility since it introduces
+            an unknown set of names into the interpreter, possibly hiding some things
+            you have already defined.</p>
+            <p>Note that in general the practice of importing <span class="docutils literal">*</span> from a module or package is
+            frowned upon, since it often causes poorly readable code. However, it is okay to
+            use it to save typing in interactive sessions.</p>
+            <p>If the module name is followed by <span class="docutils literal">as</span>, then the name
+            following <span class="docutils literal">as</span> is bound directly to the imported module.</p>
+            <pre class="literal-block">&gt;&gt;&gt; import fibo as fib
+            &gt;&gt;&gt; fib.fib(500)
+            0 1 1 2 3 5 8 13 21 34 55 89 144 233 377</pre>
+            <p>This is effectively importing the module in the same way that <span class="docutils literal">import fibo</span>
+            will do, with the only difference of it being available as <span class="docutils literal">fib</span>.</p>
+            <p>It can also be used when utilising <span class="docutils literal">from</span> with similar effects:</p>
+            <pre class="literal-block">&gt;&gt;&gt; from fibo import fib as fibonacci
+            &gt;&gt;&gt; fibonacci(500)
+            0 1 1 2 3 5 8 13 21 34 55 89 144 233 377</pre>
+            <aside class="admonition note">
+            <p class="admonition-title">Note</p>
+            <p>For efficiency reasons, each module is only imported once per interpreter
+            session.  Therefore, if you change your modules, you must restart the
+            interpreter -- or, if it's just one module you want to test interactively,
+            use <span class="docutils literal">importlib.reload</span>, e.g. <span class="docutils literal">import importlib; importlib.reload(modulename)</span>.</p>
+            </aside>
+            <section id="executing-modules-as-scripts">
+            <span id="tut-modulesasscripts"></span><h3>Executing modules as scripts</h3>
+            <p>When you run a Python module with</p>
+            <pre class="literal-block">python fibo.py &lt;arguments&gt;</pre>
+            <p>the code in the module will be executed, just as if you imported it, but with
+            the <span class="docutils literal">__name__</span> set to <span class="docutils literal">&quot;__main__&quot;</span>.  That means that by adding this code at
+            the end of your module:</p>
+            <pre class="literal-block">if __name__ == &quot;__main__&quot;:
+                import sys
+                fib(int(sys.argv[1]))</pre>
+            <p>you can make the file usable as a script as well as an importable module,
+            because the code that parses the command line only runs if the module is
+            executed as the &quot;main&quot; file:</p>
+            <pre class="code shell-session literal-block"><code><span class="generic prompt">$ </span>python<span class="whitespace"> </span>fibo.py<span class="whitespace"> </span><span class="literal number">50</span><span class="whitespace">
+            </span><span class="generic output">0 1 1 2 3 5 8 13 21 34</span></code></pre>
+            <p>If the module is imported, the code is not run:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import fibo
+            &gt;&gt;&gt;</pre>
+            <p>This is often used either to provide a convenient user interface to a module, or
+            for testing purposes (running the module as a script executes a test suite).</p>
+            </section>
+            <section id="the-module-search-path">
+            <span id="tut-searchpath"></span><h3>The Module Search Path</h3>
+            <p>When a module named <span class="docutils literal">spam</span> is imported, the interpreter first searches for
+            a built-in module with that name. These module names are listed in
+            <span class="docutils literal">sys.builtin_module_names</span>. If not found, it then searches for a file
+            named <span class="docutils literal">spam.py</span> in a list of directories given by the variable
+            <span class="docutils literal">sys.path</span>.  <span class="docutils literal">sys.path</span> is initialized from these locations:</p>
+            <ul class="simple">
+            <li><p>The directory containing the input script (or the current directory when no
+            file is specified).</p></li>
+            <li><p><span class="docutils literal">PYTHONPATH</span> (a list of directory names, with the same syntax as the
+            shell variable <span class="docutils literal">PATH</span>).</p></li>
+            <li><p>The installation-dependent default (by convention including a
+            <span class="docutils literal"><span class="pre">site-packages</span></span> directory, handled by the <span class="docutils literal">site</span> module).</p></li>
+            </ul>
+            <p>More details are at <span class="xref">sys-path-init</span>.</p>
+            <aside class="admonition note">
+            <p class="admonition-title">Note</p>
+            <p>On file systems which support symlinks, the directory containing the input
+            script is calculated after the symlink is followed. In other words the
+            directory containing the symlink is <strong>not</strong> added to the module search path.</p>
+            </aside>
+            <p>After initialization, Python programs can modify <span class="docutils literal">sys.path</span>.  The
+            directory containing the script being run is placed at the beginning of the
+            search path, ahead of the standard library path. This means that scripts in that
+            directory will be loaded instead of modules of the same name in the library
+            directory. This is an error unless the replacement is intended.  See section
+            <a class="internal-ref reference external" href="modules.html#tut-standardmodules">tut-standardmodules</a> for more information.</p>
+            <!-- %
+            Do we need stuff on zip files etc. ? DUBOIS -->
+            </section>
+            <section id="compiled-python-files">
+            <span id="tut-pycache"></span><h3>&quot;Compiled&quot; Python files</h3>
+            <p>To speed up loading modules, Python caches the compiled version of each module
+            in the <span class="docutils literal">__pycache__</span> directory under the name <span class="docutils literal"><span class="pre">module.{version}.pyc</span></span>,
+            where the version encodes the format of the compiled file; it generally contains
+            the Python version number.  For example, in CPython release 3.3 the compiled
+            version of spam.py would be cached as <span class="docutils literal"><span class="pre">__pycache__/spam.cpython-33.pyc</span></span>.  This
+            naming convention allows compiled modules from different releases and different
+            versions of Python to coexist.</p>
+            <p>Python checks the modification date of the source against the compiled version
+            to see if it's out of date and needs to be recompiled.  This is a completely
+            automatic process.  Also, the compiled modules are platform-independent, so the
+            same library can be shared among systems with different architectures.</p>
+            <p>Python does not check the cache in two circumstances.  First, it always
+            recompiles and does not store the result for the module that's loaded directly
+            from the command line.  Second, it does not check the cache if there is no
+            source module.  To support a non-source (compiled only) distribution, the
+            compiled module must be in the source directory, and there must not be a source
+            module.</p>
+            <p>Some tips for experts:</p>
+            <ul class="simple">
+            <li><p>You can use the <span class="docutils literal"><span class="pre">-O</span></span> or <span class="docutils literal"><span class="pre">-OO</span></span> switches on the Python command
+            to reduce the size of a compiled module.  The <span class="docutils literal"><span class="pre">-O</span></span> switch removes assert
+            statements, the <span class="docutils literal"><span class="pre">-OO</span></span> switch removes both assert statements and __doc__
+            strings.  Since some programs may rely on having these available, you should
+            only use this option if you know what you're doing.  &quot;Optimized&quot; modules have
+            an <span class="docutils literal">opt-</span> tag and are usually smaller.  Future releases may
+            change the effects of optimization.</p></li>
+            <li><p>A program doesn't run any faster when it is read from a <span class="docutils literal">.pyc</span>
+            file than when it is read from a <span class="docutils literal">.py</span> file; the only thing that's faster
+            about <span class="docutils literal">.pyc</span> files is the speed with which they are loaded.</p></li>
+            <li><p>The module <span class="docutils literal">compileall</span> can create .pyc files for all modules in a
+            directory.</p></li>
+            <li><p>There is more detail on this process, including a flow chart of the
+            decisions, in <span class="docutils literal">3147</span>.</p></li>
+            </ul>
+            </section>
+            </section>
+            <section id="standard-modules">
+            <span id="tut-standardmodules"></span><h2>Standard Modules</h2>
+            <p>Python comes with a library of standard modules, described in a separate
+            document, the Python Library Reference (&quot;Library Reference&quot; hereafter).  Some
+            modules are built into the interpreter; these provide access to operations that
+            are not part of the core of the language but are nevertheless built in, either
+            for efficiency or to provide access to operating system primitives such as
+            system calls.  The set of such modules is a configuration option which also
+            depends on the underlying platform.  For example, the <span class="docutils literal">winreg</span> module is only
+            provided on Windows systems. One particular module deserves some attention:
+            <span class="docutils literal">sys</span>, which is built into every Python interpreter.  The variables
+            <span class="docutils literal">sys.ps1</span> and <span class="docutils literal">sys.ps2</span> define the strings used as primary and secondary
+            prompts:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import sys
+            &gt;&gt;&gt; sys.ps1
+            '&gt;&gt;&gt; '
+            &gt;&gt;&gt; sys.ps2
+            '... '
+            &gt;&gt;&gt; sys.ps1 = 'C&gt; '
+            C&gt; print('Yuck!')
+            Yuck!
+            C&gt;</pre>
+            <p>These two variables are only defined if the interpreter is in interactive mode.</p>
+            <p>The variable <span class="docutils literal">sys.path</span> is a list of strings that determines the interpreter's
+            search path for modules. It is initialized to a default path taken from the
+            environment variable <span class="docutils literal">PYTHONPATH</span>, or from a built-in default if
+            <span class="docutils literal">PYTHONPATH</span> is not set.  You can modify it using standard list
+            operations:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import sys
+            &gt;&gt;&gt; sys.path.append('/ufs/guido/lib/python')</pre>
+            </section>
+            <section id="the-dir-function">
+            <span id="tut-dir"></span><h2>The <span class="docutils literal">dir</span> Function</h2>
+            <p>The built-in function <span class="docutils literal">dir</span> is used to find out which names a module
+            defines.  It returns a sorted list of strings:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import fibo, sys
+            &gt;&gt;&gt; dir(fibo)
+            ['__name__', 'fib', 'fib2']
+            &gt;&gt;&gt; dir(sys)  # doctest: +NORMALIZE_WHITESPACE
+            ['__breakpointhook__', '__displayhook__', '__doc__', '__excepthook__',
+             '__interactivehook__', '__loader__', '__name__', '__package__', '__spec__',
+             '__stderr__', '__stdin__', '__stdout__', '__unraisablehook__',
+             '_clear_type_cache', '_current_frames', '_debugmallocstats', '_framework',
+             '_getframe', '_git', '_home', '_xoptions', 'abiflags', 'addaudithook',
+             'api_version', 'argv', 'audit', 'base_exec_prefix', 'base_prefix',
+             'breakpointhook', 'builtin_module_names', 'byteorder', 'call_tracing',
+             'callstats', 'copyright', 'displayhook', 'dont_write_bytecode', 'exc_info',
+             'excepthook', 'exec_prefix', 'executable', 'exit', 'flags', 'float_info',
+             'float_repr_style', 'get_asyncgen_hooks', 'get_coroutine_origin_tracking_depth',
+             'getallocatedblocks', 'getdefaultencoding', 'getdlopenflags',
+             'getfilesystemencodeerrors', 'getfilesystemencoding', 'getprofile',
+             'getrecursionlimit', 'getrefcount', 'getsizeof', 'getswitchinterval',
+             'gettrace', 'hash_info', 'hexversion', 'implementation', 'int_info',
+             'intern', 'is_finalizing', 'last_traceback', 'last_type', 'last_value',
+             'maxsize', 'maxunicode', 'meta_path', 'modules', 'path', 'path_hooks',
+             'path_importer_cache', 'platform', 'prefix', 'ps1', 'ps2', 'pycache_prefix',
+             'set_asyncgen_hooks', 'set_coroutine_origin_tracking_depth', 'setdlopenflags',
+             'setprofile', 'setrecursionlimit', 'setswitchinterval', 'settrace', 'stderr',
+             'stdin', 'stdout', 'thread_info', 'unraisablehook', 'version', 'version_info',
+             'warnoptions']</pre>
+            <p>Without arguments, <span class="docutils literal">dir</span> lists the names you have defined currently:</p>
+            <pre class="literal-block">&gt;&gt;&gt; a = [1, 2, 3, 4, 5]
+            &gt;&gt;&gt; import fibo
+            &gt;&gt;&gt; fib = fibo.fib
+            &gt;&gt;&gt; dir()
+            ['__builtins__', '__name__', 'a', 'fib', 'fibo', 'sys']</pre>
+            <p>Note that it lists all types of names: variables, modules, functions, etc.</p>
+            <p><span class="docutils literal">dir</span> does not list the names of built-in functions and variables.  If you
+            want a list of those, they are defined in the standard module
+            <span class="docutils literal">builtins</span>:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import builtins
+            &gt;&gt;&gt; dir(builtins)  # doctest: +NORMALIZE_WHITESPACE
+            ['ArithmeticError', 'AssertionError', 'AttributeError', 'BaseException',
+             'BlockingIOError', 'BrokenPipeError', 'BufferError', 'BytesWarning',
+             'ChildProcessError', 'ConnectionAbortedError', 'ConnectionError',
+             'ConnectionRefusedError', 'ConnectionResetError', 'DeprecationWarning',
+             'EOFError', 'Ellipsis', 'EnvironmentError', 'Exception', 'False',
+             'FileExistsError', 'FileNotFoundError', 'FloatingPointError',
+             'FutureWarning', 'GeneratorExit', 'IOError', 'ImportError',
+             'ImportWarning', 'IndentationError', 'IndexError', 'InterruptedError',
+             'IsADirectoryError', 'KeyError', 'KeyboardInterrupt', 'LookupError',
+             'MemoryError', 'NameError', 'None', 'NotADirectoryError', 'NotImplemented',
+             'NotImplementedError', 'OSError', 'OverflowError',
+             'PendingDeprecationWarning', 'PermissionError', 'ProcessLookupError',
+             'ReferenceError', 'ResourceWarning', 'RuntimeError', 'RuntimeWarning',
+             'StopIteration', 'SyntaxError', 'SyntaxWarning', 'SystemError',
+             'SystemExit', 'TabError', 'TimeoutError', 'True', 'TypeError',
+             'UnboundLocalError', 'UnicodeDecodeError', 'UnicodeEncodeError',
+             'UnicodeError', 'UnicodeTranslateError', 'UnicodeWarning', 'UserWarning',
+             'ValueError', 'Warning', 'ZeroDivisionError', '_', '__build_class__',
+             '__debug__', '__doc__', '__import__', '__name__', '__package__', 'abs',
+             'all', 'any', 'ascii', 'bin', 'bool', 'bytearray', 'bytes', 'callable',
+             'chr', 'classmethod', 'compile', 'complex', 'copyright', 'credits',
+             'delattr', 'dict', 'dir', 'divmod', 'enumerate', 'eval', 'exec', 'exit',
+             'filter', 'float', 'format', 'frozenset', 'getattr', 'globals', 'hasattr',
+             'hash', 'help', 'hex', 'id', 'input', 'int', 'isinstance', 'issubclass',
+             'iter', 'len', 'license', 'list', 'locals', 'map', 'max', 'memoryview',
+             'min', 'next', 'object', 'oct', 'open', 'ord', 'pow', 'print', 'property',
+             'quit', 'range', 'repr', 'reversed', 'round', 'set', 'setattr', 'slice',
+             'sorted', 'staticmethod', 'str', 'sum', 'super', 'tuple', 'type', 'vars',
+             'zip']</pre>
+            </section>
+            <section id="packages">
+            <span id="tut-packages"></span><h2>Packages</h2>
+            <p>Packages are a way of structuring Python's module namespace by using &quot;dotted
+            module names&quot;.  For example, the module name <span class="docutils literal">A.B</span> designates a submodule
+            named <span class="docutils literal">B</span> in a package named <span class="docutils literal">A</span>.  Just like the use of modules saves the
+            authors of different modules from having to worry about each other's global
+            variable names, the use of dotted module names saves the authors of multi-module
+            packages like NumPy or Pillow from having to worry about
+            each other's module names.</p>
+            <p>Suppose you want to design a collection of modules (a &quot;package&quot;) for the uniform
+            handling of sound files and sound data.  There are many different sound file
+            formats (usually recognized by their extension, for example: <span class="docutils literal">.wav</span>,
+            <span class="docutils literal">.aiff</span>, <span class="docutils literal">.au</span>), so you may need to create and maintain a growing
+            collection of modules for the conversion between the various file formats.
+            There are also many different operations you might want to perform on sound data
+            (such as mixing, adding echo, applying an equalizer function, creating an
+            artificial stereo effect), so in addition you will be writing a never-ending
+            stream of modules to perform these operations.  Here's a possible structure for
+            your package (expressed in terms of a hierarchical filesystem):</p>
+            <pre class="code text literal-block"><code>sound/                          Top-level package
+                  __init__.py               Initialize the sound package
+                  formats/                  Subpackage for file format conversions
+                          __init__.py
+                          wavread.py
+                          wavwrite.py
+                          aiffread.py
+                          aiffwrite.py
+                          auread.py
+                          auwrite.py
+                          ...
+                  effects/                  Subpackage for sound effects
+                          __init__.py
+                          echo.py
+                          surround.py
+                          reverse.py
+                          ...
+                  filters/                  Subpackage for filters
+                          __init__.py
+                          equalizer.py
+                          vocoder.py
+                          karaoke.py
+                          ...</code></pre>
+            <p>When importing the package, Python searches through the directories on
+            <span class="docutils literal">sys.path</span> looking for the package subdirectory.</p>
+            <p>The <span class="docutils literal">__init__.py</span> files are required to make Python treat directories
+            containing the file as packages (unless using a <em>namespace package</em>, a
+            relatively advanced feature). This prevents directories with a common name,
+            such as <span class="docutils literal">string</span>, from unintentionally hiding valid modules that occur later
+            on the module search path. In the simplest case, <span class="docutils literal">__init__.py</span> can just be
+            an empty file, but it can also execute initialization code for the package or
+            set the <span class="docutils literal">__all__</span> variable, described later.</p>
+            <p>Users of the package can import individual modules from the package, for
+            example:</p>
+            <pre class="literal-block">import sound.effects.echo</pre>
+            <p>This loads the submodule <span class="docutils literal">sound.effects.echo</span>.  It must be referenced with
+            its full name.</p>
+            <pre class="literal-block">sound.effects.echo.echofilter(input, output, delay=0.7, atten=4)</pre>
+            <p>An alternative way of importing the submodule is:</p>
+            <pre class="literal-block">from sound.effects import echo</pre>
+            <p>This also loads the submodule <span class="docutils literal">echo</span>, and makes it available without its
+            package prefix, so it can be used as follows:</p>
+            <pre class="literal-block">echo.echofilter(input, output, delay=0.7, atten=4)</pre>
+            <p>Yet another variation is to import the desired function or variable directly:</p>
+            <pre class="literal-block">from sound.effects.echo import echofilter</pre>
+            <p>Again, this loads the submodule <span class="docutils literal">echo</span>, but this makes its function
+            <span class="docutils literal">echofilter</span> directly available:</p>
+            <pre class="literal-block">echofilter(input, output, delay=0.7, atten=4)</pre>
+            <p>Note that when using <span class="docutils literal">from package import item</span>, the item can be either a
+            submodule (or subpackage) of the package, or some  other name defined in the
+            package, like a function, class or variable.  The <span class="docutils literal">import</span> statement first
+            tests whether the item is defined in the package; if not, it assumes it is a
+            module and attempts to load it.  If it fails to find it, an <span class="docutils literal">ImportError</span>
+            exception is raised.</p>
+            <p>Contrarily, when using syntax like <span class="docutils literal">import item.subitem.subsubitem</span>, each item
+            except for the last must be a package; the last item can be a module or a
+            package but can't be a class or function or variable defined in the previous
+            item.</p>
+            <section id="importing-from-a-package">
+            <span id="tut-pkg-import-star"></span><h3>Importing * From a Package</h3>
+            <p>Now what happens when the user writes <span class="docutils literal">from sound.effects import *</span>?  Ideally,
+            one would hope that this somehow goes out to the filesystem, finds which
+            submodules are present in the package, and imports them all.  This could take a
+            long time and importing sub-modules might have unwanted side-effects that should
+            only happen when the sub-module is explicitly imported.</p>
+            <p>The only solution is for the package author to provide an explicit index of the
+            package.  The <span class="docutils literal">import</span> statement uses the following convention: if a package's
+            <span class="docutils literal">__init__.py</span> code defines a list named <span class="docutils literal">__all__</span>, it is taken to be the
+            list of module names that should be imported when <span class="docutils literal">from package import *</span> is
+            encountered.  It is up to the package author to keep this list up-to-date when a
+            new version of the package is released.  Package authors may also decide not to
+            support it, if they don't see a use for importing * from their package.  For
+            example, the file <span class="docutils literal">sound/effects/__init__.py</span> could contain the following
+            code:</p>
+            <pre class="literal-block">__all__ = [&quot;echo&quot;, &quot;surround&quot;, &quot;reverse&quot;]</pre>
+            <p>This would mean that <span class="docutils literal">from sound.effects import *</span> would import the three
+            named submodules of the <span class="docutils literal">sound.effects</span> package.</p>
+            <p>Be aware that submodules might become shadowed by locally defined names. For
+            example, if you added a <span class="docutils literal">reverse</span> function to the
+            <span class="docutils literal">sound/effects/__init__.py</span> file, the <span class="docutils literal">from sound.effects import *</span>
+            would only import the two submodules <span class="docutils literal">echo</span> and <span class="docutils literal">surround</span>, but <em>not</em> the
+            <span class="docutils literal">reverse</span> submodule, because it is shadowed by the locally defined
+            <span class="docutils literal">reverse</span> function:</p>
+            <pre class="literal-block">__all__ = [
+                &quot;echo&quot;,      # refers to the 'echo.py' file
+                &quot;surround&quot;,  # refers to the 'surround.py' file
+                &quot;reverse&quot;,   # !!! refers to the 'reverse' function now !!!
+            ]
+
+            def reverse(msg: str):  # &lt;-- this name shadows the 'reverse.py' submodule
+                return msg[::-1]    #     in the case of a 'from sound.effects import *'</pre>
+            <p>If <span class="docutils literal">__all__</span> is not defined, the statement <span class="docutils literal">from sound.effects import *</span>
+            does <em>not</em> import all submodules from the package <span class="docutils literal">sound.effects</span> into the
+            current namespace; it only ensures that the package <span class="docutils literal">sound.effects</span> has
+            been imported (possibly running any initialization code in <span class="docutils literal">__init__.py</span>)
+            and then imports whatever names are defined in the package.  This includes any
+            names defined (and submodules explicitly loaded) by <span class="docutils literal">__init__.py</span>.  It
+            also includes any submodules of the package that were explicitly loaded by
+            previous <span class="docutils literal">import</span> statements.  Consider this code:</p>
+            <pre class="literal-block">import sound.effects.echo
+            import sound.effects.surround
+            from sound.effects import *</pre>
+            <p>In this example, the <span class="docutils literal">echo</span> and <span class="docutils literal">surround</span> modules are imported in the
+            current namespace because they are defined in the <span class="docutils literal">sound.effects</span> package
+            when the <span class="docutils literal"><span class="pre">from...import</span></span> statement is executed.  (This also works when
+            <span class="docutils literal">__all__</span> is defined.)</p>
+            <p>Although certain modules are designed to export only names that follow certain
+            patterns when you use <span class="docutils literal">import *</span>, it is still considered bad practice in
+            production code.</p>
+            <p>Remember, there is nothing wrong with using <span class="docutils literal">from package import specific_submodule</span>!  In fact, this is the recommended notation unless the
+            importing module needs to use submodules with the same name from different
+            packages.</p>
+            </section>
+            <section id="intra-package-references-1">
+            <span id="intra-package-references"></span><h3>Intra-package References</h3>
+            <p>When packages are structured into subpackages (as with the <span class="docutils literal">sound</span> package
+            in the example), you can use absolute imports to refer to submodules of siblings
+            packages.  For example, if the module <span class="docutils literal">sound.filters.vocoder</span> needs to use
+            the <span class="docutils literal">echo</span> module in the <span class="docutils literal">sound.effects</span> package, it can use <span class="docutils literal">from sound.effects import echo</span>.</p>
+            <p>You can also write relative imports, with the <span class="docutils literal">from module import name</span> form
+            of import statement.  These imports use leading dots to indicate the current and
+            parent packages involved in the relative import.  From the <span class="docutils literal">surround</span>
+            module for example, you might use:</p>
+            <pre class="literal-block">from . import echo
+            from .. import formats
+            from ..filters import equalizer</pre>
+            <p>Note that relative imports are based on the name of the current module's package.
+            Since the main module does not have a package, modules intended for use
+            as the main module of a Python application must always use absolute imports.</p>
+            </section>
+            <section id="packages-in-multiple-directories">
+            <h3>Packages in Multiple Directories</h3>
+            <p>Packages support one more special attribute, <span class="docutils literal">module.__path__</span>.  This is
+            initialized to be a <em>sequence</em> of strings containing the name of the
+            directory holding the
+            package's <span class="docutils literal">__init__.py</span> before the code in that file is executed.  This
+            variable can be modified; doing so affects future searches for modules and
+            subpackages contained in the package.</p>
+            <p>While this feature is not often needed, it can be used to extend the set of
+            modules found in a package.</p>
+            <p class="rubric">Footnotes</p>
+            <aside class="footnote-list brackets">
+            <aside class="footnote brackets" id="footnote-1" role="doc-footnote">
+            <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-1">1</a><span class="fn-bracket">]</span></span>
+            <p>In fact function definitions are also 'statements' that are 'executed'; the
+            execution of a module-level function definition adds the function name to
+            the module's global namespace.</p>
+            </aside>
+            </aside>
+            </section>
+            </section>
+            </main>
+            <nav class="nav-wrapper" aria-label="Page navigation">
+                <a rel="prev" href="datastructures.html" class="mobile-nav-chapters previous" title="Data Structures" aria-label="Data Structures"><i class="fa fa-angle-left"></i></a>
+                <a rel="next" href="inputoutput.html" class="mobile-nav-chapters next" title="Input and Output" aria-label="Input and Output"><i class="fa fa-angle-right"></i></a>
+                <div style="clear: both"></div>
+            </nav>
+        </div>
+        <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            <a rel="prev" href="datastructures.html" class="nav-chapters prev" title="Data Structures" aria-label="Data Structures"><i class="fa fa-angle-left"></i></a>
+            <a rel="next" href="inputoutput.html" class="nav-chapters next" title="Input and Output" aria-label="Input and Output"><i class="fa fa-angle-right"></i></a>
+        </nav>
+    </div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>

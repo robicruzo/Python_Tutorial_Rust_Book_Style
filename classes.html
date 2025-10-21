@@ -1,0 +1,844 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>Classes - The Python Tutorial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <script>
+        const theme_storage_key = "mdbook-theme";
+        const default_light_theme = "light";
+        const default_dark_theme = "navy";
+        window.theme_storage_key = theme_storage_key;
+        window.default_light_theme = default_light_theme;
+        window.default_dark_theme = default_dark_theme;
+        (function () {
+            const html = document.documentElement;
+            let storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem(theme_storage_key);
+            } catch (err) {
+                storedTheme = null;
+            }
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const resolved = (!storedTheme || storedTheme === 'default_theme')
+                ? (prefersDark ? default_dark_theme : default_light_theme)
+                : storedTheme;
+            html.classList.remove('light');
+            html.classList.add(resolved);
+            window.default_theme = resolved;
+        })();
+    </script>
+    <link rel="icon" href="favicon-de23e50b.svg">
+    <link rel="shortcut icon" href="favicon-8114d1fc.png">
+    <link rel="stylesheet" href="css/variables-3865ffda.css">
+    <link rel="stylesheet" href="css/general-4c35105a.css">
+    <link rel="stylesheet" href="css/chrome-c0e702bf.css">
+    <link rel="stylesheet" href="css/print-ad67d350.css" media="print">
+    <link rel="stylesheet" href="FontAwesome/css/font-awesome-799aeb25.css">
+    <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+    <link rel="stylesheet" id="highlight-css" href="highlight-493f70e1.css">
+    <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+    <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight-56612340.css">
+    <link rel="stylesheet" href="ferris-d33b75bf.css">
+    <link rel="stylesheet" href="theme/2018-edition-4e126c62.css">
+    <link rel="stylesheet" href="theme/semantic-notes-9b5766c0.css">
+    <link rel="stylesheet" href="theme/listing-cab26221.css">
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div id="body-container">
+    <input type="checkbox" id="sidebar-toggle-anchor" class="hidden" checked>
+    <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <div class="sidebar-scrollbox">
+            <ol class="chapter"><li class="chapter-item expanded"><a href="index.html">The Python Tutorial</a></li><li class="chapter-item expanded"><a href="appetite.html"><strong aria-hidden="true">1.</strong> Whetting Your Appetite</a></li><li class="chapter-item expanded"><a href="interpreter.html"><strong aria-hidden="true">2.</strong> Using the Python Interpreter</a></li><li class="chapter-item expanded"><a href="introduction.html"><strong aria-hidden="true">3.</strong> An Informal Introduction to Python</a></li><li class="chapter-item expanded"><a href="controlflow.html"><strong aria-hidden="true">4.</strong> More Control Flow Tools</a></li><li class="chapter-item expanded"><a href="datastructures.html"><strong aria-hidden="true">5.</strong> Data Structures</a></li><li class="chapter-item expanded"><a href="modules.html"><strong aria-hidden="true">6.</strong> Modules</a></li><li class="chapter-item expanded"><a href="inputoutput.html"><strong aria-hidden="true">7.</strong> Input and Output</a></li><li class="chapter-item expanded"><a href="errors.html"><strong aria-hidden="true">8.</strong> Errors and Exceptions</a></li><li class="chapter-item expanded active"><a href="classes.html" data-current="true"><strong aria-hidden="true">9.</strong> Classes</a></li><li class="chapter-item expanded"><a href="stdlib.html"><strong aria-hidden="true">10.</strong> Brief Tour of the Standard Library</a></li><li class="chapter-item expanded"><a href="stdlib2.html"><strong aria-hidden="true">11.</strong> Brief Tour of the Standard Library --- Part II</a></li><li class="chapter-item expanded"><a href="venv.html"><strong aria-hidden="true">12.</strong> Virtual Environments and Packages</a></li><li class="chapter-item expanded"><a href="whatnow.html"><strong aria-hidden="true">13.</strong> What Now?</a></li><li class="chapter-item expanded"><a href="interactive.html"><strong aria-hidden="true">14.</strong> Interactive Input Editing and History Substitution</a></li><li class="chapter-item expanded"><a href="floatingpoint.html"><strong aria-hidden="true">15.</strong> Floating-Point Arithmetic:  Issues and Limitations</a></li><li class="chapter-item expanded"><a href="appendix.html"><strong aria-hidden="true">16.</strong> Appendix</a></li></ol>
+        </div>
+        <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div class="sidebar-resize-indicator"></div>
+        </div>
+    </nav>
+    <div id="page-wrapper" class="page-wrapper">
+        <div class="page">
+            <div id="menu-bar-hover-placeholder"></div>
+            <div id="menu-bar" class="menu-bar sticky">
+                <div class="left-buttons">
+                    <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <i class="fa fa-bars"></i>
+                    </label>
+                    <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                        <i class="fa fa-paint-brush"></i>
+                    </button>
+                    <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu" style="display: none;">
+                        <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                    </ul>
+                </div>
+                <h1 class="menu-title">The Python Tutorial</h1>
+                <div class="right-buttons"></div>
+            </div>
+            <main id="content" class="content">
+            <p>Classes provide a means of bundling data and functionality together.  Creating
+            a new class creates a new <em>type</em> of object, allowing new <em>instances</em> of that
+            type to be made.  Each class instance can have attributes attached to it for
+            maintaining its state.  Class instances can also have methods (defined by its
+            class) for modifying its state.</p>
+            <p>Compared with other programming languages, Python's class mechanism adds classes
+            with a minimum of new syntax and semantics.  It is a mixture of the class
+            mechanisms found in C++ and Modula-3.  Python classes provide all the standard
+            features of Object Oriented Programming: the class inheritance mechanism allows
+            multiple base classes, a derived class can override any methods of its base
+            class or classes, and a method can call the method of a base class with the same
+            name.  Objects can contain arbitrary amounts and kinds of data.  As is true for
+            modules, classes partake of the dynamic nature of Python: they are created at
+            runtime, and can be modified further after creation.</p>
+            <p>In C++ terminology, normally class members (including the data members) are
+            <em>public</em> (except see below <a class="internal-ref reference external" href="classes.html#tut-private">tut-private</a>), and all member functions are
+            <em>virtual</em>.  As in Modula-3, there are no shorthands for referencing the object's
+            members from its methods: the method function is declared with an explicit first
+            argument representing the object, which is provided implicitly by the call.  As
+            in Smalltalk, classes themselves are objects.  This provides semantics for
+            importing and renaming.  Unlike C++ and Modula-3, built-in types can be used as
+            base classes for extension by the user.  Also, like in C++, most built-in
+            operators with special syntax (arithmetic operators, subscripting etc.) can be
+            redefined for class instances.</p>
+            <p>(Lacking universally accepted terminology to talk about classes, I will make
+            occasional use of Smalltalk and C++ terms.  I would use Modula-3 terms, since
+            its object-oriented semantics are closer to those of Python than C++, but I
+            expect that few readers have heard of it.)</p>
+            <section id="a-word-about-names-and-objects">
+            <span id="tut-object"></span><h2>A Word About Names and Objects</h2>
+            <p>Objects have individuality, and multiple names (in multiple scopes) can be bound
+            to the same object.  This is known as aliasing in other languages.  This is
+            usually not appreciated on a first glance at Python, and can be safely ignored
+            when dealing with immutable basic types (numbers, strings, tuples).  However,
+            aliasing has a possibly surprising effect on the semantics of Python code
+            involving mutable objects such as lists, dictionaries, and most other types.
+            This is usually used to the benefit of the program, since aliases behave like
+            pointers in some respects.  For example, passing an object is cheap since only a
+            pointer is passed by the implementation; and if a function modifies an object
+            passed as an argument, the caller will see the change --- this eliminates the
+            need for two different argument passing mechanisms as in Pascal.</p>
+            </section>
+            <section id="python-scopes-and-namespaces">
+            <span id="tut-scopes"></span><h2>Python Scopes and Namespaces</h2>
+            <p>Before introducing classes, I first have to tell you something about Python's
+            scope rules.  Class definitions play some neat tricks with namespaces, and you
+            need to know how scopes and namespaces work to fully understand what's going on.
+            Incidentally, knowledge about this subject is useful for any advanced Python
+            programmer.</p>
+            <p>Let's begin with some definitions.</p>
+            <p>A <em>namespace</em> is a mapping from names to objects.  Most namespaces are currently
+            implemented as Python dictionaries, but that's normally not noticeable in any
+            way (except for performance), and it may change in the future.  Examples of
+            namespaces are: the set of built-in names (containing functions such as <span class="docutils literal">abs</span>, and
+            built-in exception names); the global names in a module; and the local names in
+            a function invocation.  In a sense the set of attributes of an object also form
+            a namespace.  The important thing to know about namespaces is that there is
+            absolutely no relation between names in different namespaces; for instance, two
+            different modules may both define a function <span class="docutils literal">maximize</span> without confusion ---
+            users of the modules must prefix it with the module name.</p>
+            <p>By the way, I use the word <em>attribute</em> for any name following a dot --- for
+            example, in the expression <span class="docutils literal">z.real</span>, <span class="docutils literal">real</span> is an attribute of the object
+            <span class="docutils literal">z</span>.  Strictly speaking, references to names in modules are attribute
+            references: in the expression <span class="docutils literal">modname.funcname</span>, <span class="docutils literal">modname</span> is a module
+            object and <span class="docutils literal">funcname</span> is an attribute of it.  In this case there happens to be
+            a straightforward mapping between the module's attributes and the global names
+            defined in the module: they share the same namespace!  <a class="footnote-reference brackets" href="#footnote-1" id="footnote-reference-1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
+            <p>Attributes may be read-only or writable.  In the latter case, assignment to
+            attributes is possible.  Module attributes are writable: you can write
+            <span class="docutils literal">modname.the_answer = 42</span>.  Writable attributes may also be deleted with the
+            <span class="docutils literal">del</span> statement.  For example, <span class="docutils literal">del modname.the_answer</span> will remove
+            the attribute <span class="docutils literal">the_answer</span> from the object named by <span class="docutils literal">modname</span>.</p>
+            <p>Namespaces are created at different moments and have different lifetimes.  The
+            namespace containing the built-in names is created when the Python interpreter
+            starts up, and is never deleted.  The global namespace for a module is created
+            when the module definition is read in; normally, module namespaces also last
+            until the interpreter quits.  The statements executed by the top-level
+            invocation of the interpreter, either read from a script file or interactively,
+            are considered part of a module called <span class="docutils literal">__main__</span>, so they have their own
+            global namespace.  (The built-in names actually also live in a module; this is
+            called <span class="docutils literal">builtins</span>.)</p>
+            <p>The local namespace for a function is created when the function is called, and
+            deleted when the function returns or raises an exception that is not handled
+            within the function.  (Actually, forgetting would be a better way to describe
+            what actually happens.)  Of course, recursive invocations each have their own
+            local namespace.</p>
+            <p>A <em>scope</em> is a textual region of a Python program where a namespace is directly
+            accessible.  &quot;Directly accessible&quot; here means that an unqualified reference to a
+            name attempts to find the name in the namespace.</p>
+            <p>Although scopes are determined statically, they are used dynamically. At any
+            time during execution, there are 3 or 4 nested scopes whose namespaces are
+            directly accessible:</p>
+            <ul class="simple">
+            <li><p>the innermost scope, which is searched first, contains the local names</p></li>
+            <li><p>the scopes of any enclosing functions, which are searched starting with the
+            nearest enclosing scope, contain non-local, but also non-global names</p></li>
+            <li><p>the next-to-last scope contains the current module's global names</p></li>
+            <li><p>the outermost scope (searched last) is the namespace containing built-in names</p></li>
+            </ul>
+            <p>If a name is declared global, then all references and assignments go directly to
+            the next-to-last scope containing the module's global names.  To rebind variables
+            found outside of the innermost scope, the <span class="docutils literal">nonlocal</span> statement can be
+            used; if not declared nonlocal, those variables are read-only (an attempt to
+            write to such a variable will simply create a <em>new</em> local variable in the
+            innermost scope, leaving the identically named outer variable unchanged).</p>
+            <p>Usually, the local scope references the local names of the (textually) current
+            function.  Outside functions, the local scope references the same namespace as
+            the global scope: the module's namespace. Class definitions place yet another
+            namespace in the local scope.</p>
+            <p>It is important to realize that scopes are determined textually: the global
+            scope of a function defined in a module is that module's namespace, no matter
+            from where or by what alias the function is called.  On the other hand, the
+            actual search for names is done dynamically, at run time --- however, the
+            language definition is evolving towards static name resolution, at &quot;compile&quot;
+            time, so don't rely on dynamic name resolution!  (In fact, local variables are
+            already determined statically.)</p>
+            <p>A special quirk of Python is that -- if no <span class="docutils literal">global</span> or <span class="docutils literal">nonlocal</span>
+            statement is in effect -- assignments to names always go into the innermost scope.
+            Assignments do not copy data --- they just bind names to objects.  The same is true
+            for deletions: the statement <span class="docutils literal">del x</span> removes the binding of <span class="docutils literal">x</span> from the
+            namespace referenced by the local scope.  In fact, all operations that introduce
+            new names use the local scope: in particular, <span class="docutils literal">import</span> statements and
+            function definitions bind the module or function name in the local scope.</p>
+            <p>The <span class="docutils literal">global</span> statement can be used to indicate that particular
+            variables live in the global scope and should be rebound there; the
+            <span class="docutils literal">nonlocal</span> statement indicates that particular variables live in
+            an enclosing scope and should be rebound there.</p>
+            <section id="scopes-and-namespaces-example">
+            <span id="tut-scopeexample"></span><h3>Scopes and Namespaces Example</h3>
+            <p>This is an example demonstrating how to reference the different scopes and
+            namespaces, and how <span class="docutils literal">global</span> and <span class="docutils literal">nonlocal</span> affect variable
+            binding:</p>
+            <pre class="literal-block">def scope_test():
+                def do_local():
+                    spam = &quot;local spam&quot;
+
+                def do_nonlocal():
+                    nonlocal spam
+                    spam = &quot;nonlocal spam&quot;
+
+                def do_global():
+                    global spam
+                    spam = &quot;global spam&quot;
+
+                spam = &quot;test spam&quot;
+                do_local()
+                print(&quot;After local assignment:&quot;, spam)
+                do_nonlocal()
+                print(&quot;After nonlocal assignment:&quot;, spam)
+                do_global()
+                print(&quot;After global assignment:&quot;, spam)
+
+            scope_test()
+            print(&quot;In global scope:&quot;, spam)</pre>
+            <p>The output of the example code is:</p>
+            <pre class="code none literal-block"><code>After local assignment: test spam
+            After nonlocal assignment: nonlocal spam
+            After global assignment: nonlocal spam
+            In global scope: global spam</code></pre>
+            <p>Note how the <em>local</em> assignment (which is default) didn't change <em>scope_test</em>'s
+            binding of <em>spam</em>.  The <span class="docutils literal">nonlocal</span> assignment changed <em>scope_test</em>'s
+            binding of <em>spam</em>, and the <span class="docutils literal">global</span> assignment changed the module-level
+            binding.</p>
+            <p>You can also see that there was no previous binding for <em>spam</em> before the
+            <span class="docutils literal">global</span> assignment.</p>
+            </section>
+            </section>
+            <section id="a-first-look-at-classes">
+            <span id="tut-firstclasses"></span><h2>A First Look at Classes</h2>
+            <p>Classes introduce a little bit of new syntax, three new object types, and some
+            new semantics.</p>
+            <section id="class-definition-syntax">
+            <span id="tut-classdefinition"></span><h3>Class Definition Syntax</h3>
+            <p>The simplest form of class definition looks like this:</p>
+            <pre class="literal-block">class ClassName:
+                &lt;statement-1&gt;
+                .
+                .
+                .
+                &lt;statement-N&gt;</pre>
+            <p>Class definitions, like function definitions (<span class="docutils literal">def</span> statements) must be
+            executed before they have any effect.  (You could conceivably place a class
+            definition in a branch of an <span class="docutils literal">if</span> statement, or inside a function.)</p>
+            <p>In practice, the statements inside a class definition will usually be function
+            definitions, but other statements are allowed, and sometimes useful --- we'll
+            come back to this later.  The function definitions inside a class normally have
+            a peculiar form of argument list, dictated by the calling conventions for
+            methods --- again, this is explained later.</p>
+            <p>When a class definition is entered, a new namespace is created, and used as the
+            local scope --- thus, all assignments to local variables go into this new
+            namespace.  In particular, function definitions bind the name of the new
+            function here.</p>
+            <p>When a class definition is left normally (via the end), a <em>class object</em> is
+            created.  This is basically a wrapper around the contents of the namespace
+            created by the class definition; we'll learn more about class objects in the
+            next section.  The original local scope (the one in effect just before the class
+            definition was entered) is reinstated, and the class object is bound here to the
+            class name given in the class definition header (<span class="docutils literal">ClassName</span> in the
+            example).</p>
+            </section>
+            <section id="class-objects">
+            <span id="tut-classobjects"></span><h3>Class Objects</h3>
+            <p>Class objects support two kinds of operations: attribute references and
+            instantiation.</p>
+            <p><em>Attribute references</em> use the standard syntax used for all attribute references
+            in Python: <span class="docutils literal">obj.name</span>.  Valid attribute names are all the names that were in
+            the class's namespace when the class object was created.  So, if the class
+            definition looked like this:</p>
+            <pre class="literal-block">class MyClass:
+                &quot;&quot;&quot;A simple example class&quot;&quot;&quot;
+                i = 12345
+
+                def f(self):
+                    return 'hello world'</pre>
+            <p>then <span class="docutils literal">MyClass.i</span> and <span class="docutils literal">MyClass.f</span> are valid attribute references, returning
+            an integer and a function object, respectively. Class attributes can also be
+            assigned to, so you can change the value of <span class="docutils literal">MyClass.i</span> by assignment.
+            <span class="docutils literal">type.__doc__</span> is also a valid attribute, returning the docstring
+            belonging to the class: <span class="docutils literal">&quot;A simple example class&quot;</span>.</p>
+            <p>Class <em>instantiation</em> uses function notation.  Just pretend that the class
+            object is a parameterless function that returns a new instance of the class.
+            For example (assuming the above class):</p>
+            <pre class="literal-block">x = MyClass()</pre>
+            <p>creates a new <em>instance</em> of the class and assigns this object to the local
+            variable <span class="docutils literal">x</span>.</p>
+            <p>The instantiation operation (&quot;calling&quot; a class object) creates an empty object.
+            Many classes like to create objects with instances customized to a specific
+            initial state. Therefore a class may define a special method named
+            <span class="docutils literal">object.__init__</span>, like this:</p>
+            <pre class="literal-block">def __init__(self):
+                self.data = []</pre>
+            <p>When a class defines an <span class="docutils literal">object.__init__</span> method, class instantiation
+            automatically invokes <span class="docutils literal">__init__</span> for the newly created class instance.  So
+            in this example, a new, initialized instance can be obtained by:</p>
+            <pre class="literal-block">x = MyClass()</pre>
+            <p>Of course, the <span class="docutils literal">object.__init__</span> method may have arguments for greater
+            flexibility.  In that case, arguments given to the class instantiation operator
+            are passed on to <span class="docutils literal">__init__</span>.  For example,</p>
+            <pre class="literal-block">&gt;&gt;&gt; class Complex:
+            ...     def __init__(self, realpart, imagpart):
+            ...         self.r = realpart
+            ...         self.i = imagpart
+            ...
+            &gt;&gt;&gt; x = Complex(3.0, -4.5)
+            &gt;&gt;&gt; x.r, x.i
+            (3.0, -4.5)</pre>
+            </section>
+            <section id="instance-objects">
+            <span id="tut-instanceobjects"></span><h3>Instance Objects</h3>
+            <p>Now what can we do with instance objects?  The only operations understood by
+            instance objects are attribute references.  There are two kinds of valid
+            attribute names: data attributes and methods.</p>
+            <p><em>Data attributes</em> correspond to &quot;instance variables&quot; in Smalltalk, and to &quot;data
+            members&quot; in C++.  Data attributes need not be declared; like local variables,
+            they spring into existence when they are first assigned to.  For example, if
+            <span class="docutils literal">x</span> is the instance of <span class="docutils literal">MyClass</span> created above, the following piece of
+            code will print the value <span class="docutils literal">16</span>, without leaving a trace:</p>
+            <pre class="literal-block">x.counter = 1
+            while x.counter &lt; 10:
+                x.counter = x.counter * 2
+            print(x.counter)
+            del x.counter</pre>
+            <p>The other kind of instance attribute reference is a <em>method</em>. A method is a
+            function that &quot;belongs to&quot; an object.</p>
+            <p>Valid method names of an instance object depend on its class.  By definition,
+            all attributes of a class that are function  objects define corresponding
+            methods of its instances.  So in our example, <span class="docutils literal">x.f</span> is a valid method
+            reference, since <span class="docutils literal">MyClass.f</span> is a function, but <span class="docutils literal">x.i</span> is not, since
+            <span class="docutils literal">MyClass.i</span> is not.  But <span class="docutils literal">x.f</span> is not the same thing as <span class="docutils literal">MyClass.f</span> --- it
+            is a <em>method object</em>, not a function object.</p>
+            </section>
+            <section id="method-objects">
+            <span id="tut-methodobjects"></span><h3>Method Objects</h3>
+            <p>Usually, a method is called right after it is bound:</p>
+            <pre class="literal-block">x.f()</pre>
+            <p>If <span class="docutils literal">x = MyClass()</span>, as above, this will return the string <span class="docutils literal">'hello world'</span>.
+            However, it is not necessary to call a method right away: <span class="docutils literal">x.f</span> is a method
+            object, and can be stored away and called at a later time.  For example:</p>
+            <pre class="literal-block">xf = x.f
+            while True:
+                print(xf())</pre>
+            <p>will continue to print <span class="docutils literal">hello world</span> until the end of time.</p>
+            <p>What exactly happens when a method is called?  You may have noticed that
+            <span class="docutils literal">x.f()</span> was called without an argument above, even though the function
+            definition for <span class="docutils literal">f</span> specified an argument.  What happened to the argument?
+            Surely Python raises an exception when a function that requires an argument is
+            called without any --- even if the argument isn't actually used...</p>
+            <p>Actually, you may have guessed the answer: the special thing about methods is
+            that the instance object is passed as the first argument of the function.  In our
+            example, the call <span class="docutils literal">x.f()</span> is exactly equivalent to <span class="docutils literal">MyClass.f(x)</span>.  In
+            general, calling a method with a list of <em>n</em> arguments is equivalent to calling
+            the corresponding function with an argument list that is created by inserting
+            the method's instance object before the first argument.</p>
+            <p>In general, methods work as follows.  When a non-data attribute
+            of an instance is referenced, the instance's class is searched.
+            If the name denotes a valid class attribute that is a function object,
+            references to both the instance object and the function object
+            are packed into a method object.  When the method object is called
+            with an argument list, a new argument list is constructed from the instance
+            object and the argument list, and the function object is called with this new
+            argument list.</p>
+            </section>
+            <section id="class-and-instance-variables">
+            <span id="tut-class-and-instance-variables"></span><h3>Class and Instance Variables</h3>
+            <p>Generally speaking, instance variables are for data unique to each instance
+            and class variables are for attributes and methods shared by all instances
+            of the class:</p>
+            <pre class="literal-block">class Dog:
+
+                kind = 'canine'         # class variable shared by all instances
+
+                def __init__(self, name):
+                    self.name = name    # instance variable unique to each instance
+
+            &gt;&gt;&gt; d = Dog('Fido')
+            &gt;&gt;&gt; e = Dog('Buddy')
+            &gt;&gt;&gt; d.kind                  # shared by all dogs
+            'canine'
+            &gt;&gt;&gt; e.kind                  # shared by all dogs
+            'canine'
+            &gt;&gt;&gt; d.name                  # unique to d
+            'Fido'
+            &gt;&gt;&gt; e.name                  # unique to e
+            'Buddy'</pre>
+            <p>As discussed in <a class="internal-ref reference external" href="classes.html#tut-object">tut-object</a>, shared data can have possibly surprising
+            effects with involving <em>mutable</em> objects such as lists and dictionaries.
+            For example, the <em>tricks</em> list in the following code should not be used as a
+            class variable because just a single list would be shared by all <em>Dog</em>
+            instances:</p>
+            <pre class="literal-block">class Dog:
+
+                tricks = []             # mistaken use of a class variable
+
+                def __init__(self, name):
+                    self.name = name
+
+                def add_trick(self, trick):
+                    self.tricks.append(trick)
+
+            &gt;&gt;&gt; d = Dog('Fido')
+            &gt;&gt;&gt; e = Dog('Buddy')
+            &gt;&gt;&gt; d.add_trick('roll over')
+            &gt;&gt;&gt; e.add_trick('play dead')
+            &gt;&gt;&gt; d.tricks                # unexpectedly shared by all dogs
+            ['roll over', 'play dead']</pre>
+            <p>Correct design of the class should use an instance variable instead:</p>
+            <pre class="literal-block">class Dog:
+
+                def __init__(self, name):
+                    self.name = name
+                    self.tricks = []    # creates a new empty list for each dog
+
+                def add_trick(self, trick):
+                    self.tricks.append(trick)
+
+            &gt;&gt;&gt; d = Dog('Fido')
+            &gt;&gt;&gt; e = Dog('Buddy')
+            &gt;&gt;&gt; d.add_trick('roll over')
+            &gt;&gt;&gt; e.add_trick('play dead')
+            &gt;&gt;&gt; d.tricks
+            ['roll over']
+            &gt;&gt;&gt; e.tricks
+            ['play dead']</pre>
+            </section>
+            </section>
+            <section id="random-remarks">
+            <span id="tut-remarks"></span><h2>Random Remarks</h2>
+            <!-- These should perhaps be placed more carefully... -->
+            <p>If the same attribute name occurs in both an instance and in a class,
+            then attribute lookup prioritizes the instance:</p>
+            <pre class="literal-block">&gt;&gt;&gt; class Warehouse:
+            ...    purpose = 'storage'
+            ...    region = 'west'
+            ...
+            &gt;&gt;&gt; w1 = Warehouse()
+            &gt;&gt;&gt; print(w1.purpose, w1.region)
+            storage west
+            &gt;&gt;&gt; w2 = Warehouse()
+            &gt;&gt;&gt; w2.region = 'east'
+            &gt;&gt;&gt; print(w2.purpose, w2.region)
+            storage east</pre>
+            <p>Data attributes may be referenced by methods as well as by ordinary users
+            (&quot;clients&quot;) of an object.  In other words, classes are not usable to implement
+            pure abstract data types.  In fact, nothing in Python makes it possible to
+            enforce data hiding --- it is all based upon convention.  (On the other hand,
+            the Python implementation, written in C, can completely hide implementation
+            details and control access to an object if necessary; this can be used by
+            extensions to Python written in C.)</p>
+            <p>Clients should use data attributes with care --- clients may mess up invariants
+            maintained by the methods by stamping on their data attributes.  Note that
+            clients may add data attributes of their own to an instance object without
+            affecting the validity of the methods, as long as name conflicts are avoided ---
+            again, a naming convention can save a lot of headaches here.</p>
+            <p>There is no shorthand for referencing data attributes (or other methods!) from
+            within methods.  I find that this actually increases the readability of methods:
+            there is no chance of confusing local variables and instance variables when
+            glancing through a method.</p>
+            <p>Often, the first argument of a method is called <span class="docutils literal">self</span>.  This is nothing more
+            than a convention: the name <span class="docutils literal">self</span> has absolutely no special meaning to
+            Python.  Note, however, that by not following the convention your code may be
+            less readable to other Python programmers, and it is also conceivable that a
+            <em>class browser</em> program might be written that relies upon such a convention.</p>
+            <p>Any function object that is a class attribute defines a method for instances of
+            that class.  It is not necessary that the function definition is textually
+            enclosed in the class definition: assigning a function object to a local
+            variable in the class is also ok.  For example:</p>
+            <pre class="literal-block"># Function defined outside the class
+            def f1(self, x, y):
+                return min(x, x+y)
+
+            class C:
+                f = f1
+
+                def g(self):
+                    return 'hello world'
+
+                h = g</pre>
+            <p>Now <span class="docutils literal">f</span>, <span class="docutils literal">g</span> and <span class="docutils literal">h</span> are all attributes of class <span class="docutils literal">C</span> that refer to
+            function objects, and consequently they are all methods of instances of
+            <span class="docutils literal">C</span> --- <span class="docutils literal">h</span> being exactly equivalent to <span class="docutils literal">g</span>.  Note that this practice
+            usually only serves to confuse the reader of a program.</p>
+            <p>Methods may call other methods by using method attributes of the <span class="docutils literal">self</span>
+            argument:</p>
+            <pre class="literal-block">class Bag:
+                def __init__(self):
+                    self.data = []
+
+                def add(self, x):
+                    self.data.append(x)
+
+                def addtwice(self, x):
+                    self.add(x)
+                    self.add(x)</pre>
+            <p>Methods may reference global names in the same way as ordinary functions.  The
+            global scope associated with a method is the module containing its
+            definition.  (A class is never used as a global scope.)  While one
+            rarely encounters a good reason for using global data in a method, there are
+            many legitimate uses of the global scope: for one thing, functions and modules
+            imported into the global scope can be used by methods, as well as functions and
+            classes defined in it.  Usually, the class containing the method is itself
+            defined in this global scope, and in the next section we'll find some good
+            reasons why a method would want to reference its own class.</p>
+            <p>Each value is an object, and therefore has a <em>class</em> (also called its <em>type</em>).
+            It is stored as <span class="docutils literal">object.__class__</span>.</p>
+            </section>
+            <section id="inheritance">
+            <span id="tut-inheritance"></span><h2>Inheritance</h2>
+            <p>Of course, a language feature would not be worthy of the name &quot;class&quot; without
+            supporting inheritance.  The syntax for a derived class definition looks like
+            this:</p>
+            <pre class="literal-block">class DerivedClassName(BaseClassName):
+                &lt;statement-1&gt;
+                .
+                .
+                .
+                &lt;statement-N&gt;</pre>
+            <p>The name <span class="docutils literal">BaseClassName</span> must be defined in a
+            namespace accessible from the scope containing the
+            derived class definition.  In place of a base class name, other arbitrary
+            expressions are also allowed.  This can be useful, for example, when the base
+            class is defined in another module:</p>
+            <pre class="literal-block">class DerivedClassName(modname.BaseClassName):</pre>
+            <p>Execution of a derived class definition proceeds the same as for a base class.
+            When the class object is constructed, the base class is remembered.  This is
+            used for resolving attribute references: if a requested attribute is not found
+            in the class, the search proceeds to look in the base class.  This rule is
+            applied recursively if the base class itself is derived from some other class.</p>
+            <p>There's nothing special about instantiation of derived classes:
+            <span class="docutils literal">DerivedClassName()</span> creates a new instance of the class.  Method references
+            are resolved as follows: the corresponding class attribute is searched,
+            descending down the chain of base classes if necessary, and the method reference
+            is valid if this yields a function object.</p>
+            <p>Derived classes may override methods of their base classes.  Because methods
+            have no special privileges when calling other methods of the same object, a
+            method of a base class that calls another method defined in the same base class
+            may end up calling a method of a derived class that overrides it.  (For C++
+            programmers: all methods in Python are effectively <span class="docutils literal">virtual</span>.)</p>
+            <p>An overriding method in a derived class may in fact want to extend rather than
+            simply replace the base class method of the same name. There is a simple way to
+            call the base class method directly: just call <span class="docutils literal">BaseClassName.methodname(self, arguments)</span>.  This is occasionally useful to clients as well.  (Note that this
+            only works if the base class is accessible as <span class="docutils literal">BaseClassName</span> in the global
+            scope.)</p>
+            <p>Python has two built-in functions that work with inheritance:</p>
+            <ul class="simple">
+            <li><p>Use <span class="docutils literal">isinstance</span> to check an instance's type: <span class="docutils literal">isinstance(obj, int)</span>
+            will be <span class="docutils literal">True</span> only if <span class="docutils literal">obj.__class__</span> is <span class="docutils literal">int</span> or some class
+            derived from <span class="docutils literal">int</span>.</p></li>
+            <li><p>Use <span class="docutils literal">issubclass</span> to check class inheritance: <span class="docutils literal">issubclass(bool, int)</span>
+            is <span class="docutils literal">True</span> since <span class="docutils literal">bool</span> is a subclass of <span class="docutils literal">int</span>.  However,
+            <span class="docutils literal">issubclass(float, int)</span> is <span class="docutils literal">False</span> since <span class="docutils literal">float</span> is not a
+            subclass of <span class="docutils literal">int</span>.</p></li>
+            </ul>
+            <section id="multiple-inheritance">
+            <span id="tut-multiple"></span><h3>Multiple Inheritance</h3>
+            <p>Python supports a form of multiple inheritance as well.  A class definition with
+            multiple base classes looks like this:</p>
+            <pre class="literal-block">class DerivedClassName(Base1, Base2, Base3):
+                &lt;statement-1&gt;
+                .
+                .
+                .
+                &lt;statement-N&gt;</pre>
+            <p>For most purposes, in the simplest cases, you can think of the search for
+            attributes inherited from a parent class as depth-first, left-to-right, not
+            searching twice in the same class where there is an overlap in the hierarchy.
+            Thus, if an attribute is not found in <span class="docutils literal">DerivedClassName</span>, it is searched
+            for in <span class="docutils literal">Base1</span>, then (recursively) in the base classes of <span class="docutils literal">Base1</span>,
+            and if it was not found there, it was searched for in <span class="docutils literal">Base2</span>, and so on.</p>
+            <p>In fact, it is slightly more complex than that; the method resolution order
+            changes dynamically to support cooperative calls to <span class="docutils literal">super</span>.  This
+            approach is known in some other multiple-inheritance languages as
+            call-next-method and is more powerful than the super call found in
+            single-inheritance languages.</p>
+            <p>Dynamic ordering is necessary because all cases of multiple inheritance exhibit
+            one or more diamond relationships (where at least one of the parent classes
+            can be accessed through multiple paths from the bottommost class).  For example,
+            all classes inherit from <span class="docutils literal">object</span>, so any case of multiple inheritance
+            provides more than one path to reach <span class="docutils literal">object</span>.  To keep the base classes
+            from being accessed more than once, the dynamic algorithm linearizes the search
+            order in a way that preserves the left-to-right ordering specified in each
+            class, that calls each parent only once, and that is monotonic (meaning that a
+            class can be subclassed without affecting the precedence order of its parents).
+            Taken together, these properties make it possible to design reliable and
+            extensible classes with multiple inheritance.  For more detail, see
+            <span class="xref">python_2.3_mro</span>.</p>
+            <p>In some cases multiple inheritance is not allowed; see <span class="xref">multiple-inheritance</span>
+            for details.</p>
+            </section>
+            </section>
+            <section id="private-variables">
+            <span id="tut-private"></span><h2>Private Variables</h2>
+            <p>&quot;Private&quot; instance variables that cannot be accessed except from inside an
+            object don't exist in Python.  However, there is a convention that is followed
+            by most Python code: a name prefixed with an underscore (e.g. <span class="docutils literal">_spam</span>) should
+            be treated as a non-public part of the API (whether it is a function, a method
+            or a data member).  It should be considered an implementation detail and subject
+            to change without notice.</p>
+            <p>Since there is a valid use-case for class-private members (namely to avoid name
+            clashes of names with names defined by subclasses), there is limited support for
+            such a mechanism, called <em>name mangling</em>.  Any identifier of the form
+            <span class="docutils literal">__spam</span> (at least two leading underscores, at most one trailing underscore)
+            is textually replaced with <span class="docutils literal">_classname__spam</span>, where <span class="docutils literal">classname</span> is the
+            current class name with leading underscore(s) stripped.  This mangling is done
+            without regard to the syntactic position of the identifier, as long as it
+            occurs within the definition of a class.</p>
+            <p>Name mangling is helpful for letting subclasses override methods without
+            breaking intraclass method calls.  For example:</p>
+            <pre class="literal-block">class Mapping:
+                def __init__(self, iterable):
+                    self.items_list = []
+                    self.__update(iterable)
+
+                def update(self, iterable):
+                    for item in iterable:
+                        self.items_list.append(item)
+
+                __update = update   # private copy of original update() method
+
+            class MappingSubclass(Mapping):
+
+                def update(self, keys, values):
+                    # provides new signature for update()
+                    # but does not break __init__()
+                    for item in zip(keys, values):
+                        self.items_list.append(item)</pre>
+            <p>The above example would work even if <span class="docutils literal">MappingSubclass</span> were to introduce a
+            <span class="docutils literal">__update</span> identifier since it is replaced with <span class="docutils literal">_Mapping__update</span> in the
+            <span class="docutils literal">Mapping</span> class  and <span class="docutils literal">_MappingSubclass__update</span> in the <span class="docutils literal">MappingSubclass</span>
+            class respectively.</p>
+            <p>Note that the mangling rules are designed mostly to avoid accidents; it still is
+            possible to access or modify a variable that is considered private.  This can
+            even be useful in special circumstances, such as in the debugger.</p>
+            <p>Notice that code passed to <span class="docutils literal">exec()</span> or <span class="docutils literal">eval()</span> does not consider the
+            classname of the invoking class to be the current class; this is similar to the
+            effect of the <span class="docutils literal">global</span> statement, the effect of which is likewise restricted
+            to code that is byte-compiled together.  The same restriction applies to
+            <span class="docutils literal">getattr()</span>, <span class="docutils literal">setattr()</span> and <span class="docutils literal">delattr()</span>, as well as when referencing
+            <span class="docutils literal">__dict__</span> directly.</p>
+            </section>
+            <section id="odds-and-ends">
+            <span id="tut-odds"></span><h2>Odds and Ends</h2>
+            <p>Sometimes it is useful to have a data type similar to the Pascal &quot;record&quot; or C
+            &quot;struct&quot;, bundling together a few named data items. The idiomatic approach
+            is to use <span class="docutils literal">dataclasses</span> for this purpose:</p>
+            <pre class="literal-block">from dataclasses import dataclass
+
+            &#64;dataclass
+            class Employee:
+                name: str
+                dept: str
+                salary: int</pre>
+            <pre class="literal-block">&gt;&gt;&gt; john = Employee('john', 'computer lab', 1000)
+            &gt;&gt;&gt; john.dept
+            'computer lab'
+            &gt;&gt;&gt; john.salary
+            1000</pre>
+            <p>A piece of Python code that expects a particular abstract data type can often be
+            passed a class that emulates the methods of that data type instead.  For
+            instance, if you have a function that formats some data from a file object, you
+            can define a class with methods <span class="docutils literal">io.TextIOBase.read</span> and
+            <span class="docutils literal">io.TextIOBase.readline</span> that get the
+            data from a string buffer instead, and pass it as an argument.</p>
+            <!-- (Unfortunately, this technique has its limitations: a class can't define
+            operations that are accessed by special syntax such as sequence subscripting
+            or arithmetic operators, and assigning such a "pseudo-file" to sys.stdin will
+            not cause the interpreter to read further input from it.) -->
+            <p><span class="xref">Instance method objects</span> have attributes, too:
+            <span class="docutils literal">m.__self__</span> is the instance
+            object with the method <span class="docutils literal">m</span>, and <span class="docutils literal">m.__func__</span> is
+            the <span class="xref">function object</span>
+            corresponding to the method.</p>
+            </section>
+            <section id="iterators">
+            <span id="tut-iterators"></span><h2>Iterators</h2>
+            <p>By now you have probably noticed that most container objects can be looped over
+            using a <span class="docutils literal">for</span> statement:</p>
+            <pre class="literal-block">for element in [1, 2, 3]:
+                print(element)
+            for element in (1, 2, 3):
+                print(element)
+            for key in {'one':1, 'two':2}:
+                print(key)
+            for char in &quot;123&quot;:
+                print(char)
+            for line in open(&quot;myfile.txt&quot;):
+                print(line, end='')</pre>
+            <p>This style of access is clear, concise, and convenient.  The use of iterators
+            pervades and unifies Python.  Behind the scenes, the <span class="docutils literal">for</span> statement
+            calls <span class="docutils literal">iter</span> on the container object.  The function returns an iterator
+            object that defines the method <span class="docutils literal">iterator.__next__</span> which accesses
+            elements in the container one at a time.  When there are no more elements,
+            <span class="docutils literal">iterator.__next__</span> raises a <span class="docutils literal">StopIteration</span> exception which tells the
+            <span class="docutils literal">for</span> loop to terminate.  You can call the <span class="docutils literal">iterator.__next__</span> method
+            using the <span class="docutils literal">next</span> built-in function; this example shows how it all works:</p>
+            <pre class="literal-block">&gt;&gt;&gt; s = 'abc'
+            &gt;&gt;&gt; it = iter(s)
+            &gt;&gt;&gt; it
+            &lt;str_iterator object at 0x10c90e650&gt;
+            &gt;&gt;&gt; next(it)
+            'a'
+            &gt;&gt;&gt; next(it)
+            'b'
+            &gt;&gt;&gt; next(it)
+            'c'
+            &gt;&gt;&gt; next(it)
+            Traceback (most recent call last):
+              File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+                next(it)
+            StopIteration</pre>
+            <p>Having seen the mechanics behind the iterator protocol, it is easy to add
+            iterator behavior to your classes.  Define an <span class="docutils literal">container.__iter__</span> method which
+            returns an object with a <span class="docutils literal">iterator.__next__</span> method.  If the class
+            defines <span class="docutils literal">__next__</span>, then <span class="docutils literal">__iter__</span> can just return <span class="docutils literal">self</span>:</p>
+            <pre class="literal-block">class Reverse:
+                &quot;&quot;&quot;Iterator for looping over a sequence backwards.&quot;&quot;&quot;
+                def __init__(self, data):
+                    self.data = data
+                    self.index = len(data)
+
+                def __iter__(self):
+                    return self
+
+                def __next__(self):
+                    if self.index == 0:
+                        raise StopIteration
+                    self.index = self.index - 1
+                    return self.data[self.index]</pre>
+            <pre class="literal-block">&gt;&gt;&gt; rev = Reverse('spam')
+            &gt;&gt;&gt; iter(rev)
+            &lt;__main__.Reverse object at 0x00A1DB50&gt;
+            &gt;&gt;&gt; for char in rev:
+            ...     print(char)
+            ...
+            m
+            a
+            p
+            s</pre>
+            </section>
+            <section id="generators">
+            <span id="tut-generators"></span><h2>Generators</h2>
+            <p><em>Generators</em> are a simple and powerful tool for creating iterators.  They
+            are written like regular functions but use the <span class="docutils literal">yield</span> statement
+            whenever they want to return data.  Each time <span class="docutils literal">next</span> is called on it, the
+            generator resumes where it left off (it remembers all the data values and which
+            statement was last executed).  An example shows that generators can be trivially
+            easy to create:</p>
+            <pre class="literal-block">def reverse(data):
+                for index in range(len(data)-1, -1, -1):
+                    yield data[index]</pre>
+            <pre class="literal-block">&gt;&gt;&gt; for char in reverse('golf'):
+            ...     print(char)
+            ...
+            f
+            l
+            o
+            g</pre>
+            <p>Anything that can be done with generators can also be done with class-based
+            iterators as described in the previous section.  What makes generators so
+            compact is that the <span class="docutils literal">iterator.__iter__</span> and <span class="docutils literal">generator.__next__</span> methods
+            are created automatically.</p>
+            <p>Another key feature is that the local variables and execution state are
+            automatically saved between calls.  This made the function easier to write and
+            much more clear than an approach using instance variables like <span class="docutils literal">self.index</span>
+            and <span class="docutils literal">self.data</span>.</p>
+            <p>In addition to automatic method creation and saving program state, when
+            generators terminate, they automatically raise <span class="docutils literal">StopIteration</span>. In
+            combination, these features make it easy to create iterators with no more effort
+            than writing a regular function.</p>
+            </section>
+            <section id="generator-expressions">
+            <span id="tut-genexps"></span><h2>Generator Expressions</h2>
+            <p>Some simple generators can be coded succinctly as expressions using a syntax
+            similar to list comprehensions but with parentheses instead of square brackets.
+            These expressions are designed for situations where the generator is used right
+            away by an enclosing function.  Generator expressions are more compact but less
+            versatile than full generator definitions and tend to be more memory friendly
+            than equivalent list comprehensions.</p>
+            <p>Examples:</p>
+            <pre class="literal-block">&gt;&gt;&gt; sum(i*i for i in range(10))                 # sum of squares
+            285
+
+            &gt;&gt;&gt; xvec = [10, 20, 30]
+            &gt;&gt;&gt; yvec = [7, 5, 3]
+            &gt;&gt;&gt; sum(x*y for x,y in zip(xvec, yvec))         # dot product
+            260
+
+            &gt;&gt;&gt; unique_words = set(word for line in page  for word in line.split())
+
+            &gt;&gt;&gt; valedictorian = max((student.gpa, student.name) for student in graduates)
+
+            &gt;&gt;&gt; data = 'golf'
+            &gt;&gt;&gt; list(data[i] for i in range(len(data)-1, -1, -1))
+            ['f', 'l', 'o', 'g']</pre>
+            <p class="rubric">Footnotes</p>
+            <aside class="footnote-list brackets">
+            <aside class="footnote brackets" id="footnote-1" role="doc-footnote">
+            <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-1">1</a><span class="fn-bracket">]</span></span>
+            <p>Except for one thing.  Module objects have a secret read-only attribute called
+            <span class="docutils literal">object.__dict__</span> which returns the dictionary used to implement the module's
+            namespace; the name <span class="docutils literal">__dict__</span> is an attribute but not a global name.
+            Obviously, using this violates the abstraction of namespace implementation, and
+            should be restricted to things like post-mortem debuggers.</p>
+            </aside>
+            </aside>
+            </section>
+            </main>
+            <nav class="nav-wrapper" aria-label="Page navigation">
+                <a rel="prev" href="errors.html" class="mobile-nav-chapters previous" title="Errors and Exceptions" aria-label="Errors and Exceptions"><i class="fa fa-angle-left"></i></a>
+                <a rel="next" href="stdlib.html" class="mobile-nav-chapters next" title="Brief Tour of the Standard Library" aria-label="Brief Tour of the Standard Library"><i class="fa fa-angle-right"></i></a>
+                <div style="clear: both"></div>
+            </nav>
+        </div>
+        <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            <a rel="prev" href="errors.html" class="nav-chapters prev" title="Errors and Exceptions" aria-label="Errors and Exceptions"><i class="fa fa-angle-left"></i></a>
+            <a rel="next" href="stdlib.html" class="nav-chapters next" title="Brief Tour of the Standard Library" aria-label="Brief Tour of the Standard Library"><i class="fa fa-angle-right"></i></a>
+        </nav>
+    </div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>

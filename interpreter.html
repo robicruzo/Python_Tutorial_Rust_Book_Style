@@ -1,0 +1,211 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>Using the Python Interpreter - The Python Tutorial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <script>
+        const theme_storage_key = "mdbook-theme";
+        const default_light_theme = "light";
+        const default_dark_theme = "navy";
+        window.theme_storage_key = theme_storage_key;
+        window.default_light_theme = default_light_theme;
+        window.default_dark_theme = default_dark_theme;
+        (function () {
+            const html = document.documentElement;
+            let storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem(theme_storage_key);
+            } catch (err) {
+                storedTheme = null;
+            }
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const resolved = (!storedTheme || storedTheme === 'default_theme')
+                ? (prefersDark ? default_dark_theme : default_light_theme)
+                : storedTheme;
+            html.classList.remove('light');
+            html.classList.add(resolved);
+            window.default_theme = resolved;
+        })();
+    </script>
+    <link rel="icon" href="favicon-de23e50b.svg">
+    <link rel="shortcut icon" href="favicon-8114d1fc.png">
+    <link rel="stylesheet" href="css/variables-3865ffda.css">
+    <link rel="stylesheet" href="css/general-4c35105a.css">
+    <link rel="stylesheet" href="css/chrome-c0e702bf.css">
+    <link rel="stylesheet" href="css/print-ad67d350.css" media="print">
+    <link rel="stylesheet" href="FontAwesome/css/font-awesome-799aeb25.css">
+    <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+    <link rel="stylesheet" id="highlight-css" href="highlight-493f70e1.css">
+    <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+    <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight-56612340.css">
+    <link rel="stylesheet" href="ferris-d33b75bf.css">
+    <link rel="stylesheet" href="theme/2018-edition-4e126c62.css">
+    <link rel="stylesheet" href="theme/semantic-notes-9b5766c0.css">
+    <link rel="stylesheet" href="theme/listing-cab26221.css">
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div id="body-container">
+    <input type="checkbox" id="sidebar-toggle-anchor" class="hidden" checked>
+    <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <div class="sidebar-scrollbox">
+            <ol class="chapter"><li class="chapter-item expanded"><a href="index.html">The Python Tutorial</a></li><li class="chapter-item expanded"><a href="appetite.html"><strong aria-hidden="true">1.</strong> Whetting Your Appetite</a></li><li class="chapter-item expanded active"><a href="interpreter.html" data-current="true"><strong aria-hidden="true">2.</strong> Using the Python Interpreter</a></li><li class="chapter-item expanded"><a href="introduction.html"><strong aria-hidden="true">3.</strong> An Informal Introduction to Python</a></li><li class="chapter-item expanded"><a href="controlflow.html"><strong aria-hidden="true">4.</strong> More Control Flow Tools</a></li><li class="chapter-item expanded"><a href="datastructures.html"><strong aria-hidden="true">5.</strong> Data Structures</a></li><li class="chapter-item expanded"><a href="modules.html"><strong aria-hidden="true">6.</strong> Modules</a></li><li class="chapter-item expanded"><a href="inputoutput.html"><strong aria-hidden="true">7.</strong> Input and Output</a></li><li class="chapter-item expanded"><a href="errors.html"><strong aria-hidden="true">8.</strong> Errors and Exceptions</a></li><li class="chapter-item expanded"><a href="classes.html"><strong aria-hidden="true">9.</strong> Classes</a></li><li class="chapter-item expanded"><a href="stdlib.html"><strong aria-hidden="true">10.</strong> Brief Tour of the Standard Library</a></li><li class="chapter-item expanded"><a href="stdlib2.html"><strong aria-hidden="true">11.</strong> Brief Tour of the Standard Library --- Part II</a></li><li class="chapter-item expanded"><a href="venv.html"><strong aria-hidden="true">12.</strong> Virtual Environments and Packages</a></li><li class="chapter-item expanded"><a href="whatnow.html"><strong aria-hidden="true">13.</strong> What Now?</a></li><li class="chapter-item expanded"><a href="interactive.html"><strong aria-hidden="true">14.</strong> Interactive Input Editing and History Substitution</a></li><li class="chapter-item expanded"><a href="floatingpoint.html"><strong aria-hidden="true">15.</strong> Floating-Point Arithmetic:  Issues and Limitations</a></li><li class="chapter-item expanded"><a href="appendix.html"><strong aria-hidden="true">16.</strong> Appendix</a></li></ol>
+        </div>
+        <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div class="sidebar-resize-indicator"></div>
+        </div>
+    </nav>
+    <div id="page-wrapper" class="page-wrapper">
+        <div class="page">
+            <div id="menu-bar-hover-placeholder"></div>
+            <div id="menu-bar" class="menu-bar sticky">
+                <div class="left-buttons">
+                    <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <i class="fa fa-bars"></i>
+                    </label>
+                    <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                        <i class="fa fa-paint-brush"></i>
+                    </button>
+                    <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu" style="display: none;">
+                        <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                    </ul>
+                </div>
+                <h1 class="menu-title">The Python Tutorial</h1>
+                <div class="right-buttons"></div>
+            </div>
+            <main id="content" class="content">
+            <section id="invoking-the-interpreter">
+            <span id="tut-invoking"></span><h2>Invoking the Interpreter</h2>
+            <p>The Python interpreter is usually installed as |usr_local_bin_python_x_dot_y_literal|
+            on those machines where it is available; putting <span class="docutils literal">/usr/local/bin</span> in your
+            Unix shell's search path makes it possible to start it by typing the command:</p>
+            <pre class="code text literal-block"><code>python3.15</code></pre>
+            <p>to the shell. <a class="footnote-reference brackets" href="#footnote-1" id="footnote-reference-1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> Since the choice of the directory where the interpreter lives
+            is an installation option, other places are possible; check with your local
+            Python guru or system administrator.  (E.g., <span class="docutils literal">/usr/local/python</span> is a
+            popular alternative location.)</p>
+            <p>On Windows machines where you have installed Python from the <span class="xref">Microsoft Store</span>, the |python_x_dot_y_literal| command will be available. If you have
+            the <span class="xref">py.exe launcher</span> installed, you can use the <span class="docutils literal">py</span>
+            command. See <span class="xref">setting-envvars</span> for other ways to launch Python.</p>
+            <p>Typing an end-of-file character (<span class="docutils literal"><span class="pre">Control-D</span></span> on Unix, <span class="docutils literal"><span class="pre">Control-Z</span></span> on
+            Windows) at the primary prompt causes the interpreter to exit with a zero exit
+            status.  If that doesn't work, you can exit the interpreter by typing the
+            following command: <span class="docutils literal">quit()</span>.</p>
+            <p>The interpreter's line-editing features include interactive editing, history
+            substitution and code completion on systems that support the <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rltop.html">GNU Readline</a> library.
+            Perhaps the quickest check to see whether command line editing is supported is
+            typing <span class="docutils literal"><span class="pre">Control-P</span></span> to the first Python prompt you get.  If it beeps, you
+            have command line editing; see Appendix <a class="internal-ref reference external" href="interactive.html#tut-interacting">tut-interacting</a> for an
+            introduction to the keys.  If nothing appears to happen, or if <span class="docutils literal">^P</span> is
+            echoed, command line editing isn't available; you'll only be able to use
+            backspace to remove characters from the current line.</p>
+            <p>The interpreter operates somewhat like the Unix shell: when called with standard
+            input connected to a tty device, it reads and executes commands interactively;
+            when called with a file name argument or with a file as standard input, it reads
+            and executes a <em>script</em> from that file.</p>
+            <p>A second way of starting the interpreter is <span class="docutils literal">python <span class="pre">-c</span> command [arg] ...</span>,
+            which executes the statement(s) in <em>command</em>, analogous to the shell's
+            <span class="docutils literal"><span class="pre">-c</span></span> option.  Since Python statements often contain spaces or other
+            characters that are special to the shell, it is usually advised to quote
+            <em>command</em> in its entirety.</p>
+            <p>Some Python modules are also useful as scripts.  These can be invoked using
+            <span class="docutils literal">python <span class="pre">-m</span> module [arg] ...</span>, which executes the source file for <em>module</em> as
+            if you had spelled out its full name on the command line.</p>
+            <p>When a script file is used, it is sometimes useful to be able to run the script
+            and enter interactive mode afterwards.  This can be done by passing <span class="docutils literal"><span class="pre">-i</span></span>
+            before the script.</p>
+            <p>All command line options are described in <span class="xref">using-on-general</span>.</p>
+            <section id="argument-passing">
+            <span id="tut-argpassing"></span><h3>Argument Passing</h3>
+            <p>When known to the interpreter, the script name and additional arguments
+            thereafter are turned into a list of strings and assigned to the <span class="docutils literal">argv</span>
+            variable in the <span class="docutils literal">sys</span> module.  You can access this list by executing <span class="docutils literal">import sys</span>.  The length of the list is at least one; when no script and no arguments
+            are given, <span class="docutils literal">sys.argv[0]</span> is an empty string.  When the script name is given as
+            <span class="docutils literal"><span class="pre">'-'</span></span> (meaning  standard input), <span class="docutils literal">sys.argv[0]</span> is set to <span class="docutils literal"><span class="pre">'-'</span></span>.  When
+            <span class="docutils literal"><span class="pre">-c</span></span> <em>command</em> is used, <span class="docutils literal">sys.argv[0]</span> is set to <span class="docutils literal"><span class="pre">'-c'</span></span>.  When
+            <span class="docutils literal"><span class="pre">-m</span></span> <em>module</em> is used, <span class="docutils literal">sys.argv[0]</span>  is set to the full name of the
+            located module.  Options found after  <span class="docutils literal"><span class="pre">-c</span></span> <em>command</em> or <span class="docutils literal"><span class="pre">-m</span></span>
+            <em>module</em> are not consumed  by the Python interpreter's option processing but
+            left in <span class="docutils literal">sys.argv</span> for  the command or module to handle.</p>
+            </section>
+            <section id="interactive-mode">
+            <span id="tut-interactive"></span><h3>Interactive Mode</h3>
+            <p>When commands are read from a tty, the interpreter is said to be in <em>interactive
+            mode</em>.  In this mode it prompts for the next command with the <em>primary prompt</em>,
+            usually three greater-than signs (<span class="docutils literal">&gt;&gt;&gt;</span>); for continuation lines it prompts
+            with the <em>secondary prompt</em>, by default three dots (<span class="docutils literal">...</span>). The interpreter
+            prints a welcome message stating its version number and a copyright notice
+            before printing the first prompt:</p>
+            <pre class="code shell-session literal-block"><code><span class="generic prompt">$ </span>python3.15<span class="whitespace">
+            </span><span class="generic output">Python 3.15 (default, May 7 2025, 15:46:04)
+            [GCC 10.2.0] on linux
+            Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+            &gt;&gt;&gt;</span></code></pre>
+            <!-- XXX update for new releases -->
+            <p>Continuation lines are needed when entering a multi-line construct. As an
+            example, take a look at this <span class="docutils literal">if</span> statement:</p>
+            <pre class="literal-block">&gt;&gt;&gt; the_world_is_flat = True
+            &gt;&gt;&gt; if the_world_is_flat:
+            ...     print(&quot;Be careful not to fall off!&quot;)
+            ...
+            Be careful not to fall off!</pre>
+            <p>For more on interactive mode, see <a class="internal-ref reference external" href="appendix.html#tut-interac">tut-interac</a>.</p>
+            </section>
+            </section>
+            <section id="the-interpreter-and-its-environment">
+            <span id="tut-interp"></span><h2>The Interpreter and Its Environment</h2>
+            <section id="source-code-encoding">
+            <span id="tut-source-encoding"></span><h3>Source Code Encoding</h3>
+            <p>By default, Python source files are treated as encoded in UTF-8.  In that
+            encoding, characters of most languages in the world can be used simultaneously
+            in string literals, identifiers and comments --- although the standard library
+            only uses ASCII characters for identifiers, a convention that any portable code
+            should follow.  To display all these characters properly, your editor must
+            recognize that the file is UTF-8, and it must use a font that supports all the
+            characters in the file.</p>
+            <p>To declare an encoding other than the default one, a special comment line
+            should be added as the <em>first</em> line of the file.  The syntax is as follows:</p>
+            <pre class="literal-block"># -*- coding: encoding -*-</pre>
+            <p>where <em>encoding</em> is one of the valid <span class="docutils literal">codecs</span> supported by Python.</p>
+            <p>For example, to declare that Windows-1252 encoding is to be used, the first
+            line of your source code file should be:</p>
+            <pre class="literal-block"># -*- coding: cp1252 -*-</pre>
+            <p>One exception to the <em>first line</em> rule is when the source code starts with a
+            <a class="internal-ref reference external" href="appendix.html#tut-scripts">UNIX &quot;shebang&quot; line</a>.  In this case, the encoding
+            declaration should be added as the second line of the file.  For example:</p>
+            <pre class="literal-block">#!/usr/bin/env python3
+            # -*- coding: cp1252 -*-</pre>
+            <p class="rubric">Footnotes</p>
+            <aside class="footnote-list brackets">
+            <aside class="footnote brackets" id="footnote-1" role="doc-footnote">
+            <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-1">1</a><span class="fn-bracket">]</span></span>
+            <p>On Unix, the Python 3.x interpreter is by default not installed with the
+            executable named <span class="docutils literal">python</span>, so that it does not conflict with a
+            simultaneously installed Python 2.x executable.</p>
+            </aside>
+            </aside>
+            </section>
+            </section>
+            </main>
+            <nav class="nav-wrapper" aria-label="Page navigation">
+                <a rel="prev" href="appetite.html" class="mobile-nav-chapters previous" title="Whetting Your Appetite" aria-label="Whetting Your Appetite"><i class="fa fa-angle-left"></i></a>
+                <a rel="next" href="introduction.html" class="mobile-nav-chapters next" title="An Informal Introduction to Python" aria-label="An Informal Introduction to Python"><i class="fa fa-angle-right"></i></a>
+                <div style="clear: both"></div>
+            </nav>
+        </div>
+        <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            <a rel="prev" href="appetite.html" class="nav-chapters prev" title="Whetting Your Appetite" aria-label="Whetting Your Appetite"><i class="fa fa-angle-left"></i></a>
+            <a rel="next" href="introduction.html" class="nav-chapters next" title="An Informal Introduction to Python" aria-label="An Informal Introduction to Python"><i class="fa fa-angle-right"></i></a>
+        </nav>
+    </div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>

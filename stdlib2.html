@@ -1,0 +1,420 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>Brief Tour of the Standard Library --- Part II - The Python Tutorial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <script>
+        const theme_storage_key = "mdbook-theme";
+        const default_light_theme = "light";
+        const default_dark_theme = "navy";
+        window.theme_storage_key = theme_storage_key;
+        window.default_light_theme = default_light_theme;
+        window.default_dark_theme = default_dark_theme;
+        (function () {
+            const html = document.documentElement;
+            let storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem(theme_storage_key);
+            } catch (err) {
+                storedTheme = null;
+            }
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const resolved = (!storedTheme || storedTheme === 'default_theme')
+                ? (prefersDark ? default_dark_theme : default_light_theme)
+                : storedTheme;
+            html.classList.remove('light');
+            html.classList.add(resolved);
+            window.default_theme = resolved;
+        })();
+    </script>
+    <link rel="icon" href="favicon-de23e50b.svg">
+    <link rel="shortcut icon" href="favicon-8114d1fc.png">
+    <link rel="stylesheet" href="css/variables-3865ffda.css">
+    <link rel="stylesheet" href="css/general-4c35105a.css">
+    <link rel="stylesheet" href="css/chrome-c0e702bf.css">
+    <link rel="stylesheet" href="css/print-ad67d350.css" media="print">
+    <link rel="stylesheet" href="FontAwesome/css/font-awesome-799aeb25.css">
+    <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+    <link rel="stylesheet" id="highlight-css" href="highlight-493f70e1.css">
+    <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+    <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight-56612340.css">
+    <link rel="stylesheet" href="ferris-d33b75bf.css">
+    <link rel="stylesheet" href="theme/2018-edition-4e126c62.css">
+    <link rel="stylesheet" href="theme/semantic-notes-9b5766c0.css">
+    <link rel="stylesheet" href="theme/listing-cab26221.css">
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div id="body-container">
+    <input type="checkbox" id="sidebar-toggle-anchor" class="hidden" checked>
+    <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <div class="sidebar-scrollbox">
+            <ol class="chapter"><li class="chapter-item expanded"><a href="index.html">The Python Tutorial</a></li><li class="chapter-item expanded"><a href="appetite.html"><strong aria-hidden="true">1.</strong> Whetting Your Appetite</a></li><li class="chapter-item expanded"><a href="interpreter.html"><strong aria-hidden="true">2.</strong> Using the Python Interpreter</a></li><li class="chapter-item expanded"><a href="introduction.html"><strong aria-hidden="true">3.</strong> An Informal Introduction to Python</a></li><li class="chapter-item expanded"><a href="controlflow.html"><strong aria-hidden="true">4.</strong> More Control Flow Tools</a></li><li class="chapter-item expanded"><a href="datastructures.html"><strong aria-hidden="true">5.</strong> Data Structures</a></li><li class="chapter-item expanded"><a href="modules.html"><strong aria-hidden="true">6.</strong> Modules</a></li><li class="chapter-item expanded"><a href="inputoutput.html"><strong aria-hidden="true">7.</strong> Input and Output</a></li><li class="chapter-item expanded"><a href="errors.html"><strong aria-hidden="true">8.</strong> Errors and Exceptions</a></li><li class="chapter-item expanded"><a href="classes.html"><strong aria-hidden="true">9.</strong> Classes</a></li><li class="chapter-item expanded"><a href="stdlib.html"><strong aria-hidden="true">10.</strong> Brief Tour of the Standard Library</a></li><li class="chapter-item expanded active"><a href="stdlib2.html" data-current="true"><strong aria-hidden="true">11.</strong> Brief Tour of the Standard Library --- Part II</a></li><li class="chapter-item expanded"><a href="venv.html"><strong aria-hidden="true">12.</strong> Virtual Environments and Packages</a></li><li class="chapter-item expanded"><a href="whatnow.html"><strong aria-hidden="true">13.</strong> What Now?</a></li><li class="chapter-item expanded"><a href="interactive.html"><strong aria-hidden="true">14.</strong> Interactive Input Editing and History Substitution</a></li><li class="chapter-item expanded"><a href="floatingpoint.html"><strong aria-hidden="true">15.</strong> Floating-Point Arithmetic:  Issues and Limitations</a></li><li class="chapter-item expanded"><a href="appendix.html"><strong aria-hidden="true">16.</strong> Appendix</a></li></ol>
+        </div>
+        <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div class="sidebar-resize-indicator"></div>
+        </div>
+    </nav>
+    <div id="page-wrapper" class="page-wrapper">
+        <div class="page">
+            <div id="menu-bar-hover-placeholder"></div>
+            <div id="menu-bar" class="menu-bar sticky">
+                <div class="left-buttons">
+                    <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <i class="fa fa-bars"></i>
+                    </label>
+                    <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                        <i class="fa fa-paint-brush"></i>
+                    </button>
+                    <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu" style="display: none;">
+                        <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                    </ul>
+                </div>
+                <h1 class="menu-title">The Python Tutorial</h1>
+                <div class="right-buttons"></div>
+            </div>
+            <main id="content" class="content">
+            <p>This second tour covers more advanced modules that support professional
+            programming needs.  These modules rarely occur in small scripts.</p>
+            <section id="output-formatting">
+            <span id="tut-output-formatting"></span><h2>Output Formatting</h2>
+            <p>The <span class="docutils literal">reprlib</span> module provides a version of <span class="docutils literal">repr</span> customized for
+            abbreviated displays of large or deeply nested containers:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import reprlib
+            &gt;&gt;&gt; reprlib.repr(set('supercalifragilisticexpialidocious'))
+            &quot;{'a', 'c', 'd', 'e', 'f', 'g', ...}&quot;</pre>
+            <p>The <span class="docutils literal">pprint</span> module offers more sophisticated control over printing both
+            built-in and user defined objects in a way that is readable by the interpreter.
+            When the result is longer than one line, the &quot;pretty printer&quot; adds line breaks
+            and indentation to more clearly reveal data structure:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import pprint
+            &gt;&gt;&gt; t = [[[['black', 'cyan'], 'white', ['green', 'red']], [['magenta',
+            ...     'yellow'], 'blue']]]
+            ...
+            &gt;&gt;&gt; pprint.pprint(t, width=30)
+            [[[['black', 'cyan'],
+               'white',
+               ['green', 'red']],
+              [['magenta', 'yellow'],
+               'blue']]]</pre>
+            <p>The <span class="docutils literal">textwrap</span> module formats paragraphs of text to fit a given screen
+            width:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import textwrap
+            &gt;&gt;&gt; doc = &quot;&quot;&quot;The wrap() method is just like fill() except that it returns
+            ... a list of strings instead of one big string with newlines to separate
+            ... the wrapped lines.&quot;&quot;&quot;
+            ...
+            &gt;&gt;&gt; print(textwrap.fill(doc, width=40))
+            The wrap() method is just like fill()
+            except that it returns a list of strings
+            instead of one big string with newlines
+            to separate the wrapped lines.</pre>
+            <p>The <span class="docutils literal">locale</span> module accesses a database of culture specific data formats.
+            The grouping attribute of locale's format function provides a direct way of
+            formatting numbers with group separators:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import locale
+            &gt;&gt;&gt; locale.setlocale(locale.LC_ALL, 'English_United States.1252')
+            'English_United States.1252'
+            &gt;&gt;&gt; conv = locale.localeconv()          # get a mapping of conventions
+            &gt;&gt;&gt; x = 1234567.8
+            &gt;&gt;&gt; locale.format_string(&quot;%d&quot;, x, grouping=True)
+            '1,234,567'
+            &gt;&gt;&gt; locale.format_string(&quot;%s%.*f&quot;, (conv['currency_symbol'],
+            ...                      conv['frac_digits'], x), grouping=True)
+            '$1,234,567.80'</pre>
+            </section>
+            <section id="templating">
+            <span id="tut-templating"></span><h2>Templating</h2>
+            <p>The <span class="docutils literal">string</span> module includes a versatile <span class="docutils literal">string.Template</span> class
+            with a simplified syntax suitable for editing by end-users.  This allows users
+            to customize their applications without having to alter the application.</p>
+            <p>The format uses placeholder names formed by <span class="docutils literal">$</span> with valid Python identifiers
+            (alphanumeric characters and underscores).  Surrounding the placeholder with
+            braces allows it to be followed by more alphanumeric letters with no intervening
+            spaces.  Writing <span class="docutils literal">$$</span> creates a single escaped <span class="docutils literal">$</span>:</p>
+            <pre class="literal-block">&gt;&gt;&gt; from string import Template
+            &gt;&gt;&gt; t = Template('${village}folk send $$10 to $cause.')
+            &gt;&gt;&gt; t.substitute(village='Nottingham', cause='the ditch fund')
+            'Nottinghamfolk send $10 to the ditch fund.'</pre>
+            <p>The <span class="docutils literal">string.Template.substitute</span> method raises a <span class="docutils literal">KeyError</span> when a
+            placeholder is not supplied in a dictionary or a keyword argument.  For
+            mail-merge style applications, user supplied data may be incomplete and the
+            <span class="docutils literal">string.Template.safe_substitute</span> method may be more appropriate ---
+            it will leave placeholders unchanged if data is missing:</p>
+            <pre class="literal-block">&gt;&gt;&gt; t = Template('Return the $item to $owner.')
+            &gt;&gt;&gt; d = dict(item='unladen swallow')
+            &gt;&gt;&gt; t.substitute(d)
+            Traceback (most recent call last):
+              ...
+            KeyError: 'owner'
+            &gt;&gt;&gt; t.safe_substitute(d)
+            'Return the unladen swallow to $owner.'</pre>
+            <p>Template subclasses can specify a custom delimiter.  For example, a batch
+            renaming utility for a photo browser may elect to use percent signs for
+            placeholders such as the current date, image sequence number, or file format:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import time, os.path
+            &gt;&gt;&gt; photofiles = ['img_1074.jpg', 'img_1076.jpg', 'img_1077.jpg']
+            &gt;&gt;&gt; class BatchRename(Template):
+            ...     delimiter = '%'
+            ...
+            &gt;&gt;&gt; fmt = input('Enter rename style (%d-date %n-seqnum %f-format):  ')
+            Enter rename style (%d-date %n-seqnum %f-format):  Ashley_%n%f
+
+            &gt;&gt;&gt; t = BatchRename(fmt)
+            &gt;&gt;&gt; date = time.strftime('%d%b%y')
+            &gt;&gt;&gt; for i, filename in enumerate(photofiles):
+            ...     base, ext = os.path.splitext(filename)
+            ...     newname = t.substitute(d=date, n=i, f=ext)
+            ...     print('{0} --&gt; {1}'.format(filename, newname))
+
+            img_1074.jpg --&gt; Ashley_0.jpg
+            img_1076.jpg --&gt; Ashley_1.jpg
+            img_1077.jpg --&gt; Ashley_2.jpg</pre>
+            <p>Another application for templating is separating program logic from the details
+            of multiple output formats.  This makes it possible to substitute custom
+            templates for XML files, plain text reports, and HTML web reports.</p>
+            </section>
+            <section id="working-with-binary-data-record-layouts">
+            <span id="tut-binary-formats"></span><h2>Working with Binary Data Record Layouts</h2>
+            <p>The <span class="docutils literal">struct</span> module provides <span class="docutils literal">struct.pack</span> and
+            <span class="docutils literal">struct.unpack</span> functions for working with variable length binary
+            record formats.  The following example shows
+            how to loop through header information in a ZIP file without using the
+            <span class="docutils literal">zipfile</span> module.  Pack codes <span class="docutils literal">&quot;H&quot;</span> and <span class="docutils literal">&quot;I&quot;</span> represent two and four
+            byte unsigned numbers respectively.  The <span class="docutils literal">&quot;&lt;&quot;</span> indicates that they are
+            standard size and in little-endian byte order:</p>
+            <pre class="literal-block">import struct
+
+            with open('myfile.zip', 'rb') as f:
+                data = f.read()
+
+            start = 0
+            for i in range(3):                      # show the first 3 file headers
+                start += 14
+                fields = struct.unpack('&lt;IIIHH', data[start:start+16])
+                crc32, comp_size, uncomp_size, filenamesize, extra_size = fields
+
+                start += 16
+                filename = data[start:start+filenamesize]
+                start += filenamesize
+                extra = data[start:start+extra_size]
+                print(filename, hex(crc32), comp_size, uncomp_size)
+
+                start += extra_size + comp_size     # skip to the next header</pre>
+            </section>
+            <section id="multi-threading">
+            <span id="tut-multi-threading"></span><h2>Multi-threading</h2>
+            <p>Threading is a technique for decoupling tasks which are not sequentially
+            dependent.  Threads can be used to improve the responsiveness of applications
+            that accept user input while other tasks run in the background.  A related use
+            case is running I/O in parallel with computations in another thread.</p>
+            <p>The following code shows how the high level <span class="docutils literal">threading</span> module can run
+            tasks in background while the main program continues to run:</p>
+            <pre class="literal-block">import threading, zipfile
+
+            class AsyncZip(threading.Thread):
+                def __init__(self, infile, outfile):
+                    threading.Thread.__init__(self)
+                    self.infile = infile
+                    self.outfile = outfile
+
+                def run(self):
+                    f = zipfile.ZipFile(self.outfile, 'w', zipfile.ZIP_DEFLATED)
+                    f.write(self.infile)
+                    f.close()
+                    print('Finished background zip of:', self.infile)
+
+            background = AsyncZip('mydata.txt', 'myarchive.zip')
+            background.start()
+            print('The main program continues to run in foreground.')
+
+            background.join()    # Wait for the background task to finish
+            print('Main program waited until background was done.')</pre>
+            <p>The principal challenge of multi-threaded applications is coordinating threads
+            that share data or other resources.  To that end, the threading module provides
+            a number of synchronization primitives including locks, events, condition
+            variables, and semaphores.</p>
+            <p>While those tools are powerful, minor design errors can result in problems that
+            are difficult to reproduce.  So, the preferred approach to task coordination is
+            to concentrate all access to a resource in a single thread and then use the
+            <span class="docutils literal">queue</span> module to feed that thread with requests from other threads.
+            Applications using <span class="docutils literal">queue.Queue</span> objects for inter-thread communication and
+            coordination are easier to design, more readable, and more reliable.</p>
+            </section>
+            <section id="logging">
+            <span id="tut-logging"></span><h2>Logging</h2>
+            <p>The <span class="docutils literal">logging</span> module offers a full featured and flexible logging system.
+            At its simplest, log messages are sent to a file or to <span class="docutils literal">sys.stderr</span>:</p>
+            <pre class="literal-block">import logging
+            logging.debug('Debugging information')
+            logging.info('Informational message')
+            logging.warning('Warning:config file %s not found', 'server.conf')
+            logging.error('Error occurred')
+            logging.critical('Critical error -- shutting down')</pre>
+            <p>This produces the following output:</p>
+            <pre class="code none literal-block"><code>WARNING:root:Warning:config file server.conf not found
+            ERROR:root:Error occurred
+            CRITICAL:root:Critical error -- shutting down</code></pre>
+            <p>By default, informational and debugging messages are suppressed and the output
+            is sent to standard error.  Other output options include routing messages
+            through email, datagrams, sockets, or to an HTTP Server.  New filters can select
+            different routing based on message priority: <span class="docutils literal">logging.DEBUG</span>,
+            <span class="docutils literal">logging.INFO</span>, <span class="docutils literal">logging.WARNING</span>, <span class="docutils literal">logging.ERROR</span>,
+            and <span class="docutils literal">logging.CRITICAL</span>.</p>
+            <p>The logging system can be configured directly from Python or can be loaded from
+            a user editable configuration file for customized logging without altering the
+            application.</p>
+            </section>
+            <section id="weak-references">
+            <span id="tut-weak-references"></span><h2>Weak References</h2>
+            <p>Python does automatic memory management (reference counting for most objects and
+            <em>garbage collection</em> to eliminate cycles).  The memory is freed shortly
+            after the last reference to it has been eliminated.</p>
+            <p>This approach works fine for most applications but occasionally there is a need
+            to track objects only as long as they are being used by something else.
+            Unfortunately, just tracking them creates a reference that makes them permanent.
+            The <span class="docutils literal">weakref</span> module provides tools for tracking objects without creating a
+            reference.  When the object is no longer needed, it is automatically removed
+            from a weakref table and a callback is triggered for weakref objects.  Typical
+            applications include caching objects that are expensive to create:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import weakref, gc
+            &gt;&gt;&gt; class A:
+            ...     def __init__(self, value):
+            ...         self.value = value
+            ...     def __repr__(self):
+            ...         return str(self.value)
+            ...
+            &gt;&gt;&gt; a = A(10)                   # create a reference
+            &gt;&gt;&gt; d = weakref.WeakValueDictionary()
+            &gt;&gt;&gt; d['primary'] = a            # does not create a reference
+            &gt;&gt;&gt; d['primary']                # fetch the object if it is still alive
+            10
+            &gt;&gt;&gt; del a                       # remove the one reference
+            &gt;&gt;&gt; gc.collect()                # run garbage collection right away
+            0
+            &gt;&gt;&gt; d['primary']                # entry was automatically removed
+            Traceback (most recent call last):
+              File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+                d['primary']                # entry was automatically removed
+              File &quot;C:/python315/lib/weakref.py&quot;, line 46, in __getitem__
+                o = self.data[key]()
+            KeyError: 'primary'</pre>
+            </section>
+            <section id="tools-for-working-with-lists">
+            <span id="tut-list-tools"></span><h2>Tools for Working with Lists</h2>
+            <p>Many data structure needs can be met with the built-in list type. However,
+            sometimes there is a need for alternative implementations with different
+            performance trade-offs.</p>
+            <p>The <span class="docutils literal">array</span> module provides an <span class="docutils literal">array.array</span> object that is like
+            a list that stores only homogeneous data and stores it more compactly.  The
+            following example shows an array of numbers stored as two byte unsigned binary
+            numbers (typecode <span class="docutils literal">&quot;H&quot;</span>) rather than the usual 16 bytes per entry for regular
+            lists of Python int objects:</p>
+            <pre class="literal-block">&gt;&gt;&gt; from array import array
+            &gt;&gt;&gt; a = array('H', [4000, 10, 700, 22222])
+            &gt;&gt;&gt; sum(a)
+            26932
+            &gt;&gt;&gt; a[1:3]
+            array('H', [10, 700])</pre>
+            <p>The <span class="docutils literal">collections</span> module provides a <span class="docutils literal">collections.deque</span> object
+            that is like a list with faster appends and pops from the left side but slower
+            lookups in the middle. These objects are well suited for implementing queues
+            and breadth first tree searches:</p>
+            <pre class="literal-block">&gt;&gt;&gt; from collections import deque
+            &gt;&gt;&gt; d = deque([&quot;task1&quot;, &quot;task2&quot;, &quot;task3&quot;])
+            &gt;&gt;&gt; d.append(&quot;task4&quot;)
+            &gt;&gt;&gt; print(&quot;Handling&quot;, d.popleft())
+            Handling task1</pre>
+            <pre class="literal-block">unsearched = deque([starting_node])
+            def breadth_first_search(unsearched):
+                node = unsearched.popleft()
+                for m in gen_moves(node):
+                    if is_goal(m):
+                        return m
+                    unsearched.append(m)</pre>
+            <p>In addition to alternative list implementations, the library also offers other
+            tools such as the <span class="docutils literal">bisect</span> module with functions for manipulating sorted
+            lists:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import bisect
+            &gt;&gt;&gt; scores = [(100, 'perl'), (200, 'tcl'), (400, 'lua'), (500, 'python')]
+            &gt;&gt;&gt; bisect.insort(scores, (300, 'ruby'))
+            &gt;&gt;&gt; scores
+            [(100, 'perl'), (200, 'tcl'), (300, 'ruby'), (400, 'lua'), (500, 'python')]</pre>
+            <p>The <span class="docutils literal">heapq</span> module provides functions for implementing heaps based on
+            regular lists.  The lowest valued entry is always kept at position zero.  This
+            is useful for applications which repeatedly access the smallest element but do
+            not want to run a full list sort:</p>
+            <pre class="literal-block">&gt;&gt;&gt; from heapq import heapify, heappop, heappush
+            &gt;&gt;&gt; data = [1, 3, 5, 7, 9, 2, 4, 6, 8, 0]
+            &gt;&gt;&gt; heapify(data)                      # rearrange the list into heap order
+            &gt;&gt;&gt; heappush(data, -5)                 # add a new entry
+            &gt;&gt;&gt; [heappop(data) for i in range(3)]  # fetch the three smallest entries
+            [-5, 0, 1]</pre>
+            </section>
+            <section id="decimal-floating-point-arithmetic">
+            <span id="tut-decimal-fp"></span><h2>Decimal Floating-Point Arithmetic</h2>
+            <p>The <span class="docutils literal">decimal</span> module offers a <span class="docutils literal">decimal.Decimal</span> datatype for
+            decimal floating-point arithmetic.  Compared to the built-in <span class="docutils literal">float</span>
+            implementation of binary floating point, the class is especially helpful for</p>
+            <ul class="simple">
+            <li><p>financial applications and other uses which require exact decimal
+            representation,</p></li>
+            <li><p>control over precision,</p></li>
+            <li><p>control over rounding to meet legal or regulatory requirements,</p></li>
+            <li><p>tracking of significant decimal places, or</p></li>
+            <li><p>applications where the user expects the results to match calculations done by
+            hand.</p></li>
+            </ul>
+            <p>For example, calculating a 5% tax on a 70 cent phone charge gives different
+            results in decimal floating point and binary floating point. The difference
+            becomes significant if the results are rounded to the nearest cent:</p>
+            <pre class="literal-block">&gt;&gt;&gt; from decimal import *
+            &gt;&gt;&gt; round(Decimal('0.70') * Decimal('1.05'), 2)
+            Decimal('0.74')
+            &gt;&gt;&gt; round(.70 * 1.05, 2)
+            0.73</pre>
+            <p>The <span class="docutils literal">decimal.Decimal</span> result keeps a trailing zero, automatically
+            inferring four place significance from multiplicands with two place
+            significance.  Decimal reproduces mathematics as done by hand and avoids
+            issues that can arise when binary floating point cannot exactly represent
+            decimal quantities.</p>
+            <p>Exact representation enables the <span class="docutils literal">decimal.Decimal</span> class to perform
+            modulo calculations and equality tests that are unsuitable for binary floating
+            point:</p>
+            <pre class="literal-block">&gt;&gt;&gt; Decimal('1.00') % Decimal('.10')
+            Decimal('0.00')
+            &gt;&gt;&gt; 1.00 % 0.10
+            0.09999999999999995
+
+            &gt;&gt;&gt; sum([Decimal('0.1')]*10) == Decimal('1.0')
+            True
+            &gt;&gt;&gt; 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 == 1.0
+            False</pre>
+            <p>The <span class="docutils literal">decimal</span> module provides arithmetic with as much precision as needed:</p>
+            <pre class="literal-block">&gt;&gt;&gt; getcontext().prec = 36
+            &gt;&gt;&gt; Decimal(1) / Decimal(7)
+            Decimal('0.142857142857142857142857142857142857')</pre>
+            </section>
+            </main>
+            <nav class="nav-wrapper" aria-label="Page navigation">
+                <a rel="prev" href="stdlib.html" class="mobile-nav-chapters previous" title="Brief Tour of the Standard Library" aria-label="Brief Tour of the Standard Library"><i class="fa fa-angle-left"></i></a>
+                <a rel="next" href="venv.html" class="mobile-nav-chapters next" title="Virtual Environments and Packages" aria-label="Virtual Environments and Packages"><i class="fa fa-angle-right"></i></a>
+                <div style="clear: both"></div>
+            </nav>
+        </div>
+        <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            <a rel="prev" href="stdlib.html" class="nav-chapters prev" title="Brief Tour of the Standard Library" aria-label="Brief Tour of the Standard Library"><i class="fa fa-angle-left"></i></a>
+            <a rel="next" href="venv.html" class="nav-chapters next" title="Virtual Environments and Packages" aria-label="Virtual Environments and Packages"><i class="fa fa-angle-right"></i></a>
+        </nav>
+    </div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>

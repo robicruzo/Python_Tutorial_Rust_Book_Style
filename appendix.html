@@ -1,0 +1,202 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>Appendix - The Python Tutorial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <script>
+        const theme_storage_key = "mdbook-theme";
+        const default_light_theme = "light";
+        const default_dark_theme = "navy";
+        window.theme_storage_key = theme_storage_key;
+        window.default_light_theme = default_light_theme;
+        window.default_dark_theme = default_dark_theme;
+        (function () {
+            const html = document.documentElement;
+            let storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem(theme_storage_key);
+            } catch (err) {
+                storedTheme = null;
+            }
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const resolved = (!storedTheme || storedTheme === 'default_theme')
+                ? (prefersDark ? default_dark_theme : default_light_theme)
+                : storedTheme;
+            html.classList.remove('light');
+            html.classList.add(resolved);
+            window.default_theme = resolved;
+        })();
+    </script>
+    <link rel="icon" href="favicon-de23e50b.svg">
+    <link rel="shortcut icon" href="favicon-8114d1fc.png">
+    <link rel="stylesheet" href="css/variables-3865ffda.css">
+    <link rel="stylesheet" href="css/general-4c35105a.css">
+    <link rel="stylesheet" href="css/chrome-c0e702bf.css">
+    <link rel="stylesheet" href="css/print-ad67d350.css" media="print">
+    <link rel="stylesheet" href="FontAwesome/css/font-awesome-799aeb25.css">
+    <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+    <link rel="stylesheet" id="highlight-css" href="highlight-493f70e1.css">
+    <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+    <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight-56612340.css">
+    <link rel="stylesheet" href="ferris-d33b75bf.css">
+    <link rel="stylesheet" href="theme/2018-edition-4e126c62.css">
+    <link rel="stylesheet" href="theme/semantic-notes-9b5766c0.css">
+    <link rel="stylesheet" href="theme/listing-cab26221.css">
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div id="body-container">
+    <input type="checkbox" id="sidebar-toggle-anchor" class="hidden" checked>
+    <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <div class="sidebar-scrollbox">
+            <ol class="chapter"><li class="chapter-item expanded"><a href="index.html">The Python Tutorial</a></li><li class="chapter-item expanded"><a href="appetite.html"><strong aria-hidden="true">1.</strong> Whetting Your Appetite</a></li><li class="chapter-item expanded"><a href="interpreter.html"><strong aria-hidden="true">2.</strong> Using the Python Interpreter</a></li><li class="chapter-item expanded"><a href="introduction.html"><strong aria-hidden="true">3.</strong> An Informal Introduction to Python</a></li><li class="chapter-item expanded"><a href="controlflow.html"><strong aria-hidden="true">4.</strong> More Control Flow Tools</a></li><li class="chapter-item expanded"><a href="datastructures.html"><strong aria-hidden="true">5.</strong> Data Structures</a></li><li class="chapter-item expanded"><a href="modules.html"><strong aria-hidden="true">6.</strong> Modules</a></li><li class="chapter-item expanded"><a href="inputoutput.html"><strong aria-hidden="true">7.</strong> Input and Output</a></li><li class="chapter-item expanded"><a href="errors.html"><strong aria-hidden="true">8.</strong> Errors and Exceptions</a></li><li class="chapter-item expanded"><a href="classes.html"><strong aria-hidden="true">9.</strong> Classes</a></li><li class="chapter-item expanded"><a href="stdlib.html"><strong aria-hidden="true">10.</strong> Brief Tour of the Standard Library</a></li><li class="chapter-item expanded"><a href="stdlib2.html"><strong aria-hidden="true">11.</strong> Brief Tour of the Standard Library --- Part II</a></li><li class="chapter-item expanded"><a href="venv.html"><strong aria-hidden="true">12.</strong> Virtual Environments and Packages</a></li><li class="chapter-item expanded"><a href="whatnow.html"><strong aria-hidden="true">13.</strong> What Now?</a></li><li class="chapter-item expanded"><a href="interactive.html"><strong aria-hidden="true">14.</strong> Interactive Input Editing and History Substitution</a></li><li class="chapter-item expanded"><a href="floatingpoint.html"><strong aria-hidden="true">15.</strong> Floating-Point Arithmetic:  Issues and Limitations</a></li><li class="chapter-item expanded active"><a href="appendix.html" data-current="true"><strong aria-hidden="true">16.</strong> Appendix</a></li></ol>
+        </div>
+        <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div class="sidebar-resize-indicator"></div>
+        </div>
+    </nav>
+    <div id="page-wrapper" class="page-wrapper">
+        <div class="page">
+            <div id="menu-bar-hover-placeholder"></div>
+            <div id="menu-bar" class="menu-bar sticky">
+                <div class="left-buttons">
+                    <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <i class="fa fa-bars"></i>
+                    </label>
+                    <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                        <i class="fa fa-paint-brush"></i>
+                    </button>
+                    <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu" style="display: none;">
+                        <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                    </ul>
+                </div>
+                <h1 class="menu-title">The Python Tutorial</h1>
+                <div class="right-buttons"></div>
+            </div>
+            <main id="content" class="content">
+            <p>There are two variants of the interactive <em>REPL</em>.  The classic
+            basic interpreter is supported on all platforms with minimal line
+            control capabilities.</p>
+            <p>On Windows, or Unix-like systems with <span class="docutils literal">curses</span> support,
+            a new interactive shell is used by default since Python 3.13.
+            This one supports color, multiline editing, history browsing, and
+            paste mode.  To disable color, see <span class="xref">using-on-controlling-color</span> for
+            details.  Function keys provide some additional functionality.
+            <span class="docutils literal">F1</span> enters the interactive help browser <span class="docutils literal">pydoc</span>.
+            <span class="docutils literal">F2</span> allows for browsing command-line history with neither output nor the
+            <em>&gt;&gt;&gt;</em> and <em>...</em> prompts. <span class="docutils literal">F3</span> enters &quot;paste mode&quot;, which
+            makes pasting larger blocks of code easier. Press <span class="docutils literal">F3</span> to return to
+            the regular prompt.</p>
+            <p>When using the new interactive shell, exit the shell by typing <span class="docutils literal">exit</span>
+            or <span class="docutils literal">quit</span>. Adding call parentheses after those commands is not
+            required.</p>
+            <p>If the new interactive shell is not desired, it can be disabled via
+            the <span class="docutils literal">PYTHON_BASIC_REPL</span> environment variable.</p>
+            <section id="error-handling">
+            <span id="tut-error"></span><h2>Error Handling</h2>
+            <p>When an error occurs, the interpreter prints an error message and a stack trace.
+            In interactive mode, it then returns to the primary prompt; when input came from
+            a file, it exits with a nonzero exit status after printing the stack trace.
+            (Exceptions handled by an <span class="docutils literal">except</span> clause in a <span class="docutils literal">try</span> statement
+            are not errors in this context.)  Some errors are unconditionally fatal and
+            cause an exit with a nonzero exit status; this applies to internal inconsistencies and
+            some cases of running out of memory.  All error messages are written to the
+            standard error stream; normal output from executed commands is written to
+            standard output.</p>
+            <p>Typing the interrupt character (usually <span class="docutils literal"><span class="pre">Control-C</span></span> or <span class="docutils literal">Delete</span>) to the primary or
+            secondary prompt cancels the input and returns to the primary prompt. <a class="footnote-reference brackets" href="#footnote-1" id="footnote-reference-1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>
+            Typing an interrupt while a command is executing raises the
+            <span class="docutils literal">KeyboardInterrupt</span> exception, which may be handled by a <span class="docutils literal">try</span>
+            statement.</p>
+            </section>
+            <section id="executable-python-scripts">
+            <span id="tut-scripts"></span><h2>Executable Python Scripts</h2>
+            <p>On BSD'ish Unix systems, Python scripts can be made directly executable, like
+            shell scripts, by putting the line</p>
+            <pre class="literal-block">#!/usr/bin/env python3</pre>
+            <p>(assuming that the interpreter is on the user's <span class="docutils literal">PATH</span>) at the beginning
+            of the script and giving the file an executable mode.  The <span class="docutils literal">#!</span> must be the
+            first two characters of the file.  On some platforms, this first line must end
+            with a Unix-style line ending (<span class="docutils literal">'\n'</span>), not a Windows (<span class="docutils literal">'\r\n'</span>) line
+            ending.  Note that the hash, or pound, character, <span class="docutils literal">'#'</span>, is used to start a
+            comment in Python.</p>
+            <p>The script can be given an executable mode, or permission, using the
+            <span class="docutils literal">chmod</span> command.</p>
+            <pre class="code shell-session literal-block"><code><span class="generic prompt">$ </span>chmod<span class="whitespace"> </span>+x<span class="whitespace"> </span>myscript.py</code></pre>
+            <p>On Windows systems, there is no notion of an &quot;executable mode&quot;.  The Python
+            installer automatically associates <span class="docutils literal">.py</span> files with <span class="docutils literal">python.exe</span> so that
+            a double-click on a Python file will run it as a script.  The extension can
+            also be <span class="docutils literal">.pyw</span>, in that case, the console window that normally appears is
+            suppressed.</p>
+            </section>
+            <section id="the-interactive-startup-file">
+            <span id="tut-startup"></span><h2>The Interactive Startup File</h2>
+            <p>When you use Python interactively, it is frequently handy to have some standard
+            commands executed every time the interpreter is started.  You can do this by
+            setting an environment variable named <span class="docutils literal">PYTHONSTARTUP</span> to the name of a
+            file containing your start-up commands.  This is similar to the <span class="docutils literal">.profile</span>
+            feature of the Unix shells.</p>
+            <p>This file is only read in interactive sessions, not when Python reads commands
+            from a script, and not when <span class="docutils literal">/dev/tty</span> is given as the explicit source of
+            commands (which otherwise behaves like an interactive session).  It is executed
+            in the same namespace where interactive commands are executed, so that objects
+            that it defines or imports can be used without qualification in the interactive
+            session. You can also change the prompts <span class="docutils literal">sys.ps1</span> and <span class="docutils literal">sys.ps2</span> in this
+            file.</p>
+            <p>If you want to read an additional start-up file from the current directory, you
+            can program this in the global start-up file using code like <span class="docutils literal">if <span class="pre">os.path.isfile('.pythonrc.py'):</span> <span class="pre">exec(open('.pythonrc.py').read())</span></span>.
+            If you want to use the startup file in a script, you must do this explicitly
+            in the script:</p>
+            <pre class="literal-block">import os
+            filename = os.environ.get('PYTHONSTARTUP')
+            if filename and os.path.isfile(filename):
+                with open(filename) as fobj:
+                    startup_file = fobj.read()
+                exec(startup_file)</pre>
+            </section>
+            <section id="the-customization-modules">
+            <span id="tut-customize"></span><h2>The Customization Modules</h2>
+            <p>Python provides two hooks to let you customize it:  and
+            .  To see how it works, you need first to find the location
+            of your user site-packages directory.  Start Python and run this code:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import site
+            &gt;&gt;&gt; site.getusersitepackages()
+            '/home/user/.local/lib/python3.x/site-packages'</pre>
+            <p>Now you can create a file named <span class="docutils literal">usercustomize.py</span> in that directory and
+            put anything you want in it.  It will affect every invocation of Python, unless
+            it is started with the <span class="docutils literal"><span class="pre">-s</span></span> option to disable the automatic import.</p>
+            <p> works in the same way, but is typically created by an
+            administrator of the computer in the global site-packages directory, and is
+            imported before .  See the documentation of the <span class="docutils literal">site</span>
+            module for more details.</p>
+            <p class="rubric">Footnotes</p>
+            <aside class="footnote-list brackets">
+            <aside class="footnote brackets" id="footnote-1" role="doc-footnote">
+            <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-1">1</a><span class="fn-bracket">]</span></span>
+            <p>A problem with the GNU Readline package may prevent this.</p>
+            </aside>
+            </aside>
+            </section>
+            </main>
+            <nav class="nav-wrapper" aria-label="Page navigation">
+                <a rel="prev" href="floatingpoint.html" class="mobile-nav-chapters previous" title="Floating-Point Arithmetic:  Issues and Limitations" aria-label="Floating-Point Arithmetic:  Issues and Limitations"><i class="fa fa-angle-left"></i></a>
+                
+                <div style="clear: both"></div>
+            </nav>
+        </div>
+        <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            <a rel="prev" href="floatingpoint.html" class="nav-chapters prev" title="Floating-Point Arithmetic:  Issues and Limitations" aria-label="Floating-Point Arithmetic:  Issues and Limitations"><i class="fa fa-angle-left"></i></a>
+            
+        </nav>
+    </div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>

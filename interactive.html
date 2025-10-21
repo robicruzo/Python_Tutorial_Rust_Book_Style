@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>Interactive Input Editing and History Substitution - The Python Tutorial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <script>
+        const theme_storage_key = "mdbook-theme";
+        const default_light_theme = "light";
+        const default_dark_theme = "navy";
+        window.theme_storage_key = theme_storage_key;
+        window.default_light_theme = default_light_theme;
+        window.default_dark_theme = default_dark_theme;
+        (function () {
+            const html = document.documentElement;
+            let storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem(theme_storage_key);
+            } catch (err) {
+                storedTheme = null;
+            }
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const resolved = (!storedTheme || storedTheme === 'default_theme')
+                ? (prefersDark ? default_dark_theme : default_light_theme)
+                : storedTheme;
+            html.classList.remove('light');
+            html.classList.add(resolved);
+            window.default_theme = resolved;
+        })();
+    </script>
+    <link rel="icon" href="favicon-de23e50b.svg">
+    <link rel="shortcut icon" href="favicon-8114d1fc.png">
+    <link rel="stylesheet" href="css/variables-3865ffda.css">
+    <link rel="stylesheet" href="css/general-4c35105a.css">
+    <link rel="stylesheet" href="css/chrome-c0e702bf.css">
+    <link rel="stylesheet" href="css/print-ad67d350.css" media="print">
+    <link rel="stylesheet" href="FontAwesome/css/font-awesome-799aeb25.css">
+    <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+    <link rel="stylesheet" id="highlight-css" href="highlight-493f70e1.css">
+    <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+    <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight-56612340.css">
+    <link rel="stylesheet" href="ferris-d33b75bf.css">
+    <link rel="stylesheet" href="theme/2018-edition-4e126c62.css">
+    <link rel="stylesheet" href="theme/semantic-notes-9b5766c0.css">
+    <link rel="stylesheet" href="theme/listing-cab26221.css">
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div id="body-container">
+    <input type="checkbox" id="sidebar-toggle-anchor" class="hidden" checked>
+    <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <div class="sidebar-scrollbox">
+            <ol class="chapter"><li class="chapter-item expanded"><a href="index.html">The Python Tutorial</a></li><li class="chapter-item expanded"><a href="appetite.html"><strong aria-hidden="true">1.</strong> Whetting Your Appetite</a></li><li class="chapter-item expanded"><a href="interpreter.html"><strong aria-hidden="true">2.</strong> Using the Python Interpreter</a></li><li class="chapter-item expanded"><a href="introduction.html"><strong aria-hidden="true">3.</strong> An Informal Introduction to Python</a></li><li class="chapter-item expanded"><a href="controlflow.html"><strong aria-hidden="true">4.</strong> More Control Flow Tools</a></li><li class="chapter-item expanded"><a href="datastructures.html"><strong aria-hidden="true">5.</strong> Data Structures</a></li><li class="chapter-item expanded"><a href="modules.html"><strong aria-hidden="true">6.</strong> Modules</a></li><li class="chapter-item expanded"><a href="inputoutput.html"><strong aria-hidden="true">7.</strong> Input and Output</a></li><li class="chapter-item expanded"><a href="errors.html"><strong aria-hidden="true">8.</strong> Errors and Exceptions</a></li><li class="chapter-item expanded"><a href="classes.html"><strong aria-hidden="true">9.</strong> Classes</a></li><li class="chapter-item expanded"><a href="stdlib.html"><strong aria-hidden="true">10.</strong> Brief Tour of the Standard Library</a></li><li class="chapter-item expanded"><a href="stdlib2.html"><strong aria-hidden="true">11.</strong> Brief Tour of the Standard Library --- Part II</a></li><li class="chapter-item expanded"><a href="venv.html"><strong aria-hidden="true">12.</strong> Virtual Environments and Packages</a></li><li class="chapter-item expanded"><a href="whatnow.html"><strong aria-hidden="true">13.</strong> What Now?</a></li><li class="chapter-item expanded active"><a href="interactive.html" data-current="true"><strong aria-hidden="true">14.</strong> Interactive Input Editing and History Substitution</a></li><li class="chapter-item expanded"><a href="floatingpoint.html"><strong aria-hidden="true">15.</strong> Floating-Point Arithmetic:  Issues and Limitations</a></li><li class="chapter-item expanded"><a href="appendix.html"><strong aria-hidden="true">16.</strong> Appendix</a></li></ol>
+        </div>
+        <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div class="sidebar-resize-indicator"></div>
+        </div>
+    </nav>
+    <div id="page-wrapper" class="page-wrapper">
+        <div class="page">
+            <div id="menu-bar-hover-placeholder"></div>
+            <div id="menu-bar" class="menu-bar sticky">
+                <div class="left-buttons">
+                    <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <i class="fa fa-bars"></i>
+                    </label>
+                    <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                        <i class="fa fa-paint-brush"></i>
+                    </button>
+                    <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu" style="display: none;">
+                        <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                    </ul>
+                </div>
+                <h1 class="menu-title">The Python Tutorial</h1>
+                <div class="right-buttons"></div>
+            </div>
+            <main id="content" class="content">
+            <p>Some versions of the Python interpreter support editing of the current input
+            line and history substitution, similar to facilities found in the Korn shell and
+            the GNU Bash shell.  This is implemented using the <a class="reference external" href="https://tiswww.case.edu/php/chet/readline/rltop.html">GNU Readline</a> library,
+            which supports various styles of editing.  This library has its own
+            documentation which we won't duplicate here.</p>
+            <section id="tab-completion-and-history-editing">
+            <span id="tut-keybindings"></span><h2>Tab Completion and History Editing</h2>
+            <p>Completion of variable and module names is
+            <span class="xref">automatically enabled</span> at interpreter startup so
+            that the <span class="docutils literal">Tab</span> key invokes the completion function; it looks at
+            Python statement names, the current local variables, and the available
+            module names.  For dotted expressions such as <span class="docutils literal">string.a</span>, it will evaluate
+            the expression up to the final <span class="docutils literal">'.'</span> and then suggest completions from
+            the attributes of the resulting object.  Note that this may execute
+            application-defined code if an object with a <span class="docutils literal">object.__getattr__</span> method
+            is part of the expression.  The default configuration also saves your
+            history into a file named <span class="docutils literal">.python_history</span> in your user directory.
+            The history will be available again during the next interactive interpreter
+            session.</p>
+            </section>
+            <section id="alternatives-to-the-interactive-interpreter">
+            <span id="tut-commentary"></span><h2>Alternatives to the Interactive Interpreter</h2>
+            <p>This facility is an enormous step forward compared to earlier versions of the
+            interpreter; however, some wishes are left: It would be nice if the proper
+            indentation were suggested on continuation lines (the parser knows if an
+            <span class="docutils literal">token.INDENT</span> token is required next).  The completion mechanism might
+            use the interpreter's symbol table.  A command to check (or even suggest)
+            matching parentheses, quotes, etc., would also be useful.</p>
+            <p>One alternative enhanced interactive interpreter that has been around for quite
+            some time is <a class="reference external" href="https://ipython.org/">IPython</a>, which features tab completion, object exploration and
+            advanced history management.  It can also be thoroughly customized and embedded
+            into other applications.  Another similar enhanced interactive environment is
+            <a class="reference external" href="https://bpython-interpreter.org/">bpython</a>.</p>
+            </section>
+            </main>
+            <nav class="nav-wrapper" aria-label="Page navigation">
+                <a rel="prev" href="whatnow.html" class="mobile-nav-chapters previous" title="What Now?" aria-label="What Now?"><i class="fa fa-angle-left"></i></a>
+                <a rel="next" href="floatingpoint.html" class="mobile-nav-chapters next" title="Floating-Point Arithmetic:  Issues and Limitations" aria-label="Floating-Point Arithmetic:  Issues and Limitations"><i class="fa fa-angle-right"></i></a>
+                <div style="clear: both"></div>
+            </nav>
+        </div>
+        <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            <a rel="prev" href="whatnow.html" class="nav-chapters prev" title="What Now?" aria-label="What Now?"><i class="fa fa-angle-left"></i></a>
+            <a rel="next" href="floatingpoint.html" class="nav-chapters next" title="Floating-Point Arithmetic:  Issues and Limitations" aria-label="Floating-Point Arithmetic:  Issues and Limitations"><i class="fa fa-angle-right"></i></a>
+        </nav>
+    </div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>

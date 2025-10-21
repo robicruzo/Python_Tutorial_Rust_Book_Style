@@ -1,0 +1,680 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>Errors and Exceptions - The Python Tutorial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <script>
+        const theme_storage_key = "mdbook-theme";
+        const default_light_theme = "light";
+        const default_dark_theme = "navy";
+        window.theme_storage_key = theme_storage_key;
+        window.default_light_theme = default_light_theme;
+        window.default_dark_theme = default_dark_theme;
+        (function () {
+            const html = document.documentElement;
+            let storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem(theme_storage_key);
+            } catch (err) {
+                storedTheme = null;
+            }
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const resolved = (!storedTheme || storedTheme === 'default_theme')
+                ? (prefersDark ? default_dark_theme : default_light_theme)
+                : storedTheme;
+            html.classList.remove('light');
+            html.classList.add(resolved);
+            window.default_theme = resolved;
+        })();
+    </script>
+    <link rel="icon" href="favicon-de23e50b.svg">
+    <link rel="shortcut icon" href="favicon-8114d1fc.png">
+    <link rel="stylesheet" href="css/variables-3865ffda.css">
+    <link rel="stylesheet" href="css/general-4c35105a.css">
+    <link rel="stylesheet" href="css/chrome-c0e702bf.css">
+    <link rel="stylesheet" href="css/print-ad67d350.css" media="print">
+    <link rel="stylesheet" href="FontAwesome/css/font-awesome-799aeb25.css">
+    <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+    <link rel="stylesheet" id="highlight-css" href="highlight-493f70e1.css">
+    <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+    <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight-56612340.css">
+    <link rel="stylesheet" href="ferris-d33b75bf.css">
+    <link rel="stylesheet" href="theme/2018-edition-4e126c62.css">
+    <link rel="stylesheet" href="theme/semantic-notes-9b5766c0.css">
+    <link rel="stylesheet" href="theme/listing-cab26221.css">
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div id="body-container">
+    <input type="checkbox" id="sidebar-toggle-anchor" class="hidden" checked>
+    <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <div class="sidebar-scrollbox">
+            <ol class="chapter"><li class="chapter-item expanded"><a href="index.html">The Python Tutorial</a></li><li class="chapter-item expanded"><a href="appetite.html"><strong aria-hidden="true">1.</strong> Whetting Your Appetite</a></li><li class="chapter-item expanded"><a href="interpreter.html"><strong aria-hidden="true">2.</strong> Using the Python Interpreter</a></li><li class="chapter-item expanded"><a href="introduction.html"><strong aria-hidden="true">3.</strong> An Informal Introduction to Python</a></li><li class="chapter-item expanded"><a href="controlflow.html"><strong aria-hidden="true">4.</strong> More Control Flow Tools</a></li><li class="chapter-item expanded"><a href="datastructures.html"><strong aria-hidden="true">5.</strong> Data Structures</a></li><li class="chapter-item expanded"><a href="modules.html"><strong aria-hidden="true">6.</strong> Modules</a></li><li class="chapter-item expanded"><a href="inputoutput.html"><strong aria-hidden="true">7.</strong> Input and Output</a></li><li class="chapter-item expanded active"><a href="errors.html" data-current="true"><strong aria-hidden="true">8.</strong> Errors and Exceptions</a></li><li class="chapter-item expanded"><a href="classes.html"><strong aria-hidden="true">9.</strong> Classes</a></li><li class="chapter-item expanded"><a href="stdlib.html"><strong aria-hidden="true">10.</strong> Brief Tour of the Standard Library</a></li><li class="chapter-item expanded"><a href="stdlib2.html"><strong aria-hidden="true">11.</strong> Brief Tour of the Standard Library --- Part II</a></li><li class="chapter-item expanded"><a href="venv.html"><strong aria-hidden="true">12.</strong> Virtual Environments and Packages</a></li><li class="chapter-item expanded"><a href="whatnow.html"><strong aria-hidden="true">13.</strong> What Now?</a></li><li class="chapter-item expanded"><a href="interactive.html"><strong aria-hidden="true">14.</strong> Interactive Input Editing and History Substitution</a></li><li class="chapter-item expanded"><a href="floatingpoint.html"><strong aria-hidden="true">15.</strong> Floating-Point Arithmetic:  Issues and Limitations</a></li><li class="chapter-item expanded"><a href="appendix.html"><strong aria-hidden="true">16.</strong> Appendix</a></li></ol>
+        </div>
+        <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div class="sidebar-resize-indicator"></div>
+        </div>
+    </nav>
+    <div id="page-wrapper" class="page-wrapper">
+        <div class="page">
+            <div id="menu-bar-hover-placeholder"></div>
+            <div id="menu-bar" class="menu-bar sticky">
+                <div class="left-buttons">
+                    <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <i class="fa fa-bars"></i>
+                    </label>
+                    <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                        <i class="fa fa-paint-brush"></i>
+                    </button>
+                    <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu" style="display: none;">
+                        <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                    </ul>
+                </div>
+                <h1 class="menu-title">The Python Tutorial</h1>
+                <div class="right-buttons"></div>
+            </div>
+            <main id="content" class="content">
+            <p>Until now error messages haven't been more than mentioned, but if you have tried
+            out the examples you have probably seen some.  There are (at least) two
+            distinguishable kinds of errors: <em>syntax errors</em> and <em>exceptions</em>.</p>
+            <section id="syntax-errors">
+            <span id="tut-syntaxerrors"></span><h2>Syntax Errors</h2>
+            <p>Syntax errors, also known as parsing errors, are perhaps the most common kind of
+            complaint you get while you are still learning Python:</p>
+            <pre class="literal-block">&gt;&gt;&gt; while True print('Hello world')
+              File &quot;&lt;stdin&gt;&quot;, line 1
+                while True print('Hello world')
+                           ^^^^^
+            SyntaxError: invalid syntax</pre>
+            <p>The parser repeats the offending line and displays little arrows pointing
+            at the place where the error was detected.  Note that this is not always the
+            place that needs to be fixed.  In the example, the error is detected at the
+            function <span class="docutils literal">print</span>, since a colon (<span class="docutils literal">':'</span>) is missing just before it.</p>
+            <p>The file name (<span class="docutils literal">&lt;stdin&gt;</span> in our example) and line number are printed so you
+            know where to look in case the input came from a file.</p>
+            </section>
+            <section id="exceptions">
+            <span id="tut-exceptions"></span><h2>Exceptions</h2>
+            <p>Even if a statement or expression is syntactically correct, it may cause an
+            error when an attempt is made to execute it. Errors detected during execution
+            are called <em>exceptions</em> and are not unconditionally fatal: you will soon learn
+            how to handle them in Python programs.  Most exceptions are not handled by
+            programs, however, and result in error messages as shown here:</p>
+            <pre class="literal-block">&gt;&gt;&gt; 10 * (1/0)
+            Traceback (most recent call last):
+              File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+                10 * (1/0)
+                      ~^~
+            ZeroDivisionError: division by zero
+            &gt;&gt;&gt; 4 + spam*3
+            Traceback (most recent call last):
+              File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+                4 + spam*3
+                    ^^^^
+            NameError: name 'spam' is not defined
+            &gt;&gt;&gt; '2' + 2
+            Traceback (most recent call last):
+              File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+                '2' + 2
+                ~~~~^~~
+            TypeError: can only concatenate str (not &quot;int&quot;) to str</pre>
+            <p>The last line of the error message indicates what happened. Exceptions come in
+            different types, and the type is printed as part of the message: the types in
+            the example are <span class="docutils literal">ZeroDivisionError</span>, <span class="docutils literal">NameError</span> and <span class="docutils literal">TypeError</span>.
+            The string printed as the exception type is the name of the built-in exception
+            that occurred.  This is true for all built-in exceptions, but need not be true
+            for user-defined exceptions (although it is a useful convention). Standard
+            exception names are built-in identifiers (not reserved keywords).</p>
+            <p>The rest of the line provides detail based on the type of exception and what
+            caused it.</p>
+            <p>The preceding part of the error message shows the context where the exception
+            occurred, in the form of a stack traceback. In general it contains a stack
+            traceback listing source lines; however, it will not display lines read from
+            standard input.</p>
+            <p><span class="xref">bltin-exceptions</span> lists the built-in exceptions and their meanings.</p>
+            </section>
+            <section id="handling-exceptions">
+            <span id="tut-handling"></span><h2>Handling Exceptions</h2>
+            <p>It is possible to write programs that handle selected exceptions. Look at the
+            following example, which asks the user for input until a valid integer has been
+            entered, but allows the user to interrupt the program (using <span class="docutils literal"><span class="pre">Control-C</span></span> or
+            whatever the operating system supports); note that a user-generated interruption
+            is signalled by raising the <span class="docutils literal">KeyboardInterrupt</span> exception.</p>
+            <pre class="literal-block">&gt;&gt;&gt; while True:
+            ...     try:
+            ...         x = int(input(&quot;Please enter a number: &quot;))
+            ...         break
+            ...     except ValueError:
+            ...         print(&quot;Oops!  That was no valid number.  Try again...&quot;)
+            ...</pre>
+            <p>The <span class="docutils literal">try</span> statement works as follows.</p>
+            <ul class="simple">
+            <li><p>First, the <em>try clause</em> (the statement(s) between the <span class="docutils literal">try</span> and
+            <span class="docutils literal">except</span> keywords) is executed.</p></li>
+            <li><p>If no exception occurs, the <em>except clause</em> is skipped and execution of the
+            <span class="docutils literal">try</span> statement is finished.</p></li>
+            <li><p>If an exception occurs during execution of the <span class="docutils literal">try</span> clause, the rest of the
+            clause is skipped.  Then, if its type matches the exception named after the
+            <span class="docutils literal">except</span> keyword, the <em>except clause</em> is executed, and then execution
+            continues after the try/except block.</p></li>
+            <li><p>If an exception occurs which does not match the exception named in the <em>except
+            clause</em>, it is passed on to outer <span class="docutils literal">try</span> statements; if no handler is
+            found, it is an <em>unhandled exception</em> and execution stops with an error message.</p></li>
+            </ul>
+            <p>A <span class="docutils literal">try</span> statement may have more than one <em>except clause</em>, to specify
+            handlers for different exceptions.  At most one handler will be executed.
+            Handlers only handle exceptions that occur in the corresponding <em>try clause</em>,
+            not in other handlers of the same <span class="docutils literal">try</span> statement.  An <em>except clause</em>
+            may name multiple exceptions as a parenthesized tuple, for example:</p>
+            <pre class="literal-block">... except (RuntimeError, TypeError, NameError):
+            ...     pass</pre>
+            <p>A class in an <span class="docutils literal">except</span> clause matches exceptions which are instances of the
+            class itself or one of its derived classes (but not the other way around --- an
+            <em>except clause</em> listing a derived class does not match instances of its base classes).
+            For example, the following code will print B, C, D in that order:</p>
+            <pre class="literal-block">class B(Exception):
+                pass
+
+            class C(B):
+                pass
+
+            class D(C):
+                pass
+
+            for cls in [B, C, D]:
+                try:
+                    raise cls()
+                except D:
+                    print(&quot;D&quot;)
+                except C:
+                    print(&quot;C&quot;)
+                except B:
+                    print(&quot;B&quot;)</pre>
+            <p>Note that if the <em>except clauses</em> were reversed (with <span class="docutils literal">except B</span> first), it
+            would have printed B, B, B --- the first matching <em>except clause</em> is triggered.</p>
+            <p>When an exception occurs, it may have associated values, also known as the
+            exception's <em>arguments</em>. The presence and types of the arguments depend on the
+            exception type.</p>
+            <p>The <em>except clause</em> may specify a variable after the exception name.  The
+            variable is bound to the exception instance which typically has an <span class="docutils literal">args</span>
+            attribute that stores the arguments. For convenience, builtin exception
+            types define <span class="docutils literal">object.__str__</span> to print all the arguments without explicitly
+            accessing <span class="docutils literal">.args</span>.</p>
+            <pre class="literal-block">&gt;&gt;&gt; try:
+            ...     raise Exception('spam', 'eggs')
+            ... except Exception as inst:
+            ...     print(type(inst))    # the exception type
+            ...     print(inst.args)     # arguments stored in .args
+            ...     print(inst)          # __str__ allows args to be printed directly,
+            ...                          # but may be overridden in exception subclasses
+            ...     x, y = inst.args     # unpack args
+            ...     print('x =', x)
+            ...     print('y =', y)
+            ...
+            &lt;class 'Exception'&gt;
+            ('spam', 'eggs')
+            ('spam', 'eggs')
+            x = spam
+            y = eggs</pre>
+            <p>The exception's <span class="docutils literal">object.__str__</span> output is printed as the last part ('detail')
+            of the message for unhandled exceptions.</p>
+            <p><span class="docutils literal">BaseException</span> is the common base class of all exceptions. One of its
+            subclasses, <span class="docutils literal">Exception</span>, is the base class of all the non-fatal exceptions.
+            Exceptions which are not subclasses of <span class="docutils literal">Exception</span> are not typically
+            handled, because they are used to indicate that the program should terminate.
+            They include <span class="docutils literal">SystemExit</span> which is raised by <span class="docutils literal">sys.exit</span> and
+            <span class="docutils literal">KeyboardInterrupt</span> which is raised when a user wishes to interrupt
+            the program.</p>
+            <p><span class="docutils literal">Exception</span> can be used as a wildcard that catches (almost) everything.
+            However, it is good practice to be as specific as possible with the types
+            of exceptions that we intend to handle, and to allow any unexpected
+            exceptions to propagate on.</p>
+            <p>The most common pattern for handling <span class="docutils literal">Exception</span> is to print or log
+            the exception and then re-raise it (allowing a caller to handle the
+            exception as well):</p>
+            <pre class="literal-block">import sys
+
+            try:
+                f = open('myfile.txt')
+                s = f.readline()
+                i = int(s.strip())
+            except OSError as err:
+                print(&quot;OS error:&quot;, err)
+            except ValueError:
+                print(&quot;Could not convert data to an integer.&quot;)
+            except Exception as err:
+                print(f&quot;Unexpected {err=}, {type(err)=}&quot;)
+                raise</pre>
+            <p>The <span class="docutils literal">try</span> ... <span class="docutils literal">except</span> statement has an optional <em>else
+            clause</em>, which, when present, must follow all <em>except clauses</em>.  It is useful
+            for code that must be executed if the <em>try clause</em> does not raise an exception.
+            For example:</p>
+            <pre class="literal-block">for arg in sys.argv[1:]:
+                try:
+                    f = open(arg, 'r')
+                except OSError:
+                    print('cannot open', arg)
+                else:
+                    print(arg, 'has', len(f.readlines()), 'lines')
+                    f.close()</pre>
+            <p>The use of the <span class="docutils literal">else</span> clause is better than adding additional code to
+            the <span class="docutils literal">try</span> clause because it avoids accidentally catching an exception
+            that wasn't raised by the code being protected by the <span class="docutils literal">try</span> ...
+            <span class="docutils literal">except</span> statement.</p>
+            <p>Exception handlers do not handle only exceptions that occur immediately in the
+            <em>try clause</em>, but also those that occur inside functions that are called (even
+            indirectly) in the <em>try clause</em>. For example:</p>
+            <pre class="literal-block">&gt;&gt;&gt; def this_fails():
+            ...     x = 1/0
+            ...
+            &gt;&gt;&gt; try:
+            ...     this_fails()
+            ... except ZeroDivisionError as err:
+            ...     print('Handling run-time error:', err)
+            ...
+            Handling run-time error: division by zero</pre>
+            </section>
+            <section id="raising-exceptions">
+            <span id="tut-raising"></span><h2>Raising Exceptions</h2>
+            <p>The <span class="docutils literal">raise</span> statement allows the programmer to force a specified
+            exception to occur. For example:</p>
+            <pre class="literal-block">&gt;&gt;&gt; raise NameError('HiThere')
+            Traceback (most recent call last):
+              File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+                raise NameError('HiThere')
+            NameError: HiThere</pre>
+            <p>The sole argument to <span class="docutils literal">raise</span> indicates the exception to be raised.
+            This must be either an exception instance or an exception class (a class that
+            derives from <span class="docutils literal">BaseException</span>, such as <span class="docutils literal">Exception</span> or one of its
+            subclasses).  If an exception class is passed, it will be implicitly
+            instantiated by calling its constructor with no arguments:</p>
+            <pre class="literal-block">raise ValueError  # shorthand for 'raise ValueError()'</pre>
+            <p>If you need to determine whether an exception was raised but don't intend to
+            handle it, a simpler form of the <span class="docutils literal">raise</span> statement allows you to
+            re-raise the exception:</p>
+            <pre class="literal-block">&gt;&gt;&gt; try:
+            ...     raise NameError('HiThere')
+            ... except NameError:
+            ...     print('An exception flew by!')
+            ...     raise
+            ...
+            An exception flew by!
+            Traceback (most recent call last):
+              File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;
+                raise NameError('HiThere')
+            NameError: HiThere</pre>
+            </section>
+            <section id="exception-chaining">
+            <span id="tut-exception-chaining"></span><h2>Exception Chaining</h2>
+            <p>If an unhandled exception occurs inside an <span class="docutils literal">except</span> section, it will
+            have the exception being handled attached to it and included in the error
+            message:</p>
+            <pre class="literal-block">&gt;&gt;&gt; try:
+            ...     open(&quot;database.sqlite&quot;)
+            ... except OSError:
+            ...     raise RuntimeError(&quot;unable to handle error&quot;)
+            ...
+            Traceback (most recent call last):
+              File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;
+                open(&quot;database.sqlite&quot;)
+                ~~~~^^^^^^^^^^^^^^^^^^^
+            FileNotFoundError: [Errno 2] No such file or directory: 'database.sqlite'
+            &lt;BLANKLINE&gt;
+            During handling of the above exception, another exception occurred:
+            &lt;BLANKLINE&gt;
+            Traceback (most recent call last):
+              File &quot;&lt;stdin&gt;&quot;, line 4, in &lt;module&gt;
+                raise RuntimeError(&quot;unable to handle error&quot;)
+            RuntimeError: unable to handle error</pre>
+            <p>To indicate that an exception is a direct consequence of another, the
+            <span class="docutils literal">raise</span> statement allows an optional <span class="docutils literal">from</span> clause:</p>
+            <pre class="literal-block"># exc must be exception instance or None.
+            raise RuntimeError from exc</pre>
+            <p>This can be useful when you are transforming exceptions. For example:</p>
+            <pre class="literal-block">&gt;&gt;&gt; def func():
+            ...     raise ConnectionError
+            ...
+            &gt;&gt;&gt; try:
+            ...     func()
+            ... except ConnectionError as exc:
+            ...     raise RuntimeError('Failed to open database') from exc
+            ...
+            Traceback (most recent call last):
+              File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;
+                func()
+                ~~~~^^
+              File &quot;&lt;stdin&gt;&quot;, line 2, in func
+            ConnectionError
+            &lt;BLANKLINE&gt;
+            The above exception was the direct cause of the following exception:
+            &lt;BLANKLINE&gt;
+            Traceback (most recent call last):
+              File &quot;&lt;stdin&gt;&quot;, line 4, in &lt;module&gt;
+                raise RuntimeError('Failed to open database') from exc
+            RuntimeError: Failed to open database</pre>
+            <p>It also allows disabling automatic exception chaining using the <span class="docutils literal">from None</span>
+            idiom:</p>
+            <pre class="literal-block">&gt;&gt;&gt; try:
+            ...     open('database.sqlite')
+            ... except OSError:
+            ...     raise RuntimeError from None
+            ...
+            Traceback (most recent call last):
+              File &quot;&lt;stdin&gt;&quot;, line 4, in &lt;module&gt;
+                raise RuntimeError from None
+            RuntimeError</pre>
+            <p>For more information about chaining mechanics, see <span class="xref">bltin-exceptions</span>.</p>
+            </section>
+            <section id="user-defined-exceptions">
+            <span id="tut-userexceptions"></span><h2>User-defined Exceptions</h2>
+            <p>Programs may name their own exceptions by creating a new exception class (see
+            <a class="internal-ref reference external" href="classes.html#tut-classes">tut-classes</a> for more about Python classes).  Exceptions should typically
+            be derived from the <span class="docutils literal">Exception</span> class, either directly or indirectly.</p>
+            <p>Exception classes can be defined which do anything any other class can do, but
+            are usually kept simple, often only offering a number of attributes that allow
+            information about the error to be extracted by handlers for the exception.</p>
+            <p>Most exceptions are defined with names that end in &quot;Error&quot;, similar to the
+            naming of the standard exceptions.</p>
+            <p>Many standard modules define their own exceptions to report errors that may
+            occur in functions they define.</p>
+            </section>
+            <section id="defining-clean-up-actions">
+            <span id="tut-cleanup"></span><h2>Defining Clean-up Actions</h2>
+            <p>The <span class="docutils literal">try</span> statement has another optional clause which is intended to
+            define clean-up actions that must be executed under all circumstances.  For
+            example:</p>
+            <pre class="literal-block">&gt;&gt;&gt; try:
+            ...     raise KeyboardInterrupt
+            ... finally:
+            ...     print('Goodbye, world!')
+            ...
+            Goodbye, world!
+            Traceback (most recent call last):
+              File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;
+                raise KeyboardInterrupt
+            KeyboardInterrupt</pre>
+            <p>If a <span class="docutils literal">finally</span> clause is present, the <span class="docutils literal">finally</span>
+            clause will execute as the last task before the <span class="docutils literal">try</span>
+            statement completes. The <span class="docutils literal">finally</span> clause runs whether or
+            not the <span class="docutils literal">try</span> statement produces an exception. The following
+            points discuss more complex cases when an exception occurs:</p>
+            <ul class="simple">
+            <li><p>If an exception occurs during execution of the <span class="docutils literal">try</span>
+            clause, the exception may be handled by an <span class="docutils literal">except</span>
+            clause. If the exception is not handled by an <span class="docutils literal">except</span>
+            clause, the exception is re-raised after the <span class="docutils literal">finally</span>
+            clause has been executed.</p></li>
+            <li><p>An exception could occur during execution of an <span class="docutils literal">except</span>
+            or <span class="docutils literal">else</span> clause. Again, the exception is re-raised after
+            the <span class="docutils literal">finally</span> clause has been executed.</p></li>
+            <li><p>If the <span class="docutils literal">finally</span> clause executes a <span class="docutils literal">break</span>,
+            <span class="docutils literal">continue</span> or <span class="docutils literal">return</span> statement, exceptions are not
+            re-raised. This can be confusing and is therefore discouraged. From
+            version 3.14 the compiler emits a <span class="docutils literal">SyntaxWarning</span> for it
+            (see <span class="docutils literal">765</span>).</p></li>
+            <li><p>If the <span class="docutils literal">try</span> statement reaches a <span class="docutils literal">break</span>,
+            <span class="docutils literal">continue</span> or <span class="docutils literal">return</span> statement, the
+            <span class="docutils literal">finally</span> clause will execute just prior to the
+            <span class="docutils literal">break</span>, <span class="docutils literal">continue</span> or <span class="docutils literal">return</span>
+            statement's execution.</p></li>
+            <li><p>If a <span class="docutils literal">finally</span> clause includes a <span class="docutils literal">return</span>
+            statement, the returned value will be the one from the
+            <span class="docutils literal">finally</span> clause's <span class="docutils literal">return</span> statement, not the
+            value from the <span class="docutils literal">try</span> clause's <span class="docutils literal">return</span>
+            statement. This can be confusing and is therefore discouraged. From
+            version 3.14 the compiler emits a <span class="docutils literal">SyntaxWarning</span> for it
+            (see <span class="docutils literal">765</span>).</p></li>
+            </ul>
+            <p>For example:</p>
+            <pre class="literal-block">&gt;&gt;&gt; def bool_return():
+            ...     try:
+            ...         return True
+            ...     finally:
+            ...         return False
+            ...
+            &gt;&gt;&gt; bool_return()
+            False</pre>
+            <p>A more complicated example:</p>
+            <pre class="literal-block">&gt;&gt;&gt; def divide(x, y):
+            ...     try:
+            ...         result = x / y
+            ...     except ZeroDivisionError:
+            ...         print(&quot;division by zero!&quot;)
+            ...     else:
+            ...         print(&quot;result is&quot;, result)
+            ...     finally:
+            ...         print(&quot;executing finally clause&quot;)
+            ...
+            &gt;&gt;&gt; divide(2, 1)
+            result is 2.0
+            executing finally clause
+            &gt;&gt;&gt; divide(2, 0)
+            division by zero!
+            executing finally clause
+            &gt;&gt;&gt; divide(&quot;2&quot;, &quot;1&quot;)
+            executing finally clause
+            Traceback (most recent call last):
+              File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+                divide(&quot;2&quot;, &quot;1&quot;)
+                ~~~~~~^^^^^^^^^^
+              File &quot;&lt;stdin&gt;&quot;, line 3, in divide
+                result = x / y
+                         ~~^~~
+            TypeError: unsupported operand type(s) for /: 'str' and 'str'</pre>
+            <p>As you can see, the <span class="docutils literal">finally</span> clause is executed in any event.  The
+            <span class="docutils literal">TypeError</span> raised by dividing two strings is not handled by the
+            <span class="docutils literal">except</span> clause and therefore re-raised after the <span class="docutils literal">finally</span>
+            clause has been executed.</p>
+            <p>In real world applications, the <span class="docutils literal">finally</span> clause is useful for
+            releasing external resources (such as files or network connections), regardless
+            of whether the use of the resource was successful.</p>
+            </section>
+            <section id="predefined-clean-up-actions">
+            <span id="tut-cleanup-with"></span><h2>Predefined Clean-up Actions</h2>
+            <p>Some objects define standard clean-up actions to be undertaken when the object
+            is no longer needed, regardless of whether or not the operation using the object
+            succeeded or failed. Look at the following example, which tries to open a file
+            and print its contents to the screen.</p>
+            <pre class="literal-block">for line in open(&quot;myfile.txt&quot;):
+                print(line, end=&quot;&quot;)</pre>
+            <p>The problem with this code is that it leaves the file open for an indeterminate
+            amount of time after this part of the code has finished executing.
+            This is not an issue in simple scripts, but can be a problem for larger
+            applications. The <span class="docutils literal">with</span> statement allows objects like files to be
+            used in a way that ensures they are always cleaned up promptly and correctly.</p>
+            <pre class="literal-block">with open(&quot;myfile.txt&quot;) as f:
+                for line in f:
+                    print(line, end=&quot;&quot;)</pre>
+            <p>After the statement is executed, the file <em>f</em> is always closed, even if a
+            problem was encountered while processing the lines. Objects which, like files,
+            provide predefined clean-up actions will indicate this in their documentation.</p>
+            </section>
+            <section id="raising-and-handling-multiple-unrelated-exceptions">
+            <span id="tut-exception-groups"></span><h2>Raising and Handling Multiple Unrelated Exceptions</h2>
+            <p>There are situations where it is necessary to report several exceptions that
+            have occurred. This is often the case in concurrency frameworks, when several
+            tasks may have failed in parallel, but there are also other use cases where
+            it is desirable to continue execution and collect multiple errors rather than
+            raise the first exception.</p>
+            <p>The builtin <span class="docutils literal">ExceptionGroup</span> wraps a list of exception instances so
+            that they can be raised together. It is an exception itself, so it can be
+            caught like any other exception.</p>
+            <pre class="literal-block">&gt;&gt;&gt; def f():
+            ...     excs = [OSError('error 1'), SystemError('error 2')]
+            ...     raise ExceptionGroup('there were problems', excs)
+            ...
+            &gt;&gt;&gt; f()
+              + Exception Group Traceback (most recent call last):
+              |   File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+              |     f()
+              |     ~^^
+              |   File &quot;&lt;stdin&gt;&quot;, line 3, in f
+              |     raise ExceptionGroup('there were problems', excs)
+              | ExceptionGroup: there were problems (2 sub-exceptions)
+              +-+---------------- 1 ----------------
+                | OSError: error 1
+                +---------------- 2 ----------------
+                | SystemError: error 2
+                +------------------------------------
+            &gt;&gt;&gt; try:
+            ...     f()
+            ... except Exception as e:
+            ...     print(f'caught {type(e)}: e')
+            ...
+            caught &lt;class 'ExceptionGroup'&gt;: e
+            &gt;&gt;&gt;</pre>
+            <p>By using <span class="docutils literal">except*</span> instead of <span class="docutils literal">except</span>, we can selectively
+            handle only the exceptions in the group that match a certain
+            type. In the following example, which shows a nested exception
+            group, each <span class="docutils literal">except*</span> clause extracts from the group exceptions
+            of a certain type while letting all other exceptions propagate to
+            other clauses and eventually to be reraised.</p>
+            <pre class="literal-block">&gt;&gt;&gt; def f():
+            ...     raise ExceptionGroup(
+            ...         &quot;group1&quot;,
+            ...         [
+            ...             OSError(1),
+            ...             SystemError(2),
+            ...             ExceptionGroup(
+            ...                 &quot;group2&quot;,
+            ...                 [
+            ...                     OSError(3),
+            ...                     RecursionError(4)
+            ...                 ]
+            ...             )
+            ...         ]
+            ...     )
+            ...
+            &gt;&gt;&gt; try:
+            ...     f()
+            ... except* OSError as e:
+            ...     print(&quot;There were OSErrors&quot;)
+            ... except* SystemError as e:
+            ...     print(&quot;There were SystemErrors&quot;)
+            ...
+            There were OSErrors
+            There were SystemErrors
+              + Exception Group Traceback (most recent call last):
+              |   File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;
+              |     f()
+              |     ~^^
+              |   File &quot;&lt;stdin&gt;&quot;, line 2, in f
+              |     raise ExceptionGroup(
+              |     ...&lt;12 lines&gt;...
+              |     )
+              | ExceptionGroup: group1 (1 sub-exception)
+              +-+---------------- 1 ----------------
+                | ExceptionGroup: group2 (1 sub-exception)
+                +-+---------------- 1 ----------------
+                  | RecursionError: 4
+                  +------------------------------------
+            &gt;&gt;&gt;</pre>
+            <p>Note that the exceptions nested in an exception group must be instances,
+            not types. This is because in practice the exceptions would typically
+            be ones that have already been raised and caught by the program, along
+            the following pattern:</p>
+            <pre class="literal-block">&gt;&gt;&gt; excs = []
+            ... for test in tests:
+            ...     try:
+            ...         test.run()
+            ...     except Exception as e:
+            ...         excs.append(e)
+            ...
+            &gt;&gt;&gt; if excs:
+            ...    raise ExceptionGroup(&quot;Test Failures&quot;, excs)
+            ...</pre>
+            </section>
+            <section id="enriching-exceptions-with-notes">
+            <span id="tut-exception-notes"></span><h2>Enriching Exceptions with Notes</h2>
+            <p>When an exception is created in order to be raised, it is usually initialized
+            with information that describes the error that has occurred. There are cases
+            where it is useful to add information after the exception was caught. For this
+            purpose, exceptions have a method <span class="docutils literal">add_note(note)</span> that accepts a string and
+            adds it to the exception's notes list. The standard traceback rendering
+            includes all notes, in the order they were added, after the exception.</p>
+            <pre class="literal-block">&gt;&gt;&gt; try:
+            ...     raise TypeError('bad type')
+            ... except Exception as e:
+            ...     e.add_note('Add some information')
+            ...     e.add_note('Add some more information')
+            ...     raise
+            ...
+            Traceback (most recent call last):
+              File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;
+                raise TypeError('bad type')
+            TypeError: bad type
+            Add some information
+            Add some more information
+            &gt;&gt;&gt;</pre>
+            <p>For example, when collecting exceptions into an exception group, we may want
+            to add context information for the individual errors. In the following each
+            exception in the group has a note indicating when this error has occurred.</p>
+            <pre class="literal-block">&gt;&gt;&gt; def f():
+            ...     raise OSError('operation failed')
+            ...
+            &gt;&gt;&gt; excs = []
+            &gt;&gt;&gt; for i in range(3):
+            ...     try:
+            ...         f()
+            ...     except Exception as e:
+            ...         e.add_note(f'Happened in Iteration {i+1}')
+            ...         excs.append(e)
+            ...
+            &gt;&gt;&gt; raise ExceptionGroup('We have some problems', excs)
+              + Exception Group Traceback (most recent call last):
+              |   File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+              |     raise ExceptionGroup('We have some problems', excs)
+              | ExceptionGroup: We have some problems (3 sub-exceptions)
+              +-+---------------- 1 ----------------
+                | Traceback (most recent call last):
+                |   File &quot;&lt;stdin&gt;&quot;, line 3, in &lt;module&gt;
+                |     f()
+                |     ~^^
+                |   File &quot;&lt;stdin&gt;&quot;, line 2, in f
+                |     raise OSError('operation failed')
+                | OSError: operation failed
+                | Happened in Iteration 1
+                +---------------- 2 ----------------
+                | Traceback (most recent call last):
+                |   File &quot;&lt;stdin&gt;&quot;, line 3, in &lt;module&gt;
+                |     f()
+                |     ~^^
+                |   File &quot;&lt;stdin&gt;&quot;, line 2, in f
+                |     raise OSError('operation failed')
+                | OSError: operation failed
+                | Happened in Iteration 2
+                +---------------- 3 ----------------
+                | Traceback (most recent call last):
+                |   File &quot;&lt;stdin&gt;&quot;, line 3, in &lt;module&gt;
+                |     f()
+                |     ~^^
+                |   File &quot;&lt;stdin&gt;&quot;, line 2, in f
+                |     raise OSError('operation failed')
+                | OSError: operation failed
+                | Happened in Iteration 3
+                +------------------------------------
+            &gt;&gt;&gt;</pre>
+            </section>
+            </main>
+            <nav class="nav-wrapper" aria-label="Page navigation">
+                <a rel="prev" href="inputoutput.html" class="mobile-nav-chapters previous" title="Input and Output" aria-label="Input and Output"><i class="fa fa-angle-left"></i></a>
+                <a rel="next" href="classes.html" class="mobile-nav-chapters next" title="Classes" aria-label="Classes"><i class="fa fa-angle-right"></i></a>
+                <div style="clear: both"></div>
+            </nav>
+        </div>
+        <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            <a rel="prev" href="inputoutput.html" class="nav-chapters prev" title="Input and Output" aria-label="Input and Output"><i class="fa fa-angle-left"></i></a>
+            <a rel="next" href="classes.html" class="nav-chapters next" title="Classes" aria-label="Classes"><i class="fa fa-angle-right"></i></a>
+        </nav>
+    </div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>

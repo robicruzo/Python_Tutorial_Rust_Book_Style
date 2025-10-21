@@ -1,0 +1,364 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>Brief Tour of the Standard Library - The Python Tutorial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <script>
+        const theme_storage_key = "mdbook-theme";
+        const default_light_theme = "light";
+        const default_dark_theme = "navy";
+        window.theme_storage_key = theme_storage_key;
+        window.default_light_theme = default_light_theme;
+        window.default_dark_theme = default_dark_theme;
+        (function () {
+            const html = document.documentElement;
+            let storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem(theme_storage_key);
+            } catch (err) {
+                storedTheme = null;
+            }
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const resolved = (!storedTheme || storedTheme === 'default_theme')
+                ? (prefersDark ? default_dark_theme : default_light_theme)
+                : storedTheme;
+            html.classList.remove('light');
+            html.classList.add(resolved);
+            window.default_theme = resolved;
+        })();
+    </script>
+    <link rel="icon" href="favicon-de23e50b.svg">
+    <link rel="shortcut icon" href="favicon-8114d1fc.png">
+    <link rel="stylesheet" href="css/variables-3865ffda.css">
+    <link rel="stylesheet" href="css/general-4c35105a.css">
+    <link rel="stylesheet" href="css/chrome-c0e702bf.css">
+    <link rel="stylesheet" href="css/print-ad67d350.css" media="print">
+    <link rel="stylesheet" href="FontAwesome/css/font-awesome-799aeb25.css">
+    <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+    <link rel="stylesheet" id="highlight-css" href="highlight-493f70e1.css">
+    <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+    <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight-56612340.css">
+    <link rel="stylesheet" href="ferris-d33b75bf.css">
+    <link rel="stylesheet" href="theme/2018-edition-4e126c62.css">
+    <link rel="stylesheet" href="theme/semantic-notes-9b5766c0.css">
+    <link rel="stylesheet" href="theme/listing-cab26221.css">
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div id="body-container">
+    <input type="checkbox" id="sidebar-toggle-anchor" class="hidden" checked>
+    <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <div class="sidebar-scrollbox">
+            <ol class="chapter"><li class="chapter-item expanded"><a href="index.html">The Python Tutorial</a></li><li class="chapter-item expanded"><a href="appetite.html"><strong aria-hidden="true">1.</strong> Whetting Your Appetite</a></li><li class="chapter-item expanded"><a href="interpreter.html"><strong aria-hidden="true">2.</strong> Using the Python Interpreter</a></li><li class="chapter-item expanded"><a href="introduction.html"><strong aria-hidden="true">3.</strong> An Informal Introduction to Python</a></li><li class="chapter-item expanded"><a href="controlflow.html"><strong aria-hidden="true">4.</strong> More Control Flow Tools</a></li><li class="chapter-item expanded"><a href="datastructures.html"><strong aria-hidden="true">5.</strong> Data Structures</a></li><li class="chapter-item expanded"><a href="modules.html"><strong aria-hidden="true">6.</strong> Modules</a></li><li class="chapter-item expanded"><a href="inputoutput.html"><strong aria-hidden="true">7.</strong> Input and Output</a></li><li class="chapter-item expanded"><a href="errors.html"><strong aria-hidden="true">8.</strong> Errors and Exceptions</a></li><li class="chapter-item expanded"><a href="classes.html"><strong aria-hidden="true">9.</strong> Classes</a></li><li class="chapter-item expanded active"><a href="stdlib.html" data-current="true"><strong aria-hidden="true">10.</strong> Brief Tour of the Standard Library</a></li><li class="chapter-item expanded"><a href="stdlib2.html"><strong aria-hidden="true">11.</strong> Brief Tour of the Standard Library --- Part II</a></li><li class="chapter-item expanded"><a href="venv.html"><strong aria-hidden="true">12.</strong> Virtual Environments and Packages</a></li><li class="chapter-item expanded"><a href="whatnow.html"><strong aria-hidden="true">13.</strong> What Now?</a></li><li class="chapter-item expanded"><a href="interactive.html"><strong aria-hidden="true">14.</strong> Interactive Input Editing and History Substitution</a></li><li class="chapter-item expanded"><a href="floatingpoint.html"><strong aria-hidden="true">15.</strong> Floating-Point Arithmetic:  Issues and Limitations</a></li><li class="chapter-item expanded"><a href="appendix.html"><strong aria-hidden="true">16.</strong> Appendix</a></li></ol>
+        </div>
+        <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div class="sidebar-resize-indicator"></div>
+        </div>
+    </nav>
+    <div id="page-wrapper" class="page-wrapper">
+        <div class="page">
+            <div id="menu-bar-hover-placeholder"></div>
+            <div id="menu-bar" class="menu-bar sticky">
+                <div class="left-buttons">
+                    <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <i class="fa fa-bars"></i>
+                    </label>
+                    <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                        <i class="fa fa-paint-brush"></i>
+                    </button>
+                    <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu" style="display: none;">
+                        <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                    </ul>
+                </div>
+                <h1 class="menu-title">The Python Tutorial</h1>
+                <div class="right-buttons"></div>
+            </div>
+            <main id="content" class="content">
+            <section id="operating-system-interface">
+            <span id="tut-os-interface"></span><h2>Operating System Interface</h2>
+            <p>The <span class="docutils literal">os</span> module provides dozens of functions for interacting with the
+            operating system:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import os
+            &gt;&gt;&gt; os.getcwd()      # Return the current working directory
+            'C:\\Python315'
+            &gt;&gt;&gt; os.chdir('/server/accesslogs')   # Change current working directory
+            &gt;&gt;&gt; os.system('mkdir today')   # Run the command mkdir in the system shell
+            0</pre>
+            <p>Be sure to use the <span class="docutils literal">import os</span> style instead of <span class="docutils literal">from os import *</span>.  This
+            will keep <span class="docutils literal">os.open</span> from shadowing the built-in <span class="docutils literal">open</span> function which
+            operates much differently.</p>
+            <p>The built-in <span class="docutils literal">dir</span> and <span class="docutils literal">help</span> functions are useful as interactive
+            aids for working with large modules like <span class="docutils literal">os</span>:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import os
+            &gt;&gt;&gt; dir(os)
+            &lt;returns a list of all module functions&gt;
+            &gt;&gt;&gt; help(os)
+            &lt;returns an extensive manual page created from the module's docstrings&gt;</pre>
+            <p>For daily file and directory management tasks, the <span class="docutils literal">shutil</span> module provides
+            a higher level interface that is easier to use:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import shutil
+            &gt;&gt;&gt; shutil.copyfile('data.db', 'archive.db')
+            'archive.db'
+            &gt;&gt;&gt; shutil.move('/build/executables', 'installdir')
+            'installdir'</pre>
+            </section>
+            <section id="file-wildcards">
+            <span id="tut-file-wildcards"></span><h2>File Wildcards</h2>
+            <p>The <span class="docutils literal">glob</span> module provides a function for making file lists from directory
+            wildcard searches:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import glob
+            &gt;&gt;&gt; glob.glob('*.py')
+            ['primes.py', 'random.py', 'quote.py']</pre>
+            </section>
+            <section id="command-line-arguments">
+            <span id="tut-command-line-arguments"></span><h2>Command Line Arguments</h2>
+            <p>Common utility scripts often need to process command line arguments. These
+            arguments are stored in the <span class="docutils literal">sys</span> module's <em>argv</em> attribute as a list.  For
+            instance, let's take the following <span class="docutils literal">demo.py</span> file:</p>
+            <pre class="literal-block"># File demo.py
+            import sys
+            print(sys.argv)</pre>
+            <p>Here is the output from running <span class="docutils literal">python demo.py one two three</span> at the command
+            line:</p>
+            <pre class="literal-block">['demo.py', 'one', 'two', 'three']</pre>
+            <p>The <span class="docutils literal">argparse</span> module provides a more sophisticated mechanism to process
+            command line arguments.  The following script extracts one or more filenames
+            and an optional number of lines to be displayed:</p>
+            <pre class="literal-block">import argparse
+
+            parser = argparse.ArgumentParser(
+                prog='top',
+                description='Show top lines from each file')
+            parser.add_argument('filenames', nargs='+')
+            parser.add_argument('-l', '--lines', type=int, default=10)
+            args = parser.parse_args()
+            print(args)</pre>
+            <p>When run at the command line with <span class="docutils literal">python top.py <span class="pre">--lines=5</span> alpha.txt beta.txt</span>, the script sets <span class="docutils literal">args.lines</span> to <span class="docutils literal">5</span> and <span class="docutils literal">args.filenames</span>
+            to <span class="docutils literal">['alpha.txt', 'beta.txt']</span>.</p>
+            </section>
+            <section id="error-output-redirection-and-program-termination">
+            <span id="tut-stderr"></span><h2>Error Output Redirection and Program Termination</h2>
+            <p>The <span class="docutils literal">sys</span> module also has attributes for <em>stdin</em>, <em>stdout</em>, and <em>stderr</em>.
+            The latter is useful for emitting warnings and error messages to make them
+            visible even when <em>stdout</em> has been redirected:</p>
+            <pre class="literal-block">&gt;&gt;&gt; sys.stderr.write('Warning, log file not found starting a new one\n')
+            Warning, log file not found starting a new one</pre>
+            <p>The most direct way to terminate a script is to use <span class="docutils literal">sys.exit()</span>.</p>
+            </section>
+            <section id="string-pattern-matching">
+            <span id="tut-string-pattern-matching"></span><h2>String Pattern Matching</h2>
+            <p>The <span class="docutils literal">re</span> module provides regular expression tools for advanced string
+            processing. For complex matching and manipulation, regular expressions offer
+            succinct, optimized solutions:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import re
+            &gt;&gt;&gt; re.findall(r'\bf[a-z]*', 'which foot or hand fell fastest')
+            ['foot', 'fell', 'fastest']
+            &gt;&gt;&gt; re.sub(r'(\b[a-z]+) \1', r'\1', 'cat in the the hat')
+            'cat in the hat'</pre>
+            <p>When only simple capabilities are needed, string methods are preferred because
+            they are easier to read and debug:</p>
+            <pre class="literal-block">&gt;&gt;&gt; 'tea for too'.replace('too', 'two')
+            'tea for two'</pre>
+            </section>
+            <section id="mathematics">
+            <span id="tut-mathematics"></span><h2>Mathematics</h2>
+            <p>The <span class="docutils literal">math</span> module gives access to the underlying C library functions for
+            floating-point math:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import math
+            &gt;&gt;&gt; math.cos(math.pi / 4)
+            0.70710678118654757
+            &gt;&gt;&gt; math.log(1024, 2)
+            10.0</pre>
+            <p>The <span class="docutils literal">random</span> module provides tools for making random selections:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import random
+            &gt;&gt;&gt; random.choice(['apple', 'pear', 'banana'])
+            'apple'
+            &gt;&gt;&gt; random.sample(range(100), 10)   # sampling without replacement
+            [30, 83, 16, 4, 8, 81, 41, 50, 18, 33]
+            &gt;&gt;&gt; random.random()    # random float from the interval [0.0, 1.0)
+            0.17970987693706186
+            &gt;&gt;&gt; random.randrange(6)    # random integer chosen from range(6)
+            4</pre>
+            <p>The <span class="docutils literal">statistics</span> module calculates basic statistical properties
+            (the mean, median, variance, etc.) of numeric data:</p>
+            <pre class="literal-block">&gt;&gt;&gt; import statistics
+            &gt;&gt;&gt; data = [2.75, 1.75, 1.25, 0.25, 0.5, 1.25, 3.5]
+            &gt;&gt;&gt; statistics.mean(data)
+            1.6071428571428572
+            &gt;&gt;&gt; statistics.median(data)
+            1.25
+            &gt;&gt;&gt; statistics.variance(data)
+            1.3720238095238095</pre>
+            <p>The SciPy project &lt;<a class="reference external" href="https://scipy.org">https://scipy.org</a>&gt; has many other modules for numerical
+            computations.</p>
+            </section>
+            <section id="internet-access">
+            <span id="tut-internet-access"></span><h2>Internet Access</h2>
+            <p>There are a number of modules for accessing the internet and processing internet
+            protocols. Two of the simplest are <span class="docutils literal">urllib.request</span> for retrieving data
+            from URLs and <span class="docutils literal">smtplib</span> for sending mail:</p>
+            <pre class="literal-block">&gt;&gt;&gt; from urllib.request import urlopen
+            &gt;&gt;&gt; with urlopen('http://worldtimeapi.org/api/timezone/etc/UTC.txt') as response:
+            ...     for line in response:
+            ...         line = line.decode()             # Convert bytes to a str
+            ...         if line.startswith('datetime'):
+            ...             print(line.rstrip())         # Remove trailing newline
+            ...
+            datetime: 2022-01-01T01:36:47.689215+00:00
+
+            &gt;&gt;&gt; import smtplib
+            &gt;&gt;&gt; server = smtplib.SMTP('localhost')
+            &gt;&gt;&gt; server.sendmail('soothsayer&#64;example.org', 'jcaesar&#64;example.org',
+            ... &quot;&quot;&quot;To: jcaesar&#64;example.org
+            ... From: soothsayer&#64;example.org
+            ...
+            ... Beware the Ides of March.
+            ... &quot;&quot;&quot;)
+            &gt;&gt;&gt; server.quit()</pre>
+            <p>(Note that the second example needs a mailserver running on localhost.)</p>
+            </section>
+            <section id="dates-and-times">
+            <span id="tut-dates-and-times"></span><h2>Dates and Times</h2>
+            <p>The <span class="docutils literal">datetime</span> module supplies classes for manipulating dates and times in
+            both simple and complex ways. While date and time arithmetic is supported, the
+            focus of the implementation is on efficient member extraction for output
+            formatting and manipulation.  The module also supports objects that are timezone
+            aware.</p>
+            <pre class="literal-block">&gt;&gt;&gt; # dates are easily constructed and formatted
+            &gt;&gt;&gt; from datetime import date
+            &gt;&gt;&gt; now = date.today()
+            &gt;&gt;&gt; now
+            datetime.date(2003, 12, 2)
+            &gt;&gt;&gt; now.strftime(&quot;%m-%d-%y. %d %b %Y is a %A on the %d day of %B.&quot;)
+            '12-02-03. 02 Dec 2003 is a Tuesday on the 02 day of December.'
+
+            &gt;&gt;&gt; # dates support calendar arithmetic
+            &gt;&gt;&gt; birthday = date(1964, 7, 31)
+            &gt;&gt;&gt; age = now - birthday
+            &gt;&gt;&gt; age.days
+            14368</pre>
+            </section>
+            <section id="data-compression">
+            <span id="tut-data-compression"></span><h2>Data Compression</h2>
+            <p>Common data archiving and compression formats are directly supported by modules
+            including: <span class="docutils literal">zlib</span>, <span class="docutils literal">gzip</span>, <span class="docutils literal">bz2</span>, <span class="docutils literal">lzma</span>, <span class="docutils literal">zipfile</span> and
+            <span class="docutils literal">tarfile</span>.</p>
+            <pre class="literal-block">&gt;&gt;&gt; import zlib
+            &gt;&gt;&gt; s = b'witch which has which witches wrist watch'
+            &gt;&gt;&gt; len(s)
+            41
+            &gt;&gt;&gt; t = zlib.compress(s)
+            &gt;&gt;&gt; len(t)
+            37
+            &gt;&gt;&gt; zlib.decompress(t)
+            b'witch which has which witches wrist watch'
+            &gt;&gt;&gt; zlib.crc32(s)
+            226805979</pre>
+            </section>
+            <section id="performance-measurement">
+            <span id="tut-performance-measurement"></span><h2>Performance Measurement</h2>
+            <p>Some Python users develop a deep interest in knowing the relative performance of
+            different approaches to the same problem. Python provides a measurement tool
+            that answers those questions immediately.</p>
+            <p>For example, it may be tempting to use the tuple packing and unpacking feature
+            instead of the traditional approach to swapping arguments. The <span class="docutils literal">timeit</span>
+            module quickly demonstrates a modest performance advantage:</p>
+            <pre class="literal-block">&gt;&gt;&gt; from timeit import Timer
+            &gt;&gt;&gt; Timer('t=a; a=b; b=t', 'a=1; b=2').timeit()
+            0.57535828626024577
+            &gt;&gt;&gt; Timer('a,b = b,a', 'a=1; b=2').timeit()
+            0.54962537085770791</pre>
+            <p>In contrast to <span class="docutils literal">timeit</span>'s fine level of granularity, the <span class="docutils literal">profile</span> and
+            <span class="docutils literal">pstats</span> modules provide tools for identifying time critical sections in
+            larger blocks of code.</p>
+            </section>
+            <section id="quality-control">
+            <span id="tut-quality-control"></span><h2>Quality Control</h2>
+            <p>One approach for developing high quality software is to write tests for each
+            function as it is developed and to run those tests frequently during the
+            development process.</p>
+            <p>The <span class="docutils literal">doctest</span> module provides a tool for scanning a module and validating
+            tests embedded in a program's docstrings.  Test construction is as simple as
+            cutting-and-pasting a typical call along with its results into the docstring.
+            This improves the documentation by providing the user with an example and it
+            allows the doctest module to make sure the code remains true to the
+            documentation:</p>
+            <pre class="literal-block">def average(values):
+                &quot;&quot;&quot;Computes the arithmetic mean of a list of numbers.
+
+                &gt;&gt;&gt; print(average([20, 30, 70]))
+                40.0
+                &quot;&quot;&quot;
+                return sum(values) / len(values)
+
+            import doctest
+            doctest.testmod()   # automatically validate the embedded tests</pre>
+            <p>The <span class="docutils literal">unittest</span> module is not as effortless as the <span class="docutils literal">doctest</span> module,
+            but it allows a more comprehensive set of tests to be maintained in a separate
+            file:</p>
+            <pre class="literal-block">import unittest
+
+            class TestStatisticalFunctions(unittest.TestCase):
+
+                def test_average(self):
+                    self.assertEqual(average([20, 30, 70]), 40.0)
+                    self.assertEqual(round(average([1, 5, 7]), 1), 4.3)
+                    with self.assertRaises(ZeroDivisionError):
+                        average([])
+                    with self.assertRaises(TypeError):
+                        average(20, 30, 70)
+
+            unittest.main()  # Calling from the command line invokes all tests</pre>
+            </section>
+            <section id="batteries-included">
+            <span id="tut-batteries-included"></span><h2>Batteries Included</h2>
+            <p>Python has a &quot;batteries included&quot; philosophy.  This is best seen through the
+            sophisticated and robust capabilities of its larger packages. For example:</p>
+            <ul class="simple">
+            <li><p>The <span class="docutils literal">xmlrpc.client</span> and <span class="docutils literal">xmlrpc.server</span> modules make implementing
+            remote procedure calls into an almost trivial task.  Despite the modules'
+            names, no direct knowledge or handling of XML is needed.</p></li>
+            <li><p>The <span class="docutils literal">email</span> package is a library for managing email messages, including
+            MIME and other <span class="docutils literal">2822</span>-based message documents. Unlike <span class="docutils literal">smtplib</span> and
+            <span class="docutils literal">poplib</span> which actually send and receive messages, the email package has
+            a complete toolset for building or decoding complex message structures
+            (including attachments) and for implementing internet encoding and header
+            protocols.</p></li>
+            <li><p>The <span class="docutils literal">json</span> package provides robust support for parsing this
+            popular data interchange format.  The <span class="docutils literal">csv</span> module supports
+            direct reading and writing of files in Comma-Separated Value format,
+            commonly supported by databases and spreadsheets.  XML processing is
+            supported by the <span class="docutils literal">xml.etree.ElementTree</span>, <span class="docutils literal">xml.dom</span> and
+            <span class="docutils literal">xml.sax</span> packages. Together, these modules and packages
+            greatly simplify data interchange between Python applications and
+            other tools.</p></li>
+            <li><p>The <span class="docutils literal">sqlite3</span> module is a wrapper for the SQLite database
+            library, providing a persistent database that can be updated and
+            accessed using slightly nonstandard SQL syntax.</p></li>
+            <li><p>Internationalization is supported by a number of modules including
+            <span class="docutils literal">gettext</span>, <span class="docutils literal">locale</span>, and the <span class="docutils literal">codecs</span> package.</p></li>
+            </ul>
+            </section>
+            </main>
+            <nav class="nav-wrapper" aria-label="Page navigation">
+                <a rel="prev" href="classes.html" class="mobile-nav-chapters previous" title="Classes" aria-label="Classes"><i class="fa fa-angle-left"></i></a>
+                <a rel="next" href="stdlib2.html" class="mobile-nav-chapters next" title="Brief Tour of the Standard Library --- Part II" aria-label="Brief Tour of the Standard Library --- Part II"><i class="fa fa-angle-right"></i></a>
+                <div style="clear: both"></div>
+            </nav>
+        </div>
+        <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            <a rel="prev" href="classes.html" class="nav-chapters prev" title="Classes" aria-label="Classes"><i class="fa fa-angle-left"></i></a>
+            <a rel="next" href="stdlib2.html" class="nav-chapters next" title="Brief Tour of the Standard Library --- Part II" aria-label="Brief Tour of the Standard Library --- Part II"><i class="fa fa-angle-right"></i></a>
+        </nav>
+    </div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>

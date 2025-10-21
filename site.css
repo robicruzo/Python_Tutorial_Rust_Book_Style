@@ -1,0 +1,83 @@
+:root {
+    --sidebar-width: 280px;
+}
+
+html.js .sidebar { transition: transform 0.25s ease; }
+
+.sidebar .chapter-item.active > a {
+    font-weight: 600;
+    color: var(--sidebar-active-fg);
+}
+
+.sidebar .chapter-item a[data-current="true"] {
+    position: relative;
+}
+
+.sidebar .chapter-item a[data-current="true"]::before {
+    content: '';
+    position: absolute;
+    left: -0.75rem;
+    top: 0.35rem;
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 9999px;
+    background: var(--sidebar-active-marker, currentColor);
+}
+
+.content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.content pre {
+    overflow-x: auto;
+}
+
+.content .docutils.literal {
+    font-family: var(--code-font, "Fira Code", monospace);
+}
+
+.method {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    border-left: 3px solid var(--sidebar-active-marker, currentColor);
+    background: rgba(0, 0, 0, 0.04);
+}
+
+html[data-theme="ayu"] .method,
+html.navy .method,
+html.coal .method {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.method-signature {
+    margin: 0 0 0.5rem;
+    font-family: var(--code-font, "Fira Code", monospace);
+    font-size: 1rem;
+}
+
+nav.nav-wrapper {
+    margin-top: 2rem;
+}
+
+.nav-wide-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.nav-wide-wrapper .nav-chapters.prev {
+    margin-right: auto;
+}
+
+.nav-wide-wrapper .nav-chapters.next {
+    margin-left: auto;
+}
+
+.internal-ref {
+    text-decoration: underline;
+}
+
+.content .xref {
+    font-style: italic;
+}

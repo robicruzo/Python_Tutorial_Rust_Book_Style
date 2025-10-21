@@ -1,0 +1,247 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>Virtual Environments and Packages - The Python Tutorial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <script>
+        const theme_storage_key = "mdbook-theme";
+        const default_light_theme = "light";
+        const default_dark_theme = "navy";
+        window.theme_storage_key = theme_storage_key;
+        window.default_light_theme = default_light_theme;
+        window.default_dark_theme = default_dark_theme;
+        (function () {
+            const html = document.documentElement;
+            let storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem(theme_storage_key);
+            } catch (err) {
+                storedTheme = null;
+            }
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const resolved = (!storedTheme || storedTheme === 'default_theme')
+                ? (prefersDark ? default_dark_theme : default_light_theme)
+                : storedTheme;
+            html.classList.remove('light');
+            html.classList.add(resolved);
+            window.default_theme = resolved;
+        })();
+    </script>
+    <link rel="icon" href="favicon-de23e50b.svg">
+    <link rel="shortcut icon" href="favicon-8114d1fc.png">
+    <link rel="stylesheet" href="css/variables-3865ffda.css">
+    <link rel="stylesheet" href="css/general-4c35105a.css">
+    <link rel="stylesheet" href="css/chrome-c0e702bf.css">
+    <link rel="stylesheet" href="css/print-ad67d350.css" media="print">
+    <link rel="stylesheet" href="FontAwesome/css/font-awesome-799aeb25.css">
+    <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+    <link rel="stylesheet" id="highlight-css" href="highlight-493f70e1.css">
+    <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+    <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight-56612340.css">
+    <link rel="stylesheet" href="ferris-d33b75bf.css">
+    <link rel="stylesheet" href="theme/2018-edition-4e126c62.css">
+    <link rel="stylesheet" href="theme/semantic-notes-9b5766c0.css">
+    <link rel="stylesheet" href="theme/listing-cab26221.css">
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div id="body-container">
+    <input type="checkbox" id="sidebar-toggle-anchor" class="hidden" checked>
+    <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <div class="sidebar-scrollbox">
+            <ol class="chapter"><li class="chapter-item expanded"><a href="index.html">The Python Tutorial</a></li><li class="chapter-item expanded"><a href="appetite.html"><strong aria-hidden="true">1.</strong> Whetting Your Appetite</a></li><li class="chapter-item expanded"><a href="interpreter.html"><strong aria-hidden="true">2.</strong> Using the Python Interpreter</a></li><li class="chapter-item expanded"><a href="introduction.html"><strong aria-hidden="true">3.</strong> An Informal Introduction to Python</a></li><li class="chapter-item expanded"><a href="controlflow.html"><strong aria-hidden="true">4.</strong> More Control Flow Tools</a></li><li class="chapter-item expanded"><a href="datastructures.html"><strong aria-hidden="true">5.</strong> Data Structures</a></li><li class="chapter-item expanded"><a href="modules.html"><strong aria-hidden="true">6.</strong> Modules</a></li><li class="chapter-item expanded"><a href="inputoutput.html"><strong aria-hidden="true">7.</strong> Input and Output</a></li><li class="chapter-item expanded"><a href="errors.html"><strong aria-hidden="true">8.</strong> Errors and Exceptions</a></li><li class="chapter-item expanded"><a href="classes.html"><strong aria-hidden="true">9.</strong> Classes</a></li><li class="chapter-item expanded"><a href="stdlib.html"><strong aria-hidden="true">10.</strong> Brief Tour of the Standard Library</a></li><li class="chapter-item expanded"><a href="stdlib2.html"><strong aria-hidden="true">11.</strong> Brief Tour of the Standard Library --- Part II</a></li><li class="chapter-item expanded active"><a href="venv.html" data-current="true"><strong aria-hidden="true">12.</strong> Virtual Environments and Packages</a></li><li class="chapter-item expanded"><a href="whatnow.html"><strong aria-hidden="true">13.</strong> What Now?</a></li><li class="chapter-item expanded"><a href="interactive.html"><strong aria-hidden="true">14.</strong> Interactive Input Editing and History Substitution</a></li><li class="chapter-item expanded"><a href="floatingpoint.html"><strong aria-hidden="true">15.</strong> Floating-Point Arithmetic:  Issues and Limitations</a></li><li class="chapter-item expanded"><a href="appendix.html"><strong aria-hidden="true">16.</strong> Appendix</a></li></ol>
+        </div>
+        <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div class="sidebar-resize-indicator"></div>
+        </div>
+    </nav>
+    <div id="page-wrapper" class="page-wrapper">
+        <div class="page">
+            <div id="menu-bar-hover-placeholder"></div>
+            <div id="menu-bar" class="menu-bar sticky">
+                <div class="left-buttons">
+                    <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <i class="fa fa-bars"></i>
+                    </label>
+                    <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                        <i class="fa fa-paint-brush"></i>
+                    </button>
+                    <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu" style="display: none;">
+                        <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                        <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                    </ul>
+                </div>
+                <h1 class="menu-title">The Python Tutorial</h1>
+                <div class="right-buttons"></div>
+            </div>
+            <main id="content" class="content">
+            <section id="introduction">
+            <h2>Introduction</h2>
+            <p>Python applications will often use packages and modules that don't
+            come as part of the standard library.  Applications will sometimes
+            need a specific version of a library, because the application may
+            require that a particular bug has been fixed or the application may be
+            written using an obsolete version of the library's interface.</p>
+            <p>This means it may not be possible for one Python installation to meet
+            the requirements of every application.  If application A needs version
+            1.0 of a particular module but application B needs version 2.0, then
+            the requirements are in conflict and installing either version 1.0 or 2.0
+            will leave one application unable to run.</p>
+            <p>The solution for this problem is to create a <em>virtual environment</em>, a
+            self-contained directory tree that contains a Python installation for a
+            particular version of Python, plus a number of additional packages.</p>
+            <p>Different applications can then use different virtual environments.
+            To resolve the earlier example of conflicting requirements,
+            application A can have its own virtual environment with version 1.0
+            installed while application B has another virtual environment with version 2.0.
+            If application B requires a library be upgraded to version 3.0, this will
+            not affect application A's environment.</p>
+            </section>
+            <section id="creating-virtual-environments">
+            <h2>Creating Virtual Environments</h2>
+            <p>The module used to create and manage virtual environments is called
+            <span class="docutils literal">venv</span>.  <span class="docutils literal">venv</span> will install the Python version from which
+            the command was run (as reported by the <span class="docutils literal"><span class="pre">--version</span></span> option).
+            For instance, executing the command with <span class="docutils literal">python3.12</span> will install
+            version 3.12.</p>
+            <p>To create a virtual environment, decide upon a directory where you want to
+            place it, and run the <span class="docutils literal">venv</span> module as a script with the directory path:</p>
+            <pre class="literal-block">python -m venv tutorial-env</pre>
+            <p>This will create the <span class="docutils literal"><span class="pre">tutorial-env</span></span> directory if it doesn't exist,
+            and also create directories inside it containing a copy of the Python
+            interpreter and various supporting files.</p>
+            <p>A common directory location for a virtual environment is <span class="docutils literal">.venv</span>.
+            This name keeps the directory typically hidden in your shell and thus
+            out of the way while giving it a name that explains why the directory
+            exists. It also prevents clashing with <span class="docutils literal">.env</span> environment variable
+            definition files that some tooling supports.</p>
+            <p>Once you've created a virtual environment, you may activate it.</p>
+            <p>On Windows, run:</p>
+            <pre class="literal-block">tutorial-env\Scripts\activate</pre>
+            <p>On Unix or MacOS, run:</p>
+            <pre class="literal-block">source tutorial-env/bin/activate</pre>
+            <p>(This script is written for the bash shell.  If you use the
+            <span class="docutils literal">csh</span> or <span class="docutils literal">fish</span> shells, there are alternate
+            <span class="docutils literal">activate.csh</span> and <span class="docutils literal">activate.fish</span> scripts you should use
+            instead.)</p>
+            <p>Activating the virtual environment will change your shell's prompt to show what
+            virtual environment you're using, and modify the environment so that running
+            <span class="docutils literal">python</span> will get you that particular version and installation of Python.
+            For example:</p>
+            <pre class="code console literal-block"><code><span class="generic prompt">$ </span><span class="name builtin">source</span><span class="whitespace"> </span>~/envs/tutorial-env/bin/activate<span class="whitespace">
+            </span><span class="generic prompt virtualenv">(tutorial-env)</span> <span class="generic prompt">$ </span>python<span class="whitespace">
+            </span><span class="generic output">Python 3.5.1 (default, May  6 2016, 10:59:36)
+              ...
+            &gt;&gt;&gt; import sys
+            &gt;&gt;&gt; sys.path
+            ['', '/usr/local/lib/python35.zip', ...,
+            '~/envs/tutorial-env/lib/python3.5/site-packages']
+            &gt;&gt;&gt;</span></code></pre>
+            <p>To deactivate a virtual environment, type:</p>
+            <pre class="literal-block">deactivate</pre>
+            <p>into the terminal.</p>
+            </section>
+            <section id="managing-packages-with-pip">
+            <h2>Managing Packages with pip</h2>
+            <p>You can install, upgrade, and remove packages using a program called
+            <span class="docutils literal">pip</span>.  By default <span class="docutils literal">pip</span> will install packages from the <a class="reference external" href="https://pypi.org">Python
+            Package Index</a>.  You can browse the Python
+            Package Index by going to it in your web browser.</p>
+            <p><span class="docutils literal">pip</span> has a number of subcommands: &quot;install&quot;, &quot;uninstall&quot;,
+            &quot;freeze&quot;, etc.  (Consult the <span class="xref">installing-index</span> guide for
+            complete documentation for <span class="docutils literal">pip</span>.)</p>
+            <p>You can install the latest version of a package by specifying a package's name:</p>
+            <pre class="code console literal-block"><code><span class="generic prompt virtualenv">(tutorial-env)</span> <span class="generic prompt">$ </span>python<span class="whitespace"> </span>-m<span class="whitespace"> </span>pip<span class="whitespace"> </span>install<span class="whitespace"> </span>novas<span class="whitespace">
+            </span><span class="generic output">Collecting novas
+              Downloading novas-3.1.1.3.tar.gz (136kB)
+            Installing collected packages: novas
+              Running setup.py install for novas
+            Successfully installed novas-3.1.1.3</span></code></pre>
+            <p>You can also install a specific version of a package by giving the
+            package name  followed by <span class="docutils literal">==</span> and the version number:</p>
+            <pre class="code console literal-block"><code><span class="generic prompt virtualenv">(tutorial-env)</span> <span class="generic prompt">$ </span>python<span class="whitespace"> </span>-m<span class="whitespace"> </span>pip<span class="whitespace"> </span>install<span class="whitespace"> </span><span class="name variable">requests</span><span class="operator">==</span><span class="literal number">2</span>.6.0<span class="whitespace">
+            </span><span class="generic output">Collecting requests==2.6.0
+              Using cached requests-2.6.0-py2.py3-none-any.whl
+            Installing collected packages: requests
+            Successfully installed requests-2.6.0</span></code></pre>
+            <p>If you re-run this command, <span class="docutils literal">pip</span> will notice that the requested
+            version is already installed and do nothing.  You can supply a
+            different version number to get that version, or you can run <span class="docutils literal">python <span class="pre">-m</span> pip install <span class="pre">--upgrade</span></span> to upgrade the package to the latest version:</p>
+            <pre class="code console literal-block"><code><span class="generic prompt virtualenv">(tutorial-env)</span> <span class="generic prompt">$ </span>python<span class="whitespace"> </span>-m<span class="whitespace"> </span>pip<span class="whitespace"> </span>install<span class="whitespace"> </span>--upgrade<span class="whitespace"> </span>requests<span class="whitespace">
+            </span><span class="generic output">Collecting requests
+            Installing collected packages: requests
+              Found existing installation: requests 2.6.0
+                Uninstalling requests-2.6.0:
+                  Successfully uninstalled requests-2.6.0
+            Successfully installed requests-2.7.0</span></code></pre>
+            <p><span class="docutils literal">python <span class="pre">-m</span> pip uninstall</span> followed by one or more package names will
+            remove the packages from the virtual environment.</p>
+            <p><span class="docutils literal">python <span class="pre">-m</span> pip show</span> will display information about a particular package:</p>
+            <pre class="code console literal-block"><code><span class="generic prompt virtualenv">(tutorial-env)</span> <span class="generic prompt">$ </span>python<span class="whitespace"> </span>-m<span class="whitespace"> </span>pip<span class="whitespace"> </span>show<span class="whitespace"> </span>requests<span class="whitespace">
+            </span><span class="generic output">---
+            Metadata-Version: 2.0
+            Name: requests
+            Version: 2.7.0
+            Summary: Python HTTP for Humans.
+            Home-page: http://python-requests.org
+            Author: Kenneth Reitz
+            Author-email: me&#64;kennethreitz.com
+            License: Apache 2.0
+            Location: /Users/akuchling/envs/tutorial-env/lib/python3.4/site-packages
+            Requires:</span></code></pre>
+            <p><span class="docutils literal">python <span class="pre">-m</span> pip list</span> will display all of the packages installed in
+            the virtual environment:</p>
+            <pre class="code console literal-block"><code><span class="generic prompt virtualenv">(tutorial-env)</span> <span class="generic prompt">$ </span>python<span class="whitespace"> </span>-m<span class="whitespace"> </span>pip<span class="whitespace"> </span>list<span class="whitespace">
+            </span><span class="generic output">novas (3.1.1.3)
+            numpy (1.9.2)
+            pip (7.0.3)
+            requests (2.7.0)
+            setuptools (16.0)</span></code></pre>
+            <p><span class="docutils literal">python <span class="pre">-m</span> pip freeze</span> will produce a similar list of the installed packages,
+            but the output uses the format that <span class="docutils literal">python <span class="pre">-m</span> pip install</span> expects.
+            A common convention is to put this list in a <span class="docutils literal">requirements.txt</span> file:</p>
+            <pre class="code console literal-block"><code><span class="generic prompt virtualenv">(tutorial-env)</span> <span class="generic prompt">$ </span>python<span class="whitespace"> </span>-m<span class="whitespace"> </span>pip<span class="whitespace"> </span>freeze<span class="whitespace"> </span>&gt;<span class="whitespace"> </span>requirements.txt<span class="whitespace">
+            </span><span class="generic prompt virtualenv">(tutorial-env)</span> <span class="generic prompt">$ </span>cat<span class="whitespace"> </span>requirements.txt<span class="whitespace">
+            </span><span class="generic output">novas==3.1.1.3
+            numpy==1.9.2
+            requests==2.7.0</span></code></pre>
+            <p>The <span class="docutils literal">requirements.txt</span> can then be committed to version control and
+            shipped as part of an application.  Users can then install all the
+            necessary packages with <span class="docutils literal">install <span class="pre">-r</span></span>:</p>
+            <pre class="code console literal-block"><code><span class="generic prompt virtualenv">(tutorial-env)</span> <span class="generic prompt">$ </span>python<span class="whitespace"> </span>-m<span class="whitespace"> </span>pip<span class="whitespace"> </span>install<span class="whitespace"> </span>-r<span class="whitespace"> </span>requirements.txt<span class="whitespace">
+            </span><span class="generic output">Collecting novas==3.1.1.3 (from -r requirements.txt (line 1))
+              ...
+            Collecting numpy==1.9.2 (from -r requirements.txt (line 2))
+              ...
+            Collecting requests==2.7.0 (from -r requirements.txt (line 3))
+              ...
+            Installing collected packages: novas, numpy, requests
+              Running setup.py install for novas
+            Successfully installed novas-3.1.1.3 numpy-1.9.2 requests-2.7.0</span></code></pre>
+            <p><span class="docutils literal">pip</span> has many more options.  Consult the <span class="xref">installing-index</span>
+            guide for complete documentation for <span class="docutils literal">pip</span>.  When you've written
+            a package and want to make it available on the Python Package Index,
+            consult the <a class="reference external" href="https://packaging.python.org/en/latest/tutorials/packaging-projects/">Python packaging user guide</a>.</p>
+            </section>
+            </main>
+            <nav class="nav-wrapper" aria-label="Page navigation">
+                <a rel="prev" href="stdlib2.html" class="mobile-nav-chapters previous" title="Brief Tour of the Standard Library --- Part II" aria-label="Brief Tour of the Standard Library --- Part II"><i class="fa fa-angle-left"></i></a>
+                <a rel="next" href="whatnow.html" class="mobile-nav-chapters next" title="What Now?" aria-label="What Now?"><i class="fa fa-angle-right"></i></a>
+                <div style="clear: both"></div>
+            </nav>
+        </div>
+        <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            <a rel="prev" href="stdlib2.html" class="nav-chapters prev" title="Brief Tour of the Standard Library --- Part II" aria-label="Brief Tour of the Standard Library --- Part II"><i class="fa fa-angle-left"></i></a>
+            <a rel="next" href="whatnow.html" class="nav-chapters next" title="What Now?" aria-label="What Now?"><i class="fa fa-angle-right"></i></a>
+        </nav>
+    </div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>
