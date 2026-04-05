@@ -281,3 +281,20 @@
         }
     }
 })();
+
+(function () {
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js';
+    script.onload = function () {
+        document.querySelectorAll('pre.literal-block').forEach(function (pre) {
+            const text = pre.textContent;
+            const code = document.createElement('code');
+            code.className = /^\s*>>>/.test(text) ? 'language-python-repl' : 'language-python';
+            code.textContent = text;
+            pre.textContent = '';
+            pre.appendChild(code);
+            hljs.highlightElement(code);
+        });
+    };
+    document.head.appendChild(script);
+})();

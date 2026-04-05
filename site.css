@@ -81,3 +81,7 @@ nav.nav-wrapper {
 .content .xref {
     font-style: italic;
 }
+
+body {
+    font-size: 1.9rem;
+}
