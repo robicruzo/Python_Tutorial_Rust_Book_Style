@@ -1,0 +1,2219 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Iterators, Generators, and Classic Coroutines - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="iterators-generators-and-classic-coroutines"><a class="header" href="#iterators-generators-and-classic-coroutines">Iterators, Generators, and Classic Coroutines</a></h1>
+<blockquote>
+<p>When I see patterns in my programs, I consider it a sign of trouble.  The shape of a
+program should reflect only the problem it needs to solve.  Any other regularity in
+the code is a sign, to me at least, that I’m using abstractions that aren’t powerful
+enough — often that I’m generating by hand the expansions of some macro that I need to
+write.</p>
+<p>— Paul Graham, “Revenge of the Nerds”</p>
+</blockquote>
+<p>Iteration is fundamental to data processing: programs apply computations to data series,
+from pixels to nucleotides.  If the data doesn’t fit in memory, we need to fetch the
+items <em>lazily</em> — one at a time and on demand.  That’s what an iterator does.  This
+chapter shows how the Iterator design pattern is built into the Python language so you
+never need to code it by hand.  It builds on the short introductions in
+<a href="classes.html#tut-iterators">Iterators</a>, <a href="classes.html#tut-generators">Generators</a> and
+<a href="classes.html#tut-genexps">Generator Expressions</a>.</p>
+<p>Every standard collection in Python is <em>iterable</em>.  An iterable is an object that
+provides an <em>iterator</em>, which Python uses to support operations like:</p>
+<ul>
+<li><code>for</code> loops;</li>
+<li>list, dict and set comprehensions;</li>
+<li>unpacking assignments;</li>
+<li>construction of collection instances.</li>
+</ul>
+<p>This chapter covers the following topics:</p>
+<ul>
+<li>how Python uses the <code>iter()</code> built-in function to handle iterable objects;</li>
+<li>how to implement the classic Iterator pattern in Python;</li>
+<li>how the classic Iterator pattern can be replaced by a generator function or generator
+expression;</li>
+<li>how a generator function works in detail, with line-by-line descriptions;</li>
+<li>leveraging the general-purpose generator functions in the standard library;</li>
+<li>using <code>yield from</code> expressions to combine generators;</li>
+<li>why generators and classic coroutines look alike but are used in very different ways
+and should not be mixed.</li>
+</ul>
+<h2 id="a-sequence-of-words"><a class="header" href="#a-sequence-of-words">A Sequence of Words</a></h2>
+<p>We’ll start our exploration of iterables by implementing a <code>Sentence</code> class: you give its
+constructor a string with some text, and then you can iterate word by word.  The first
+version will implement the sequence protocol, and it’s iterable because all sequences are
+iterable — as we’ve seen since <a href="data-model.html">The Python Data Model</a>.  Now we’ll see
+exactly why.</p>
+<pre><code class="language-python">import re
+import reprlib
+
+RE_WORD = re.compile(r'\w+')
+
+class Sentence:
+
+    def __init__(self, text):
+        self.text = text
+        self.words = RE_WORD.findall(text)  # list of all nonoverlapping matches
+
+    def __getitem__(self, index):
+        return self.words[index]
+
+    def __len__(self):  # completes the sequence protocol, but not needed to be iterable
+        return len(self.words)
+
+    def __repr__(self):
+        return 'Sentence(%s)' % reprlib.repr(self.text)
+</code></pre>
+<p><code>.findall</code> returns a list with all nonoverlapping matches of the regular expression, as a
+list of strings.  <code>self.words</code> holds that result, so we simply return the word at the
+given index.  To complete the sequence protocol, we implement <code>__len__()</code>, although it is
+not needed to make an iterable.  <code>reprlib.repr</code> is a utility function to generate
+abbreviated string representations of data structures that can be very large; by default
+it limits the generated string to 30 characters.  Here is how a <code>Sentence</code> is used:</p>
+<pre><code class="language-python">s = Sentence('"The time has come," the Walrus said,')  # a sentence is created from a string
+s  # note the output of __repr__ using ... generated by reprlib.repr
+# Sentence('"The time ha... Walrus said,')
+for word in s:  # Sentence instances are iterable; we'll see why in a moment
+    print(word)
+
+# The
+# time
+# has
+# come
+# the
+# Walrus
+# said
+list(s)  # being iterable, Sentence objects can be used to build lists
+# ['The', 'time', 'has', 'come', 'the', 'Walrus', 'said']
+</code></pre>
+<p>In the following pages, we’ll develop other <code>Sentence</code> classes that pass these same tests.
+However, this implementation is different from the others because it’s also a sequence,
+so you can get words by index:</p>
+<pre><code class="language-python">s[0]
+# 'The'
+s[5]
+# 'Walrus'
+s[-1]
+# 'said'
+</code></pre>
+<p>Python programmers know that sequences are iterable.  Now we’ll see precisely why.</p>
+<h2 id="why-sequences-are-iterable-the-iter-function"><a class="header" href="#why-sequences-are-iterable-the-iter-function">Why Sequences Are Iterable: The <code>iter</code> Function</a></h2>
+<p>Whenever Python needs to iterate over an object <code>x</code>, it automatically calls <code>iter(x)</code>.
+The <a href="https://docs.python.org/3/library/functions.html#iter"><code>iter</code></a> built-in function:</p>
+<ol>
+<li>Checks whether the object implements <code>__iter__()</code>, and calls that to obtain an
+iterator.</li>
+<li>If <code>__iter__()</code> is not implemented, but <code>__getitem__()</code> is, then <code>iter()</code> creates an
+iterator that tries to fetch items by index, starting from 0 (zero).</li>
+<li>If that fails, Python raises <code>TypeError</code>, usually saying <code>'C' object is not iterable</code>,
+where <code>C</code> is the class of the target object.</li>
+</ol>
+<p>That is why all Python sequences are iterable: by definition, they all implement
+<code>__getitem__()</code>.  In fact, the standard sequences also implement <code>__iter__()</code>, and yours
+should too, because iteration via <code>__getitem__()</code> exists for backward compatibility —
+although it is not deprecated, and is unlikely to ever be removed.</p>
+<p>As mentioned in <a href="protocols-abcs.html#python-digs-sequences">Python Digs Sequences</a>, this is
+an extreme form of duck typing: an object is considered iterable not only when it
+implements the special method <code>__iter__()</code>, but also when it implements <code>__getitem__()</code>.
+Take a look:</p>
+<pre><code class="language-python">class Spam:
+    def __getitem__(self, i):
+        print('-&gt;', i)
+        raise IndexError()
+
+spam_can = Spam()
+iter(spam_can)
+# &lt;iterator object at 0x10a878f70&gt;
+list(spam_can)
+# -&gt; 0
+# []
+from collections import abc
+isinstance(spam_can, abc.Iterable)
+# False
+</code></pre>
+<p>If a class provides <code>__getitem__()</code>, the <code>iter()</code> built-in accepts an instance of that
+class as iterable and builds an iterator from the instance.  Python’s iteration machinery
+will call <code>__getitem__()</code> with indexes starting from 0, and will take an <code>IndexError</code> as
+a signal that there are no more items.  Note that although <code>spam_can</code> is iterable (its
+<code>__getitem__()</code> could provide items), it is not recognized as such by an <code>isinstance</code>
+against <code>abc.Iterable</code>.</p>
+<p>In the goose-typing approach, the definition for an iterable is simpler but not as
+flexible: an object is considered iterable if it implements the <code>__iter__()</code> method.  No
+subclassing or registration is required, because <code>abc.Iterable</code> implements the
+<code>__subclasshook__()</code>, as seen in <a href="protocols-abcs.html#structural-typing-with-abcs">Structural Typing with ABCs</a>:</p>
+<pre><code class="language-python">class GooseSpam:
+    def __iter__(self):
+        pass
+
+from collections import abc
+issubclass(GooseSpam, abc.Iterable)
+# True
+goose_spam_can = GooseSpam()
+isinstance(goose_spam_can, abc.Iterable)
+# True
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>The most accurate way to check whether an object <code>x</code> is iterable is to call <code>iter(x)</code>
+and handle a <code>TypeError</code> exception if it isn’t.  This is more accurate than using
+<code>isinstance(x, abc.Iterable)</code>, because <code>iter(x)</code> also considers the legacy
+<code>__getitem__()</code> method, while the <code>Iterable</code> ABC does not.</p>
+</blockquote>
+<p>Explicitly checking whether an object is iterable may not be worthwhile if right after the
+check you are going to iterate over the object.  After all, when the iteration is
+attempted on a noniterable, the exception Python raises is clear enough:
+<code>TypeError: 'C' object is not iterable</code>.  If you can do better than just raising
+<code>TypeError</code>, then do so in a <code>try</code>/<code>except</code> block instead of doing an explicit check.  The
+explicit check may make sense if you are holding on to the object to iterate over it
+later; in this case, catching the error early makes debugging easier.</p>
+<p>The <code>iter()</code> built-in is more often used by Python itself than by our own code.  There’s a
+second way we can use it, but it’s not widely known.</p>
+<h3 id="using-iter-with-a-callable"><a class="header" href="#using-iter-with-a-callable">Using <code>iter</code> with a Callable</a></h3>
+<p>We can call <code>iter()</code> with two arguments to create an iterator from a function or any
+callable object.  In this usage, the first argument must be a callable to be invoked
+repeatedly (with no arguments) to produce values, and the second argument is a
+<em>sentinel</em>: a marker value which, when returned by the callable, causes the iterator to
+raise <code>StopIteration</code> instead of yielding the sentinel.</p>
+<p>The following example shows how to use <code>iter</code> to roll a six-sided die until a <code>1</code> is
+rolled:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from random import randint
+
+def d6():
+    return randint(1, 6)
+
+d6_iter = iter(d6, 1)
+d6_iter
+# &lt;callable_iterator object at 0x10a245270&gt;
+for roll in d6_iter:
+    print(roll)
+
+# 4
+# 3
+# 6
+# 3
+</code></pre>
+<p>Note that the <code>iter</code> function here returns a <code>callable_iterator</code>.  The <code>for</code> loop in the
+example may run for a very long time, but it will never display <code>1</code>, because that is the
+sentinel value.  As usual with iterators, the <code>d6_iter</code> object in the example becomes
+useless once exhausted.  To start over, we must rebuild the iterator by invoking <code>iter()</code>
+again.</p>
+<p>The documentation for <code>iter</code> includes the following explanation and example code: “One
+useful application of the second form of <code>iter()</code> is to build a block-reader.  For
+example, reading fixed-width blocks from a binary database file until the end of file is
+reached”:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from functools import partial
+
+with open('mydata.db', 'rb') as f:
+    read64 = partial(f.read, 64)
+    for block in iter(read64, b''):
+        process_block(block)
+</code></pre>
+<p>The <code>read64</code> assignment was added for clarity.  The <code>partial()</code> function is necessary
+because the callable given to <code>iter()</code> must not require arguments.  In the example, an
+empty <code>bytes</code> object is the sentinel, because that’s what <code>f.read</code> returns when there are
+no more bytes to read.</p>
+<p>The next section details the relationship between iterables and iterators.</p>
+<h2 id="iterables-versus-iterators"><a class="header" href="#iterables-versus-iterators">Iterables Versus Iterators</a></h2>
+<p>From the explanation in <a href="#why-sequences-are-iterable-the-iter-function">Why Sequences Are Iterable</a>
+we can extrapolate a definition:</p>
+<dl>
+<dt id="iterable"><a class="header" href="#iterable"><strong>iterable</strong></a></dt>
+<dd>Any object from which the <code>iter</code> built-in function can obtain an iterator.  Objects
+implementing an <code>__iter__()</code> method returning an iterator are iterable.  Sequences are
+always iterable, as are objects implementing a <code>__getitem__()</code> method that accepts
+0-based indexes.</dd>
+</dl>
+<p>It’s important to be clear about the relationship between iterables and iterators: Python
+obtains iterators from iterables.  Here is a simple <code>for</code> loop iterating over a <code>str</code>.  The
+<code>str</code> <code>'ABC'</code> is the iterable here.  You don’t see it, but there is an iterator behind the
+curtain:</p>
+<pre><code class="language-python">s = 'ABC'
+for char in s:
+    print(char)
+
+# A
+# B
+# C
+</code></pre>
+<p>If there was no <code>for</code> statement and we had to emulate the <code>for</code> machinery by hand with a
+<code>while</code> loop, this is what we’d have to write:</p>
+<pre><code class="language-python">s = 'ABC'
+it = iter(s)  # build an iterator from the iterable
+while True:
+    try:
+        print(next(it))  # repeatedly call next on the iterator to obtain the next item
+    except StopIteration:  # the iterator raises StopIteration when there are no more items
+        del it  # release reference to it: the iterator object is discarded
+        break
+
+# A
+# B
+# C
+</code></pre>
+<p><code>StopIteration</code> signals that the iterator is exhausted.  This exception is handled
+internally by the <code>for</code> statement and other iteration contexts like list comprehensions,
+iterable unpacking, etc.</p>
+<p>Python’s standard interface for an iterator has two methods:</p>
+<dl>
+<dt id="__next__"><a class="header" href="#__next__"><code>__next__</code></a></dt>
+<dd>Returns the next item in the series, raising <code>StopIteration</code> if there are no more.</dd>
+<dt id="__iter__"><a class="header" href="#__iter__"><code>__iter__</code></a></dt>
+<dd>Returns <code>self</code>; this allows iterators to be used where an iterable is expected, for
+example, in a <code>for</code> loop.</dd>
+</dl>
+<p>That interface is formalized in the <code>collections.abc.Iterator</code> ABC, which declares the
+<code>__next__</code> abstract method, and subclasses <code>Iterable</code> — where the abstract <code>__iter__</code>
+method is declared.  A concrete <code>Iterable.__iter__</code> should return a new <code>Iterator</code>
+instance; a concrete <code>Iterator</code> must implement <code>__next__</code>; and <code>Iterator.__iter__</code> just
+returns the instance itself.  Here is the source code for <code>collections.abc.Iterator</code>,
+from <code>Lib/_collections_abc.py</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class Iterator(Iterable):
+
+    __slots__ = ()
+
+    @abstractmethod
+    def __next__(self):
+        'Return the next item from the iterator. When exhausted, raise StopIteration'
+        raise StopIteration
+
+    def __iter__(self):
+        return self
+
+    @classmethod
+    def __subclasshook__(cls, C):
+        if cls is Iterator:
+            return _check_methods(C, '__iter__', '__next__')
+        return NotImplemented
+</code></pre>
+<p><code>__subclasshook__()</code> supports structural type checks with <code>isinstance</code> and
+<code>issubclass</code>.  <code>_check_methods</code> traverses the <code>__mro__</code> of the class to check whether the
+methods are implemented in its base classes.  If they are, the <code>C</code> class will be
+recognized as a virtual subclass of <code>Iterator</code>.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>As usual, you should avoid calling special methods directly.  Just use <code>next(it)</code>: the
+built-in function does the right thing.</p>
+</blockquote>
+<p>The <code>Lib/types.py</code> module source code has a comment that says:</p>
+<pre><code class="language-text"># Iterators in Python aren't a matter of type but of protocol.  A large
+# and changing number of builtin types implement *some* flavor of
+# iterator.  Don't check the type!  Use hasattr to check for both
+# "__iter__" and "__next__" attributes instead.
+</code></pre>
+<p>In fact, that’s exactly what the <code>__subclasshook__()</code> method of the <code>abc.Iterator</code> ABC
+does.  Given that advice, the best way to check if an object <code>x</code> is an iterator is to
+call <code>isinstance(x, abc.Iterator)</code>.  Thanks to <code>Iterator.__subclasshook__</code>, this test
+works even if the class of <code>x</code> is not a real or virtual subclass of <code>Iterator</code>.</p>
+<p>Back to our first <code>Sentence</code> class, you can clearly see how the iterator is built by
+<code>iter()</code> and consumed by <code>next()</code>:</p>
+<pre><code class="language-python">s3 = Sentence('Life of Brian')  # create a sentence s3 with three words
+it = iter(s3)  # obtain an iterator from s3
+it
+# &lt;iterator object at 0x...&gt;
+next(it)  # next(it) fetches the next word
+# 'Life'
+next(it)
+# 'of'
+next(it)
+# 'Brian'
+next(it)  # there are no more words, so the iterator raises StopIteration
+# Traceback (most recent call last):
+#   ...
+# StopIteration
+list(it)  # once exhausted, an iterator always raises StopIteration: it looks empty
+# []
+list(iter(s3))  # to go over the sentence again, a new iterator must be built
+# ['Life', 'of', 'Brian']
+</code></pre>
+<p>Because the only methods required of an iterator are <code>__next__()</code> and <code>__iter__()</code>,
+there is no way to check whether there are remaining items, other than to call <code>next()</code>
+and catch <code>StopIteration</code>.  Also, it’s not possible to “reset” an iterator.  If you need to
+start over, you need to call <code>iter()</code> on the iterable that built the iterator in the first
+place.  Calling <code>iter()</code> on the iterator itself won’t help either, because
+<code>Iterator.__iter__</code> is implemented by returning <code>self</code>, so this will not reset a depleted
+iterator.</p>
+<p>That minimal interface is sensible, because in reality not all iterators are resettable.
+For example, if an iterator is reading packets from the network, there’s no way to rewind
+it.</p>
+<p>The first version of <code>Sentence</code> was iterable thanks to the special treatment the <code>iter()</code>
+built-in gives to sequences.  Next, we will implement <code>Sentence</code> variations that implement
+<code>__iter__()</code> to return iterators.</p>
+<h2 id="sentence-classes-with-__iter__"><a class="header" href="#sentence-classes-with-__iter__">Sentence Classes with <code>__iter__</code></a></h2>
+<p>The next variations of <code>Sentence</code> implement the standard iterable protocol, first by
+implementing the Iterator design pattern, and then with generator functions.</p>
+<h3 id="sentence-take-2-a-classic-iterator"><a class="header" href="#sentence-take-2-a-classic-iterator">Sentence Take #2: A Classic Iterator</a></h3>
+<p>The next <code>Sentence</code> implementation follows the blueprint of the classic Iterator design
+pattern from the <em>Design Patterns</em> book.  Note that it is not idiomatic Python, as the next
+refactorings will make very clear.  But it is useful to show the distinction between an
+iterable collection and an iterator that works with it.</p>
+<p>This <code>Sentence</code> class is iterable because it implements the <code>__iter__()</code> special method,
+which builds and returns a <code>SentenceIterator</code>.  That’s how an iterable and an iterator are
+related:</p>
+<pre><code class="language-python">import re
+import reprlib
+
+RE_WORD = re.compile(r'\w+')
+
+class Sentence:
+
+    def __init__(self, text):
+        self.text = text
+        self.words = RE_WORD.findall(text)
+
+    def __repr__(self):
+        return f'Sentence({reprlib.repr(self.text)})'
+
+    def __iter__(self):  # fulfill the iterable protocol by returning an iterator
+        return SentenceIterator(self.words)
+
+class SentenceIterator:
+
+    def __init__(self, words):
+        self.words = words  # SentenceIterator holds a reference to the list of words
+        self.index = 0  # self.index determines the next word to fetch
+
+    def __next__(self):
+        try:
+            word = self.words[self.index]  # get the word at self.index
+        except IndexError:
+            raise StopIteration()  # if there is no word at self.index, raise StopIteration
+        self.index += 1
+        return word
+
+    def __iter__(self):
+        return self
+
+list(Sentence('"The time has come," the Walrus said,'))
+# ['The', 'time', 'has', 'come', 'the', 'Walrus', 'said']
+</code></pre>
+<p>The <code>__iter__()</code> method is the only addition to the previous <code>Sentence</code> implementation.
+This version has no <code>__getitem__()</code>, to make it clear that the class is iterable because it
+implements <code>__iter__()</code>.</p>
+<p>Note that implementing <code>__iter__()</code> in <code>SentenceIterator</code> is not actually needed for this
+example to work, but it is the right thing to do: iterators are supposed to implement both
+<code>__next__()</code> and <code>__iter__()</code>, and doing so makes our iterator pass the
+<code>issubclass(SentenceIterator, abc.Iterator)</code> test.  If we had subclassed
+<code>SentenceIterator</code> from <code>abc.Iterator</code>, we’d inherit the concrete <code>abc.Iterator.__iter__</code>
+method.</p>
+<p>That is a lot of work (for us spoiled Python programmers, anyway).  Note how most code in
+<code>SentenceIterator</code> deals with managing the internal state of the iterator.  Soon we’ll see
+how to avoid that bookkeeping.  But first, a brief detour to address an implementation
+shortcut that may be tempting, but is just wrong.</p>
+<h3 id="dont-make-the-iterable-an-iterator-for-itself"><a class="header" href="#dont-make-the-iterable-an-iterator-for-itself">Don’t Make the Iterable an Iterator for Itself</a></h3>
+<p>A common cause of errors in building iterables and iterators is to confuse the two.  To be
+clear: iterables have an <code>__iter__()</code> method that instantiates a new iterator every time.
+Iterators implement a <code>__next__()</code> method that returns individual items, and an
+<code>__iter__()</code> method that returns <code>self</code>.</p>
+<p>Therefore, iterators are also iterable, but iterables are not iterators.</p>
+<p>It may be tempting to implement <code>__next__()</code> in addition to <code>__iter__()</code> in the <code>Sentence</code>
+class, making each <code>Sentence</code> instance at the same time an iterable and iterator over
+itself.  (The <code>Reverse</code> class in <a href="classes.html#tut-iterators">Iterators</a> takes that
+shortcut, to keep the introduction short.)  But this is rarely a good idea.  It’s also a
+common antipattern, according to Alex Martelli, who has a lot of experience reviewing
+Python code at Google.</p>
+<p>The “Applicability” section about the Iterator design pattern in the <em>Design Patterns</em>
+book says:</p>
+<blockquote>
+<p>Use the Iterator pattern</p>
+<ul>
+<li>to access an aggregate object’s contents without exposing its internal
+representation.</li>
+<li>to support multiple traversals of aggregate objects.</li>
+<li>to provide a uniform interface for traversing different aggregate structures (that
+is, to support polymorphic iteration).</li>
+</ul>
+</blockquote>
+<p>To “support multiple traversals”, it must be possible to obtain multiple independent
+iterators from the same iterable instance, and each iterator must keep its own internal
+state, so a proper implementation of the pattern requires each call to <code>iter(my_iterable)</code>
+to create a new, independent iterator.  That is why we need the <code>SentenceIterator</code> class
+in this example.  Here is the trap in miniature:</p>
+<pre><code class="language-python">class SelfIter:
+    def __init__(self, data):
+        self.data = data
+        self.i = 0
+
+    def __iter__(self):
+        return self  # wrong for an iterable: there's only ever one iteration state
+
+    def __next__(self):
+        if self.i &gt;= len(self.data):
+            raise StopIteration
+        self.i += 1
+        return self.data[self.i - 1]
+
+si = SelfIter('AB')
+[(a, b) for a in si for b in si]  # nested loops share one state
+# [('A', 'B')]
+</code></pre>
+<p>With a proper iterable, the nested loops would produce all four pairs.</p>
+<p>Now that the classic Iterator pattern is properly demonstrated, we can let it go.  Python
+incorporated the <code>yield</code> keyword from Barbara Liskov’s CLU language, so we don’t need to
+“generate by hand” the code to implement iterators.  The next sections present more
+idiomatic versions of <code>Sentence</code>.</p>
+<h3 id="sentence-take-3-a-generator-function"><a class="header" href="#sentence-take-3-a-generator-function">Sentence Take #3: A Generator Function</a></h3>
+<p>A Pythonic implementation of the same functionality uses a generator, avoiding all the work
+to implement the <code>SentenceIterator</code> class.  A proper explanation of the generator comes
+right after this listing:</p>
+<pre><code class="language-python">import re
+import reprlib
+
+RE_WORD = re.compile(r'\w+')
+
+class Sentence:
+
+    def __init__(self, text):
+        self.text = text
+        self.words = RE_WORD.findall(text)
+
+    def __repr__(self):
+        return 'Sentence(%s)' % reprlib.repr(self.text)
+
+    def __iter__(self):
+        for word in self.words:  # iterate over self.words
+            yield word  # yield the current word
+        # done!
+
+list(Sentence('"The time has come," the Walrus said,'))
+# ['The', 'time', 'has', 'come', 'the', 'Walrus', 'said']
+</code></pre>
+<p>An explicit <code>return</code> is not necessary; the function can just “fall through” and return
+automatically.  Either way, a generator function doesn’t raise <code>StopIteration</code>: it simply
+exits when it’s done producing values.  No need for a separate iterator class!</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The body of that <code>__iter__()</code> could simply be <code>return iter(self.words)</code>: the result of
+calling <code>self.words.__iter__()</code> would also be an iterator, as it should be.  Or it could
+be <code>yield from self.words</code>, which we’ll cover later in this chapter.  The <code>for</code> loop with
+<code>yield</code> is used here to introduce the syntax of a generator function.</p>
+</blockquote>
+<p>Here again we have a different implementation of <code>Sentence</code> that passes the same tests.
+Back in the classic iterator version, <code>__iter__()</code> called the <code>SentenceIterator</code>
+constructor to build an iterator and return it.  Now the iterator is in fact a generator
+object, built automatically when the <code>__iter__()</code> method is called, because <code>__iter__()</code>
+here is a generator function.</p>
+<p>A full explanation of generators follows.</p>
+<h3 id="how-a-generator-works"><a class="header" href="#how-a-generator-works">How a Generator Works</a></h3>
+<p>Any Python function that has the <code>yield</code> keyword in its body is a <em>generator function</em>: a
+function which, when called, returns a generator object.  In other words, a generator
+function is a generator factory.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>The only syntax distinguishing a plain function from a generator function is the fact
+that the latter has a <code>yield</code> keyword somewhere in its body.  Some argued that a new
+keyword like <code>gen</code> should be used instead of <code>def</code> to declare generator functions, but
+Guido did not agree.  His arguments are in
+<a href="https://peps.python.org/pep-0255/"><strong>PEP 255</strong></a> — Simple Generators.</p>
+</blockquote>
+<p>Here is the behavior of a simple generator function:</p>
+<pre><code class="language-python">def gen_123():
+    yield 1  # the body of a generator function often has yield inside a loop, but not necessarily
+    yield 2
+    yield 3
+
+gen_123  # gen_123 is a function object...
+# &lt;function gen_123 at 0x...&gt;
+gen_123()  # ...but when invoked, gen_123() returns a generator object
+# &lt;generator object gen_123 at 0x...&gt;
+for i in gen_123():  # generator objects implement the Iterator interface, so they are iterable
+    print(i)
+
+# 1
+# 2
+# 3
+g = gen_123()  # assign a new generator object to g, so we can experiment with it
+next(g)  # because g is an iterator, next(g) fetches the next item produced by yield
+# 1
+next(g)
+# 2
+next(g)
+# 3
+next(g)  # when the generator function returns, the generator object raises StopIteration
+# Traceback (most recent call last):
+#   ...
+# StopIteration
+</code></pre>
+<p>A generator function builds a generator object that wraps the body of the function.  When
+we invoke <code>next()</code> on the generator object, execution advances to the next <code>yield</code> in the
+function body, and the <code>next()</code> call evaluates to the value yielded when the function body
+is suspended.  Finally, the enclosing generator object created by Python raises
+<code>StopIteration</code> when the function body returns, in accordance with the <code>Iterator</code>
+protocol.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>It helps to be rigorous when talking about values obtained from a generator.  It’s
+confusing to say a generator “returns” values.  Functions return values.  Calling a
+generator function returns a generator.  A generator <em>yields</em> values.  A generator
+doesn’t “return” values in the usual way: the <code>return</code> statement in the body of a
+generator function causes <code>StopIteration</code> to be raised by the generator object.  If you
+<code>return x</code> in the generator, the caller can retrieve the value of <code>x</code> from the
+<code>StopIteration</code> exception, but usually that is done automatically using the
+<code>yield from</code> syntax, as we’ll see in
+<a href="#returning-a-value-from-a-coroutine">Returning a Value from a Coroutine</a>.</p>
+</blockquote>
+<p>This example makes the interaction between a <code>for</code> loop and the body of the function more
+explicit:</p>
+<pre><code class="language-python">def gen_AB():
+    print('start')
+    yield 'A'  # the first implicit next() prints 'start' and stops here, producing 'A'
+    print('continue')
+    yield 'B'  # the second next() prints 'continue' and stops here, producing 'B'
+    print('end.')  # the third next() prints 'end.' and falls through: StopIteration
+
+for c in gen_AB():  # the for machinery calls iter(gen_AB()), then next() at each iteration
+    print('--&gt;', c)
+
+# start
+# --&gt; A
+# continue
+# --&gt; B
+# end.
+</code></pre>
+<p>To iterate, the <code>for</code> machinery does the equivalent of <code>g = iter(gen_AB())</code> to get a
+generator object, and then <code>next(g)</code> at each iteration.  The text <code>start</code> comes from
+<code>print('start')</code> in the generator body.  <code>yield 'A'</code> yields the value <code>A</code> consumed by the
+<code>for</code> loop, which gets assigned to the <code>c</code> variable and results in the output <code>--&gt; A</code>.
+Iteration continues with a second call to <code>next(g)</code>, advancing the generator body from
+<code>yield 'A'</code> to <code>yield 'B'</code>.  The text <code>continue</code> is output by the second <code>print</code> in the
+generator body.  <code>yield 'B'</code> yields the value <code>B</code>, so the loop prints <code>--&gt; B</code>.  Iteration
+continues with a third call to <code>next(g)</code>, advancing to the end of the body of the function.
+The text <code>end.</code> appears in the output because of the third <code>print</code>.  When the generator
+function runs to the end, the generator object raises <code>StopIteration</code>.  The <code>for</code> loop
+machinery catches that exception, and the loop terminates cleanly.</p>
+<p>Now hopefully it’s clear how <code>Sentence.__iter__</code> in Take #3 works: <code>__iter__()</code> is a
+generator function which, when called, builds a generator object that implements the
+<code>Iterator</code> interface, so the <code>SentenceIterator</code> class is no longer needed.</p>
+<p>That version of <code>Sentence</code> is more concise than the classic one, but it’s not as lazy as it
+could be.  Nowadays, laziness is considered a good trait, at least in programming languages
+and APIs.  A lazy implementation postpones producing values to the last possible moment.
+This saves memory and may avoid wasting CPU cycles, too.  We’ll build lazy <code>Sentence</code>
+classes next.</p>
+<h2 id="lazy-sentences"><a class="header" href="#lazy-sentences">Lazy Sentences</a></h2>
+<p>The final variations of <code>Sentence</code> are lazy, taking advantage of a lazy function from the
+<code>re</code> module.</p>
+<h3 id="sentence-take-4-lazy-generator"><a class="header" href="#sentence-take-4-lazy-generator">Sentence Take #4: Lazy Generator</a></h3>
+<p>The <code>Iterator</code> interface is designed to be lazy: <code>next(my_iterator)</code> yields one item at a
+time.  The opposite of lazy is eager: lazy evaluation and eager evaluation are technical
+terms in programming language theory.</p>
+<p>Our <code>Sentence</code> implementations so far have not been lazy because the <code>__init__()</code> eagerly
+builds a list of all words in the text, binding it to the <code>self.words</code> attribute.  This
+requires processing the entire text, and the list may use as much memory as the text
+itself (probably more; it depends on how many nonword characters are in the text).  Most of
+this work will be in vain if the user only iterates over the first couple of words.  If you
+wonder, “Is there a lazy way of doing this in Python?” the answer is often “Yes”.</p>
+<p>The <a href="https://docs.python.org/3/library/re.html#re.finditer"><code>re.finditer</code></a> function is a
+lazy version of <code>re.findall</code>.  Instead of a list, <code>re.finditer</code> returns a generator
+yielding <code>re.Match</code> instances on demand.  If there are many matches, <code>re.finditer</code> saves a
+lot of memory.  Using it, our next version of <code>Sentence</code> is lazy: it only reads the next
+word from the text when it is needed:</p>
+<pre><code class="language-python">import re
+import reprlib
+
+RE_WORD = re.compile(r'\w+')
+
+class Sentence:
+
+    def __init__(self, text):
+        self.text = text  # no need to have a words list
+
+    def __repr__(self):
+        return f'Sentence({reprlib.repr(self.text)})'
+
+    def __iter__(self):
+        for match in RE_WORD.finditer(self.text):  # an iterator over the matches
+            yield match.group()  # extract the matched text from the Match instance
+
+list(Sentence('"The time has come," the Walrus said,'))
+# ['The', 'time', 'has', 'come', 'the', 'Walrus', 'said']
+</code></pre>
+<p>Generators are a great shortcut, but the code can be made even more concise with a
+generator expression.</p>
+<h3 id="sentence-take-5-lazy-generator-expression"><a class="header" href="#sentence-take-5-lazy-generator-expression">Sentence Take #5: Lazy Generator Expression</a></h3>
+<p>We can replace simple generator functions like the one in the previous <code>Sentence</code> class
+with a generator expression.  As a list comprehension builds lists, a generator expression
+builds generator objects.  This example contrasts their behavior:</p>
+<pre><code class="language-python">def gen_AB():  # the same gen_AB function as before
+    print('start')
+    yield 'A'
+    print('continue')
+    yield 'B'
+    print('end.')
+
+res1 = [x*3 for x in gen_AB()]  # the list comprehension eagerly consumes the generator
+# start
+# continue
+# end.
+for i in res1:  # this loop iterates over the list built by the list comprehension
+    print('--&gt;', i)
+
+# --&gt; AAA
+# --&gt; BBB
+res2 = (x*3 for x in gen_AB())  # res2 is a generator object; it is not consumed here
+res2
+# &lt;generator object &lt;genexpr&gt; at 0x10063c240&gt;
+for i in res2:  # only now the generator gets items from gen_AB, interleaving the output
+    print('--&gt;', i)
+
+# start
+# --&gt; AAA
+# continue
+# --&gt; BBB
+# end.
+</code></pre>
+<p>The list comprehension eagerly iterates over the items yielded by the generator object
+returned by <code>gen_AB()</code>: <code>'A'</code> and <code>'B'</code>.  Note the output: <code>start</code>, <code>continue</code>, <code>end.</code>.
+The generator expression returns <code>res2</code>, a generator object.  Only when the <code>for</code> loop
+iterates over <code>res2</code> does this generator get items from <code>gen_AB</code>.  Each iteration of the
+<code>for</code> loop implicitly calls <code>next(res2)</code>, which in turn calls <code>next()</code> on the generator
+object returned by <code>gen_AB()</code>, advancing it to the next <code>yield</code>.  Note how the output of
+<code>gen_AB()</code> interleaves with the output of the <code>print</code> in the <code>for</code> loop.</p>
+<p>We can use a generator expression to further reduce the code in the <code>Sentence</code> class:</p>
+<pre><code class="language-python">import re
+import reprlib
+
+RE_WORD = re.compile(r'\w+')
+
+class Sentence:
+
+    def __init__(self, text):
+        self.text = text
+
+    def __repr__(self):
+        return f'Sentence({reprlib.repr(self.text)})'
+
+    def __iter__(self):
+        return (match.group() for match in RE_WORD.finditer(self.text))
+
+list(Sentence('"The time has come," the Walrus said,'))
+# ['The', 'time', 'has', 'come', 'the', 'Walrus', 'said']
+</code></pre>
+<p>The only difference from Take #4 is the <code>__iter__()</code> method, which here is not a generator
+function (it has no <code>yield</code>) but uses a generator expression to build a generator and then
+returns it.  The end result is the same: the caller of <code>__iter__()</code> gets a generator
+object.</p>
+<p>Generator expressions are syntactic sugar: they can always be replaced by generator
+functions, but sometimes are more convenient.  The next section is about generator
+expression usage.</p>
+<h2 id="when-to-use-generator-expressions"><a class="header" href="#when-to-use-generator-expressions">When to Use Generator Expressions</a></h2>
+<p>We used several generator expressions when implementing the <code>Vector</code> class in
+<a href="sequence-protocol.html">Special Methods for Sequences</a> and
+<a href="operator-overloading.html">Operator Overloading</a>.  Each of these methods has a generator
+expression: <code>__eq__()</code>, <code>__hash__()</code>, <code>angles</code>, <code>__format__()</code>, <code>__add__()</code> and
+<code>__mul__()</code>.  In all those methods, a list comprehension would also work, at the cost of
+using more memory to store the intermediate list values.</p>
+<p>A generator expression is a syntactic shortcut to create a generator without defining and
+calling a function.  On the other hand, generator functions are more flexible: we can code
+complex logic with multiple statements, and we can even use them as coroutines, as we’ll
+see in <a href="#classic-coroutines">Classic Coroutines</a>.</p>
+<p>For the simpler cases, a generator expression is easier to read at a glance, as the
+<code>Vector</code> example shows.  A good rule of thumb: if the generator expression spans more than
+a couple of lines, prefer to code a generator function for the sake of readability.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>When a generator expression is passed as the single argument to a function or
+constructor, you don’t need to write a set of parentheses for the function call and
+another to enclose the generator expression.  A single pair will do, like in the
+<code>Vector</code> call from the <code>__mul__()</code> method: <code>Vector(n * factor for n in self)</code>.  However,
+if there are more function arguments after the generator expression, you need to enclose
+it in parentheses to avoid a <code>SyntaxError</code>.</p>
+</blockquote>
+<p>The <code>Sentence</code> examples we’ve seen demonstrate generators playing the role of the classic
+Iterator pattern: retrieving items from a collection.  But we can also use generators to
+yield values independent of a data source.  The next section shows an example.  But first,
+a short discussion on the overlapping concepts of iterator and generator.</p>
+<h3 id="contrasting-iterators-and-generators"><a class="header" href="#contrasting-iterators-and-generators">Contrasting Iterators and Generators</a></h3>
+<p>In the official Python documentation and codebase, the terminology around iterators and
+generators is inconsistent and evolving.  We’ll use these definitions:</p>
+<dl>
+<dt id="iterator"><a class="header" href="#iterator"><strong>iterator</strong></a></dt>
+<dd>General term for any object that implements a <code>__next__()</code> method.  Iterators are
+designed to produce data that is consumed by the client code, i.e., the code that drives
+the iterator via a <code>for</code> loop or other iterative feature, or by explicitly calling
+<code>next(it)</code> on the iterator — although this explicit usage is much less common.  In
+practice, most iterators we use in Python are generators.</dd>
+<dt id="generator"><a class="header" href="#generator"><strong>generator</strong></a></dt>
+<dd>An iterator built by the Python compiler.  To create a generator, we don’t implement
+<code>__next__()</code>.  Instead, we use the <code>yield</code> keyword to make a generator function, which is
+a factory of generator objects.  A generator expression is another way to build a
+generator object.  Generator objects provide <code>__next__()</code>, so they are iterators.  We
+also have asynchronous generators declared with <code>async def</code>, which we’ll study in
+<a href="asyncio.html">Asynchronous Programming</a>.</dd>
+</dl>
+<p>The <a href="https://docs.python.org/3/glossary.html#term-generator-iterator">Python Glossary</a>
+uses the term <em>generator iterator</em> to refer to generator objects built by generator
+functions, while the entry for <em>generator expression</em> says it returns an “iterator”.  But
+the objects returned in both cases are generator objects, according to Python:</p>
+<pre><code class="language-python">def g():
+    yield 0
+
+g()
+# &lt;generator object g at 0x10e6fb290&gt;
+ge = (c for c in 'XYZ')
+ge
+# &lt;generator object &lt;genexpr&gt; at 0x10e936ce0&gt;
+type(g()), type(ge)
+# (&lt;class 'generator'&gt;, &lt;class 'generator'&gt;)
+</code></pre>
+<h2 id="an-arithmetic-progression-generator"><a class="header" href="#an-arithmetic-progression-generator">An Arithmetic Progression Generator</a></h2>
+<p>The classic Iterator pattern is all about traversal: navigating some data structure.  But a
+standard interface based on a method to fetch the next item in a series is also useful
+when the items are produced on the fly, instead of retrieved from a collection.  For
+example, the <code>range</code> built-in generates a bounded arithmetic progression (AP) of integers.
+What if you need to generate an AP of numbers of any type, not only integers?</p>
+<p>Here are a few tests of an <code>ArithmeticProgression</code> class we will see in a moment.  The
+signature of the constructor is <code>ArithmeticProgression(begin, step[, end])</code>.  The complete
+signature of the <code>range</code> built-in is <code>range(start, stop[, step])</code>.  A different signature
+is used here because the <code>step</code> is mandatory but <code>end</code> is optional in an arithmetic
+progression; the argument names were also changed from <code>start/stop</code> to <code>begin/end</code> to make
+the difference clear.  In each test, we call <code>list()</code> on the result to inspect the
+generated values:</p>
+<!-- nocheck -->
+<pre><code class="language-python">ap = ArithmeticProgression(0, 1, 3)
+list(ap)
+# [0, 1, 2]
+ap = ArithmeticProgression(1, .5, 3)
+list(ap)
+# [1.0, 1.5, 2.0, 2.5]
+ap = ArithmeticProgression(0, 1/3, 1)
+list(ap)
+# [0.0, 0.3333333333333333, 0.6666666666666666]
+from fractions import Fraction
+ap = ArithmeticProgression(0, Fraction(1, 3), 1)
+list(ap)
+# [Fraction(0, 1), Fraction(1, 3), Fraction(2, 3)]
+from decimal import Decimal
+ap = ArithmeticProgression(0, Decimal('.1'), .3)
+list(ap)
+# [Decimal('0'), Decimal('0.1'), Decimal('0.2')]
+</code></pre>
+<p>Note that the type of the numbers in the resulting arithmetic progression follows the type
+of <code>begin + step</code>, according to the numeric coercion rules of Python arithmetic: you see
+lists of <code>int</code>, <code>float</code>, <code>Fraction</code> and <code>Decimal</code> numbers.  Here is the implementation of
+the <code>ArithmeticProgression</code> class:</p>
+<pre><code class="language-python">class ArithmeticProgression:
+
+    def __init__(self, begin, step, end=None):
+        self.begin = begin
+        self.step = step
+        self.end = end  # None -&gt; "infinite" series
+
+    def __iter__(self):
+        result_type = type(self.begin + self.step)
+        result = result_type(self.begin)
+        forever = self.end is None
+        index = 0
+        while forever or result &lt; self.end:
+            yield result
+            index += 1
+            result = self.begin + self.step * index
+</code></pre>
+<p><code>__init__()</code> requires two arguments: <code>begin</code> and <code>step</code>; <code>end</code> is optional, and if it’s
+<code>None</code>, the series will be unbounded.  In <code>__iter__()</code>, we get the type of adding
+<code>self.begin</code> and <code>self.step</code>; for example, if one is <code>int</code> and the other is <code>float</code>,
+<code>result_type</code> will be <code>float</code>.  The next line makes a <code>result</code> with the same numeric value
+of <code>self.begin</code>, but coerced to the type of the subsequent additions.  (Python 2 had a
+<code>coerce()</code> built-in function, but it’s gone in Python 3; performing the addition and using
+its type is the simplest substitute.)  For readability, the <code>forever</code> flag will be <code>True</code>
+if the <code>self.end</code> attribute is <code>None</code>, resulting in an unbounded series.  The loop runs
+forever or until the result matches or exceeds <code>self.end</code>; when this loop exits, so does
+the function.  The current <code>result</code> is produced, and the next potential result is
+calculated.  It may never be yielded, because the <code>while</code> loop may terminate.</p>
+<p>In the last line, instead of adding <code>self.step</code> to the previous <code>result</code> each time around
+the loop, we ignore the previous <code>result</code> and compute each new one by adding <code>self.begin</code>
+to <code>self.step</code> multiplied by <code>index</code>.  This avoids the cumulative effect of floating-point
+errors after successive additions.  These simple experiments make the difference clear:</p>
+<pre><code class="language-python">100 * 1.1
+# 110.00000000000001
+total = 0.0
+for _ in range(100):
+    total += 1.1
+
+total
+# 109.99999999999982
+1000 * 1.1
+# 1100.0
+total = 0.0
+for _ in range(1000):
+    total += 1.1
+
+total
+# 1100.0000000000086
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Since Python 3.12, the <code>sum()</code> built-in uses a compensated summation algorithm for
+floats, so <code>sum(1.1 for _ in range(100))</code> gives <code>110.00000000000001</code> — the same as
+<code>100 * 1.1</code>.  The repeated <code>+=</code> above shows the error that naive accumulation produces.
+For exactly rounded float sums, use <code>math.fsum()</code>.</p>
+</blockquote>
+<pre><code class="language-python">sum(1.1 for _ in range(100))
+# 110.00000000000001
+import math
+math.fsum(1.1 for _ in range(100))
+# 110.00000000000001
+</code></pre>
+<p>The <code>ArithmeticProgression</code> class works as intended, and is another example of using a
+generator function to implement the <code>__iter__()</code> special method.  However, if the whole
+point of a class is to build a generator by implementing <code>__iter__()</code>, we can replace the
+class with a generator function.  A generator function is, after all, a generator factory.
+Here is a generator function called <code>aritprog_gen</code> that does the same job as
+<code>ArithmeticProgression</code> but with less code:</p>
+<pre><code class="language-python">def aritprog_gen(begin, step, end=None):
+    result = type(begin + step)(begin)
+    forever = end is None
+    index = 0
+    while forever or result &lt; end:
+        yield result
+        index += 1
+        result = begin + step * index
+
+list(aritprog_gen(0, 1, 3))
+# [0, 1, 2]
+list(aritprog_gen(1, .5, 3))
+# [1.0, 1.5, 2.0, 2.5]
+from fractions import Fraction
+list(aritprog_gen(0, Fraction(1, 3), 1))
+# [Fraction(0, 1), Fraction(1, 3), Fraction(2, 3)]
+from decimal import Decimal
+list(aritprog_gen(0, Decimal('.1'), .3))
+# [Decimal('0'), Decimal('0.1'), Decimal('0.2')]
+</code></pre>
+<p>That is elegant, but always remember: there are plenty of ready-to-use generators in the
+standard library, and the next section will show a shorter implementation using the
+<code>itertools</code> module.</p>
+<h3 id="arithmetic-progression-with-itertools"><a class="header" href="#arithmetic-progression-with-itertools">Arithmetic Progression with <code>itertools</code></a></h3>
+<p>The <a href="https://docs.python.org/3/library/itertools.html"><code>itertools</code></a> module has around 20
+generator functions that can be combined in a variety of interesting ways.</p>
+<p>For example, the <code>itertools.count</code> function returns a generator that yields numbers.
+Without arguments, it yields a series of integers starting with <code>0</code>.  But you can provide
+optional <code>start</code> and <code>step</code> values to achieve a result similar to our <code>aritprog_gen</code>
+functions:</p>
+<pre><code class="language-python">import itertools
+gen = itertools.count(1, .5)
+next(gen)
+# 1
+next(gen)
+# 1.5
+next(gen)
+# 2.0
+next(gen)
+# 2.5
+</code></pre>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p><code>itertools.count</code> never stops, so if you call <code>list(count())</code>, Python will try to build
+a list that would fill all the memory chips ever made.  In practice, your machine will
+become very grumpy long before the call fails.</p>
+</blockquote>
+<p>On the other hand, there is the <code>itertools.takewhile</code> function: it returns a generator that
+consumes another generator and stops when a given predicate evaluates to <code>False</code>.  So we
+can combine the two and write this:</p>
+<pre><code class="language-python">gen = itertools.takewhile(lambda n: n &lt; 3, itertools.count(1, .5))
+list(gen)
+# [1, 1.5, 2.0, 2.5]
+</code></pre>
+<p>Leveraging <code>takewhile</code> and <code>count</code>, this version is even more concise:</p>
+<pre><code class="language-python">import itertools
+
+def aritprog_gen(begin, step, end=None):
+    first = type(begin + step)(begin)
+    ap_gen = itertools.count(first, step)
+    if end is None:
+        return ap_gen
+    return itertools.takewhile(lambda n: n &lt; end, ap_gen)
+
+list(aritprog_gen(1, .5, 3))
+# [1.0, 1.5, 2.0, 2.5]
+</code></pre>
+<p>Note that this <code>aritprog_gen</code> is not a generator function: it has no <code>yield</code> in its body.
+But it returns a generator, just as a generator function does.  However, recall that
+<code>itertools.count</code> adds the <code>step</code> repeatedly, so the floating-point series it produces are
+not as precise as the previous version.</p>
+<p>The point is: when implementing generators, know what is available in the standard
+library, otherwise there’s a good chance you’ll reinvent the wheel.  That’s why the next
+section covers several ready-to-use generator functions.</p>
+<h2 id="generator-functions-in-the-standard-library"><a class="header" href="#generator-functions-in-the-standard-library">Generator Functions in the Standard Library</a></h2>
+<p>The standard library provides many generators, from plain-text file objects providing
+line-by-line iteration, to the awesome <code>os.walk</code> function, which yields filenames while
+traversing a directory tree, making recursive filesystem searches as simple as a <code>for</code>
+loop.</p>
+<p>The <code>os.walk</code> generator function is impressive, but in this section we focus on
+general-purpose functions that take arbitrary iterables as arguments and return generators
+that yield selected, computed or rearranged items.  The following tables summarize about
+two dozen of them, from the built-in, <code>itertools</code> and <code>functools</code> modules.  For
+convenience, they are grouped by high-level functionality, regardless of where they are
+defined.</p>
+<h3 id="filtering"><a class="header" href="#filtering">Filtering</a></h3>
+<p>The first group contains the <em>filtering</em> generator functions: they yield a subset of items
+produced by the input iterable, without changing the items themselves.  Like <code>takewhile</code>,
+most of these functions take a <em>predicate</em>, which is a one-argument Boolean function that
+will be applied to each item in the input to determine whether the item is included in the
+output.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Module</th><th>Function</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>itertools</code></td><td><code>compress(it, selector_it)</code></td><td>Consumes two iterables in parallel; yields items from <code>it</code> whenever the corresponding item in <code>selector_it</code> is truthy</td></tr>
+<tr><td><code>itertools</code></td><td><code>dropwhile(predicate, it)</code></td><td>Consumes <code>it</code>, skipping items while <code>predicate</code> computes truthy, then yields every remaining item (no further checks are made)</td></tr>
+<tr><td>(built-in)</td><td><code>filter(predicate, it)</code></td><td>Applies <code>predicate</code> to each item of <code>it</code>, yielding the item if <code>predicate(item)</code> is truthy; if <code>predicate</code> is <code>None</code>, only truthy items are yielded</td></tr>
+<tr><td><code>itertools</code></td><td><code>filterfalse(predicate, it)</code></td><td>Same as <code>filter</code>, with the <code>predicate</code> logic negated: yields items whenever <code>predicate</code> computes falsy</td></tr>
+<tr><td><code>itertools</code></td><td><code>islice(it, stop)</code> or <code>islice(it, start, stop, step=1)</code></td><td>Yields items from a slice of <code>it</code>, similar to <code>s[:stop]</code> or <code>s[start:stop:step]</code> except <code>it</code> can be any iterable, and the operation is lazy</td></tr>
+<tr><td><code>itertools</code></td><td><code>takewhile(predicate, it)</code></td><td>Yields items while <code>predicate</code> computes truthy, then stops and no further checks are made</td></tr>
+</tbody>
+</table>
+</div>
+<p>This shows the use of all those functions:</p>
+<pre><code class="language-python">def vowel(c):
+    return c.lower() in 'aeiou'
+
+list(filter(vowel, 'Aardvark'))
+# ['A', 'a', 'a']
+import itertools
+list(itertools.filterfalse(vowel, 'Aardvark'))
+# ['r', 'd', 'v', 'r', 'k']
+list(itertools.dropwhile(vowel, 'Aardvark'))
+# ['r', 'd', 'v', 'a', 'r', 'k']
+list(itertools.takewhile(vowel, 'Aardvark'))
+# ['A', 'a']
+list(itertools.compress('Aardvark', (1, 0, 1, 1, 0, 1)))
+# ['A', 'r', 'd', 'a']
+list(itertools.islice('Aardvark', 4))
+# ['A', 'a', 'r', 'd']
+list(itertools.islice('Aardvark', 4, 7))
+# ['v', 'a', 'r']
+list(itertools.islice('Aardvark', 1, 7, 2))
+# ['a', 'd', 'a']
+</code></pre>
+<h3 id="mapping"><a class="header" href="#mapping">Mapping</a></h3>
+<p>The next group contains the <em>mapping</em> generators: they yield items computed from each
+individual item in the input iterable — or iterables, in the case of <code>map</code> and <code>starmap</code>.
+(Here, the term “mapping” is unrelated to dictionaries, but has to do with the <code>map</code>
+built-in.)  These generators yield one result per item in the input iterables.  If the
+input comes from more than one iterable, the output stops as soon as the first input
+iterable is exhausted.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Module</th><th>Function</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>itertools</code></td><td><code>accumulate(it, [func], *, initial=None)</code></td><td>Yields accumulated sums; if <code>func</code> is provided, yields the result of applying it to the first pair of items, then to the first result and next item, etc.</td></tr>
+<tr><td>(built-in)</td><td><code>enumerate(iterable, start=0)</code></td><td>Yields 2-tuples of the form <code>(index, item)</code>, where <code>index</code> is counted from <code>start</code>, and <code>item</code> is taken from the <code>iterable</code></td></tr>
+<tr><td>(built-in)</td><td><code>map(func, it1, [it2, …, itN], *, strict=False)</code></td><td>Applies <code>func</code> to each item of <code>it</code>, yielding the result; if N iterables are given, <code>func</code> must take N arguments and the iterables will be consumed in parallel (<code>strict</code> is new in Python 3.14)</td></tr>
+<tr><td><code>itertools</code></td><td><code>starmap(func, it)</code></td><td>Applies <code>func</code> to each item of <code>it</code>, yielding the result; the input iterable should yield iterable items <code>iit</code>, and <code>func</code> is applied as <code>func(*iit)</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>Here are some uses of <code>itertools.accumulate</code>:</p>
+<pre><code class="language-python">sample = [5, 4, 2, 8, 7, 6, 3, 0, 9, 1]
+import itertools
+list(itertools.accumulate(sample))  # running sum
+# [5, 9, 11, 19, 26, 32, 35, 35, 44, 45]
+list(itertools.accumulate(sample, min))  # running minimum
+# [5, 4, 2, 2, 2, 2, 2, 0, 0, 0]
+list(itertools.accumulate(sample, max))  # running maximum
+# [5, 5, 5, 8, 8, 8, 8, 8, 9, 9]
+import operator
+list(itertools.accumulate(sample, operator.mul))  # running product
+# [5, 20, 40, 320, 2240, 13440, 40320, 0, 0, 0]
+list(itertools.accumulate(range(1, 11), operator.mul))  # factorials from 1! to 10!
+# [1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800]
+</code></pre>
+<p>And the remaining mapping functions:</p>
+<pre><code class="language-python">list(enumerate('albatroz', 1))  # number the letters in the word, starting from 1
+# [(1, 'a'), (2, 'l'), (3, 'b'), (4, 'a'), (5, 't'), (6, 'r'), (7, 'o'), (8, 'z')]
+import operator
+list(map(operator.mul, range(11), range(11)))  # squares of integers from 0 to 10
+# [0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+list(map(operator.mul, range(11), [2, 4, 8]))  # results stop when the shortest iterable ends
+# [0, 4, 16]
+list(map(lambda a, b: (a, b), range(11), [2, 4, 8]))  # this is what the zip built-in does
+# [(0, 2), (1, 4), (2, 8)]
+import itertools
+list(itertools.starmap(operator.mul, enumerate('albatroz', 1)))  # repeat each letter by its place
+# ['a', 'll', 'bbb', 'aaaa', 'ttttt', 'rrrrrr', 'ooooooo', 'zzzzzzzz']
+sample = [5, 4, 2, 8, 7, 6, 3, 0, 9, 1]
+list(itertools.starmap(lambda a, b: b / a,  # running average
+    enumerate(itertools.accumulate(sample), 1)))
+# [5.0, 4.5, 3.6666666666666665, 4.75, 5.2, 5.333333333333333,
+#  5.0, 4.375, 4.888888888888889, 4.5]
+</code></pre>
+<h3 id="merging"><a class="header" href="#merging">Merging</a></h3>
+<p>Next, we have the group of <em>merging</em> generators — all of these yield items from multiple
+input iterables.  <code>chain</code> and <code>chain.from_iterable</code> consume the input iterables
+sequentially (one after the other), while <code>product</code>, <code>zip</code> and <code>zip_longest</code> consume the
+input iterables in parallel.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Module</th><th>Function</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>itertools</code></td><td><code>chain(it1, …, itN)</code></td><td>Yields all items from <code>it1</code>, then from <code>it2</code>, etc., seamlessly</td></tr>
+<tr><td><code>itertools</code></td><td><code>chain.from_iterable(it)</code></td><td>Yields all items from each iterable produced by <code>it</code>, one after the other, seamlessly; <code>it</code> will be an iterable where the items are also iterables, for example, a list of tuples</td></tr>
+<tr><td><code>itertools</code></td><td><code>product(it1, …, itN, repeat=1)</code></td><td>Cartesian product: yields N-tuples made by combining items from each input iterable, like nested <code>for</code> loops could produce; <code>repeat</code> allows the input iterables to be consumed more than once</td></tr>
+<tr><td>(built-in)</td><td><code>zip(it1, …, itN, strict=False)</code></td><td>Yields N-tuples built from items taken from the iterables in parallel, silently stopping when the first iterable is exhausted, unless <code>strict=True</code> is given</td></tr>
+<tr><td><code>itertools</code></td><td><code>zip_longest(it1, …, itN, fillvalue=None)</code></td><td>Yields N-tuples built from items taken from the iterables in parallel, stopping only when the last iterable is exhausted, filling the blanks with the <code>fillvalue</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>This shows <code>itertools.chain</code> and <code>zip</code> and their siblings.  Both <code>zip</code> and
+<code>itertools.zip_longest</code> were introduced in <a href="sequence-protocol.html#the-awesome-zip">The Awesome <code>zip</code></a>:</p>
+<pre><code class="language-python">list(itertools.chain('ABC', range(2)))  # chain is usually called with two or more iterables
+# ['A', 'B', 'C', 0, 1]
+list(itertools.chain(enumerate('ABC')))  # chain does nothing useful with a single iterable...
+# [(0, 'A'), (1, 'B'), (2, 'C')]
+list(itertools.chain.from_iterable(enumerate('ABC')))  # ...but chain.from_iterable does
+# [0, 'A', 1, 'B', 2, 'C']
+list(zip('ABC', range(5), [10, 20, 30, 40]))  # zip stops as soon as the first iterable ends
+# [('A', 0, 10), ('B', 1, 20), ('C', 2, 30)]
+list(itertools.zip_longest('ABC', range(5)))  # zip_longest pads with None, as needed
+# [('A', 0), ('B', 1), ('C', 2), (None, 3), (None, 4)]
+list(itertools.zip_longest('ABC', range(5), fillvalue='?'))  # or with a custom fillvalue
+# [('A', 0), ('B', 1), ('C', 2), ('?', 3), ('?', 4)]
+</code></pre>
+<p>The <code>itertools.product</code> generator is a lazy way of computing Cartesian products, which we
+built using list comprehensions with more than one <code>for</code> clause in
+<a href="datastructures.html#tut-listcomps">List Comprehensions</a>.  Generator expressions with
+multiple <code>for</code> clauses can also be used to produce Cartesian products lazily:</p>
+<pre><code class="language-python">list(itertools.product('ABC', range(2)))  # 3 characters * 2 integers = 6 tuples
+# [('A', 0), ('A', 1), ('B', 0), ('B', 1), ('C', 0), ('C', 1)]
+suits = 'spades hearts diamonds clubs'.split()
+list(itertools.product('AK', suits))  # two card ranks and four suits: eight tuples
+# [('A', 'spades'), ('A', 'hearts'), ('A', 'diamonds'), ('A', 'clubs'),
+#  ('K', 'spades'), ('K', 'hearts'), ('K', 'diamonds'), ('K', 'clubs')]
+list(itertools.product('ABC'))  # given a single iterable, product yields one-tuples
+# [('A',), ('B',), ('C',)]
+list(itertools.product('ABC', repeat=2))  # repeat=N consumes each input iterable N times
+# [('A', 'A'), ('A', 'B'), ('A', 'C'), ('B', 'A'), ('B', 'B'),
+#  ('B', 'C'), ('C', 'A'), ('C', 'B'), ('C', 'C')]
+list(itertools.product(range(2), repeat=3))
+# [(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 1, 1), (1, 0, 0),
+#  (1, 0, 1), (1, 1, 0), (1, 1, 1)]
+</code></pre>
+<h3 id="expanding"><a class="header" href="#expanding">Expanding</a></h3>
+<p>Some generator functions expand the input by yielding more than one value per input item:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Module</th><th>Function</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>itertools</code></td><td><code>batched(it, n, *, strict=False)</code></td><td>Yields tuples of <code>n</code> items taken from <code>it</code>; the last batch may be shorter, unless <code>strict=True</code> (Python 3.12+; <code>strict</code> is 3.13+)</td></tr>
+<tr><td><code>itertools</code></td><td><code>combinations(it, out_len)</code></td><td>Yields combinations of <code>out_len</code> items from the items yielded by <code>it</code></td></tr>
+<tr><td><code>itertools</code></td><td><code>combinations_with_replacement(it, out_len)</code></td><td>Yields combinations of <code>out_len</code> items from the items yielded by <code>it</code>, including combinations with repeated items</td></tr>
+<tr><td><code>itertools</code></td><td><code>count(start=0, step=1)</code></td><td>Yields numbers starting at <code>start</code>, incremented by <code>step</code>, indefinitely</td></tr>
+<tr><td><code>itertools</code></td><td><code>cycle(it)</code></td><td>Yields items from <code>it</code>, storing a copy of each, then yields the entire sequence repeatedly, indefinitely</td></tr>
+<tr><td><code>itertools</code></td><td><code>pairwise(it)</code></td><td>Yields successive overlapping pairs taken from the input iterable (Python 3.10+)</td></tr>
+<tr><td><code>itertools</code></td><td><code>permutations(it, out_len=None)</code></td><td>Yields permutations of <code>out_len</code> items from the items yielded by <code>it</code>; by default, <code>out_len</code> is <code>len(list(it))</code></td></tr>
+<tr><td><code>itertools</code></td><td><code>repeat(item, [times])</code></td><td>Yields the given item repeatedly, indefinitely unless a number of <code>times</code> is given</td></tr>
+</tbody>
+</table>
+</div>
+<p>The <code>count</code> and <code>repeat</code> functions from <code>itertools</code> return generators that conjure items
+out of nothing: neither of them takes an iterable as input.  The <code>cycle</code> generator makes a
+backup of the input iterable and yields its items repeatedly.  Here are <code>count</code>, <code>cycle</code>,
+<code>pairwise</code>, <code>batched</code> and <code>repeat</code> at work:</p>
+<pre><code class="language-python">ct = itertools.count()  # build a count generator ct
+next(ct)  # retrieve the first item from ct
+# 0
+next(ct), next(ct), next(ct)  # we can't build a list from ct, because ct never stops
+# (1, 2, 3)
+list(itertools.islice(itertools.count(1, .3), 3))  # a list can be built if limited by islice
+# [1, 1.3, 1.6]
+cy = itertools.cycle('ABC')  # build a cycle generator and fetch its first item
+next(cy)
+# 'A'
+list(itertools.islice(cy, 7))  # a list can only be built if limited by islice
+# ['B', 'C', 'A', 'B', 'C', 'A', 'B']
+list(itertools.pairwise(range(7)))  # each item paired with the next one
+# [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6)]
+list(itertools.batched('ABCDEFG', 3))  # chunks of 3; the last one may be shorter
+# [('A', 'B', 'C'), ('D', 'E', 'F'), ('G',)]
+rp = itertools.repeat(7)  # build a repeat generator that will yield 7 forever
+next(rp), next(rp)
+# (7, 7)
+list(itertools.repeat(8, 4))  # a repeat generator can be limited by the times argument
+# [8, 8, 8, 8]
+list(map(operator.mul, range(11), itertools.repeat(5)))  # a fixed argument for map
+# [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+</code></pre>
+<p>The <code>combinations</code>, <code>combinations_with_replacement</code> and <code>permutations</code> generator functions
+— together with <code>product</code> — are called the <em>combinatoric generators</em> in the <code>itertools</code>
+documentation.  There is a close relationship between <code>itertools.product</code> and the remaining
+combinatoric functions as well:</p>
+<pre><code class="language-python">list(itertools.combinations('ABC', 2))  # item ordering in the tuples is irrelevant
+# [('A', 'B'), ('A', 'C'), ('B', 'C')]
+list(itertools.combinations_with_replacement('ABC', 2))  # including repeated items
+# [('A', 'A'), ('A', 'B'), ('A', 'C'), ('B', 'B'), ('B', 'C'), ('C', 'C')]
+list(itertools.permutations('ABC', 2))  # item ordering in the tuples is relevant
+# [('A', 'B'), ('A', 'C'), ('B', 'A'), ('B', 'C'), ('C', 'A'), ('C', 'B')]
+list(itertools.product('ABC', repeat=2))  # Cartesian product of 'ABC' with itself
+# [('A', 'A'), ('A', 'B'), ('A', 'C'), ('B', 'A'), ('B', 'B'), ('B', 'C'),
+#  ('C', 'A'), ('C', 'B'), ('C', 'C')]
+</code></pre>
+<h3 id="rearranging"><a class="header" href="#rearranging">Rearranging</a></h3>
+<p>The last group of generator functions we’ll cover in this section are designed to yield all
+items in the input iterables, but rearranged in some way.  Here are two functions that
+return multiple generators: <code>itertools.groupby</code> and <code>itertools.tee</code>.  The other generator
+function in this group, the <code>reversed</code> built-in, is the only one covered in this section
+that does not accept any iterable as input, but only sequences.  This makes sense: because
+<code>reversed</code> will yield the items from last to first, it only works with a sequence with a
+known length.  But it avoids the cost of making a reversed copy of the sequence by yielding
+each item as needed.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Module</th><th>Function</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>itertools</code></td><td><code>groupby(it, key=None)</code></td><td>Yields 2-tuples of the form <code>(key, group)</code>, where <code>key</code> is the grouping criterion and <code>group</code> is a generator yielding the items in the group</td></tr>
+<tr><td>(built-in)</td><td><code>reversed(seq)</code></td><td>Yields items from <code>seq</code> in reverse order, from last to first; <code>seq</code> must be a sequence or implement the <code>__reversed__</code> special method</td></tr>
+<tr><td><code>itertools</code></td><td><code>tee(it, n=2)</code></td><td>Yields a tuple of <code>n</code> generators, each yielding the items of the input iterable independently</td></tr>
+</tbody>
+</table>
+</div>
+<p>Note that <code>itertools.groupby</code> assumes that the input iterable is sorted by the grouping
+criterion, or at least that the items are clustered by that criterion — even if not
+completely sorted.  For example, you can sort <code>datetime</code> objects chronologically, then
+<code>groupby</code> weekday to get a group of Monday data, followed by Tuesday data, etc., and then
+by Monday (of the next week) again, and so on.</p>
+<pre><code class="language-python">list(itertools.groupby('LLLLAAGGG'))  # groupby yields tuples of (key, group_generator)
+# [('L', &lt;itertools._grouper object at 0x102227cc0&gt;),
+#  ('A', &lt;itertools._grouper object at 0x102227b38&gt;),
+#  ('G', &lt;itertools._grouper object at 0x102227b70&gt;)]
+for char, group in itertools.groupby('LLLLAAAGG'):  # nested iteration: for loop and list()
+    print(char, '-&gt;', list(group))
+
+# L -&gt; ['L', 'L', 'L', 'L']
+# A -&gt; ['A', 'A', 'A']
+# G -&gt; ['G', 'G']
+animals = ['duck', 'eagle', 'rat', 'giraffe', 'bear',
+           'bat', 'dolphin', 'shark', 'lion']
+animals.sort(key=len)  # sort animals by length
+animals
+# ['rat', 'bat', 'duck', 'bear', 'lion', 'eagle', 'shark',
+#  'giraffe', 'dolphin']
+for length, group in itertools.groupby(animals, len):
+    print(length, '-&gt;', list(group))
+
+# 3 -&gt; ['rat', 'bat']
+# 4 -&gt; ['duck', 'bear', 'lion']
+# 5 -&gt; ['eagle', 'shark']
+# 7 -&gt; ['giraffe', 'dolphin']
+for length, group in itertools.groupby(reversed(animals), len):  # right to left
+    print(length, '-&gt;', list(group))
+
+# 7 -&gt; ['dolphin', 'giraffe']
+# 5 -&gt; ['shark', 'eagle']
+# 4 -&gt; ['lion', 'bear', 'duck']
+# 3 -&gt; ['bat', 'rat']
+</code></pre>
+<p>The last of the generator functions in this group is <code>itertools.tee</code>, which has a unique
+behavior: it yields multiple generators from a single input iterable, each yielding every
+item from the input.  Those generators can be consumed independently:</p>
+<pre><code class="language-python">list(itertools.tee('ABC'))
+# [&lt;itertools._tee object at 0x10222abc8&gt;, &lt;itertools._tee object at 0x10222ac08&gt;]
+g1, g2 = itertools.tee('ABC')
+next(g1)
+# 'A'
+next(g2)
+# 'A'
+next(g2)
+# 'B'
+list(g1)
+# ['B', 'C']
+list(g2)
+# ['C']
+list(zip(*itertools.tee('ABC')))
+# [('A', 'A'), ('B', 'B'), ('C', 'C')]
+</code></pre>
+<p>Note that several examples in this section used combinations of generator functions.  This
+is a great feature of these functions: because they take generators as arguments and return
+generators, they can be combined in many different ways.</p>
+<p>Now we’ll review another group of iterable-savvy functions in the standard library.</p>
+<h2 id="iterable-reducing-functions"><a class="header" href="#iterable-reducing-functions">Iterable Reducing Functions</a></h2>
+<p>The functions in this table all take an iterable and return a single result.  They are known
+as “reducing”, “folding” or “accumulating” functions.  We can implement every one of the
+built-ins listed here with <code>functools.reduce</code>, but they exist as built-ins because they
+address some common use cases more easily.  A longer explanation about <code>functools.reduce</code>
+appeared in <a href="sequence-protocol.html#hashing-and-a-faster-">Hashing and a Faster <code>==</code></a>.</p>
+<p>In the case of <code>all</code> and <code>any</code>, there is an important optimization <code>functools.reduce</code> does
+not support: <code>all</code> and <code>any</code> <em>short-circuit</em> — i.e., they stop consuming the iterator as
+soon as the result is determined.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Module</th><th>Function</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>(built-in)</td><td><code>all(it)</code></td><td>Returns <code>True</code> if all items in <code>it</code> are truthy, otherwise <code>False</code>; <code>all([])</code> returns <code>True</code></td></tr>
+<tr><td>(built-in)</td><td><code>any(it)</code></td><td>Returns <code>True</code> if any item in <code>it</code> is truthy, otherwise <code>False</code>; <code>any([])</code> returns <code>False</code></td></tr>
+<tr><td>(built-in)</td><td><code>max(it, [key=,] [default=])</code></td><td>Returns the maximum value of the items in <code>it</code>; <code>key</code> is an ordering function, as in <code>sorted</code>; <code>default</code> is returned if the iterable is empty (may also be called as <code>max(arg1, arg2, …, [key=?])</code>)</td></tr>
+<tr><td>(built-in)</td><td><code>min(it, [key=,] [default=])</code></td><td>Returns the minimum value of the items in <code>it</code>; same options as <code>max</code></td></tr>
+<tr><td><code>functools</code></td><td><code>reduce(func, it, [initial])</code></td><td>Returns the result of applying <code>func</code> to the first pair of items, then to that result and the third item, and so on; if given, <code>initial</code> forms the initial pair with the first item</td></tr>
+<tr><td>(built-in)</td><td><code>sum(it, start=0)</code></td><td>The sum of all items in <code>it</code>, with the optional <code>start</code> value added (use <code>math.fsum</code> for exactly rounded float sums)</td></tr>
+</tbody>
+</table>
+</div>
+<p>The operation of <code>all</code> and <code>any</code> is exemplified here:</p>
+<pre><code class="language-python">all([1, 2, 3])
+# True
+all([1, 0, 3])
+# False
+all([])
+# True
+any([1, 2, 3])
+# True
+any([1, 0, 3])
+# True
+any([0, 0.0])
+# False
+any([])
+# False
+g = (n for n in [0, 0.0, 7, 8])
+any(g)  # any iterated over g until g yielded 7; then any stopped and returned True
+# True
+next(g)  # that's why 8 was still remaining
+# 8
+</code></pre>
+<p>Another built-in that takes an iterable and returns something else is <code>sorted</code>.  Unlike
+<code>reversed</code>, which is a generator function, <code>sorted</code> builds and returns a new <code>list</code>.  After
+all, every single item of the input iterable must be read so they can be sorted, and the
+sorting happens in a <code>list</code>, therefore <code>sorted</code> just returns that <code>list</code> after it’s done.
+<code>sorted</code> is mentioned here because it does consume an arbitrary iterable.</p>
+<p>Of course, <code>sorted</code> and the reducing functions only work with iterables that eventually
+stop.  Otherwise, they will keep on collecting items and never return a result.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>If you’ve gotten this far, you’ve seen the most important and useful content of this
+chapter.  The remaining sections cover advanced generator features that most of us
+don’t see or need very often, such as the <code>yield from</code> construct and classic
+coroutines.  There are also sections about type hinting iterables, iterators and
+classic coroutines.</p>
+</blockquote>
+<p>The <code>yield from</code> syntax provides a new way of combining generators.  That’s next.</p>
+<h2 id="subgenerators-with-yield-from"><a class="header" href="#subgenerators-with-yield-from">Subgenerators with <code>yield from</code></a></h2>
+<p>The <code>yield from</code> expression syntax was introduced in Python 3.3 to allow a generator to
+delegate work to a subgenerator.  Before <code>yield from</code> was introduced, we used a <code>for</code> loop
+when a generator needed to yield values produced from another generator:</p>
+<pre><code class="language-python">def sub_gen():
+    yield 1.1
+    yield 1.2
+
+def gen():
+    yield 1
+    for i in sub_gen():
+        yield i
+    yield 2
+
+for x in gen():
+    print(x)
+
+# 1
+# 1.1
+# 1.2
+# 2
+</code></pre>
+<p>We can get the same result using <code>yield from</code>:</p>
+<pre><code class="language-python">def sub_gen():
+    yield 1.1
+    yield 1.2
+
+def gen():
+    yield 1
+    yield from sub_gen()
+    yield 2
+
+for x in gen():
+    print(x)
+
+# 1
+# 1.1
+# 1.2
+# 2
+</code></pre>
+<p>Here the <code>for</code> loop is the <em>client code</em>, <code>gen</code> is the <em>delegating generator</em>, and
+<code>sub_gen</code> is the <em>subgenerator</em>.  Note that <code>yield from</code> pauses <code>gen</code>, and <code>sub_gen</code> takes
+over until it is exhausted.  The values yielded by <code>sub_gen</code> pass through <code>gen</code> directly to
+the client <code>for</code> loop.  Meanwhile, <code>gen</code> is suspended and cannot see the values passing
+through it.  Only when <code>sub_gen</code> is done does <code>gen</code> resume.</p>
+<p>When the subgenerator contains a <code>return</code> statement with a value, that value can be
+captured in the delegating generator by using <code>yield from</code> as part of an expression:</p>
+<pre><code class="language-python">def sub_gen():
+    yield 1.1
+    yield 1.2
+    return 'Done!'
+
+def gen():
+    yield 1
+    result = yield from sub_gen()
+    print('&lt;--', result)
+    yield 2
+
+for x in gen():
+    print(x)
+
+# 1
+# 1.1
+# 1.2
+# &lt;-- Done!
+# 2
+</code></pre>
+<p>Now that we’ve seen the basics of <code>yield from</code>, let’s study a couple of simple but
+practical examples of its use.</p>
+<h3 id="reinventing-chain"><a class="header" href="#reinventing-chain">Reinventing <code>chain</code></a></h3>
+<p>We saw that <code>itertools</code> provides a <code>chain</code> generator that yields items from several
+iterables, iterating over the first, then the second, and so on up to the last.  This is a
+homemade implementation of <code>chain</code> with nested <code>for</code> loops in Python (the real <code>chain</code>,
+like most <code>itertools</code> functions, is written in C):</p>
+<pre><code class="language-python">def chain(*iterables):
+    for it in iterables:
+        for i in it:
+            yield i
+
+s = 'ABC'
+r = range(3)
+list(chain(s, r))
+# ['A', 'B', 'C', 0, 1, 2]
+</code></pre>
+<p>The <code>chain</code> generator in the preceding code is delegating to each iterable <code>it</code> in turn, by
+driving each <code>it</code> in the inner <code>for</code> loop.  That inner loop can be replaced with a
+<code>yield from</code> expression:</p>
+<pre><code class="language-python">def chain(*iterables):
+    for i in iterables:
+        yield from i
+
+list(chain(s, r))
+# ['A', 'B', 'C', 0, 1, 2]
+</code></pre>
+<p>The use of <code>yield from</code> in this example is correct, and the code reads better, but it seems
+like syntactic sugar with little real gain.  Now let’s develop a more interesting example.</p>
+<h3 id="traversing-a-tree"><a class="header" href="#traversing-a-tree">Traversing a Tree</a></h3>
+<p>In this section, we’ll see <code>yield from</code> in a script to traverse a tree structure, built in
+baby steps.  The tree structure for this example is Python’s exception hierarchy (see the
+diagram in the <a href="https://docs.python.org/3/library/exceptions.html#exception-hierarchy">built-in exceptions documentation</a>).
+But the pattern can be adapted to show a directory tree or any other tree structure.</p>
+<p>Starting from <code>BaseException</code> at level zero, the exception hierarchy is five levels deep.
+Our first baby step is to show level zero.  Given a root class, the <code>tree</code> generator below
+yields its name and stops:</p>
+<pre><code class="language-python">def tree(cls):
+    yield cls.__name__
+
+def display(cls):
+    for cls_name in tree(cls):
+        print(cls_name)
+
+display(BaseException)
+# BaseException
+</code></pre>
+<p>The next baby step takes us to level 1.  The <code>tree</code> generator will yield the name of the
+root class and the names of each direct subclass.  The names of the subclasses are indented
+to reveal the hierarchy:</p>
+<pre><code class="language-python">def tree(cls):
+    yield cls.__name__, 0  # yield the name of the class and its level in the hierarchy
+    for sub_cls in cls.__subclasses__():  # __subclasses__ returns a list of subclasses
+        yield sub_cls.__name__, 1  # yield the name of the subclass and level 1
+
+def display(cls):
+    for cls_name, level in tree(cls):
+        indent = ' ' * 4 * level  # 4 spaces times level; at level zero, an empty string
+        print(f'{indent}{cls_name}')
+</code></pre>
+<p>This is the output we get, in Python 3.13:</p>
+<!-- nocheck -->
+<pre><code class="language-python">display(BaseException)
+# BaseException
+#     BaseExceptionGroup
+#     Exception
+#     GeneratorExit
+#     KeyboardInterrupt
+#     SystemExit
+</code></pre>
+<p>Next, we refactor <code>tree</code> to separate the special case of the root class from the
+subclasses, which are now handled in the <code>sub_tree</code> generator.  At <code>yield from</code>, the <code>tree</code>
+generator is suspended, and <code>sub_tree</code> takes over yielding values:</p>
+<pre><code class="language-python">def tree(cls):
+    yield cls.__name__, 0
+    yield from sub_tree(cls)  # delegate to sub_tree to yield the names of the subclasses
+
+def sub_tree(cls):
+    for sub_cls in cls.__subclasses__():
+        yield sub_cls.__name__, 1  # these values bypass the tree generator completely...
+
+def display(cls):
+    for cls_name, level in tree(cls):  # ...and are received directly here
+        indent = ' ' * 4 * level
+        print(f'{indent}{cls_name}')
+</code></pre>
+<p>In keeping with the baby steps method, here is the simplest code to reach level 2.  For
+depth-first tree traversal, after yielding each node in level 1, we want to yield the
+children of that node in level 2, before resuming level 1.  A nested <code>for</code> loop takes care
+of that:</p>
+<pre><code class="language-python">def sub_tree(cls):
+    for sub_cls in cls.__subclasses__():
+        yield sub_cls.__name__, 1
+        for sub_sub_cls in sub_cls.__subclasses__():
+            yield sub_sub_cls.__name__, 2
+</code></pre>
+<p>This is the result (the exact list varies with the Python version and the modules that
+were imported, since importing a module may define new exception classes):</p>
+<!-- nocheck -->
+<pre><code class="language-python">display(BaseException)
+# BaseException
+#     BaseExceptionGroup
+#         ExceptionGroup
+#     Exception
+#         ArithmeticError
+#         AssertionError
+#         AttributeError
+#         BufferError
+#         EOFError
+#         ImportError
+#         LookupError
+#         MemoryError
+#         NameError
+#         OSError
+#         ReferenceError
+#         RuntimeError
+#         StopAsyncIteration
+#         StopIteration
+#         SyntaxError
+#         SystemError
+#         TypeError
+#         ValueError
+#         Warning
+#         ExceptionGroup
+#     GeneratorExit
+#     KeyboardInterrupt
+#     SystemExit
+</code></pre>
+<p>(<code>ExceptionGroup</code> appears twice because it inherits from both <code>BaseExceptionGroup</code> and
+<code>Exception</code>; see <a href="errors.html#tut-exception-groups">Raising and Handling Multiple Unrelated Exceptions</a>.)</p>
+<p>You may already know where this is going, but let’s stick to baby steps one more time: we
+reach level 3 by adding yet another nested <code>for</code> loop.  The rest of the program is
+unchanged:</p>
+<pre><code class="language-python">def sub_tree(cls):
+    for sub_cls in cls.__subclasses__():
+        yield sub_cls.__name__, 1
+        for sub_sub_cls in sub_cls.__subclasses__():
+            yield sub_sub_cls.__name__, 2
+            for sub_sub_sub_cls in sub_sub_cls.__subclasses__():
+                yield sub_sub_sub_cls.__name__, 3
+</code></pre>
+<p>There is a clear pattern here.  We do a <code>for</code> loop to get the subclasses of level N.  Each
+time around the loop, we yield a subclass of level N, then start another <code>for</code> loop to visit
+level N+1.</p>
+<p>In <a href="#reinventing-chain">Reinventing <code>chain</code></a>, we saw how we can replace a nested <code>for</code> loop
+driving a generator with <code>yield from</code> on the same generator.  We can apply that idea here,
+if we make <code>sub_tree</code> accept a <code>level</code> parameter, and <code>yield from</code> it recursively, passing
+the current subclass as the new root class with the next level number:</p>
+<pre><code class="language-python">def tree(cls):
+    yield cls.__name__, 0
+    yield from sub_tree(cls, 1)
+
+def sub_tree(cls, level):
+    for sub_cls in cls.__subclasses__():
+        yield sub_cls.__name__, level
+        yield from sub_tree(sub_cls, level+1)
+
+def display(cls):
+    for cls_name, level in tree(cls):
+        indent = ' ' * 4 * level
+        print(f'{indent}{cls_name}')
+</code></pre>
+<p>This can traverse trees of any depth, limited only by Python’s recursion limit.  The
+default limit allows 1,000 pending functions.</p>
+<p>Any good tutorial about recursion will stress the importance of having a base case to avoid
+infinite recursion.  A base case is a conditional branch that returns without making a
+recursive call.  The base case is often implemented with an <code>if</code> statement.  Here,
+<code>sub_tree</code> has no <code>if</code>, but there is an implicit conditional in the <code>for</code> loop: if
+<code>cls.__subclasses__()</code> returns an empty list, the body of the loop is not executed,
+therefore no recursive call happens.  The base case is when the <code>cls</code> class has no
+subclasses.  In that case, <code>sub_tree</code> yields nothing.  It just returns.</p>
+<p>This works as intended, but we can make it more concise by recalling the pattern we
+observed when we reached level 3: we yield a subclass with level N, then start a nested
+<code>for</code> loop to visit level N+1.  We replaced that nested loop with <code>yield from</code>.  Now we can
+merge <code>tree</code> and <code>sub_tree</code> into a single generator:</p>
+<pre><code class="language-python">def tree(cls, level=0):
+    yield cls.__name__, level
+    for sub_cls in cls.__subclasses__():
+        yield from tree(sub_cls, level+1)
+
+def display(cls):
+    for cls_name, level in tree(cls):
+        indent = ' ' * 4 * level
+        print(f'{indent}{cls_name}')
+
+display(LookupError)
+# LookupError
+#     IndexError
+#     KeyError
+#     CodecRegistryError
+</code></pre>
+<p>At the start of <a href="#subgenerators-with-yield-from">Subgenerators with <code>yield from</code></a>, we saw
+how <code>yield from</code> connects the subgenerator directly to the client code, bypassing the
+delegating generator.  That connection becomes really important when generators are used as
+coroutines and not only produce but also consume values from the client code, as we’ll see
+in <a href="#classic-coroutines">Classic Coroutines</a>.</p>
+<p>After this first encounter with <code>yield from</code>, let’s turn to type hinting iterables and
+iterators.</p>
+<h2 id="generic-iterable-types"><a class="header" href="#generic-iterable-types">Generic Iterable Types</a></h2>
+<p>Python’s standard library has many functions that accept iterable arguments.  In your code,
+such functions can be annotated like the <code>zip_replace</code> function we saw in
+<a href="type-hints-functions.html#iterable"><code>Iterable</code></a>, using <code>collections.abc.Iterable</code>:</p>
+<pre><code class="language-python">from collections.abc import Iterable
+
+type FromTo = tuple[str, str]  # a type alias, to make the next type hint more readable
+
+def zip_replace(text: str, changes: Iterable[FromTo]) -&gt; str:  # an Iterable of FromTo tuples
+    for from_, to in changes:
+        text = text.replace(from_, to)
+    return text
+
+zip_replace('m4d sk1ll3d', [('4', 'a'), ('1', 'i'), ('3', 'e')])
+# 'mad skilled'
+</code></pre>
+<p>The <code>type</code> statement (Python 3.12+) declares a type alias; in older code you’ll see
+<code>FromTo: TypeAlias = tuple[str, str]</code> or just <code>FromTo = tuple[str, str]</code>.</p>
+<p>Iterator types don’t appear as often as <code>Iterable</code> types, but they are also simple to
+write.  Here is the familiar Fibonacci generator, annotated:</p>
+<pre><code class="language-python">from collections.abc import Iterator
+
+def fibonacci() -&gt; Iterator[int]:
+    a, b = 0, 1
+    while True:
+        yield a
+        a, b = b, a + b
+
+import itertools
+list(itertools.islice(fibonacci(), 10))
+# [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+</code></pre>
+<p>Note that the type <code>Iterator</code> is used for generators coded as functions with <code>yield</code>, as
+well as iterators written “by hand” as classes with <code>__next__()</code>.  There is also a
+<code>collections.abc.Generator</code> type that we can use to annotate generator objects, but it is
+needlessly verbose for generators used as iterators.  Checked with Mypy, the following
+reveals that the <code>Iterator</code> type is really a simplified special case of the <code>Generator</code>
+type:</p>
+<pre><code class="language-python">from collections.abc import Iterator
+from keyword import kwlist
+from typing import TYPE_CHECKING
+
+short_kw = (k for k in kwlist if len(k) &lt; 5)  # Python keywords with less than 5 characters
+
+if TYPE_CHECKING:
+    reveal_type(short_kw)  # Mypy infers: Generator[str, None, None]
+
+long_kw: Iterator[str] = (k for k in kwlist if len(k) &gt;= 4)  # an explicit type hint
+
+if TYPE_CHECKING:
+    reveal_type(long_kw)  # revealed type: Iterator[str]
+</code></pre>
+<p><code>abc.Iterator[str]</code> is consistent-with <code>abc.Generator[str, None, None]</code>, therefore Mypy
+issues no errors for this code.  <code>Iterator[T]</code> is a shortcut for <code>Generator[T, None, None]</code>.  Both annotations mean “a generator that yields items of type <code>T</code>, but that does not
+consume or return values”.  (Since Python 3.13, the last two parameters of <code>Generator</code>
+default to <code>None</code>, so <code>Generator[T]</code> also works.)  Generators able to consume and return
+values are coroutines, our next topic.</p>
+<h2 id="classic-coroutines"><a class="header" href="#classic-coroutines">Classic Coroutines</a></h2>
+<blockquote>
+<p><strong>Note</strong></p>
+<p><a href="https://peps.python.org/pep-0342/"><strong>PEP 342</strong></a> — Coroutines via Enhanced Generators
+introduced the <code>.send()</code> and other features that made it possible to use generators as
+coroutines.  PEP 342 uses the word “coroutine” with the same meaning used here.</p>
+<p>It is unfortunate that Python’s official documentation and standard library now use
+inconsistent terminology to refer to generators used as coroutines, forcing us to adopt
+the “classic coroutine” qualifier to contrast with the newer “native coroutine” objects
+created with <code>async def</code>.  The trend is to use “coroutine” as a synonym for “native
+coroutine”.  But PEP 342 is not deprecated, and classic coroutines still work as
+originally designed, although they are no longer supported by <code>asyncio</code>.</p>
+</blockquote>
+<p>Understanding classic coroutines in Python is confusing because they are actually
+generators used in a different way.  So let’s step back and consider another feature of
+Python that can be used in two ways.</p>
+<p>We saw in <a href="sequences.html#tuples-are-not-just-immutable-lists">Tuples Are Not Just Immutable Lists</a>
+that we can use <code>tuple</code> instances as records or as immutable sequences.  When used as a
+record, a tuple is expected to have a specific number of items, and each item may have a
+different type.  When used as immutable lists, a tuple can have any length, and all items
+are expected to have the same type.  That’s why there are two different ways to annotate
+tuples with type hints:</p>
+<!-- nocheck -->
+<pre><code class="language-python"># A city record with name, country, and population:
+city: tuple[str, str, int]
+
+# An immutable sequence of domain names:
+domains: tuple[str, ...]
+</code></pre>
+<p>Something similar happens with generators.  They are commonly used as iterators, but they
+can also be used as coroutines.  A <em>coroutine</em> is really a generator function, created with
+the <code>yield</code> keyword in its body.  And a coroutine object is physically a generator object.
+Despite sharing the same underlying implementation in C, the use cases of generators and
+coroutines in Python are so different that there are two ways to type hint them:</p>
+<!-- nocheck -->
+<pre><code class="language-python"># The `readings` variable can be bound to an iterator
+# or generator object that yields `float` items:
+readings: Iterator[float]
+
+# The `sim_taxi` variable can be bound to a coroutine
+# representing a taxi cab in a discrete event simulation.
+# It yields events, receives `float` timestamps, and returns
+# the number of trips made during the simulation:
+sim_taxi: Generator[Event, float, int]
+</code></pre>
+<p>Adding to the confusion, the <code>typing</code> module authors decided to name that type
+<code>Generator</code>, when in fact it describes the API of a generator object intended to be used as
+a coroutine, while generators are more often used as simple iterators.  The documentation
+describes the formal type parameters of <code>Generator</code> like this:</p>
+<pre><code class="language-text">Generator[YieldType, SendType, ReturnType]
+</code></pre>
+<p>The <code>SendType</code> is only relevant when the generator is used as a coroutine.  That type
+parameter is the type of <code>x</code> in the call <code>gen.send(x)</code>.  It is an error to call <code>.send()</code> on
+a generator that was coded to behave as an iterator instead of a coroutine.  Likewise,
+<code>ReturnType</code> is only meaningful to annotate a coroutine, because iterators don’t return
+values like regular functions.  The only sensible operation on a generator used as an
+iterator is to call <code>next(it)</code> directly or indirectly via <code>for</code> loops and other forms of
+iteration.  The <code>YieldType</code> is the type of the value returned by a call to <code>next(it)</code>.</p>
+<p>The <code>Generator</code> type has the same type parameters as <code>collections.abc.Coroutine</code>, but
+<code>Coroutine</code> is intended to annotate only native coroutines, not classic coroutines.  If you
+want to use type hints with classic coroutines, you’ll suffer through the confusion of
+annotating them as <code>Generator[YieldType, SendType, ReturnType]</code>.</p>
+<p>David Beazley created some of the best talks and most comprehensive workshops about classic
+coroutines.  In his PyCon 2009 course handout, he has a slide titled “Keeping It Straight”,
+which reads:</p>
+<blockquote>
+<ul>
+<li>Generators produce data for iteration</li>
+<li>Coroutines are consumers of data</li>
+<li>To keep your brain from exploding, don’t mix the two concepts together</li>
+<li>Coroutines are not related to iteration</li>
+<li>Note: There is a use of having <code>yield</code> produce a value in a coroutine, but it’s not
+tied to iteration.</li>
+</ul>
+</blockquote>
+<p>Now let’s see how classic coroutines work.</p>
+<h3 id="example-coroutine-to-compute-a-running-average"><a class="header" href="#example-coroutine-to-compute-a-running-average">Example: Coroutine to Compute a Running Average</a></h3>
+<p>While discussing closures in <a href="decorators.html">Decorators and Closures</a>, we studied objects to
+compute a running average: a class, and a higher-order function returning a function that
+keeps the <code>total</code> and <code>count</code> variables across invocations in a closure.  Here is how to do
+the same with a coroutine:</p>
+<pre><code class="language-python">from collections.abc import Generator
+
+def averager() -&gt; Generator[float, float, None]:  # yields floats, accepts floats via .send()
+    total = 0.0
+    count = 0
+    average = 0.0
+    while True:  # the coroutine keeps yielding averages as long as the client sends values
+        term = yield average  # suspend, yield a result, later get a value sent by the caller
+        total += term
+        count += 1
+        average = total/count
+</code></pre>
+<p>This function returns a generator that yields <code>float</code> values, accepts <code>float</code> values via
+<code>.send()</code>, and does not return a useful value (in fact, it never returns unless some
+exception breaks the loop).  The infinite loop means the coroutine will keep on yielding
+averages as long as the client code sends values.  The <code>yield</code> statement here suspends the
+coroutine, yields a result to the client, and — later — gets a value sent by the caller to
+the coroutine, starting another iteration of the infinite loop.</p>
+<p>In a coroutine, <code>total</code> and <code>count</code> can be local variables: no instance attributes or
+closures are needed to keep the context while the coroutine is suspended waiting for the
+next <code>.send()</code>.  That’s why coroutines are attractive replacements for callbacks in
+asynchronous programming — they keep local state between activations.  Here is the
+<code>averager</code> coroutine in operation:</p>
+<pre><code class="language-python">coro_avg = averager()  # create the coroutine object
+next(coro_avg)  # start the coroutine: this yields the initial value of average
+# 0.0
+coro_avg.send(10)  # now we are in business: each .send() yields the current average
+# 10.0
+coro_avg.send(30)
+# 20.0
+coro_avg.send(5)
+# 15.0
+</code></pre>
+<p>The call <code>next(coro_avg)</code> makes the coroutine advance to the <code>yield</code>, yielding the initial
+value for <code>average</code>.  You can also start the coroutine by calling <code>coro_avg.send(None)</code> —
+this is actually what the <code>next()</code> built-in does.  But you can’t send any value other than
+<code>None</code>, because the coroutine can only accept a sent value when it is suspended at a
+<code>yield</code> line.  Calling <code>next()</code> or <code>.send(None)</code> to advance to the first <code>yield</code> is known as
+“priming the coroutine”.</p>
+<p>After each activation, the coroutine is suspended precisely at the <code>yield</code> keyword, waiting
+for a value to be sent.  The line <code>coro_avg.send(10)</code> provides that value, causing the
+coroutine to activate.  The <code>yield</code> expression resolves to the value 10, assigning it to the
+<code>term</code> variable.  The rest of the loop updates the <code>total</code>, <code>count</code> and <code>average</code> variables.
+The next iteration in the <code>while</code> loop yields the <code>average</code>, and the coroutine is again
+suspended at the <code>yield</code> keyword.</p>
+<p>The attentive reader may be anxious to know how the execution of an <code>averager</code> instance
+(e.g., <code>coro_avg</code>) may be terminated, because its body is an infinite loop.  We don’t
+usually need to terminate a generator, because it is garbage collected as soon as there are
+no more valid references to it.  If you need to explicitly terminate it, use the <code>.close()</code>
+method:</p>
+<pre><code class="language-python">coro_avg.send(20)
+# 16.25
+coro_avg.close()  # raises GeneratorExit at the suspended yield, terminating the coroutine
+coro_avg.close()  # calling .close() on a previously closed coroutine has no effect
+coro_avg.send(5)  # trying .send() on a closed coroutine raises StopIteration
+# Traceback (most recent call last):
+#   ...
+# StopIteration
+</code></pre>
+<p>The <code>.close()</code> method raises <code>GeneratorExit</code> at the suspended <code>yield</code> expression.  If not
+handled in the coroutine function, the exception terminates it.  <code>GeneratorExit</code> is caught
+by the generator object that wraps the coroutine — that’s why we don’t see it.</p>
+<p>Besides the <code>.send()</code> method, PEP 342 also introduced a way for a coroutine to return a
+value.  The next section shows how.</p>
+<h3 id="returning-a-value-from-a-coroutine"><a class="header" href="#returning-a-value-from-a-coroutine">Returning a Value from a Coroutine</a></h3>
+<p>We’ll now study another coroutine to compute an average.  This version will not yield
+partial results.  Instead, it returns a tuple with the number of terms and the average:</p>
+<pre><code class="language-python">from collections.abc import Generator
+from typing import NamedTuple
+
+class Result(NamedTuple):  # averager2 will return an instance of Result
+    count: int  # type: ignore
+    average: float
+
+class Sentinel:  # a class to make a sentinel value with a readable __repr__
+    def __repr__(self):
+        return f'&lt;Sentinel&gt;'
+
+STOP = Sentinel()  # the value that makes the coroutine stop collecting data and return
+
+def averager2(verbose: bool = False) -&gt; Generator[None, float | Sentinel, Result]:
+    total = 0.0
+    count = 0
+    average = 0.0
+    while True:
+        term = yield  # yields None, but receives a term from .send(term)
+        if verbose:
+            print('received:', term)
+        if isinstance(term, Sentinel):  # if the term is a Sentinel, break from the loop
+            break
+        total += term  # thanks to the isinstance check, Mypy knows term is a float here
+        count += 1
+        average = total / count
+    return Result(count, average)  # reached only if a Sentinel is sent to the coroutine
+</code></pre>
+<p>The <code>Result</code> is actually a subclass of <code>tuple</code>, which has a <code>.count()</code> method we don’t need.
+The <code># type: ignore</code> comment prevents Mypy from complaining about having a <code>count</code> field.
+For this coroutine, the yield type is <code>None</code> because it does not yield data.  It receives
+data of the type <code>float | Sentinel</code> and returns a <code>Result</code> tuple when done.  Using <code>yield</code>
+like this only makes sense in coroutines, which are designed to consume data.  If the
+<code>term</code> is a <code>Sentinel</code>, we break from the loop; thanks to this <code>isinstance</code> check, Mypy
+allows us to add <code>term</code> to the <code>total</code> without flagging an error.</p>
+<p>Now let’s see how we can use this coroutine, starting with a simple example that doesn’t
+actually produce a result:</p>
+<pre><code class="language-python">coro_avg = averager2()
+next(coro_avg)
+coro_avg.send(10)  # averager2 yields None, which the console omits
+coro_avg.send(30)
+coro_avg.send(6.5)
+coro_avg.close()  # stops the coroutine, but the return statement is never reached
+</code></pre>
+<p>Calling <code>.close()</code> in this coroutine makes it stop but does not return a result, because the
+<code>GeneratorExit</code> exception is raised at the <code>yield</code> line in the coroutine, so the <code>return</code>
+statement is never reached.  Now let’s make it work:</p>
+<pre><code class="language-python">coro_avg = averager2()
+next(coro_avg)
+coro_avg.send(10)
+coro_avg.send(30)
+coro_avg.send(6.5)
+try:
+    coro_avg.send(STOP)  # sending STOP makes the coroutine break from the loop and return
+except StopIteration as exc:
+    result = exc.value  # the StopIteration instance has the value of the return statement
+
+result
+# Result(count=3, average=15.5)
+</code></pre>
+<p>Sending the <code>STOP</code> sentinel makes the coroutine break from the loop and return a <code>Result</code>.
+The generator object that wraps the coroutine then raises <code>StopIteration</code>.  The
+<code>StopIteration</code> instance has a <code>value</code> attribute bound to the value of the <code>return</code>
+statement that terminated the coroutine.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>This idea of “smuggling” the return value out of the coroutine wrapped in a
+<code>StopIteration</code> exception is a bizarre hack.  Nevertheless, this bizarre hack is part of
+PEP 342, and is documented with the
+<a href="https://docs.python.org/3/library/exceptions.html#StopIteration"><code>StopIteration</code></a>
+exception, and in the
+<a href="https://docs.python.org/3/reference/expressions.html#yield-expressions">Yield expressions</a>
+section of the Language Reference.</p>
+</blockquote>
+<p>A delegating generator can get the return value of a coroutine directly using the
+<code>yield from</code> syntax:</p>
+<pre><code class="language-python">def compute():
+    res = yield from averager2(True)  # res collects the return value of averager2
+    print('computed:', res)  # keep an eye out for the output of this line
+    return res  # this will also be wrapped in StopIteration
+
+comp = compute()  # create the delegating coroutine object
+for v in [None, 10, 20, 30, STOP]:  # first None primes the coroutine; STOP stops it
+    try:
+        comp.send(v)
+    except StopIteration as exc:  # catch StopIteration to fetch the return value of compute
+        result = exc.value
+
+# received: 10
+# received: 20
+# received: 30
+# received: &lt;Sentinel&gt;
+# computed: Result(count=3, average=20.0)
+result
+# Result(count=3, average=20.0)
+</code></pre>
+<p><code>res</code> collects the return value of <code>averager2</code>; the <code>yield from</code> machinery retrieves the
+return value when it handles the <code>StopIteration</code> exception that marks the termination of
+the coroutine.  When <code>True</code>, the <code>verbose</code> parameter makes the coroutine print the value
+received, to make its operation visible.</p>
+<p>Even though these examples don’t do much, the code is hard to follow.  Driving the
+coroutine with <code>.send()</code> calls and retrieving results is complicated, except with
+<code>yield from</code> — but we can only use that syntax inside a delegating generator/coroutine,
+which must ultimately be driven by some nontrivial code, as shown above.</p>
+<p>Using coroutines directly is cumbersome and confusing.  Add exception handling and the
+coroutine <code>.throw()</code> method, and examples become even more convoluted.  <code>.throw()</code> is not
+covered here because — like <code>.send()</code> — it is only useful to drive coroutines “by hand”,
+which is not recommended unless you are creating a new coroutine-based framework from
+scratch.</p>
+<p>In practice, productive work with coroutines requires the support of a specialized
+framework.  That is what <code>asyncio</code> provided for classic coroutines way back in Python 3.3.
+With the advent of native coroutines in Python 3.5, support for classic coroutines in
+<code>asyncio</code> was phased out.  But the underlying mechanisms are very similar.  The <code>async def</code>
+syntax makes native coroutines easier to spot in code, which is a great benefit.  Inside,
+native coroutines use <code>await</code> instead of <code>yield from</code> to delegate to other coroutines.
+<a href="asyncio.html">Asynchronous Programming</a> is all about that.</p>
+<p>Now let’s wrap up the chapter with a mind-bending section about covariance and
+contravariance in type hints for coroutines.</p>
+<h3 id="generic-type-hints-for-classic-coroutines"><a class="header" href="#generic-type-hints-for-classic-coroutines">Generic Type Hints for Classic Coroutines</a></h3>
+<p>Back in <a href="type-hints-more.html#contravariant-types">Contravariant types</a>, <code>Generator</code> was
+mentioned as one of the few standard library types with a contravariant type parameter.  Now
+that we’ve studied classic coroutines, we are ready to make sense of this generic type.  In
+terms of the old <code>TypeVar</code> declarations, <code>Generator</code> is declared like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">T_co = TypeVar('T_co', covariant=True)
+V_co = TypeVar('V_co', covariant=True)
+T_contra = TypeVar('T_contra', contravariant=True)
+
+# many lines omitted
+
+class Generator(Iterator[T_co], Generic[T_co, T_contra, V_co]):
+    ...
+</code></pre>
+<p>That generic type declaration means that a <code>Generator</code> type hint requires those three type
+parameters we’ve seen before:</p>
+<!-- nocheck -->
+<pre><code class="language-python">my_coro : Generator[YieldType, SendType, ReturnType]
+</code></pre>
+<p>From the type variables in the formal parameters, we see that <code>YieldType</code> and <code>ReturnType</code>
+are covariant, but <code>SendType</code> is contravariant.  To understand why, consider that
+<code>YieldType</code> and <code>ReturnType</code> are “output” types.  Both describe data that comes out of the
+coroutine object — i.e., the generator object when used as a coroutine object.</p>
+<p>It makes sense that these are covariant, because any code expecting a coroutine that yields
+floats can use a coroutine that yields integers.  That’s why <code>Generator</code> is covariant on its
+<code>YieldType</code> parameter.  The same reasoning applies to the <code>ReturnType</code> parameter — also
+covariant.  Using the notation introduced in
+<a href="type-hints-more.html#covariant-types">Covariant types</a>, the covariance of the first and
+third parameters is expressed by the <code>:&gt;</code> symbols pointing in the same direction:</p>
+<pre><code class="language-text">float :&gt; int
+Generator[float, Any, float] :&gt; Generator[int, Any, int]
+</code></pre>
+<p><code>YieldType</code> and <code>ReturnType</code> are examples of the first rule of
+<a href="type-hints-more.html#variance-rules-of-thumb">Variance rules of thumb</a>: if a formal type
+parameter defines a type for data that comes out of the object, it can be covariant.</p>
+<p>On the other hand, <code>SendType</code> is an “input” parameter: it is the type of the <code>value</code>
+argument for the <code>.send(value)</code> method of the coroutine object.  Client code that needs to
+send floats to a coroutine cannot use a coroutine with <code>int</code> as the <code>SendType</code> because
+<code>float</code> is not a subtype of <code>int</code>.  In other words, <code>float</code> is not consistent-with <code>int</code>.
+But the client can use a coroutine with <code>complex</code> as the <code>SendType</code>, because <code>float</code> is a
+subtype of <code>complex</code>, therefore <code>float</code> is consistent-with <code>complex</code>.  The <code>:&gt;</code> notation
+makes the contravariance of the second parameter visible:</p>
+<pre><code class="language-text">float :&gt; int
+Generator[Any, float, Any] &lt;: Generator[Any, int, Any]
+</code></pre>
+<p>This is an example of the second variance rule of thumb: if a formal type parameter defines
+a type for data that goes into the object after its initial construction, it can be
+contravariant.</p>
+<p>This merry discussion of variance completes one of the longest chapters in this book.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>Iteration is so deeply embedded in the language that it’s fair to say Python <em>groks</em>
+iterators.  The integration of the Iterator pattern in the semantics of Python is a prime
+example of how design patterns are not equally applicable in all programming languages.  In
+Python, a classic Iterator implemented “by hand” has no practical use, except as a didactic
+example.</p>
+<p>In this chapter, we built a few versions of a class to iterate over individual words in
+text that may be very long.  We saw how Python uses the <code>iter()</code> built-in to create iterators
+from sequence-like objects.  We built a classic iterator as a class with <code>__next__()</code>, and
+then we used generators to make each successive refactoring of the <code>Sentence</code> class more
+concise and readable.</p>
+<p>We then coded a generator of arithmetic progressions and showed how to leverage the
+<code>itertools</code> module to make it simpler.  An overview of most general-purpose generator
+functions in the standard library followed.</p>
+<p>We then studied <code>yield from</code> expressions in the context of simple generators with the
+<code>chain</code> and <code>tree</code> examples.</p>
+<p>The last major section was about classic coroutines, a topic of waning importance after
+native coroutines were added in Python 3.5.  Although difficult to use in practice, classic
+coroutines are the foundation of native coroutines, and the <code>yield from</code> expression is the
+direct precursor of <code>await</code>.  Also covered were type hints for <code>Iterable</code>, <code>Iterator</code> and
+<code>Generator</code> types — with the latter providing a concrete and rare example of a
+contravariant type parameter.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>In the “Implementation” section of the Iterator pattern, the Gang of Four wrote: “The
+minimal interface to Iterator consists of the operations First, Next, IsDone, and
+CurrentItem.”  But a footnote adds that the interface could be smaller still, by merging
+Next, IsDone and CurrentItem into a single operation that advances and returns the next
+object, returning a special value at the end.  That is close to what Python has: the
+single method <code>__next__</code> does the job.  But instead of using a sentinel, which could be
+overlooked by mistake, the <code>StopIteration</code> exception signals the end of the iteration.
+Simple and correct: that’s the Python way.</p>
+</blockquote>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li><a href="https://docs.python.org/3/reference/expressions.html#yield-expressions">Yield expressions</a>
+in the Language Reference, and <a href="https://peps.python.org/pep-0255/"><strong>PEP 255</strong></a> —
+Simple Generators.</li>
+<li>The <a href="https://docs.python.org/3/library/itertools.html"><code>itertools</code></a> documentation,
+including the excellent “Itertools Recipes” section, and the
+<a href="https://pypi.org/project/more-itertools/">more-itertools</a> package.</li>
+<li>Chapter 4, “Iterators and Generators”, of <em>Python Cookbook</em>, 3rd ed., by David Beazley
+and Brian K. Jones.</li>
+<li><a href="https://peps.python.org/pep-0380/"><strong>PEP 380</strong></a> — Syntax for Delegating to a
+Subgenerator, for the semantics of <code>yield from</code>.</li>
+<li>David Beazley’s PyCon tutorials “Generator Tricks for Systems Programmers”, “A Curious
+Course on Coroutines and Concurrency” and “Generators: The Final Frontier”.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="operator-overloading.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="stdlib.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="operator-overloading.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="stdlib.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,1268 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>A Pythonic Object - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="a-pythonic-object"><a class="header" href="#a-pythonic-object">A Pythonic Object</a></h1>
+<p>For a library or framework to be Pythonic, as Martijn Faassen put it, is to make
+it as easy and natural as possible for a Python programmer to pick up how to
+perform a task.  Thanks to the Python Data Model, your user-defined types can
+behave as naturally as the built-in types.  And this can be accomplished without
+inheritance, in the spirit of duck typing: you just implement the methods needed
+for your objects to behave as expected.</p>
+<p>In previous chapters we studied the behavior of many built-in objects.  We will
+now build user-defined classes that behave as real Python objects.  Your
+application classes probably don’t need, and should not implement, as many special
+methods as the examples in this chapter.  But if you are writing a library or a
+framework, the programmers who will use your classes may expect them to behave like
+the classes that Python provides.  Fulfilling that expectation is one way of being
+“Pythonic”.</p>
+<p>This chapter starts where <a href="data-model.html">The Python Data Model</a> ended, by showing
+how to implement several special methods that are commonly seen in Python objects of
+many different types.  We will see how to:</p>
+<ul>
+<li>support the built-in functions that convert objects to other types (<code>repr()</code>,
+<code>bytes()</code>, <code>complex()</code>, etc.);</li>
+<li>implement an alternative constructor as a class method;</li>
+<li>extend the format mini-language used by f-strings, the <code>format()</code> built-in and
+the <code>str.format()</code> method;</li>
+<li>provide read-only access to attributes;</li>
+<li>make an object hashable for use in sets and as <code>dict</code> keys;</li>
+<li>save memory with the use of <code>__slots__</code>.</li>
+</ul>
+<p>We’ll do all that as we develop <code>Vector2d</code>, a simple two-dimensional Euclidean
+vector type.  This code will be the foundation of an <em>N</em>-dimensional vector class in
+<a href="sequence-protocol.html">Special Methods for Sequences</a>.  Along the way, we’ll pause
+to discuss two conceptual topics: how and when to use the <code>@classmethod</code> and
+<code>@staticmethod</code> decorators, and private and protected attributes in Python.  The
+chapter assumes you have read <a href="classes.html">Classes</a>.</p>
+<h2 id="object-representations"><a class="header" href="#object-representations">Object Representations</a></h2>
+<p>Every object-oriented language has at least one standard way of getting a string
+representation from any object.  Python has two:</p>
+<dl>
+<dt id="repr"><a class="header" href="#repr"><code>repr()</code></a></dt>
+<dd>returns a string representing the object as the developer wants to see it.  It’s
+what you get when the interactive interpreter or a debugger shows an object.</dd>
+<dt id="str"><a class="header" href="#str"><code>str()</code></a></dt>
+<dd>returns a string representing the object as the user wants to see it.  It’s what
+you get when you <code>print()</code> an object.</dd>
+</dl>
+<p>The special methods <code>__repr__()</code> and <code>__str__()</code> support <code>repr()</code> and <code>str()</code>, as
+you saw in <a href="data-model.html#string-representation">The Python Data Model</a>.</p>
+<p>There are two additional special methods to support alternative representations of
+objects: <code>__bytes__()</code> and <code>__format__()</code>.  The <code>__bytes__()</code> method is analogous to
+<code>__str__()</code>: it’s called by <code>bytes()</code> to get the object represented as a byte
+sequence.  <code>__format__()</code> is used by f-strings, by the built-in function <code>format()</code>,
+and by the <code>str.format()</code> method.  They call <code>obj.__format__(format_spec)</code> to get
+string displays of objects using special formatting codes.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p><code>__repr__()</code>, <code>__str__()</code> and <code>__format__()</code> must always return Unicode strings
+(type <code>str</code>).  Only <code>__bytes__()</code> is supposed to return a byte sequence (type
+<code>bytes</code>).</p>
+</blockquote>
+<h2 id="vector-class-redux"><a class="header" href="#vector-class-redux">Vector Class Redux</a></h2>
+<p>To demonstrate the many methods used to generate object representations, we’ll use a
+<code>Vector2d</code> class similar to the <code>Vector</code> of the Data Model chapter.  Here is the
+basic behavior we expect from a <code>Vector2d</code> instance:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v1 = Vector2d(3, 4)
+print(v1.x, v1.y)
+# 3.0 4.0
+x, y = v1
+x, y
+# (3.0, 4.0)
+v1
+# Vector2d(3.0, 4.0)
+v1_clone = eval(repr(v1))
+v1 == v1_clone
+# True
+print(v1)
+# (3.0, 4.0)
+octets = bytes(v1)
+octets
+# b'd\x00\x00\x00\x00\x00\x00\x08@\x00\x00\x00\x00\x00\x00\x10@'
+abs(v1)
+# 5.0
+bool(v1), bool(Vector2d(0, 0))
+# (True, False)
+</code></pre>
+<p>Going through those lines:</p>
+<ul>
+<li>The components of a <code>Vector2d</code> can be accessed directly as attributes (no getter
+method calls).</li>
+<li>A <code>Vector2d</code> can be unpacked to a tuple of variables.</li>
+<li>The <code>repr</code> of a <code>Vector2d</code> emulates the source code for constructing the instance.</li>
+<li>Using <code>eval</code> here shows that the <code>repr</code> of a <code>Vector2d</code> is a faithful
+representation of its constructor call.  (To clone an instance, <code>copy.copy</code> is
+safer and faster; <code>eval</code> is used just to make a point.)</li>
+<li><code>Vector2d</code> supports comparison with <code>==</code>; this is useful for testing.</li>
+<li><code>print</code> calls <code>str</code>, which for <code>Vector2d</code> produces an ordered pair display.</li>
+<li><code>bytes</code> uses the <code>__bytes__()</code> method to produce a binary representation.</li>
+<li><code>abs</code> uses the <code>__abs__()</code> method to return the magnitude of the <code>Vector2d</code>.</li>
+<li><code>bool</code> uses the <code>__bool__()</code> method to return <code>False</code> for a <code>Vector2d</code> of zero
+magnitude, or <code>True</code> otherwise.</li>
+</ul>
+<p>Here is <code>vector2d_v0.py</code>, an implementation of that behavior.  It’s based on the
+<code>Vector</code> of the Data Model chapter, without the methods for <code>+</code> and <code>*</code>, which come
+later in <a href="operator-overloading.html">Operator Overloading</a>, but with <code>==</code>, since it’s
+useful for testing.  At this point, every method is a special method:</p>
+<pre><code class="language-python">from array import array
+import math
+
+class Vector2d:
+    typecode = 'd'
+
+    def __init__(self, x, y):
+        self.x = float(x)
+        self.y = float(y)
+
+    def __iter__(self):
+        return (i for i in (self.x, self.y))
+
+    def __repr__(self):
+        class_name = type(self).__name__
+        return '{}({!r}, {!r})'.format(class_name, *self)
+
+    def __str__(self):
+        return str(tuple(self))
+
+    def __bytes__(self):
+        return (bytes([ord(self.typecode)]) +
+                bytes(array(self.typecode, self)))
+
+    def __eq__(self, other):
+        return tuple(self) == tuple(other)
+
+    def __abs__(self):
+        return math.hypot(self.x, self.y)
+
+    def __bool__(self):
+        return bool(abs(self))
+</code></pre>
+<p>Point by point:</p>
+<ul>
+<li><code>typecode</code> is a class attribute we’ll use when converting <code>Vector2d</code> instances
+to and from <code>bytes</code>.</li>
+<li>Converting <code>x</code> and <code>y</code> to <code>float</code> in <code>__init__()</code> catches errors early, which is
+helpful in case <code>Vector2d</code> is called with unsuitable arguments.</li>
+<li><code>__iter__()</code> makes a <code>Vector2d</code> iterable; this is what makes unpacking work (as in
+<code>x, y = my_vector</code>).  We implement it simply by using a generator expression to
+yield the components one after the other.  (It could also be written as
+<code>yield self.x; yield self.y</code>; see <a href="iterators-generators.html">Iterators, Generators, and Classic
+Coroutines</a>.)</li>
+<li><code>__repr__()</code> builds a string by interpolating the components with <code>{!r}</code> to get
+their <code>repr</code>; because <code>Vector2d</code> is iterable, <code>*self</code> feeds the <code>x</code> and <code>y</code>
+components to <code>format</code>.</li>
+<li>From an iterable <code>Vector2d</code>, it’s easy to build a <code>tuple</code> for display as an ordered
+pair in <code>__str__()</code>.</li>
+<li>To generate <code>bytes</code>, we convert the typecode to <code>bytes</code> and concatenate the bytes
+converted from an <code>array</code> built by iterating over the instance.</li>
+<li>To quickly compare all components, <code>__eq__()</code> builds tuples out of the operands.
+This works for operands that are instances of <code>Vector2d</code>, but has issues; see the
+warning below.</li>
+<li>The magnitude is the length of the hypotenuse of the right triangle formed by the
+<code>x</code> and <code>y</code> components.</li>
+<li><code>__bool__()</code> uses <code>abs(self)</code> to compute the magnitude, then converts it to
+<code>bool</code>, so <code>0.0</code> becomes <code>False</code>, and nonzero is <code>True</code>.</li>
+</ul>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p><code>__eq__()</code> works for <code>Vector2d</code> operands but also returns <code>True</code> when comparing
+<code>Vector2d</code> instances to other iterables holding the same numeric values (e.g.,
+<code>Vector2d(3, 4) == [3, 4]</code>).  This may be considered a feature or a bug.  The
+discussion continues in <a href="operator-overloading.html">Operator Overloading</a>.</p>
+</blockquote>
+<p>We have a fairly complete set of basic methods, but we still need a way to rebuild a
+<code>Vector2d</code> from the binary representation produced by <code>bytes()</code>.</p>
+<h2 id="an-alternative-constructor"><a class="header" href="#an-alternative-constructor">An Alternative Constructor</a></h2>
+<p>Since we can export a <code>Vector2d</code> as bytes, naturally we need a method that imports a
+<code>Vector2d</code> from a binary sequence.  Looking at the standard library for inspiration,
+we find that <code>array.array</code> has a class method named <code>.frombytes</code> that suits our
+purpose; you saw it in <a href="sequences.html#arrays">Arrays</a>.  We adopt its name and use its
+functionality in a class method for <code>Vector2d</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">@classmethod
+def frombytes(cls, octets):
+    typecode = chr(octets[0])
+    memv = memoryview(octets[1:]).cast(typecode)
+    return cls(*memv)
+</code></pre>
+<p>The <code>classmethod</code> decorator modifies a method so it can be called directly on a
+class.  There’s no <code>self</code> argument; instead, the class itself is passed as the first
+argument, conventionally named <code>cls</code>.  The method reads the typecode from the first
+byte, creates a <code>memoryview</code> from the <code>octets</code> binary sequence and uses the typecode
+to cast it (see <a href="sequences.html#memory-views">Memory Views</a>), and unpacks the
+<code>memoryview</code> resulting from the cast into the pair of arguments needed for the
+constructor.</p>
+<h3 id="classmethod-versus-staticmethod"><a class="header" href="#classmethod-versus-staticmethod"><code>classmethod</code> Versus <code>staticmethod</code></a></h3>
+<p>The <code>classmethod</code> decorator is a Python-specific feature, and so is <code>staticmethod</code>.
+Anyone who has learned object-oriented programming in Java may wonder why Python has
+both of these decorators and not just one of them.</p>
+<p>Let’s start with <code>classmethod</code>.  Its use above is typical: it defines a method that
+operates on the class and not on instances.  <code>classmethod</code> changes the way the method
+is called, so it receives the class itself as the first argument, instead of an
+instance.  Its most common use is for alternative constructors, like <code>frombytes</code>.
+Note how the last line of <code>frombytes</code> actually uses the <code>cls</code> argument by invoking it
+to build a new instance: <code>cls(*memv)</code>.  That way, subclasses get instances of the
+subclass, not of <code>Vector2d</code>.</p>
+<p>In contrast, the <code>staticmethod</code> decorator changes a method so that it receives no
+special first argument.  In essence, a static method is just like a plain function
+that happens to live in a class body, instead of being defined at the module level.
+This contrasts the two:</p>
+<pre><code class="language-python">class Demo:
+    @classmethod
+    def klassmeth(*args):
+        return args  # klassmeth just returns all positional arguments
+    @staticmethod
+    def statmeth(*args):
+        return args  # statmeth does the same
+
+Demo.klassmeth()  # no matter how you invoke it, it receives the class first
+# (&lt;class '__main__.Demo'&gt;,)
+Demo.klassmeth('spam')
+# (&lt;class '__main__.Demo'&gt;, 'spam')
+Demo.statmeth()  # behaves just like a plain old function
+# ()
+Demo.statmeth('spam')
+# ('spam',)
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>The <code>classmethod</code> decorator is clearly useful, but good use cases for
+<code>staticmethod</code> are rare.  Maybe the function is closely related to the class even
+if it never touches it, so you want to place it nearby in the code.  Even then,
+defining the function right before or after the class in the same module is close
+enough most of the time.  Opinions differ on this, so decide for yourself.</p>
+</blockquote>
+<p>Now let’s go back to object representation and see how to support formatted output.</p>
+<h2 id="formatted-displays"><a class="header" href="#formatted-displays">Formatted Displays</a></h2>
+<p>F-strings, the <code>format()</code> built-in function and the <code>str.format()</code> method delegate the
+actual formatting to each type by calling its <code>.__format__(format_spec)</code> method.  The
+<code>format_spec</code> is a formatting specifier, which is either:</p>
+<ul>
+<li>the second argument in <code>format(my_obj, format_spec)</code>, or</li>
+<li>whatever appears after the colon in a replacement field delimited with <code>{}</code> inside
+an f-string or the <code>fmt</code> in <code>fmt.str.format()</code>.</li>
+</ul>
+<p>For example:</p>
+<pre><code class="language-python">brl = 1 / 4.82  # BRL to USD currency conversion rate
+brl
+# 0.20746887966804978
+format(brl, '0.4f')  # the formatting specifier is '0.4f'
+# '0.2075'
+'1 BRL = {rate:0.2f} USD'.format(rate=brl)  # the specifier is '0.2f'
+# '1 BRL = 0.21 USD'
+f'1 USD = {1 / brl:0.2f} BRL'  # again '0.2f'; the 1 / brl expression is not part of it
+# '1 USD = 4.82 BRL'
+</code></pre>
+<p>In the second example, the <code>rate</code> part of the replacement field is not part of the
+formatting specifier; it determines which keyword argument of <code>.format()</code> goes into
+that replacement field.  That makes an important point: a format string such as
+<code>'{0.mass:5.3e}'</code> actually uses two separate notations.  The <code>'0.mass'</code> to the left of
+the colon is the <code>field_name</code> part of the replacement field syntax, and it can be an
+arbitrary expression in an f-string.  The <code>'5.3e'</code> after the colon is the formatting
+specifier.  The notation used in the formatting specifier is called the
+<a href="https://docs.python.org/3/library/string.html#formatspec">Format Specification Mini-Language</a>.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>If f-strings, <code>format()</code> and <code>str.format()</code> are new to you, it’s best to study the
+<code>format()</code> built-in function first, which uses just the Format Specification
+Mini-Language.  After you get the gist of that, read
+<a href="https://docs.python.org/3/reference/lexical_analysis.html#f-strings">Formatted string literals</a>
+and <a href="https://docs.python.org/3/library/string.html#formatstrings">Format String Syntax</a>
+to learn about the <code>{:}</code> replacement field notation (including the <code>!s</code>, <code>!r</code> and
+<code>!a</code> conversion flags).  The tutorial covers the basics in
+<a href="inputoutput.html#tut-formatting">Fancier Output Formatting</a>.  F-strings don’t make
+<code>str.format()</code> obsolete: most of the time f-strings solve the problem, but sometimes
+it’s better to specify the formatting string elsewhere, not where it will be
+rendered.</p>
+</blockquote>
+<p>A few built-in types have their own presentation codes in the Format Specification
+Mini-Language.  For example, among several other codes, the <code>int</code> type supports <code>b</code>
+and <code>x</code> for base 2 and base 16 output, while <code>float</code> implements <code>f</code> for a fixed-point
+display and <code>%</code> for a percentage display:</p>
+<pre><code class="language-python">format(42, 'b')
+# '101010'
+format(2 / 3, '.1%')
+# '66.7%'
+</code></pre>
+<p>The Format Specification Mini-Language is extensible because each class gets to
+interpret the <code>format_spec</code> argument as it likes.  For instance, the classes in the
+<code>datetime</code> module use the same format codes as the <code>strftime()</code> functions in their
+<code>__format__()</code> methods:</p>
+<pre><code class="language-python">from datetime import datetime
+now = datetime(2026, 10, 3, 18, 49, 5)
+format(now, '%H:%M:%S')
+# '18:49:05'
+"It's now {:%I:%M %p}".format(now)
+# "It's now 06:49 PM"
+</code></pre>
+<p>If a class has no <code>__format__()</code>, the method inherited from <code>object</code> returns
+<code>str(my_object)</code>.  Because <code>Vector2d</code> has a <code>__str__()</code>, this works:</p>
+<pre><code class="language-python">v1 = Vector2d(3, 4)
+format(v1)
+# '(3.0, 4.0)'
+</code></pre>
+<p>However, if you pass a format specifier, <code>object.__format__()</code> raises <code>TypeError</code>:</p>
+<pre><code class="language-python">format(v1, '.3f')
+# Traceback (most recent call last):
+#   ...
+# TypeError: unsupported format string passed to Vector2d.__format__
+</code></pre>
+<p>We will fix that by implementing our own format mini-language.  The first step is to
+assume the format specifier provided by the user is intended to format each <code>float</code>
+component of the vector.  This is the result we want:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v1 = Vector2d(3, 4)
+format(v1)
+# '(3.0, 4.0)'
+format(v1, '.2f')
+# '(3.00, 4.00)'
+format(v1, '.3e')
+# '(3.000e+00, 4.000e+00)'
+</code></pre>
+<p>Here is a <code>__format__()</code> method that produces those displays:</p>
+<!-- nocheck -->
+<pre><code class="language-python"># inside the Vector2d class
+
+def __format__(self, fmt_spec=''):
+    components = (format(c, fmt_spec) for c in self)
+    return '({}, {})'.format(*components)
+</code></pre>
+<p>It uses the <code>format</code> built-in to apply the <code>fmt_spec</code> to each vector component,
+building an iterable of formatted strings, and plugs the formatted strings into the
+formula <code>'(x, y)'</code>.</p>
+<p>Now let’s add a custom formatting code to our mini-language: if the format specifier
+ends with a <code>'p'</code>, we’ll display the vector in polar coordinates: <code>&lt;r, θ&gt;</code>, where <code>r</code>
+is the magnitude and θ (theta) is the angle in radians.  The rest of the format
+specifier (whatever comes before the <code>'p'</code>) will be used as before.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>When choosing the letter for a custom format code, avoid overlapping with codes used
+by other types.  In the Format Specification Mini-Language, integers use the codes
+<code>'bcdoxXn'</code>, floats use <code>'eEfFgGn%'</code>, and strings use <code>'s'</code>.  So <code>'p'</code> is a good
+choice for polar coordinates.  Because each class interprets these codes
+independently, reusing a code letter in a custom format for a new type is not an
+error, but may be confusing to users.</p>
+</blockquote>
+<p>To generate polar coordinates, we already have <code>__abs__()</code> for the magnitude, and we
+can write a simple <code>angle</code> method using the <code>math.atan2()</code> function:</p>
+<!-- nocheck -->
+<pre><code class="language-python"># inside the Vector2d class
+
+def angle(self):
+    return math.atan2(self.y, self.x)
+</code></pre>
+<p>With that, we can enhance <code>__format__()</code> to produce polar coordinates:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __format__(self, fmt_spec=''):
+    if fmt_spec.endswith('p'):
+        fmt_spec = fmt_spec[:-1]
+        coords = (abs(self), self.angle())
+        outer_fmt = '&lt;{}, {}&gt;'
+    else:
+        coords = self
+        outer_fmt = '({}, {})'
+    components = (format(c, fmt_spec) for c in coords)
+    return outer_fmt.format(*components)
+</code></pre>
+<p>If the format ends with <code>'p'</code>, we use polar coordinates: we remove the <code>'p'</code> suffix
+from <code>fmt_spec</code>, build a tuple of polar coordinates <code>(magnitude, angle)</code>, and
+configure the outer format with angle brackets.  Otherwise, we use the <code>x, y</code>
+components of <code>self</code> for rectangular coordinates, with parentheses.  Then we generate
+an iterable with the components as formatted strings and plug them into the outer
+format.  The results look like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">format(Vector2d(1, 1), 'p')
+# '&lt;1.4142135623730951, 0.7853981633974483&gt;'
+format(Vector2d(1, 1), '.3ep')
+# '&lt;1.414e+00, 7.854e-01&gt;'
+format(Vector2d(1, 1), '0.5fp')
+# '&lt;1.41421, 0.78540&gt;'
+</code></pre>
+<p>As this section shows, it’s not hard to extend the Format Specification Mini-Language
+to support user-defined types.  Now let’s move to a subject that’s not just about
+appearances: we will make <code>Vector2d</code> hashable, so we can build sets of vectors, or use
+them as <code>dict</code> keys.</p>
+<h2 id="a-hashable-vector2d"><a class="header" href="#a-hashable-vector2d">A Hashable <code>Vector2d</code></a></h2>
+<p>As defined so far, our <code>Vector2d</code> instances are unhashable, so we can’t put them in a
+<code>set</code>:</p>
+<pre><code class="language-python">v1 = Vector2d(3, 4)
+hash(v1)
+# Traceback (most recent call last):
+#   ...
+# TypeError: unhashable type: 'Vector2d'
+set([v1])
+# Traceback (most recent call last):
+#   ...
+# TypeError: unhashable type: 'Vector2d'
+</code></pre>
+<p>(Defining <code>__eq__()</code> without <code>__hash__()</code> sets <code>__hash__</code> to <code>None</code>, which is why the
+instances are unhashable.)  To make a <code>Vector2d</code> hashable, we must implement
+<code>__hash__()</code> (<code>__eq__()</code> is also required, and we already have it).  We also need to
+make vector instances immutable, as explained in
+<a href="dicts-sets.html#what-is-hashable">What Is Hashable</a>.  Right now, anyone can do
+<code>v1.x = 7</code>, and there is nothing in the code to suggest that changing a <code>Vector2d</code> is
+forbidden.  This is the behavior we want:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v1.x, v1.y
+# (3.0, 4.0)
+v1.x = 7
+# Traceback (most recent call last):
+#   ...
+# AttributeError: property 'x' of 'Vector2d' object has no setter
+</code></pre>
+<p>We’ll do that by making the <code>x</code> and <code>y</code> components read-only properties:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class Vector2d:
+    typecode = 'd'
+
+    def __init__(self, x, y):
+        self.__x = float(x)
+        self.__y = float(y)
+
+    @property
+    def x(self):
+        return self.__x
+
+    @property
+    def y(self):
+        return self.__y
+
+    def __iter__(self):
+        return (i for i in (self.x, self.y))
+
+    # remaining methods: same as previous Vector2d
+</code></pre>
+<p>We use exactly two leading underscores (with zero or one trailing underscore) to make
+an attribute private; more on that <a href="#private-and-protected-attributes-in-python">below</a>.
+The <code>@property</code> decorator marks the getter method of a property, which is named after
+the public property it exposes: <code>x</code>, which just returns <code>self.__x</code>.  The same formula
+is repeated for the <code>y</code> property.  Every method that just reads the <code>x</code>, <code>y</code>
+components can stay as it was, reading the public properties via <code>self.x</code> and
+<code>self.y</code> instead of the private attributes.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p><code>Vector2d.x</code> and <code>Vector2d.y</code> are examples of read-only properties.  Read/write
+properties are covered in <a href="dynamic-attributes.html">Dynamic Attributes and Properties</a>,
+where we dive deeper into <code>@property</code>.</p>
+</blockquote>
+<p>Now that our vectors are reasonably safe from accidental mutation, we can implement
+<code>__hash__()</code>.  It should return an <code>int</code> and ideally take into account the hashes of
+the object attributes that are also used in <code>__eq__()</code>, because objects that compare
+equal should have the same hash.  The documentation of <code>__hash__()</code> suggests computing
+the hash of a tuple with the components, so that’s what we do:</p>
+<!-- nocheck -->
+<pre><code class="language-python"># inside class Vector2d:
+
+def __hash__(self):
+    return hash((self.x, self.y))
+</code></pre>
+<p>With the addition of <code>__hash__()</code>, we now have hashable vectors:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v1 = Vector2d(3, 4)
+v2 = Vector2d(3.1, 4.2)
+hash(v1), hash(v2)
+# (1079245023883434373, 1994163070182233067)
+{v1, v2}
+# {Vector2d(3.1, 4.2), Vector2d(3.0, 4.0)}
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>It’s not strictly necessary to implement properties or otherwise protect the
+instance attributes to create a hashable type.  Implementing <code>__hash__()</code> and
+<code>__eq__()</code> correctly is all it takes.  But the value of a hashable object is never
+supposed to change, so this was a good excuse to talk about read-only properties.</p>
+</blockquote>
+<p>If you are creating a type that has a sensible scalar numeric value, you may also
+implement the <code>__int__()</code> and <code>__float__()</code> methods, invoked by the <code>int()</code> and
+<code>float()</code> constructors, which are used for type coercion in some contexts.  There is
+also a <code>__complex__()</code> method to support the <code>complex()</code> built-in constructor.
+Perhaps <code>Vector2d</code> should provide <code>__complex__()</code>; that’s left as an exercise for you.</p>
+<h2 id="supporting-positional-pattern-matching"><a class="header" href="#supporting-positional-pattern-matching">Supporting Positional Pattern Matching</a></h2>
+<p>So far, <code>Vector2d</code> instances are compatible with keyword class patterns (see
+<a href="pattern-matching.html#keyword-class-patterns">Keyword Class Patterns</a>).  All of these
+keyword patterns work as expected:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def keyword_pattern_demo(v: Vector2d) -&gt; None:
+    match v:
+        case Vector2d(x=0, y=0):
+            print(f'{v!r} is null')
+        case Vector2d(x=0):
+            print(f'{v!r} is vertical')
+        case Vector2d(y=0):
+            print(f'{v!r} is horizontal')
+        case Vector2d(x=x, y=y) if x==y:
+            print(f'{v!r} is diagonal')
+        case _:
+            print(f'{v!r} is awesome')
+</code></pre>
+<p>However, if you try to use a positional pattern like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">case Vector2d(_, 0):
+    print(f'{v!r} is horizontal')
+</code></pre>
+<p>you get:</p>
+<pre><code class="language-text">TypeError: Vector2d() accepts 0 positional sub-patterns (1 given)
+</code></pre>
+<p>To make <code>Vector2d</code> work with positional patterns, we need to add a class attribute
+named <code>__match_args__</code>, listing the instance attributes in the order they will be used
+for positional pattern matching:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class Vector2d:
+    __match_args__ = ('x', 'y')
+
+    # etc...
+</code></pre>
+<p>Now we can save a few keystrokes when writing patterns to match <code>Vector2d</code> subjects:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def positional_pattern_demo(v: Vector2d) -&gt; None:
+    match v:
+        case Vector2d(0, 0):
+            print(f'{v!r} is null')
+        case Vector2d(0):
+            print(f'{v!r} is vertical')
+        case Vector2d(_, 0):
+            print(f'{v!r} is horizontal')
+        case Vector2d(x, y) if x==y:
+            print(f'{v!r} is diagonal')
+        case _:
+            print(f'{v!r} is awesome')
+</code></pre>
+<p>The <code>__match_args__</code> class attribute does not need to include all public instance
+attributes.  In particular, if the class <code>__init__()</code> has required and optional
+arguments that are assigned to instance attributes, it may be reasonable to name the
+required arguments in <code>__match_args__</code>, but not the optional ones.</p>
+<h2 id="complete-listing-of-vector2d-version-3"><a class="header" href="#complete-listing-of-vector2d-version-3">Complete Listing of <code>Vector2d</code>, Version 3</a></h2>
+<p>We have been working on <code>Vector2d</code> for a while, showing just snippets, so here is a
+consolidated listing of <code>vector2d_v3.py</code>:</p>
+<pre><code class="language-python">"""
+A two-dimensional vector class
+"""
+
+from array import array
+import math
+
+class Vector2d:
+    __match_args__ = ('x', 'y')
+
+    typecode = 'd'
+
+    def __init__(self, x, y):
+        self.__x = float(x)
+        self.__y = float(y)
+
+    @property
+    def x(self):
+        return self.__x
+
+    @property
+    def y(self):
+        return self.__y
+
+    def __iter__(self):
+        return (i for i in (self.x, self.y))
+
+    def __repr__(self):
+        class_name = type(self).__name__
+        return '{}({!r}, {!r})'.format(class_name, *self)
+
+    def __str__(self):
+        return str(tuple(self))
+
+    def __bytes__(self):
+        return (bytes([ord(self.typecode)]) +
+                bytes(array(self.typecode, self)))
+
+    def __eq__(self, other):
+        return tuple(self) == tuple(other)
+
+    def __hash__(self):
+        return hash((self.x, self.y))
+
+    def __abs__(self):
+        return math.hypot(self.x, self.y)
+
+    def __bool__(self):
+        return bool(abs(self))
+
+    def angle(self):
+        return math.atan2(self.y, self.x)
+
+    def __format__(self, fmt_spec=''):
+        if fmt_spec.endswith('p'):
+            fmt_spec = fmt_spec[:-1]
+            coords = (abs(self), self.angle())
+            outer_fmt = '&lt;{}, {}&gt;'
+        else:
+            coords = self
+            outer_fmt = '({}, {})'
+        components = (format(c, fmt_spec) for c in coords)
+        return outer_fmt.format(*components)
+
+    @classmethod
+    def frombytes(cls, octets):
+        typecode = chr(octets[0])
+        memv = memoryview(octets[1:]).cast(typecode)
+        return cls(*memv)
+</code></pre>
+<p>And here are the tests used while developing it, which exercise everything shown in
+this chapter so far:</p>
+<pre><code class="language-python">v1 = Vector2d(3, 4)
+print(v1.x, v1.y)
+# 3.0 4.0
+x, y = v1
+x, y
+# (3.0, 4.0)
+v1
+# Vector2d(3.0, 4.0)
+v1_clone = eval(repr(v1))
+v1 == v1_clone
+# True
+print(v1)
+# (3.0, 4.0)
+octets = bytes(v1)
+octets
+# b'd\x00\x00\x00\x00\x00\x00\x08@\x00\x00\x00\x00\x00\x00\x10@'
+abs(v1)
+# 5.0
+bool(v1), bool(Vector2d(0, 0))
+# (True, False)
+v1_clone = Vector2d.frombytes(bytes(v1))  # test of the .frombytes() class method
+v1_clone
+# Vector2d(3.0, 4.0)
+v1 == v1_clone
+# True
+format(v1)  # tests of format() with Cartesian coordinates
+# '(3.0, 4.0)'
+format(v1, '.2f')
+# '(3.00, 4.00)'
+format(v1, '.3e')
+# '(3.000e+00, 4.000e+00)'
+Vector2d(0, 0).angle()  # tests of the angle method
+# 0.0
+Vector2d(1, 0).angle()
+# 0.0
+epsilon = 10**-8
+abs(Vector2d(0, 1).angle() - math.pi/2) &lt; epsilon
+# True
+abs(Vector2d(1, 1).angle() - math.pi/4) &lt; epsilon
+# True
+format(Vector2d(1, 1), 'p')  # tests of format() with polar coordinates
+# '&lt;1.4142135623730951, 0.7853981633974483&gt;'
+format(Vector2d(1, 1), '.3ep')
+# '&lt;1.414e+00, 7.854e-01&gt;'
+format(Vector2d(1, 1), '0.5fp')
+# '&lt;1.41421, 0.78540&gt;'
+v1.x, v1.y  # tests of x and y read-only properties
+# (3.0, 4.0)
+v1.x = 123
+# Traceback (most recent call last):
+#   ...
+# AttributeError: property 'x' of 'Vector2d' object has no setter
+v1 = Vector2d(3, 4)  # tests of hashing
+v2 = Vector2d(3.1, 4.2)
+len({v1, v2})
+# 2
+</code></pre>
+<p>To recap, in this and the previous sections we saw some essential special methods
+that you may want to implement to have a full-fledged object.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>You should only implement these special methods if your application needs them.
+End users don’t care if the objects that make up the application are “Pythonic” or
+not.  On the other hand, if your classes are part of a library for other Python
+programmers to use, you can’t really guess what they will do with your objects, and
+they may expect more of the “Pythonic” behaviors we are describing.  <code>Vector2d</code> is a
+didactic example with a laundry list of special methods related to object
+representation, not a template for every user-defined class.</p>
+</blockquote>
+<p>Let’s take a break from <code>Vector2d</code> to discuss the design and drawbacks of the private
+attribute mechanism in Python: the double-underscore prefix in <code>self.__x</code>.</p>
+<h2 id="private-and-protected-attributes-in-python"><a class="header" href="#private-and-protected-attributes-in-python">Private and “Protected” Attributes in Python</a></h2>
+<p>In Python, there is no way to create private variables like there is with the
+<code>private</code> modifier in Java.  What we have in Python is a simple mechanism to prevent
+accidental overwriting of a “private” attribute in a subclass.  (The tutorial touches
+on this in <a href="classes.html#tut-private">Private Variables</a>.)</p>
+<p>Consider this scenario: someone wrote a class named <code>Dog</code> that uses a <code>mood</code> instance
+attribute internally, without exposing it.  You need to subclass <code>Dog</code> as <code>Beagle</code>.
+If you create your own <code>mood</code> instance attribute without being aware of the name
+clash, you will clobber the <code>mood</code> attribute used by the methods inherited from <code>Dog</code>.
+This would be a pain to debug.</p>
+<p>To prevent this, if you name an instance attribute in the form <code>__mood</code> (two leading
+underscores and zero or at most one trailing underscore), Python stores the name in
+the instance <code>__dict__</code> prefixed with a leading underscore and the class name, so in
+the <code>Dog</code> class, <code>__mood</code> becomes <code>_Dog__mood</code>, and in <code>Beagle</code> it’s <code>_Beagle__mood</code>.
+This language feature goes by the lovely name of <em>name mangling</em>:</p>
+<pre><code class="language-python">v1 = Vector2d(3, 4)
+v1.__dict__
+# {'_Vector2d__x': 3.0, '_Vector2d__y': 4.0}
+v1._Vector2d__x
+# 3.0
+</code></pre>
+<p>Name mangling is about safety, not security: it’s designed to prevent accidental
+access and not malicious prying, much like a hinged cover over a switch prevents
+accidents, not sabotage.  Anyone who knows how private names are mangled can read the
+private attribute directly, as the last line shows; that’s actually useful for
+debugging and serialization.  They can also directly assign a value to a private
+component of a <code>Vector2d</code> by writing <code>v1._Vector2d__x = 7</code>.  But if you are doing that
+in production code, you can’t complain if something blows up.</p>
+<p>The name mangling functionality is not loved by all Pythonistas, and neither is the
+skewed look of names written as <code>self.__x</code>.  Some prefer to avoid this syntax and use
+just one underscore prefix to “protect” attributes by convention (e.g., <code>self._x</code>).
+Critics of the automatic double-underscore mangling suggest that concerns about
+accidental attribute clobbering should be addressed by naming conventions; Ian
+Bicking, creator of pip and virtualenv, recommended never using two leading
+underscores, and spelling out the mangling explicitly when name clashes are a concern
+(e.g., <code>_MyThing_blahblah</code>), which is just as effective but transparent.</p>
+<p>The single underscore prefix has no special meaning to the Python interpreter when
+used in attribute names, but it’s a very strong convention among Python programmers
+that you should not access such attributes from outside the class.  It’s easy to
+respect the privacy of an object that marks its attributes with a single <code>_</code>, just as
+it’s easy to respect the convention that variables in <code>ALL_CAPS</code> should be treated as
+constants.  (In modules, a single <code>_</code> in front of a top-level name does have an
+effect: <code>from mymod import *</code> does not import names with a <code>_</code> prefix.  You can still
+write <code>from mymod import _privatefunc</code>; see <a href="modules.html#tut-moremodules">More on Modules</a>.)</p>
+<p>Attributes with a single <code>_</code> prefix are called “protected” in some corners of the
+Python documentation.  The practice of “protecting” attributes by convention with the
+form <code>self._x</code> is widespread, but calling that a “protected” attribute is not so
+common.  Some even call that a “private” attribute.</p>
+<p>To conclude: the <code>Vector2d</code> components are “private” and our <code>Vector2d</code> instances are
+“immutable”, with scare quotes, because there is no way to make them really private
+and immutable.  (In practice, the <code>private</code> and <code>protected</code> modifiers of Java also
+provide protection against accidents only: Java’s reflection API can read a private
+field unless the program runs under a strict security manager, which is rare.  So
+relax and enjoy the power Python gives you, and use it responsibly.)</p>
+<p>Now back to <code>Vector2d</code>.  The next section covers a special attribute (not a method)
+that affects the internal storage of an object, with potentially huge impact on the use
+of memory but little effect on its public interface: <code>__slots__</code>.</p>
+<h2 id="saving-memory-with-__slots__"><a class="header" href="#saving-memory-with-__slots__">Saving Memory with <code>__slots__</code></a></h2>
+<p>By default, Python stores the attributes of each instance in a <code>dict</code> named
+<code>__dict__</code>.  As you saw in
+<a href="dicts-sets.html#practical-consequences-of-how-dict-works">Practical Consequences of How <code>dict</code> Works</a>,
+a <code>dict</code> has a significant memory overhead, even with the optimizations mentioned
+there.  But if you define a class attribute named <code>__slots__</code> holding a sequence of
+attribute names, Python uses an alternative storage model for the instance attributes:
+the attributes named in <code>__slots__</code> are stored in a hidden array of references that
+uses less memory than a <code>dict</code>.  Let’s see how that works through simple examples:</p>
+<pre><code class="language-python">class Pixel:
+    __slots__ = ('x', 'y')
+
+p = Pixel()
+p.__dict__  # first effect: instances of Pixel have no __dict__
+# Traceback (most recent call last):
+#   ...
+# AttributeError: 'Pixel' object has no attribute '__dict__'
+p.x = 10  # set the p.x and p.y attributes normally
+p.y = 20
+p.color = 'red'  # second effect: attributes not listed in __slots__ can't be set
+# Traceback (most recent call last):
+#   ...
+# AttributeError: 'Pixel' object has no attribute 'color' and no __dict__ for setting new attributes
+</code></pre>
+<p><code>__slots__</code> must be present when the class is created; adding or changing it later has
+no effect.  The attribute names may be in a tuple or list, but a tuple makes it clear
+there’s no point in changing it.  We create an instance of <code>Pixel</code> because the effects
+of <code>__slots__</code> are seen on the instances: they have no <code>__dict__</code>, and trying to set
+an attribute not listed in <code>__slots__</code> raises <code>AttributeError</code>.</p>
+<p>So far, so good.  Now let’s create a subclass of <code>Pixel</code> to see the counterintuitive
+side of <code>__slots__</code>:</p>
+<pre><code class="language-python">class OpenPixel(Pixel):  # OpenPixel declares no attributes of its own
+    pass
+
+op = OpenPixel()
+op.__dict__  # surprise: instances of OpenPixel have a __dict__
+# {}
+op.x = 8  # if you set attribute x, named in the __slots__ of Pixel...
+op.__dict__  # ...it is not stored in the instance __dict__...
+# {}
+op.x  # ...but in the hidden array of references in the instance
+# 8
+op.color = 'green'  # an attribute not named in __slots__...
+op.__dict__  # ...is stored in the instance __dict__
+# {'color': 'green'}
+</code></pre>
+<p>So the effect of <code>__slots__</code> is only partially inherited by a subclass.  To make sure
+that instances of a subclass have no <code>__dict__</code>, you must declare <code>__slots__</code> again
+in the subclass.  If you declare <code>__slots__ = ()</code> (an empty tuple), then the instances
+of the subclass will have no <code>__dict__</code> and will only accept the attributes named in
+the <code>__slots__</code> of the base class.  If you want a subclass to have additional
+attributes, name them in <code>__slots__</code>:</p>
+<pre><code class="language-python">class ColorPixel(Pixel):
+   __slots__ = ('color',)
+
+cp = ColorPixel()
+cp.__dict__  # ColorPixel instances have no __dict__
+# Traceback (most recent call last):
+#   ...
+# AttributeError: 'ColorPixel' object has no attribute '__dict__'
+cp.x = 2
+cp.color = 'blue'
+cp.flavor = 'banana'
+# Traceback (most recent call last):
+#   ...
+# AttributeError: 'ColorPixel' object has no attribute 'flavor' and no __dict__ for setting new attributes
+</code></pre>
+<p>Essentially, the <code>__slots__</code> of the superclasses are added to the <code>__slots__</code> of the
+current class.  Don’t forget that single-item tuples must have a trailing comma.  You
+can set the attributes declared in the <code>__slots__</code> of this class and its
+superclasses, but no others.</p>
+<p>It’s possible to “save memory and eat it too”: if you add the <code>'__dict__'</code> name to the
+<code>__slots__</code> list, your instances will keep the attributes named in <code>__slots__</code> in the
+per-instance array of references, but will also support dynamically created
+attributes, which are stored in the usual <code>__dict__</code>.  This is necessary if you want
+to use the <code>@cached_property</code> decorator (covered in
+<a href="dynamic-attributes.html#step-5-caching-properties-with-functools">Caching Properties with <code>functools</code></a>).
+Of course, having <code>'__dict__'</code> in <code>__slots__</code> may entirely defeat its purpose,
+depending on the number of static and dynamic attributes in each instance and how they
+are used.  Careless optimization is worse than premature optimization: you add
+complexity but may not get any benefit.</p>
+<p>Another special per-instance attribute that you may want to keep is <code>__weakref__</code>,
+necessary for an object to support weak references (see
+<a href="references.html#weak-references">Weak References</a>).  That attribute exists by default
+in instances of user-defined classes.  However, if the class defines <code>__slots__</code>, and
+you need the instances to be targets of weak references, then you need to include
+<code>'__weakref__'</code> among the attributes named in <code>__slots__</code>.</p>
+<h3 id="simple-measure-of-__slots__-savings"><a class="header" href="#simple-measure-of-__slots__-savings">Simple Measure of <code>__slots__</code> Savings</a></h3>
+<p>Here is <code>Vector2d</code> with <code>__slots__</code>; the <code>__slots__</code> attribute is the only addition:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class Vector2d:
+    __match_args__ = ('x', 'y')
+    __slots__ = ('__x', '__y')
+
+    typecode = 'd'
+    # methods are the same as previous version
+</code></pre>
+<p><code>__match_args__</code> lists the public attribute names for positional pattern matching.  In
+contrast, <code>__slots__</code> lists the names of the instance attributes, which in this case
+are private attributes.  (Private names in <code>__slots__</code> are mangled just like private
+attributes.)</p>
+<p>To measure the memory savings, you can use the
+<a href="https://docs.python.org/3/library/tracemalloc.html"><code>tracemalloc</code></a> module.  This
+function measures the memory allocated while building a list of instances of a class:</p>
+<pre><code class="language-python">import tracemalloc
+
+class Pt:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+class SlotPt:
+    __slots__ = ('x', 'y')
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+def measure(cls, n=100_000):
+    tracemalloc.start()
+    objs = [cls(float(i), float(i)) for i in range(n)]
+    current, _ = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+    return current
+
+measure(Pt), measure(SlotPt)
+# (14404192, 10398528)
+</code></pre>
+<p>Those numbers include the float objects and the list itself, so the difference, about
+40 bytes per instance on CPython 3.13, is the saving from <code>__slots__</code>.  In older Python
+versions the difference was much larger: in an experiment with Python 3.9 building 10
+million <code>Vector2d</code> instances, the process used about 1.55 GiB with instance <code>__dict__</code>
+and 551 MiB with <code>__slots__</code>, and the <code>__slots__</code> version was also faster.  Recent
+CPython versions store instance attributes more compactly by default, so measure before
+you decide.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>If you are handling millions of objects with numeric data, you should really be using
+NumPy arrays (see <a href="sequences.html#numpy">NumPy</a>), which are not only memory efficient but
+have highly optimized functions for numeric processing, many of which operate on the
+entire array at once.  <code>Vector2d</code> is designed just to provide context when discussing
+special methods.</p>
+</blockquote>
+<h3 id="summarizing-the-issues-with-__slots__"><a class="header" href="#summarizing-the-issues-with-__slots__">Summarizing the Issues with <code>__slots__</code></a></h3>
+<p>The <code>__slots__</code> class attribute may provide significant memory savings if properly
+used, but there are a few caveats:</p>
+<ul>
+<li>You must remember to redeclare <code>__slots__</code> in each subclass to prevent their
+instances from having <code>__dict__</code>.</li>
+<li>Instances will only be able to have the attributes listed in <code>__slots__</code>, unless
+you include <code>'__dict__'</code> in <code>__slots__</code> (but doing so may negate the memory savings).</li>
+<li>Classes using <code>__slots__</code> cannot use the <code>@cached_property</code> decorator, unless they
+explicitly name <code>'__dict__'</code> in <code>__slots__</code>.</li>
+<li>Instances cannot be targets of weak references, unless you add <code>'__weakref__'</code> in
+<code>__slots__</code>.</li>
+</ul>
+<p>(The <code>@dataclass</code> decorator can generate <code>__slots__</code> for you with <code>slots=True</code>; see
+<a href="dataclasses.html#more-about-dataclass">More About <code>@dataclass</code></a>.)</p>
+<h2 id="overriding-class-attributes"><a class="header" href="#overriding-class-attributes">Overriding Class Attributes</a></h2>
+<p>A distinctive feature of Python is how class attributes can be used as default values
+for instance attributes.  In <code>Vector2d</code> there is the <code>typecode</code> class attribute.  It’s
+used twice in the <code>__bytes__()</code> method, but we read it as <code>self.typecode</code> by design.
+Because <code>Vector2d</code> instances are created without a <code>typecode</code> attribute of their own,
+<code>self.typecode</code> gets the <code>Vector2d.typecode</code> class attribute by default.</p>
+<p>But if you write to an instance attribute that does not exist, you create a new
+instance attribute, for example a <code>typecode</code> instance attribute, and the class
+attribute by the same name is untouched.  However, from then on, whenever the code
+handling that instance reads <code>self.typecode</code>, the instance <code>typecode</code> is retrieved,
+effectively shadowing the class attribute by the same name.  This opens the
+possibility of customizing an individual instance with a different <code>typecode</code>.</p>
+<p>The default <code>Vector2d.typecode</code> is <code>'d'</code>, meaning each vector component is represented
+as an 8-byte double-precision float when exporting to <code>bytes</code>.  If we set the
+<code>typecode</code> of a <code>Vector2d</code> instance to <code>'f'</code> prior to exporting, each component is
+exported as a 4-byte single-precision float.  (Since we are adding a custom instance
+attribute, this uses the <code>Vector2d</code> implementation without <code>__slots__</code>.)</p>
+<pre><code class="language-python">v1 = Vector2d(1.1, 2.2)
+dumpd = bytes(v1)
+dumpd
+# b'd\x9a\x99\x99\x99\x99\x99\xf1?\x9a\x99\x99\x99\x99\x99\x01@'
+len(dumpd)  # the default bytes representation is 17 bytes long
+# 17
+v1.typecode = 'f'  # set typecode to 'f' in the v1 instance
+dumpf = bytes(v1)
+dumpf
+# b'f\xcd\xcc\x8c?\xcd\xcc\x0c@'
+len(dumpf)  # now the bytes dump is 9 bytes long
+# 9
+Vector2d.typecode  # unchanged; only the v1 instance uses typecode 'f'
+# 'd'
+</code></pre>
+<p>Now it should be clear why the <code>bytes</code> export of a <code>Vector2d</code> is prefixed by the
+<code>typecode</code>: we wanted to support different export formats.</p>
+<p>If you want to change a class attribute, you must set it on the class directly, not
+through an instance.  You could change the default <code>typecode</code> for all instances (that
+don’t have their own <code>typecode</code>) with <code>Vector2d.typecode = 'f'</code>.  However, there is an
+idiomatic Python way of achieving a more permanent effect, and being more explicit
+about the change.  Because class attributes are public, they are inherited by
+subclasses, so it’s common practice to subclass just to customize a class data
+attribute.  The Django class-based views use this technique extensively:</p>
+<pre><code class="language-python">class ShortVector2d(Vector2d):  # a subclass just to overwrite typecode
+    typecode = 'f'
+
+sv = ShortVector2d(1/11, 1/27)
+sv
+# ShortVector2d(0.09090909090909091, 0.037037037037037035)
+len(bytes(sv))  # the exported bytes are 9 long, not 17 as before
+# 9
+</code></pre>
+<p>This example also explains why the <code>class_name</code> in <code>Vector2d.__repr__()</code> is not
+hardcoded, but read from <code>type(self).__name__</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python"># inside class Vector2d:
+
+def __repr__(self):
+    class_name = type(self).__name__
+    return '{}({!r}, {!r})'.format(class_name, *self)
+</code></pre>
+<p>If <code>class_name</code> were hardcoded, subclasses of <code>Vector2d</code> like <code>ShortVector2d</code> would
+have to overwrite <code>__repr__()</code> just to change the <code>class_name</code>.  By reading the name
+from the type of the instance, <code>__repr__()</code> is safer to inherit.</p>
+<p>This ends our coverage of building a simple class that leverages the data model to play
+well with the rest of Python: offering different object representations, providing a
+custom formatting code, exposing read-only attributes, and supporting <code>hash()</code> to
+integrate with sets and mappings.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>The aim of this chapter was to demonstrate the use of special methods and conventions in
+the construction of a well-behaved Pythonic class.</p>
+<p>Is <code>vector2d_v3.py</code> more Pythonic than <code>vector2d_v0.py</code>?  The final <code>Vector2d</code>
+certainly exhibits more Python features.  But whether the first or the last
+implementation is suitable depends on the context where it would be used.  The Zen of
+Python says: “Simple is better than complex.”  An object should be as simple as the
+requirements dictate, and not a parade of language features.  If the code is for an
+application, it should focus on what is needed to support the end users, not more.  If
+the code is for a library for other programmers to use, then it’s reasonable to
+implement special methods supporting behaviors that Pythonistas expect.  For example,
+<code>__eq__()</code> may not be necessary to support a business requirement, but it makes the
+class easier to test.</p>
+<p>The examples in this chapter demonstrated several of the special methods from the
+overview in <a href="data-model.html#overview-of-special-methods">The Python Data Model</a>:</p>
+<ul>
+<li>string/bytes representation methods: <code>__repr__</code>, <code>__str__</code>, <code>__format__</code> and
+<code>__bytes__</code>;</li>
+<li>methods for reducing an object to a number: <code>__abs__</code>, <code>__bool__</code> and <code>__hash__</code>;</li>
+<li>the <code>__eq__</code> operator, to support testing and hashing (along with <code>__hash__</code>).</li>
+</ul>
+<p>While supporting conversion to bytes, we also implemented an alternative constructor,
+<code>Vector2d.frombytes()</code>, which provided the context for discussing the decorators
+<code>@classmethod</code> (very handy) and <code>@staticmethod</code> (not so useful; module-level functions
+are simpler).  The <code>frombytes</code> method was inspired by its namesake in the <code>array.array</code>
+class.</p>
+<p>We saw that the Format Specification Mini-Language is extensible by implementing a
+<code>__format__()</code> method that parses a <code>format_spec</code> provided to the
+<code>format(obj, format_spec)</code> built-in or within replacement fields <code>'{:«format_spec»}'</code>
+in f-strings or strings used with <code>str.format()</code>.</p>
+<p>To make <code>Vector2d</code> instances hashable, we made them immutable, at least preventing
+accidental changes by making the <code>x</code> and <code>y</code> attributes private and exposing them as
+read-only properties.  We then implemented <code>__hash__()</code> by hashing a tuple of the
+instance attributes.</p>
+<p>We then discussed the memory savings and the caveats of declaring a <code>__slots__</code>
+attribute.  Because using <code>__slots__</code> has side effects, it really makes sense only when
+handling a very large number of instances, think millions of instances, not just
+thousands.</p>
+<p>The last topic was the overriding of a class attribute accessed via the instances (as
+in <code>self.typecode</code>), first by creating an instance attribute, and then by subclassing
+and overwriting at the class level.</p>
+<p>Throughout the chapter, design choices in the examples were informed by studying the
+interfaces of standard Python objects.  If this chapter can be summarized in one
+sentence, it is this: to build Pythonic objects, observe how real Python objects behave.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>In the first versions of <code>Vector2d</code>, the <code>x</code> and <code>y</code> attributes were public, as are
+all Python instance and class attributes by default.  When we needed to avoid
+accidental updates, we implemented properties, but nothing changed elsewhere in the
+code or in the public interface of <code>Vector2d</code>: users still write <code>my_vector.x</code> and
+<code>my_vector.y</code>.  This shows that you can always start your classes in the simplest
+possible way, with public attributes, because when (or if) you later need more control
+with getters and setters, you can implement them through properties without changing
+any code that already uses those attributes.  That is the opposite of the Java
+practice of writing getters and setters up front, because Java has no properties.
+Besides, writing <code>my_object.set_foo(my_object.get_foo() + 1)</code> instead of
+<code>my_object.foo += 1</code> is goofy.</p>
+</blockquote>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li><a href="https://docs.python.org/3/reference/datamodel.html#basic-customization">Basic customization</a>
+in the Data Model chapter of the language reference documents most of the methods
+used in this chapter.</li>
+<li>Chapter 8, “Classes and Objects”, of the <em>Python Cookbook</em>, 3rd ed., has several
+solutions related to this chapter.</li>
+<li>The <a href="https://www.attrs.org/">attrs</a> package and the data class builders from
+<a href="dataclasses.html">Data Class Builders</a> generate several of these special methods for
+you.  Knowing how to write them yourself is still essential to understand what
+those packages do, to decide whether you need them, and to override the methods they
+generate when necessary.</li>
+<li>This chapter covered every special method related to object representation except
+<code>__index__</code> (covered in <a href="sequence-protocol.html#a-slice-aware-__getitem__">Special Methods for Sequences</a>)
+and <code>__fspath__</code> (see <a href="https://peps.python.org/pep-0519/"><strong>PEP 519</strong></a>).</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="dataclasses.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="sequence-protocol.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="dataclasses.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="sequence-protocol.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

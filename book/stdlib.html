@@ -1,0 +1,509 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Brief Tour of the Standard Library - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <p><a id="tut-brieftour"></a></p>
+<h1 id="brief-tour-of-the-standard-library"><a class="header" href="#brief-tour-of-the-standard-library">Brief tour of the standard library</a></h1>
+<p><a id="tut-os-interface"></a></p>
+<h2 id="operating-system-interface"><a class="header" href="#operating-system-interface">Operating system interface</a></h2>
+<p>The <code>os</code> module provides dozens of functions for interacting with the
+operating system:</p>
+<pre><code class="language-python">import os
+os.getcwd()      # Return the current working directory
+# 'C:\\Python315'
+os.chdir('/server/accesslogs')   # Change current working directory
+os.system('mkdir today')   # Run the command mkdir in the system shell
+# 0
+</code></pre>
+<p>Be sure to use the <code>import os</code> style instead of <code>from os import *</code>.  This
+will keep <code>os.open()</code> from shadowing the built-in <code>open()</code> function which
+operates much differently.</p>
+<p>The built-in <code>dir()</code> and <code>help()</code> functions are useful as interactive
+aids for working with large modules like <code>os</code>:</p>
+<pre><code class="language-python">import os
+dir(os)
+# &lt;returns a list of all module functions&gt;
+help(os)
+# &lt;returns an extensive manual page created from the module's docstrings&gt;
+</code></pre>
+<p>For daily file and directory management tasks, the <code>shutil</code> module provides
+a higher-level interface that is easier to use:</p>
+<pre><code class="language-python">import shutil
+shutil.copyfile('data.db', 'archive.db')
+# 'archive.db'
+shutil.move('/build/executables', 'installdir')  # 'installdir'
+</code></pre>
+<p><a id="tut-file-wildcards"></a></p>
+<h2 id="file-wildcards"><a class="header" href="#file-wildcards">File wildcards</a></h2>
+<p>The <code>glob</code> module provides a function for making file lists from directory
+wildcard searches:</p>
+<pre><code class="language-python">import glob
+glob.glob('*.py')
+# ['primes.py', 'random.py', 'quote.py']
+</code></pre>
+<p><a id="tut-command-line-arguments"></a></p>
+<h2 id="command-line-arguments"><a class="header" href="#command-line-arguments">Command-line arguments</a></h2>
+<p>Common utility scripts often need to process command-line arguments. These
+arguments are stored in the <code>sys</code> module’s <em>argv</em> attribute as a list.  For
+instance, let’s take the following <code>demo.py</code> file:</p>
+<pre><code class="language-python"># File demo.py
+import sys
+print(sys.argv)
+</code></pre>
+<p>Here is the output from running <code>python demo.py one two three</code> at the command
+line:</p>
+<pre><code class="language-python">['demo.py', 'one', 'two', 'three']
+</code></pre>
+<p>The <code>argparse</code> module provides a more sophisticated mechanism to process
+command-line arguments.  The following script extracts one or more filenames
+and an optional number of lines to be displayed:</p>
+<pre><code class="language-python">import argparse
+
+parser = argparse.ArgumentParser(
+    prog='top',
+    description='Show top lines from each file')
+parser.add_argument('filenames', nargs='+')
+parser.add_argument('-l', '--lines', type=int, default=10)
+args = parser.parse_args()
+print(args)
+</code></pre>
+<p>When run at the command line with <code>python top.py --lines=5 alpha.txt beta.txt</code>, the script sets <code>args.lines</code> to <code>5</code> and <code>args.filenames</code>
+to <code>['alpha.txt', 'beta.txt']</code>.</p>
+<p><a id="tut-stderr"></a></p>
+<h2 id="error-output-redirection-and-program-termination"><a class="header" href="#error-output-redirection-and-program-termination">Error output redirection and program termination</a></h2>
+<p>The <code>sys</code> module also has attributes for <em>stdin</em>, <em>stdout</em>, and <em>stderr</em>.
+The latter is useful for emitting warnings and error messages to make them
+visible even when <em>stdout</em> has been redirected:</p>
+<pre><code class="language-python">sys.stderr.write('Warning, log file not found starting a new one\n')
+# Warning, log file not found starting a new one
+</code></pre>
+<p>The most direct way to terminate a script is to use <code>sys.exit()</code>.</p>
+<p><a id="tut-string-pattern-matching"></a></p>
+<h2 id="string-pattern-matching"><a class="header" href="#string-pattern-matching">String pattern matching</a></h2>
+<p>The <code>re</code> module provides regular expression tools for advanced string
+processing. For complex matching and manipulation, regular expressions offer
+succinct, optimized solutions:</p>
+<pre><code class="language-python">import re
+re.findall(r'\bf[a-z]*', 'which foot or hand fell fastest')
+# ['foot', 'fell', 'fastest']
+re.sub(r'(\b[a-z]+) \1', r'\1', 'cat in the the hat')
+# 'cat in the hat'
+</code></pre>
+<p>When only simple capabilities are needed, string methods are preferred because
+they are easier to read and debug:</p>
+<pre><code class="language-python">'tea for too'.replace('too', 'two')  # 'tea for two'
+</code></pre>
+<p><a id="tut-mathematics"></a></p>
+<h2 id="mathematics"><a class="header" href="#mathematics">Mathematics</a></h2>
+<p>The <code>math</code> module gives access to the underlying C library functions for
+floating-point math:</p>
+<pre><code class="language-python">import math
+math.cos(math.pi / 4)
+# 0.70710678118654757
+math.log(1024, 2)  # 10.0
+</code></pre>
+<p>The <code>random</code> module provides tools for making random selections:</p>
+<pre><code class="language-python">import random
+random.choice(['apple', 'pear', 'banana'])
+# 'apple'
+random.sample(range(100), 10)   # sampling without replacement
+# [30, 83, 16, 4, 8, 81, 41, 50, 18, 33]
+random.random()    # random float from the interval [0.0, 1.0)
+# 0.17970987693706186
+random.randrange(6)    # random integer chosen from range(6)
+# 4
+</code></pre>
+<p>The <code>statistics</code> module calculates basic statistical properties
+(the mean, median, variance, etc.) of numeric data:</p>
+<pre><code class="language-python">import statistics
+data = [2.75, 1.75, 1.25, 0.25, 0.5, 1.25, 3.5]
+statistics.mean(data)
+# 1.6071428571428572
+statistics.median(data)  # 1.25
+statistics.variance(data)  # 1.3720238095238095
+</code></pre>
+<p>The SciPy project &lt;<a href="https://scipy.org">https://scipy.org</a>&gt; has many other modules for numerical
+computations.</p>
+<p><a id="tut-internet-access"></a></p>
+<h2 id="internet-access"><a class="header" href="#internet-access">Internet access</a></h2>
+<p>There are a number of modules for accessing the internet and processing internet
+protocols. Two of the simplest are <code>urllib.request</code> for retrieving data
+from URLs and <code>smtplib</code> for sending mail:</p>
+<pre><code class="language-python">from urllib.request import urlopen
+with urlopen('https://docs.python.org/3/') as response:
+    for line in response:
+        line = line.decode()             # Convert bytes to a str
+        if 'updated' in line:
+            print(line.rstrip())         # Remove trailing newline
+#       Last updated on Nov 11, 2025 (20:11 UTC).
+
+import smtplib
+server = smtplib.SMTP('localhost')
+server.sendmail('soothsayer@example.org', 'jcaesar@example.org',
+"""To: jcaesar@example.org
+From: soothsayer@example.org
+Beware the Ides of March.
+""")
+server.quit()
+</code></pre>
+<p>(Note that the second example needs a mailserver running on localhost.)</p>
+<p><a id="tut-dates-and-times"></a></p>
+<h2 id="dates-and-times"><a class="header" href="#dates-and-times">Dates and times</a></h2>
+<p>The <code>datetime</code> module supplies classes for manipulating dates and times in
+both simple and complex ways. While date and time arithmetic is supported, the
+focus of the implementation is on efficient member extraction for output
+formatting and manipulation.  The module also supports objects that are timezone
+aware.</p>
+<pre><code class="language-python"># dates are easily constructed and formatted
+import datetime as dt
+now = dt.date.today()
+now
+# datetime.date(2003, 12, 2)
+now.strftime("%m-%d-%y. %d %b %Y is a %A on the %d day of %B.")
+# '12-02-03. 02 Dec 2003 is a Tuesday on the 02 day of December.'
+
+# dates support calendar arithmetic
+birthday = dt.date(1964, 7, 31)
+age = now - birthday
+age.days
+# 14368
+</code></pre>
+<p><a id="tut-data-compression"></a></p>
+<h2 id="data-compression"><a class="header" href="#data-compression">Data compression</a></h2>
+<p>Common data archiving and compression formats are directly supported by modules
+including: <code>zlib</code>, <code>gzip</code>, <code>bz2</code>, <code>lzma</code>, <code>zipfile</code> and
+<code>tarfile</code>.</p>
+<pre><code class="language-python">import zlib
+s = b'witch which has which witches wrist watch'
+len(s)
+# 41
+t = zlib.compress(s)
+len(t)
+# 37
+zlib.decompress(t)  # b'witch which has which witches wrist watch'
+zlib.crc32(s)  # 226805979
+</code></pre>
+<p><a id="tut-performance-measurement"></a></p>
+<h2 id="performance-measurement"><a class="header" href="#performance-measurement">Performance measurement</a></h2>
+<p>Some Python users develop a deep interest in knowing the relative performance of
+different approaches to the same problem. Python provides a measurement tool
+that answers those questions immediately.</p>
+<p>For example, it may be tempting to use the tuple packing and unpacking feature
+instead of the traditional approach to swapping arguments. The <code>timeit</code>
+module quickly demonstrates a modest performance advantage:</p>
+<pre><code class="language-python">from timeit import Timer
+Timer('t=a; a=b; b=t', 'a=1; b=2').timeit()
+# 0.57535828626024577
+Timer('a,b = b,a', 'a=1; b=2').timeit()  # 0.54962537085770791
+</code></pre>
+<p>In contrast to <code>timeit</code>’s fine level of granularity, the <code>profile</code> and
+<code>pstats</code> modules provide tools for identifying time critical sections in
+larger blocks of code.</p>
+<p><a id="tut-quality-control"></a></p>
+<h2 id="quality-control"><a class="header" href="#quality-control">Quality control</a></h2>
+<p>One approach for developing high quality software is to write tests for each
+function as it is developed and to run those tests frequently during the
+development process.</p>
+<p>The <code>doctest</code> module provides a tool for scanning a module and validating
+tests embedded in a program’s docstrings.  Test construction is as simple as
+cutting-and-pasting a typical call along with its results into the docstring.
+This improves the documentation by providing the user with an example and it
+allows the doctest module to make sure the code remains true to the
+documentation:</p>
+<pre><code class="language-python">def average(values):
+    """Computes the arithmetic mean of a list of numbers.
+
+    &gt;&gt;&gt; print(average([20, 30, 70]))
+    40.0
+    """
+    return sum(values) / len(values)
+
+import doctest
+doctest.testmod()   # automatically validate the embedded tests
+</code></pre>
+<p>The <code>unittest</code> module is not as effortless as the <code>doctest</code> module,
+but it allows a more comprehensive set of tests to be maintained in a separate
+file:</p>
+<pre><code class="language-python">import unittest
+
+class TestStatisticalFunctions(unittest.TestCase):
+
+    def test_average(self):
+        self.assertEqual(average([20, 30, 70]), 40.0)
+        self.assertEqual(round(average([1, 5, 7]), 1), 4.3)
+        with self.assertRaises(ZeroDivisionError):
+            average([])
+        with self.assertRaises(TypeError):
+            average(20, 30, 70)
+
+unittest.main()  # Calling from the command line invokes all tests
+</code></pre>
+<p><a id="tut-batteries-included"></a></p>
+<h2 id="batteries-included"><a class="header" href="#batteries-included">Batteries included</a></h2>
+<p>Python has a “batteries included” philosophy.  This is best seen through the
+sophisticated and robust capabilities of its larger packages. For example:</p>
+<ul>
+<li>The <code>xmlrpc.client</code> and <code>xmlrpc.server</code> modules make implementing
+remote procedure calls into an almost trivial task.  Despite the modules’
+names, no direct knowledge or handling of XML is needed.</li>
+<li>The <code>email</code> package is a library for managing email messages, including
+MIME and other <a href="https://datatracker.ietf.org/doc/html/rfc5322.html"><strong>RFC 5322</strong></a>-based message documents. Unlike <code>smtplib</code> and
+<code>poplib</code> which actually send and receive messages, the email package has
+a complete toolset for building or decoding complex message structures
+(including attachments) and for implementing internet encoding and header
+protocols.</li>
+<li>The <code>json</code> package provides robust support for parsing this
+popular data interchange format.  The <code>csv</code> module supports
+direct reading and writing of files in Comma-Separated Value format,
+commonly supported by databases and spreadsheets.  XML processing is
+supported by the <code>xml.etree.ElementTree</code>, <code>xml.dom</code> and
+<code>xml.sax</code> packages. Together, these modules and packages
+greatly simplify data interchange between Python applications and
+other tools.</li>
+<li>The <code>sqlite3</code> module is a wrapper for the SQLite database
+library, providing a persistent database that can be updated and
+accessed using slightly nonstandard SQL syntax.</li>
+<li>Internationalization is supported by a number of modules including
+<code>gettext</code>, <code>locale</code>, and the <code>codecs</code> package.</li>
+</ul>
+<blockquote>
+<p><strong>Going deeper</strong></p>
+<ul>
+<li><a href="sequences.html">An Array of Sequences</a> covers <code>array</code>, <code>collections.deque</code> and <code>bisect</code>, and
+<a href="dicts-sets.html">Dictionaries and Sets</a> covers the <code>collections</code> mappings.</li>
+<li><a href="decorators.html">Decorators and Closures</a> covers <code>functools.cache</code>, <code>lru_cache</code> and
+<code>singledispatch</code>; <a href="iterators-generators.html">Iterators, Generators, and Classic Coroutines</a>
+surveys <code>itertools</code>.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="iterators-generators.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="stdlib2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="iterators-generators.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="stdlib2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

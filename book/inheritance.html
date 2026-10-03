@@ -1,0 +1,1159 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Inheritance: For Better or for Worse - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="inheritance-for-better-or-for-worse"><a class="header" href="#inheritance-for-better-or-for-worse">Inheritance: For Better or for Worse</a></h1>
+<blockquote>
+<p>[…] we needed a better theory about inheritance entirely (and still do).  For
+example, inheritance and instancing (which is a kind of inheritance) muddles both
+pragmatics (such as factoring code to save space) and semantics (used for way too many
+tasks such as: specialization, generalization, speciation, etc.).</p>
+<p>— Alan Kay, “The Early History of Smalltalk”</p>
+</blockquote>
+<p>This chapter is about inheritance and subclassing.  It assumes the basic understanding
+of these concepts given in <a href="classes.html#tut-inheritance">Inheritance</a> and
+<a href="classes.html#tut-multiple">Multiple Inheritance</a>, and focuses on four characteristics of
+Python:</p>
+<ul>
+<li>the <code>super()</code> function;</li>
+<li>the pitfalls of subclassing from built-in types;</li>
+<li>multiple inheritance and method resolution order;</li>
+<li>mixin classes.</li>
+</ul>
+<p><em>Multiple inheritance</em> is the ability of a class to have more than one base class.  C++
+supports it; Java and C# don’t.  Many consider multiple inheritance more trouble than
+it’s worth; it was deliberately left out of Java after its perceived abuse in early C++
+codebases.</p>
+<p>There is also a significant backlash against overuse of inheritance in general — not
+only multiple inheritance — because superclasses and subclasses are tightly coupled.
+Tight coupling means that changes to one part of the program may have unexpected and
+far-reaching effects in other parts, making systems brittle and hard to understand.
+However, we have to maintain existing systems designed with complex class hierarchies,
+or use frameworks that force us to use inheritance — even multiple inheritance
+sometimes.  This chapter illustrates practical uses of multiple inheritance with the
+standard library, the Django web framework and the Tkinter GUI toolkit, and gives some
+guidance on how to cope with single or multiple inheritance when you must use it.</p>
+<h2 id="the-super-function"><a class="header" href="#the-super-function">The <code>super()</code> Function</a></h2>
+<p>Consistent use of the <a href="https://docs.python.org/3/library/functions.html#super"><code>super()</code></a>
+built-in function is essential for maintainable object-oriented Python programs.</p>
+<p>When a subclass overrides a method of a superclass, the overriding method usually needs
+to call the corresponding method of the superclass.  Here’s the recommended way to do
+it, from an example in the <code>collections</code> module documentation (with an improved
+docstring):</p>
+<pre><code class="language-python">from collections import OrderedDict
+
+class LastUpdatedOrderedDict(OrderedDict):
+    """Store items in the order they were last updated"""
+
+    def __setitem__(self, key, value):
+        super().__setitem__(key, value)
+        self.move_to_end(key)
+
+d = LastUpdatedOrderedDict(a=1, b=2, c=3)
+d['a'] = 10
+list(d)
+# ['b', 'c', 'a']
+</code></pre>
+<p>To do its job, <code>LastUpdatedOrderedDict</code> overrides <code>__setitem__()</code> to:</p>
+<ol>
+<li>use <code>super().__setitem__</code> to call that method on the superclass, to let it insert or
+update the key/value pair;</li>
+<li>call <code>self.move_to_end</code> to ensure the updated key is in the last position.</li>
+</ol>
+<p>Invoking an overridden <code>__init__()</code> method is particularly important to allow
+superclasses to do their part in initializing the instance.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>If you learned object-oriented programming in Java, you may recall that a Java
+constructor method automatically calls the no-argument constructor of the superclass.
+Python doesn’t do this.  You must get used to writing this pattern:</p>
+<pre><code class="language-python">def __init__(self, a, b) :
+    super().__init__(a, b)
+    ...  # more initialization code
+</code></pre>
+</blockquote>
+<p>You may have seen code that doesn’t use <code>super()</code>, but instead calls the method directly
+on the superclass, like this:</p>
+<pre><code class="language-python">class NotRecommended(OrderedDict):
+    """This is a counter example!"""
+
+    def __setitem__(self, key, value):
+        OrderedDict.__setitem__(self, key, value)
+        self.move_to_end(key)
+</code></pre>
+<p>This alternative works in this particular case, but is not recommended for two reasons.
+First, it hardcodes the base class.  The name <code>OrderedDict</code> appears in the <code>class</code>
+statement and also inside <code>__setitem__()</code>.  If in the future someone changes the <code>class</code>
+statement to change the base class or add another one, they may forget to update the
+body of <code>__setitem__()</code>, introducing a bug.</p>
+<p>The second reason is that <code>super</code> implements logic to handle class hierarchies with
+multiple inheritance.  We’ll come back to that in
+<a href="#multiple-inheritance-and-method-resolution-order">Multiple Inheritance and Method Resolution Order</a>.
+To conclude this refresher about <code>super</code>, it is useful to review how it had to be called
+in Python 2, because the old signature with two arguments is revealing:</p>
+<pre><code class="language-python">class LastUpdatedOrderedDict(OrderedDict):
+    """This code works in Python 2 and Python 3"""
+
+    def __setitem__(self, key, value):
+        super(LastUpdatedOrderedDict, self).__setitem__(key, value)
+        self.move_to_end(key)
+</code></pre>
+<p>Both arguments of <code>super</code> are now optional.  The Python 3 bytecode compiler automatically
+provides them by inspecting the surrounding context when <code>super()</code> is invoked in a
+method.  The arguments are:</p>
+<dl>
+<dt id="type"><a class="header" href="#type"><code>type</code></a></dt>
+<dd>The start of the search path for the superclass implementing the desired method.  By
+default, it is the class that owns the method where the <code>super()</code> call appears.</dd>
+<dt id="object_or_type"><a class="header" href="#object_or_type"><code>object_or_type</code></a></dt>
+<dd>The object (for instance method calls) or class (for class method calls) to be the
+receiver of the method call.  By default, it is <code>self</code> if the <code>super()</code> call happens in
+an instance method.</dd>
+</dl>
+<p>Whether you or the compiler provides those arguments, the <code>super()</code> call returns a
+dynamic proxy object that finds a method (such as <code>__setitem__</code> in the example) in a
+superclass of the <code>type</code> parameter, and binds it to the <code>object_or_type</code>, so that we
+don’t need to pass the receiver (<code>self</code>) explicitly when invoking the method.</p>
+<p>You can still explicitly provide the first and second arguments to <code>super()</code>, but they
+are needed only in special cases, such as skipping over part of the MRO for testing or
+debugging, or for working around undesired behavior in a superclass.</p>
+<p>Now let’s discuss the caveats when subclassing built-in types.</p>
+<h2 id="subclassing-built-in-types-is-tricky"><a class="header" href="#subclassing-built-in-types-is-tricky">Subclassing Built-In Types Is Tricky</a></h2>
+<p>It was not possible to subclass built-in types such as <code>list</code> or <code>dict</code> in the earliest
+versions of Python.  Since Python 2.2, it’s possible, but there is a major caveat: the
+code of the built-ins (written in C) usually does not call methods overridden by
+user-defined classes.  A good short description of the problem is in the PyPy
+documentation, in the “Differences between PyPy and CPython” section, “Subclasses of
+built-in types”:</p>
+<blockquote>
+<p>Officially, CPython has no rule at all for when exactly overridden method of subclasses
+of built-in types get implicitly called or not.  As an approximation, these methods are
+never called by other built-in methods of the same object.  For example, an overridden
+<code>__getitem__()</code> in a subclass of <code>dict</code> will not be called by e.g. the built-in <code>get()</code>
+method.</p>
+</blockquote>
+<p>This example illustrates the problem:</p>
+<pre><code class="language-python">class DoppelDict(dict):
+    def __setitem__(self, key, value):
+        super().__setitem__(key, [value] * 2)  # duplicate values when storing
+
+dd = DoppelDict(one=1)  # __init__ inherited from dict ignores our __setitem__
+dd
+# {'one': 1}
+dd['two'] = 2  # the [] operator calls our __setitem__ and works as expected
+dd
+# {'one': 1, 'two': [2, 2]}
+dd.update(three=3)  # the update method from dict does not use our __setitem__ either
+dd
+# {'one': 1, 'two': [2, 2], 'three': 3}
+</code></pre>
+<p><code>DoppelDict.__setitem__</code> duplicates values when storing (for no good reason, just to
+have a visible effect).  It works by delegating to the superclass.  The <code>__init__()</code>
+method inherited from <code>dict</code> clearly ignored that <code>__setitem__()</code> was overridden: the
+value of <code>'one'</code> is not duplicated.  The <code>[]</code> operator calls our <code>__setitem__()</code> and works
+as expected: <code>'two'</code> maps to the duplicated value <code>[2, 2]</code>.  The <code>update</code> method from
+<code>dict</code> does not use our version of <code>__setitem__()</code> either: the value of <code>'three'</code> was not
+duplicated.</p>
+<p>This built-in behavior is a violation of a basic rule of object-oriented programming:
+the search for methods should always start from the class of the receiver (<code>self</code>), even
+when the call happens inside a method implemented in a superclass.  This is what is
+called “late binding”, which Alan Kay — of Smalltalk fame — considers a key feature of
+object-oriented programming: in any call of the form <code>x.method()</code>, the exact method to
+be called must be determined at runtime, based on the class of the receiver <code>x</code>.  (C++
+has the notion of virtual and nonvirtual methods; every method you can write in Python
+is late bound like a virtual method, but built-in objects written in C seem to have
+nonvirtual methods by default, at least in CPython.)  This sad state of affairs
+contributes to the issues we saw in
+<a href="dicts-sets.html#inconsistent-usage-of-__missing__-in-the-standard-library">Inconsistent Usage of <code>__missing__</code> in the Standard Library</a>.</p>
+<p>The problem is not limited to calls within an instance — whether <code>self.get()</code> calls
+<code>self.__getitem__()</code> — but also happens with overridden methods of other classes that
+should be called by the built-in methods.  This example is adapted from the PyPy
+documentation:</p>
+<pre><code class="language-python">class AnswerDict(dict):
+    def __getitem__(self, key):  # always returns 42, no matter what the key
+        return 42
+
+ad = AnswerDict(a='foo')
+ad['a']
+# 42
+d = {}
+d.update(ad)  # d is a plain dict, which we update with ad
+d['a']  # dict.update ignored our AnswerDict.__getitem__
+# 'foo'
+d
+# {'a': 'foo'}
+</code></pre>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Subclassing built-in types like <code>dict</code> or <code>list</code> or <code>str</code> directly is error-prone
+because the built-in methods mostly ignore user-defined overrides.  Instead of
+subclassing the built-ins, derive your classes from the <code>collections</code> module using
+<a href="https://docs.python.org/3/library/collections.html#collections.UserDict"><code>UserDict</code></a>,
+<code>UserList</code> and <code>UserString</code>, which are designed to be easily extended.</p>
+</blockquote>
+<p>If you subclass <code>collections.UserDict</code> instead of <code>dict</code>, both issues are fixed:</p>
+<pre><code class="language-python">import collections
+
+class DoppelDict2(collections.UserDict):
+    def __setitem__(self, key, value):
+        super().__setitem__(key, [value] * 2)
+
+dd = DoppelDict2(one=1)
+dd
+# {'one': [1, 1]}
+dd['two'] = 2
+dd
+# {'one': [1, 1], 'two': [2, 2]}
+dd.update(three=3)
+dd
+# {'one': [1, 1], 'two': [2, 2], 'three': [3, 3]}
+
+class AnswerDict2(collections.UserDict):
+    def __getitem__(self, key):
+        return 42
+
+ad = AnswerDict2(a='foo')
+ad['a']
+# 42
+d = {}
+d.update(ad)
+d['a']
+# 42
+d
+# {'a': 42}
+</code></pre>
+<p>As an experiment to measure the extra work required to subclass a built-in, the author
+of <em>Fluent Python</em> rewrote the <code>StrKeyDict</code> class from
+<a href="dicts-sets.html">Dictionaries and Sets</a> to subclass <code>dict</code> instead of <code>UserDict</code>.  To make
+it pass the same suite of tests, he had to implement <code>__init__()</code>, <code>get</code> and <code>update</code>,
+because the versions inherited from <code>dict</code> refused to cooperate with the overridden
+<code>__missing__()</code>, <code>__contains__()</code> and <code>__setitem__()</code>.  The <code>UserDict</code> subclass had 16
+lines, while the experimental <code>dict</code> subclass ended up with 33 lines.</p>
+<p>To be clear: this section covered an issue that applies only to method delegation within
+the C language code of the built-in types, and only affects classes derived directly from
+those types.  If you subclass a base class coded in Python, such as <code>UserDict</code> or
+<code>MutableMapping</code>, you will not be troubled by this.  (In this regard PyPy behaves more
+“correctly” than CPython, at the expense of introducing a minor incompatibility.)</p>
+<p>Now let’s focus on an issue that arises with multiple inheritance: if a class has two
+superclasses, how does Python decide which attribute to use when we call <code>super().attr</code>,
+but both superclasses have an attribute with that name?</p>
+<h2 id="multiple-inheritance-and-method-resolution-order"><a class="header" href="#multiple-inheritance-and-method-resolution-order">Multiple Inheritance and Method Resolution Order</a></h2>
+<p>Any language implementing multiple inheritance needs to deal with potential naming
+conflicts when superclasses implement a method by the same name.  This is called the
+“diamond problem”, because of the shape of the class graph:</p>
+<pre><code class="language-text">        Root
+       /    \
+      A      B
+       \    /
+        Leaf
+</code></pre>
+<p>Here is code for classes <code>Leaf</code>, <code>A</code>, <code>B</code> and <code>Root</code> that form that graph:</p>
+<pre><code class="language-python">class Root:  # Root provides ping, pong and __repr__ to make the output easier to read
+    def ping(self):
+        print(f'{self}.ping() in Root')
+
+    def pong(self):
+        print(f'{self}.pong() in Root')
+
+    def __repr__(self):
+        cls_name = type(self).__name__
+        return f'&lt;instance of {cls_name}&gt;'
+
+class A(Root):  # the ping and pong methods in class A both call super()
+    def ping(self):
+        print(f'{self}.ping() in A')
+        super().ping()
+
+    def pong(self):
+        print(f'{self}.pong() in A')
+        super().pong()
+
+class B(Root):  # only the ping method in class B calls super()
+    def ping(self):
+        print(f'{self}.ping() in B')
+        super().ping()
+
+    def pong(self):
+        print(f'{self}.pong() in B')
+
+class Leaf(A, B):  # Leaf implements only ping, and it calls super()
+    def ping(self):
+        print(f'{self}.ping() in Leaf')
+        super().ping()
+</code></pre>
+<p>Now let’s see the effect of calling the <code>ping</code> and <code>pong</code> methods on an instance of
+<code>Leaf</code>:</p>
+<pre><code class="language-python">leaf1 = Leaf()
+leaf1.ping()
+# &lt;instance of Leaf&gt;.ping() in Leaf
+# &lt;instance of Leaf&gt;.ping() in A
+# &lt;instance of Leaf&gt;.ping() in B
+# &lt;instance of Leaf&gt;.ping() in Root
+leaf1.pong()
+# &lt;instance of Leaf&gt;.pong() in A
+# &lt;instance of Leaf&gt;.pong() in B
+</code></pre>
+<p>Calling <code>leaf1.ping()</code> activates the <code>ping</code> methods in <code>Leaf</code>, <code>A</code>, <code>B</code> and <code>Root</code>,
+because the <code>ping</code> methods in the first three classes call <code>super().ping()</code>.  Calling
+<code>leaf1.pong()</code> activates <code>pong</code> in <code>A</code> via inheritance, which then calls
+<code>super().pong()</code>, activating <code>B.pong</code>.</p>
+<p>The activation sequences are determined by two factors:</p>
+<ul>
+<li>the method resolution order of the <code>Leaf</code> class;</li>
+<li>the use of <code>super()</code> in each method.</li>
+</ul>
+<p>Every class has an attribute called <code>__mro__</code> holding a tuple of references to the
+superclasses in method resolution order, from the current class all the way to the
+<code>object</code> class.  For the <code>Leaf</code> class, this is the <code>__mro__</code>:</p>
+<pre><code class="language-python">Leaf.__mro__
+# (&lt;class '__main__.Leaf'&gt;, &lt;class '__main__.A'&gt;, &lt;class '__main__.B'&gt;,
+#  &lt;class '__main__.Root'&gt;, &lt;class 'object'&gt;)
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Looking at the diagram, you may think the MRO describes a breadth-first search, but
+that’s just a coincidence for that particular class hierarchy.  The MRO is computed by
+a published algorithm called C3.  Its use in Python is detailed in Michele Simionato’s
+<a href="https://docs.python.org/3/howto/mro.html">“The Python 2.3 Method Resolution Order”</a>,
+now part of the Python HOWTOs.  It’s a challenging read, but Simionato writes: “unless
+you make strong use of multiple inheritance and you have non-trivial hierarchies, you
+don’t need to understand the C3 algorithm, and you can easily skip this paper.”
+(Classes also have a <code>.mro()</code> method, but that’s an advanced feature of metaclass
+programming; the content of <code>__mro__</code> is what matters during normal usage.)</p>
+</blockquote>
+<p>The MRO only determines the activation order, but whether a particular method will be
+activated in each of the classes depends on whether each implementation calls <code>super()</code>
+or not.</p>
+<p>Consider the experiment with the <code>pong</code> method.  The <code>Leaf</code> class does not override it,
+therefore calling <code>leaf1.pong()</code> activates the implementation in the next class of
+<code>Leaf.__mro__</code>: the <code>A</code> class.  Method <code>A.pong</code> calls <code>super().pong()</code>.  The <code>B</code> class is
+next in the MRO, therefore <code>B.pong</code> is activated.  But that method doesn’t call
+<code>super().pong()</code>, so the activation sequence ends here.</p>
+<p>The MRO takes into account not only the inheritance graph but also the order in which
+superclasses are listed in a subclass declaration.  In other words, if the <code>Leaf</code> class
+was declared as <code>Leaf(B, A)</code>, then class <code>B</code> would appear before <code>A</code> in <code>Leaf.__mro__</code>.
+This would affect the activation order of the <code>ping</code> methods, and would also cause
+<code>leaf1.pong()</code> to activate <code>B.pong</code> via inheritance, but <code>A.pong</code> and <code>Root.pong</code> would
+never run, because <code>B.pong</code> doesn’t call <code>super()</code>.</p>
+<p>When a method calls <code>super()</code>, it is a <em>cooperative method</em>.  Cooperative methods enable
+<em>cooperative multiple inheritance</em>.  These terms are intentional: in order to work,
+multiple inheritance in Python requires the active cooperation of the methods involved.
+In the <code>B</code> class, <code>ping</code> cooperates, but <code>pong</code> does not.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>A noncooperative method can be the cause of subtle bugs.  Many coders reading the
+example above may expect that when method <code>A.pong</code> calls <code>super().pong()</code>, that will
+ultimately activate <code>Root.pong</code>.  But if <code>B.pong</code> is activated before, it drops the
+ball.  That’s why it is recommended that every method <code>m</code> of a nonroot class should
+call <code>super().m()</code>.</p>
+</blockquote>
+<p>Cooperative methods must have compatible signatures, because you never know whether
+<code>A.ping</code> will be called before or after <code>B.ping</code>.  The activation sequence depends on the
+order of <code>A</code> and <code>B</code> in the declaration of each subclass that inherits from both.</p>
+<p>Python is a dynamic language, so the interaction of <code>super()</code> with the MRO is also
+dynamic.  Here is a surprising result of this dynamic behavior:</p>
+<pre><code class="language-python">class U():  # U is unrelated to A or Root
+    def ping(self):
+        print(f'{self}.ping() in U')
+        super().ping()  # what does super().ping() do? It depends. Read on.
+
+class LeafUA(U, A):  # LeafUA subclasses U and A in this order
+    def ping(self):
+        print(f'{self}.ping() in LeafUA')
+        super().ping()
+</code></pre>
+<p>If you create an instance of <code>U</code> and try to call <code>ping</code>, you get an error:</p>
+<pre><code class="language-python">u = U()
+u.ping()
+# Traceback (most recent call last):
+#   ...
+# AttributeError: 'super' object has no attribute 'ping'
+</code></pre>
+<p>The <code>'super'</code> object returned by <code>super()</code> has no attribute <code>'ping'</code> because the MRO of
+<code>U</code> has two classes: <code>U</code> and <code>object</code>, and the latter has no attribute named <code>'ping'</code>.
+(The first line of output, <code>&lt;__main__.U object at 0x...&gt;.ping() in U</code>, is printed before
+the error.)  However, the <code>U.ping</code> method is not completely hopeless.  Check this out:</p>
+<pre><code class="language-python">leaf2 = LeafUA()
+leaf2.ping()
+# &lt;instance of LeafUA&gt;.ping() in LeafUA
+# &lt;instance of LeafUA&gt;.ping() in U
+# &lt;instance of LeafUA&gt;.ping() in A
+# &lt;instance of LeafUA&gt;.ping() in Root
+LeafUA.__mro__
+# (&lt;class '__main__.LeafUA'&gt;, &lt;class '__main__.U'&gt;,
+#  &lt;class '__main__.A'&gt;, &lt;class '__main__.Root'&gt;, &lt;class 'object'&gt;)
+</code></pre>
+<p>The <code>super().ping()</code> call in <code>LeafUA</code> activates <code>U.ping</code>, which cooperates by calling
+<code>super().ping()</code> too, activating <code>A.ping</code>, and eventually <code>Root.ping</code>.</p>
+<p>Note the base classes of <code>LeafUA</code> are <code>(U, A)</code> in that order.  If instead the bases were
+<code>(A, U)</code>, then <code>leaf2.ping()</code> would never reach <code>U.ping</code>, because the <code>super().ping()</code> in
+<code>A.ping</code> would activate <code>Root.ping</code>, and that method does not call <code>super()</code>.</p>
+<p>In a real program, a class like <code>U</code> could be a <em>mixin class</em>: a class intended to be used
+together with other classes in multiple inheritance, to provide additional
+functionality.  We’ll study that shortly, in <a href="#mixin-classes">Mixin Classes</a>.</p>
+<p>To wrap up this discussion of the MRO, here is part of the complex multiple inheritance
+graph of the Tkinter GUI toolkit from the standard library, listed with the help of a
+<code>print_mro</code> convenience function:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def print_mro(cls):
+    print(', '.join(c.__name__ for c in cls.__mro__))
+
+import tkinter
+print_mro(tkinter.Text)
+# Text, Widget, BaseWidget, Misc, Pack, Place, Grid, XView, YView, object
+</code></pre>
+<p>The <code>Text</code> class implements a full-featured, multiline editable text widget.  It provides
+rich functionality in itself, but also inherits many methods from other classes.  Now
+let’s talk about mixins.</p>
+<h2 id="mixin-classes"><a class="header" href="#mixin-classes">Mixin Classes</a></h2>
+<p>A mixin class is designed to be subclassed together with at least one other class in a
+multiple inheritance arrangement.  A mixin is not supposed to be the only base class of
+a concrete class, because it does not provide all the functionality for a concrete
+object, but only adds or customizes the behavior of child or sibling classes.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Mixin classes are a convention with no explicit language support in Python and C++.
+Ruby allows the explicit definition and use of modules that work as mixins —
+collections of methods that may be included to add functionality to a class.  C#, PHP
+and Rust implement <em>traits</em>, which are also an explicit form of mixin.</p>
+</blockquote>
+<p>Let’s see a simple but handy example of a mixin class.</p>
+<h3 id="case-insensitive-mappings"><a class="header" href="#case-insensitive-mappings">Case-Insensitive Mappings</a></h3>
+<p><code>UpperCaseMixin</code> is a class designed to provide case-insensitive access to mappings with
+string keys, by uppercasing those keys when they are added or looked up:</p>
+<pre><code class="language-python">import collections
+
+def _upper(key):
+    try:
+        return key.upper()
+    except AttributeError:
+        return key
+
+class UpperCaseMixin:
+    def __setitem__(self, key, item):
+        super().__setitem__(_upper(key), item)
+
+    def __getitem__(self, key):
+        return super().__getitem__(_upper(key))
+
+    def get(self, key, default=None):
+        return super().get(_upper(key), default)
+
+    def __contains__(self, key):
+        return super().__contains__(_upper(key))
+</code></pre>
+<p>The helper function <code>_upper</code> takes a key of any type, and tries to return <code>key.upper()</code>;
+if that fails, it returns the key unchanged.  The mixin implements four essential
+methods of mappings, always calling <code>super()</code>, with the key uppercased, if possible.</p>
+<p>Since every method of <code>UpperCaseMixin</code> calls <code>super()</code>, this mixin depends on a sibling
+class that implements or inherits methods with the same signature.  To make its
+contribution, a mixin usually needs to appear before other classes in the MRO of a
+subclass that uses it.  In practice, that means mixins must appear first in the tuple of
+base classes in a class declaration.  Here are two examples:</p>
+<pre><code class="language-python">class UpperDict(UpperCaseMixin, collections.UserDict):
+    pass
+
+class UpperCounter(UpperCaseMixin, collections.Counter):
+    """Specialized 'Counter' that uppercases string keys"""
+</code></pre>
+<p><code>UpperDict</code> needs no implementation of its own, but <code>UpperCaseMixin</code> must be the first
+base class, otherwise the methods from <code>UserDict</code> would be called instead.
+<code>UpperCaseMixin</code> also works with <code>Counter</code>.  Instead of <code>pass</code>, it’s better to provide a
+docstring to satisfy the need for a body in the <code>class</code> statement syntax.  Here are some
+tests for <code>UpperDict</code>:</p>
+<pre><code class="language-python">d = UpperDict([('a', 'letter A'), (2, 'digit two')])
+list(d.keys())
+# ['A', 2]
+d['b'] = 'letter B'
+'b' in d
+# True
+d['a'], d.get('B')
+# ('letter A', 'letter B')
+list(d.keys())
+# ['A', 2, 'B']
+</code></pre>
+<p>And a quick demonstration of <code>UpperCounter</code>:</p>
+<pre><code class="language-python">c = UpperCounter('BaNanA')
+c.most_common()
+# [('A', 3), ('N', 2), ('B', 1)]
+</code></pre>
+<p><code>UpperDict</code> and <code>UpperCounter</code> seem almost magical, but making <code>UpperCaseMixin</code> work with
+them required carefully studying the code of <code>UserDict</code> and <code>Counter</code>.</p>
+<p>For example, a first version of <code>UpperCaseMixin</code> without the <code>get</code> method worked with
+<code>UserDict</code> but not with <code>Counter</code>.  The <code>UserDict</code> class inherits <code>get</code> from
+<code>collections.abc.Mapping</code>, and that <code>get</code> calls <code>__getitem__()</code>, which the mixin
+implemented.  But keys were not uppercased when an <code>UpperCounter</code> was loaded upon
+<code>__init__()</code>.  That happened because <code>Counter.__init__</code> uses <code>Counter.update</code>, which in
+turn relies on the <code>get</code> method inherited from <code>dict</code>.  However, the <code>get</code> method in the
+<code>dict</code> class does not call <code>__getitem__()</code>.  This is the heart of the issue discussed in
+<a href="#subclassing-built-in-types-is-tricky">Subclassing Built-In Types Is Tricky</a>.  It is
+also a stark reminder of the brittle and puzzling nature of programs leveraging
+inheritance, even at a small scale.</p>
+<p>The next section covers several examples of multiple inheritance, often featuring mixin
+classes.</p>
+<h2 id="multiple-inheritance-in-the-real-world"><a class="header" href="#multiple-inheritance-in-the-real-world">Multiple Inheritance in the Real World</a></h2>
+<p>In the <em>Design Patterns</em> book, almost all the code is in C++, but the only example of
+multiple inheritance is the Adapter pattern.  In Python, multiple inheritance is not the
+norm either, but there are important examples.</p>
+<h3 id="abcs-are-mixins-too"><a class="header" href="#abcs-are-mixins-too">ABCs Are Mixins Too</a></h3>
+<p>In the standard library, the most visible use of multiple inheritance is the
+<code>collections.abc</code> package.  That is not controversial: after all, even Java supports
+multiple inheritance of interfaces, and ABCs are interface declarations that may
+optionally provide concrete method implementations.</p>
+<p>Python’s official documentation of <code>collections.abc</code> uses the term <em>mixin method</em> for the
+concrete methods implemented in many of the collection ABCs.  The ABCs that provide
+mixin methods play two roles: they are interface definitions and also mixin classes.  For
+example, the implementation of <code>collections.UserDict</code> relies on several of the mixin
+methods provided by <code>collections.abc.MutableMapping</code>.</p>
+<h3 id="threadingmixin-and-forkingmixin"><a class="header" href="#threadingmixin-and-forkingmixin"><code>ThreadingMixIn</code> and <code>ForkingMixIn</code></a></h3>
+<p>The <a href="https://docs.python.org/3/library/http.server.html"><code>http.server</code></a> package provides
+<code>HTTPServer</code> and <code>ThreadingHTTPServer</code> classes.  The latter’s documentation says:</p>
+<blockquote>
+<p>This class is identical to <code>HTTPServer</code> but uses threads to handle requests by using
+the <code>ThreadingMixIn</code>.  This is useful to handle web browsers pre-opening sockets, on
+which <code>HTTPServer</code> would wait indefinitely.</p>
+</blockquote>
+<p>This is the complete source code for the <code>ThreadingHTTPServer</code> class:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class ThreadingHTTPServer(socketserver.ThreadingMixIn, HTTPServer):
+    daemon_threads = True
+</code></pre>
+<p>The source code of <code>socketserver.ThreadingMixIn</code> is short.  Here is a summary of its
+implementation:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class ThreadingMixIn:
+    """Mixin class to handle each request in a new thread."""
+
+    # 8 lines omitted
+
+    def process_request_thread(self, request, client_address):
+        ... # 6 lines omitted
+
+    def process_request(self, request, client_address):
+        ... # 8 lines omitted
+
+    def server_close(self):
+        super().server_close()
+        self._threads.join()
+</code></pre>
+<p><code>process_request_thread</code> does not call <code>super()</code> because it is a new method, not an
+override; its implementation calls three instance methods that <code>HTTPServer</code> provides or
+inherits.  <code>process_request</code> overrides the method that <code>HTTPServer</code> inherits from
+<code>socketserver.BaseServer</code>, starting a thread and delegating the actual work to
+<code>process_request_thread</code> running in that thread.  It does not call <code>super()</code>.
+<code>server_close</code> calls <code>super().server_close()</code> to stop taking requests, then waits for the
+threads started by <code>process_request</code> to finish their jobs.</p>
+<p>The <code>ThreadingMixIn</code> appears in the
+<a href="https://docs.python.org/3/library/socketserver.html"><code>socketserver</code></a> module
+documentation next to <code>ForkingMixIn</code>.  The latter is designed to support concurrent
+servers based on <code>os.fork()</code>, an API for launching a child process, available in
+POSIX-compliant Unix-like systems.</p>
+<h3 id="django-generic-views-mixins"><a class="header" href="#django-generic-views-mixins">Django Generic Views Mixins</a></h3>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>You don’t need to know Django to follow this section.  It uses a small part of the
+framework as a practical example of multiple inheritance, assuming only some experience
+with server-side web development in any language or framework.</p>
+</blockquote>
+<p>In Django, a <em>view</em> is a callable object that takes a <code>request</code> argument — an object
+representing an HTTP request — and returns an object representing an HTTP response.  The
+responses can be as simple as a redirect, with no content body, or as complex as a
+catalog page in an online store, rendered from an HTML template and listing multiple
+items with buttons for buying, and links to detail pages.</p>
+<p>Originally, Django provided a set of functions, called <em>generic views</em>, that implemented
+some common use cases.  For example, many sites need to show search results that include
+information from numerous items, with the listing spanning multiple pages, and for each
+item a link to a page with detailed information about it.  In Django, a list view and a
+detail view are designed to work together to solve this problem.  However, the original
+generic views were functions, so they were not extensible: if you needed to do something
+similar but not exactly like a generic list view, you’d have to start from scratch.</p>
+<p>The concept of class-based views was introduced in Django 1.3, along with a set of
+generic view classes organized as base classes, mixins and ready-to-use concrete
+classes.  The base classes and mixins are in the <code>base</code> module of the
+<code>django.views.generic</code> package.  At the top of the hierarchy there are two classes that
+take care of very distinct responsibilities: <code>View</code> and <code>TemplateResponseMixin</code>.</p>
+<p><code>View</code> is the base class of all views (it could be an ABC), and it provides core
+functionality like the <code>dispatch</code> method, which delegates to “handler” methods like
+<code>get</code>, <code>head</code>, <code>post</code>, etc., implemented by concrete subclasses to handle the different
+HTTP verbs.  The <code>RedirectView</code> class inherits only from <code>View</code>, and implements <code>get</code>,
+<code>head</code>, <code>post</code>, etc.</p>
+<p>Concrete subclasses of <code>View</code> are supposed to implement the handler methods, so why
+aren’t those methods part of the <code>View</code> interface?  The reason: subclasses are free to
+implement just the handlers they want to support.  A <code>TemplateView</code> is used only to
+display content, so it only implements <code>get</code>.  If an HTTP <code>POST</code> request is sent to a
+<code>TemplateView</code>, the inherited <code>View.dispatch</code> method checks that there is no <code>post</code>
+handler, and produces an HTTP 405 Method Not Allowed response.  (This is a dynamic
+variation of the Template Method pattern: <code>dispatch</code> checks at runtime if a concrete
+handler is available for the specific request.)</p>
+<p>The <code>TemplateResponseMixin</code> provides functionality that is of interest only to views
+that need to use a template.  A <code>RedirectView</code>, for example, has no content body, so it
+has no need of a template and it does not inherit from this mixin.
+<code>TemplateResponseMixin</code> provides behaviors to <code>TemplateView</code> and other
+template-rendering views, such as <code>ListView</code>, <code>DetailView</code>, etc.</p>
+<p>For Django users, the most important of these classes is <code>ListView</code>, which is an
+<em>aggregate class</em>, with no code at all (its body is just a docstring).  When
+instantiated, a <code>ListView</code> has an <code>object_list</code> instance attribute through which the
+template can iterate to show the page contents, usually the result of a database query
+returning multiple objects.  All the functionality related to generating this iterable
+of objects comes from the <code>MultipleObjectMixin</code>.  That mixin also provides the complex
+pagination logic — to display part of the results in one page and links to more pages.</p>
+<p>Suppose you want to create a view that will not render a template, but will produce a
+list of objects in JSON format.  That’s why the <code>BaseListView</code> exists.  It provides an
+easy-to-use extension point that brings together <code>View</code> and <code>MultipleObjectMixin</code>
+functionality, without the overhead of the template machinery.</p>
+<p>The Django class-based views API is a better example of multiple inheritance than
+Tkinter.  In particular, it is easy to make sense of its mixin classes: each has a
+well-defined purpose, and they are all named with the <code>...Mixin</code> suffix.  (The
+<a href="https://ccbv.co.uk/">Classy Class-Based Views</a> website is a great resource to study
+them.)</p>
+<p>Class-based views were not universally embraced by Django users.  Many use them in a
+limited way, as opaque boxes, but when it’s necessary to create something new, a lot of
+Django coders continue writing monolithic view functions that take care of all those
+responsibilities, instead of trying to reuse the base views and mixins.  It does take
+some time to learn how to leverage class-based views, but they eliminate a lot of
+boilerplate code, make it easier to reuse solutions, and even improve team communication
+— for example, by defining standard names for templates, and for the variables passed to
+template contexts.  Class-based views are Django views “on rails”.</p>
+<h3 id="multiple-inheritance-in-tkinter"><a class="header" href="#multiple-inheritance-in-tkinter">Multiple Inheritance in Tkinter</a></h3>
+<p>An extreme example of multiple inheritance in Python’s standard library is the Tkinter
+GUI toolkit.  Tkinter is decades old, and it is not an example of current best practices.
+But it shows how multiple inheritance was used when coders did not appreciate its
+drawbacks, and it will serve as a counterexample when we cover some good practices in the
+next section.  Consider these classes:</p>
+<ul>
+<li><code>Toplevel</code>: the class of a top-level window in a Tkinter application;</li>
+<li><code>Widget</code>: the superclass of every visible object that can be placed on a window;</li>
+<li><code>Button</code>: a plain button widget;</li>
+<li><code>Entry</code>: a single-line editable text field;</li>
+<li><code>Text</code>: a multiline editable text field.</li>
+</ul>
+<p>Here are the MROs of those classes, displayed by the <code>print_mro</code> function:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import tkinter
+print_mro(tkinter.Toplevel)
+# Toplevel, BaseWidget, Misc, Wm, object
+print_mro(tkinter.Widget)
+# Widget, BaseWidget, Misc, Pack, Place, Grid, object
+print_mro(tkinter.Button)
+# Button, Widget, BaseWidget, Misc, Pack, Place, Grid, object
+print_mro(tkinter.Entry)
+# Entry, Widget, BaseWidget, Misc, Pack, Place, Grid, XView, object
+print_mro(tkinter.Text)
+# Text, Widget, BaseWidget, Misc, Pack, Place, Grid, XView, YView, object
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>By current standards, the class hierarchy of Tkinter is very deep.  Few parts of the
+Python standard library have more than three or four levels of concrete classes, and
+the same can be said of the Java class library.  However, some of the deepest
+hierarchies in the Java class library are precisely in the packages related to GUI
+programming: <code>java.awt</code> and <code>javax.swing</code>.  GUI toolkits are where inheritance is most
+useful.</p>
+</blockquote>
+<p>Note how these classes relate to others:</p>
+<ul>
+<li><code>Toplevel</code> is the only graphical class that does not inherit from <code>Widget</code>, because it
+is the top-level window and does not behave like a widget; for example, it cannot be
+attached to a window or frame.  <code>Toplevel</code> inherits from <code>Wm</code>, which provides direct
+access functions of the host window manager, like setting the window title and
+configuring its borders.</li>
+<li><code>Widget</code> inherits directly from <code>BaseWidget</code> and from <code>Pack</code>, <code>Place</code> and <code>Grid</code>.  These
+last three classes are <em>geometry managers</em>: they are responsible for arranging widgets
+inside a window or frame.  Each encapsulates a different layout strategy and widget
+placement API.</li>
+<li><code>Button</code>, like most widgets, descends only from <code>Widget</code>, but indirectly from <code>Misc</code>,
+which provides dozens of methods to every widget.</li>
+<li><code>Entry</code> subclasses <code>Widget</code> and <code>XView</code>, which supports horizontal scrolling.</li>
+<li><code>Text</code> subclasses <code>Widget</code>, <code>XView</code> and <code>YView</code> for vertical scrolling.</li>
+</ul>
+<p>We’ll now discuss some good practices of multiple inheritance and see whether Tkinter
+goes along with them.</p>
+<h2 id="coping-with-inheritance"><a class="header" href="#coping-with-inheritance">Coping with Inheritance</a></h2>
+<p>What Alan Kay wrote in the epigraph remains true: there’s still no general theory about
+inheritance that can guide practicing programmers.  What we have are rules of thumb,
+design patterns, “best practices”, clever acronyms, taboos, etc.  Some of these provide
+useful guidelines, but none of them are universally accepted or always applicable.</p>
+<p>It’s easy to create incomprehensible and brittle designs using inheritance, even without
+multiple inheritance.  Because we don’t have a comprehensive theory, here are a few tips
+to avoid spaghetti class graphs.</p>
+<h3 id="favor-object-composition-over-class-inheritance"><a class="header" href="#favor-object-composition-over-class-inheritance">Favor Object Composition over Class Inheritance</a></h3>
+<p>The title of this subsection is the second principle of object-oriented design from the
+<em>Design Patterns</em> book, and is the best advice available here.  Once you get comfortable
+with inheritance, it’s too easy to overuse it.  Placing objects in a neat hierarchy
+appeals to our sense of order; programmers do it just for fun.</p>
+<p>Favoring composition leads to more flexible designs.  For example, in the case of the
+<code>tkinter.Widget</code> class, instead of inheriting the methods from all geometry managers,
+widget instances could hold a reference to a geometry manager, and invoke its methods.
+After all, a <code>Widget</code> should not “be” a geometry manager, but could use the services of
+one via delegation.  Then you could add a new geometry manager without touching the
+widget class hierarchy and without worrying about name clashes.  Even with single
+inheritance, this principle enhances flexibility, because subclassing is a form of tight
+coupling, and tall inheritance trees tend to be brittle.</p>
+<p>Here is the difference in miniature.  Instead of making a stack <em>be</em> a list (and inherit
+<code>insert</code>, <code>sort</code>, <code>__setitem__()</code> and dozens of other methods that a stack should not
+have), make it <em>have</em> a list:</p>
+<pre><code class="language-python">class Stack:
+    def __init__(self, items=()):
+        self._items = list(items)  # composition: a Stack has a list
+
+    def push(self, item):
+        self._items.append(item)  # delegation
+
+    def pop(self):
+        return self._items.pop()
+
+    def __len__(self):
+        return len(self._items)
+
+s = Stack([1, 2])
+s.push(3)
+s.pop(), len(s)
+# (3, 2)
+</code></pre>
+<p>Composition and delegation can replace the use of mixins to make behaviors available to
+different classes, but cannot replace the use of interface inheritance to define a
+hierarchy of types.</p>
+<h3 id="understand-why-inheritance-is-used-in-each-case"><a class="header" href="#understand-why-inheritance-is-used-in-each-case">Understand Why Inheritance Is Used in Each Case</a></h3>
+<p>When dealing with multiple inheritance, it’s useful to keep straight the reasons why
+subclassing is done in each particular case.  The main reasons are:</p>
+<ul>
+<li><em>Inheritance of interface</em> creates a subtype, implying an “is-a” relationship.  This is
+best done with ABCs.</li>
+<li><em>Inheritance of implementation</em> avoids code duplication by reuse.  Mixins can help with
+this.</li>
+</ul>
+<p>In practice, both uses are often simultaneous, but whenever you can make the intent
+clear, do it.  Inheritance for code reuse is an implementation detail, and it can often be
+replaced by composition and delegation.  On the other hand, interface inheritance is the
+backbone of a framework.  Interface inheritance should use only ABCs as base classes, if
+possible.</p>
+<h3 id="make-interfaces-explicit-with-abcs"><a class="header" href="#make-interfaces-explicit-with-abcs">Make Interfaces Explicit with ABCs</a></h3>
+<p>In modern Python, if a class is intended to define an interface, it should be an explicit
+ABC or a <code>typing.Protocol</code> subclass (see <a href="protocols-abcs.html">Interfaces, Protocols, and ABCs</a>).
+An ABC should subclass only <code>abc.ABC</code> or other ABCs.  Multiple inheritance of ABCs is not
+problematic.</p>
+<h3 id="use-explicit-mixins-for-code-reuse"><a class="header" href="#use-explicit-mixins-for-code-reuse">Use Explicit Mixins for Code Reuse</a></h3>
+<p>If a class is designed to provide method implementations for reuse by multiple unrelated
+subclasses, without implying an “is-a” relationship, it should be an explicit mixin
+class.  Conceptually, a mixin does not define a new type; it merely bundles methods for
+reuse.  A mixin should never be instantiated, and concrete classes should not inherit
+only from a mixin.  Each mixin should provide a single specific behavior, implementing
+few and very closely related methods.  Mixins should avoid keeping any internal state;
+i.e., a mixin class should not have instance attributes.</p>
+<p>There is no formal way in Python to state that a class is a mixin, so it is highly
+recommended that they are named with a <code>Mixin</code> suffix.</p>
+<h3 id="provide-aggregate-classes-to-users"><a class="header" href="#provide-aggregate-classes-to-users">Provide Aggregate Classes to Users</a></h3>
+<blockquote>
+<p>A class that is constructed primarily by inheriting from mixins and does not add its
+own structure or behavior is called an <em>aggregate class</em>.</p>
+<p>— Booch et al., <em>Object-Oriented Analysis and Design with Applications</em></p>
+</blockquote>
+<p>If some combination of ABCs or mixins is particularly useful to client code, provide a
+class that brings them together in a sensible way.  For example, here is the complete
+source code for the Django <code>ListView</code> class:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class ListView(MultipleObjectTemplateResponseMixin, BaseListView):
+    """
+    Render some list of objects, set by `self.model` or `self.queryset`.
+    `self.queryset` can actually be any iterable of items, not just a queryset.
+    """
+</code></pre>
+<p>The body of <code>ListView</code> is empty, but the class provides a useful service: it brings
+together a mixin and a base class that should be used together.</p>
+<p>Another example is <code>tkinter.Widget</code>, which has four base classes and no methods or
+attributes of its own — just a docstring.  Thanks to the <code>Widget</code> aggregate class, we can
+create a new widget with the required mixins, without having to figure out in which order
+they should be declared to work as intended.  Note that aggregate classes don’t have to
+be completely empty, but they often are.</p>
+<h3 id="subclass-only-classes-designed-for-subclassing"><a class="header" href="#subclass-only-classes-designed-for-subclassing">Subclass Only Classes Designed for Subclassing</a></h3>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Subclassing any complex class and overriding its methods is error-prone because the
+superclass methods may ignore the subclass overrides in unexpected ways.  As much as
+possible, avoid overriding methods, or at least restrain yourself to subclassing
+classes which are designed to be easily extended, and only in the ways in which they
+were designed to be extended.</p>
+</blockquote>
+<p>That’s great advice, but how do we know whether or how a class was designed to be
+extended?</p>
+<p>The first answer is documentation (sometimes in the form of docstrings or even comments
+in code).  For example, Python’s <code>socketserver</code> package is described as “a framework for
+network servers”.  Its <code>BaseServer</code> class is designed for subclassing, as the name
+suggests.  More importantly, the documentation and the docstring in the source code of
+the class explicitly note which of its methods are intended to be overridden by
+subclasses.</p>
+<p>A second answer comes from the <code>typing</code> module.
+<a href="https://peps.python.org/pep-0591/"><strong>PEP 591</strong></a> introduced a
+<a href="https://docs.python.org/3/library/typing.html#typing.final"><code>@final</code></a> decorator that can
+be applied to classes or individual methods, so that IDEs or type checkers can report
+misguided attempts to subclass those classes or override those methods (PEP 591 also
+introduces a <code>Final</code> annotation for variables or attributes that should not be reassigned
+or overridden).  The converse is
+<a href="https://docs.python.org/3/library/typing.html#typing.override"><code>@override</code></a>
+(<a href="https://peps.python.org/pep-0698/"><strong>PEP 698</strong></a>, Python 3.12), which marks a method as
+<em>intended</em> to override a superclass method, so the type checker can complain if the
+superclass method is renamed or removed and the “override” silently becomes a brand-new
+method:</p>
+<pre><code class="language-python">from typing import final, override
+
+class Base:
+    @final
+    def must_not_override(self) -&gt; None: ...
+
+    def hook(self) -&gt; None: ...
+
+class Derived(Base):
+    @override
+    def hook(self) -&gt; None:  # OK: Base.hook exists
+        ...
+</code></pre>
+<p>Like other type hints, these decorators have no effect at runtime (apart from setting a
+<code>__final__</code> or <code>__override__</code> attribute on the decorated object).</p>
+<h3 id="avoid-subclassing-from-concrete-classes"><a class="header" href="#avoid-subclassing-from-concrete-classes">Avoid Subclassing from Concrete Classes</a></h3>
+<p>Subclassing concrete classes is more dangerous than subclassing ABCs and mixins, because
+instances of concrete classes usually have internal state that can easily be corrupted
+when you override methods that depend on that state.  Even if your methods cooperate by
+calling <code>super()</code>, and the internal state is held in private attributes using the <code>__x</code>
+syntax (see <a href="classes.html#tut-private">Private Variables</a>), there are still countless ways a
+method override can introduce bugs.</p>
+<p>Scott Meyers’ <em>More Effective C++</em> says: “all non-leaf classes should be abstract.”  In
+other words, only abstract classes should be subclassed.  If you must use subclassing for
+code reuse, then the code intended for reuse should be in mixin methods of ABCs or in
+explicitly named mixin classes.</p>
+<p>We will now analyze Tkinter from the point of view of these recommendations.</p>
+<h3 id="tkinter-the-good-the-bad-and-the-ugly"><a class="header" href="#tkinter-the-good-the-bad-and-the-ugly">Tkinter: The Good, the Bad, and the Ugly</a></h3>
+<p>Most advice in the previous section is not followed by Tkinter, with the notable
+exception of <a href="#provide-aggregate-classes-to-users">Provide Aggregate Classes to Users</a>.
+Even then, it’s not a great example, because composition would probably work better for
+integrating the geometry managers into <code>Widget</code>, as discussed in
+<a href="#favor-object-composition-over-class-inheritance">Favor Object Composition over Class Inheritance</a>.</p>
+<p>Keep in mind that Tkinter has been part of the standard library since Python 1.1 was
+released in 1994.  Tkinter is a layer on top of the excellent Tk GUI toolkit of the Tcl
+language.  The Tcl/Tk combo is not originally object-oriented, so the Tk API is basically
+a vast catalog of functions.  However, the toolkit is object-oriented in its design, if
+not in its original Tcl implementation.</p>
+<p>The docstring of <code>tkinter.Widget</code> starts with the words “Internal class.”  This suggests
+that <code>Widget</code> should probably be an ABC.  Although <code>Widget</code> has no methods of its own, it
+does define an interface.  Its message is: “You can count on every Tkinter widget
+providing basic widget methods (<code>__init__</code>, <code>destroy</code> and dozens of Tk API functions), in
+addition to the methods of all three geometry managers.”  This is not a great interface
+definition (it’s just too broad), but it is an interface, and <code>Widget</code> “defines” it as the
+union of the interfaces of its superclasses.</p>
+<p>The <code>Tk</code> class, which encapsulates the GUI application logic, inherits from <code>Wm</code> and
+<code>Misc</code>, neither of which are abstract or mixin (<code>Wm</code> is not a proper mixin because
+<code>Toplevel</code> subclasses only from it).  The name of the <code>Misc</code> class is — by itself — a very
+strong code smell.  <code>Misc</code> has more than 100 methods, and all widgets inherit from it.
+Why is it necessary that every single widget has methods for clipboard handling, text
+selection, timer management and the like?  You can’t really paste into a button or
+select text from a scrollbar.  <code>Misc</code> should be split into several specialized mixin
+classes, and not all widgets should inherit from every one of those mixins.</p>
+<p>To be fair, as a Tkinter user, you don’t need to know or use multiple inheritance at all.
+It’s an implementation detail hidden behind the widget classes that you will instantiate
+or subclass in your own code.  But you will suffer the consequences of excessive multiple
+inheritance when you type <code>dir(tkinter.Button)</code> and try to find the method you need among
+the more than 200 attributes listed.  And you’ll need to face the complexity if you decide
+to implement a new Tk widget.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Despite the problems, Tkinter is stable, flexible, and provides a modern look-and-feel
+if you use the <code>tkinter.ttk</code> package and its themed widgets.  Also, some of the original
+widgets, like <code>Canvas</code> and <code>Text</code>, are incredibly powerful.  You can turn a <code>Canvas</code>
+object into a simple drag-and-drop drawing application in a matter of hours.  Tkinter
+and Tcl/Tk are definitely worth a look if you are interested in GUI programming.</p>
+</blockquote>
+<p>This concludes our tour through the labyrinth of inheritance.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>This chapter started with a review of the <code>super()</code> function in the context of single
+inheritance.  We then discussed the problem with subclassing built-in types: their native
+methods implemented in C do not call overridden methods in subclasses, except in very few
+special cases.  That’s why, when we need a custom <code>list</code>, <code>dict</code> or <code>str</code> type, it’s
+easier to subclass <code>UserList</code>, <code>UserDict</code> or <code>UserString</code> — all defined in the
+<code>collections</code> module, which actually wrap the corresponding built-in types and delegate
+operations to them: three examples of favoring composition over inheritance in the
+standard library.  If the desired behavior is very different from what the built-ins
+offer, it may be easier to subclass the appropriate ABC from <code>collections.abc</code> and write
+your own implementation.</p>
+<p>The rest of the chapter was devoted to the double-edged sword of multiple inheritance.
+First we saw how the method resolution order, encoded in the <code>__mro__</code> class attribute,
+addresses the problem of potential naming conflicts in inherited methods.  We also saw
+how the <code>super()</code> built-in behaves, sometimes unexpectedly, in hierarchies with multiple
+inheritance.  The behavior of <code>super()</code> is designed to support mixin classes, which we
+then studied through the simple example of the <code>UpperCaseMixin</code> for case-insensitive
+mappings.</p>
+<p>We saw how multiple inheritance and mixin methods are used in Python’s ABCs, as well as
+in the <code>socketserver</code> threading and forking mixins.  More complex uses of multiple
+inheritance were exemplified by Django’s class-based views and the Tkinter GUI toolkit.
+Although Tkinter is not an example of modern best practices, it is an example of overly
+complex class hierarchies we may find in legacy systems.  To close the chapter, we went
+through seven recommendations to cope with inheritance, and applied some of that advice
+in a commentary of the Tkinter class hierarchy.</p>
+<p>Rejecting inheritance — even single inheritance — is a modern trend.  One of the most
+successful languages created in the 21st century is Go.  It doesn’t have a construct
+called “class”, but you can build types that are structs of encapsulated fields and you
+can attach methods to those structs.  Go allows the definition of interfaces that are
+checked by the compiler using structural typing, a.k.a. static duck typing — very similar
+to what we now have with protocol types in Python.  Go has special syntax for building
+types and interfaces by composition, but it does not support inheritance — not even among
+interfaces.</p>
+<p>So perhaps the best advice about inheritance is: avoid it if you can.  But often, we
+don’t have a choice: the frameworks we use impose their own design choices.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The vast majority of programmers write applications, not frameworks.  When we write
+applications, we normally don’t need to code class hierarchies.  At most, we write
+classes that subclass from ABCs or other classes provided by the framework.  It’s very
+rare that we need to write a class that will act as the superclass of another: the
+classes we code are almost always leaf classes.  If, while working as an application
+developer, you find yourself building multilevel class hierarchies, it’s likely that you
+are reinventing the wheel (look for a library), using a badly designed framework (look
+for an alternative), or overengineering (remember the KISS principle).</p>
+</blockquote>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li>Hynek Schlawack, <a href="https://hynek.me/articles/python-subclassing-redux/">“Subclassing in Python Redux”</a>:
+“When it comes to reading clarity, properly-done composition is superior to
+inheritance … Don’t forget that more often than not, a function is all you need.”</li>
+<li>Raymond Hettinger, <a href="https://rhettinger.wordpress.com/2011/05/26/super-considered-super/">“Python’s super() considered super!”</a>,
+which explains the workings of <code>super</code> and multiple inheritance from a positive
+perspective.</li>
+<li>Guido van Rossum, <a href="https://www.python.org/download/releases/2.2.3/descrintro/">“Unifying types and classes in Python 2.2”</a>,
+where subclassing built-ins, <code>super</code>, descriptors and metaclasses were all introduced.</li>
+<li>Michele Simionato, <a href="https://docs.python.org/3/howto/mro.html">“The Python 2.3 Method Resolution Order”</a>.</li>
+<li>Brandon Rhodes, <a href="https://python-patterns.guide/gang-of-four/composition-over-inheritance/">“The Composition Over Inheritance Principle”</a>,
+part of his <em>Python Design Patterns</em> guide.</li>
+<li>Chapter 8 of the <em>Python Cookbook</em>, 3rd ed., by David Beazley and Brian K. Jones,
+starting from “Calling a Method on a Parent Class”.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="protocols-abcs.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="type-hints-more.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="protocols-abcs.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="type-hints-more.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,1166 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>More Control Flow Tools - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <p><a id="tut-morecontrol"></a></p>
+<h1 id="more-control-flow-tools"><a class="header" href="#more-control-flow-tools">More Control Flow Tools</a></h1>
+<p>As well as the <code>while</code> statement just introduced, Python uses a few more
+that we will encounter in this chapter.</p>
+<p><a id="tut-if"></a></p>
+<h2 id="if-statements"><a class="header" href="#if-statements"><code>if</code> Statements</a></h2>
+<p>Perhaps the most well-known statement type is the <code>if</code> statement.  For
+example:</p>
+<pre><code class="language-python">x = int(input("Please enter an integer: "))
+# Please enter an integer: 42
+if x &lt; 0:
+    x = 0
+    print('Negative changed to zero')
+elif x == 0:
+    print('Zero')
+elif x == 1:
+    print('Single')
+else:
+    print('More')
+# More
+</code></pre>
+<p>There can be zero or more <code>elif</code> parts, and the <code>else</code> part is
+optional.  The keyword ‘<code>elif</code>’ is short for ‘else if’, and is useful
+to avoid excessive indentation.  An  <code>if</code> … <code>elif</code> …
+<code>elif</code> … sequence is a substitute for the <code>switch</code> or
+<code>case</code> statements found in other languages.</p>
+<p>If you’re comparing the same value to several constants, or checking for specific types or
+attributes, you may also find the <code>match</code> statement useful. For more
+details see <a href="#tut-match">match Statements</a>.</p>
+<p><a id="tut-for"></a></p>
+<h2 id="for-statements"><a class="header" href="#for-statements"><code>for</code> Statements</a></h2>
+<p>The <code>for</code> statement in Python differs a bit from what you may be used
+to in C or Pascal.  Rather than always iterating over an arithmetic progression
+of numbers (like in Pascal), or giving the user the ability to define both the
+iteration step and halting condition (as C), Python’s <code>for</code> statement
+iterates over the items of any sequence (a list or a string), in the order that
+they appear in the sequence.  For example (no pun intended):</p>
+<!-- One suggestion was to give a real C example here, but that may only serve to
+confuse non-C programmers. -->
+<pre><code class="language-python"># Measure some strings:
+words = ['cat', 'window', 'defenestrate']
+for w in words:
+    print(w, len(w))
+# cat 3
+# window 6
+# defenestrate 12
+</code></pre>
+<p>Code that modifies a collection while iterating over that same collection can
+be tricky to get right.  Instead, it is usually more straight-forward to loop
+over a copy of the collection or to create a new collection:</p>
+<pre><code class="language-python"># Create a sample collection
+users = {'Hans': 'active', 'Éléonore': 'inactive', '景太郎': 'active'}
+
+# Strategy:  Iterate over a copy
+for user, status in users.copy().items():
+    if status == 'inactive':
+        del users[user]
+
+# Strategy:  Create a new collection
+active_users = {}
+for user, status in users.items():
+    if status == 'active':
+        active_users[user] = status
+</code></pre>
+<p><a id="tut-range"></a></p>
+<h2 id="the-range-function"><a class="header" href="#the-range-function">The <code>range()</code> Function</a></h2>
+<p>If you do need to iterate over a sequence of numbers, the built-in function
+<code>range()</code> comes in handy.  It generates arithmetic progressions:</p>
+<pre><code class="language-python">for i in range(5):
+    print(i)
+# 0
+# 1
+# 2
+# 3
+# 4
+</code></pre>
+<p>The given end point is never part of the generated sequence; <code>range(10)</code> generates
+10 values, the legal indices for items of a sequence of length 10.  It
+is possible to let the range start at another number, or to specify a different
+increment (even negative; sometimes this is called the ‘step’):</p>
+<pre><code class="language-python">list(range(5, 10))  # [5, 6, 7, 8, 9]
+
+list(range(0, 10, 3))  # [0, 3, 6, 9]
+
+list(range(-10, -100, -30))  # [-10, -40, -70]
+</code></pre>
+<p>To iterate over the indices of a sequence, you can combine <code>range()</code> and
+<code>len()</code> as follows:</p>
+<pre><code class="language-python">a = ['Mary', 'had', 'a', 'little', 'lamb']
+for i in range(len(a)):
+    print(i, a[i])
+# 0 Mary
+# 1 had
+# 2 a
+# 3 little
+# 4 lamb
+</code></pre>
+<p>In most such cases, however, it is convenient to use the <code>enumerate()</code>
+function, see <a href="datastructures.html#tut-loopidioms">Looping Techniques</a>.</p>
+<p>A strange thing happens if you just print a range:</p>
+<pre><code class="language-python">range(10)  # range(0, 10)
+</code></pre>
+<p>In many ways the object returned by <code>range()</code> behaves as if it is a list,
+but in fact it isn’t. It is an object which returns the successive items of
+the desired sequence when you iterate over it, but it doesn’t really make
+the list, thus saving space.</p>
+<p>We say such an object is <a href="https://docs.python.org/3/glossary.html#term-iterable">iterable</a>, that is, suitable as a target for
+functions and constructs that expect something from which they can
+obtain successive items until the supply is <a href="https://docs.python.org/3/glossary.html#term-exhausted">exhausted</a>.  We have seen that
+the <code>for</code> statement is such a construct, while an example of a function
+that takes an iterable is <code>sum()</code>:</p>
+<pre><code class="language-python">sum(range(4))  # 0 + 1 + 2 + 3
+# 6
+</code></pre>
+<p>Later we will see more functions that return iterables and take iterables as
+arguments.  In chapter <a href="datastructures.html#tut-structures">Data Structures</a>, we will discuss <code>list()</code> in more
+detail.</p>
+<p><a id="tut-break"></a></p>
+<h2 id="break-and-continue-statements"><a class="header" href="#break-and-continue-statements"><code>break</code> and <code>continue</code> Statements</a></h2>
+<p>The <code>break</code> statement breaks out of the innermost enclosing
+<code>for</code> or <code>while</code> loop:</p>
+<pre><code class="language-python">for n in range(2, 10):
+    for x in range(2, n):
+        if n % x == 0:
+            print(f"{n} equals {x} * {n//x}")
+            break
+# 4 equals 2 * 2
+# 6 equals 2 * 3
+# 8 equals 2 * 4
+# 9 equals 3 * 3
+</code></pre>
+<p>The <code>continue</code> statement continues with the next
+iteration of the loop:</p>
+<pre><code class="language-python">for num in range(2, 10):
+    if num % 2 == 0:
+        print(f"Found an even number {num}")
+        continue
+    print(f"Found an odd number {num}")
+# Found an even number 2
+# Found an odd number 3
+# Found an even number 4
+# Found an odd number 5
+# Found an even number 6
+# Found an odd number 7
+# Found an even number 8
+# Found an odd number 9
+</code></pre>
+<p><a id="tut-for-else"></a></p>
+<p><a id="break-and-continue-statements-and-else-clauses-on-loops"></a></p>
+<h2 id="else-clauses-on-loops"><a class="header" href="#else-clauses-on-loops"><code>else</code> Clauses on Loops</a></h2>
+<p>In a <code>for</code> or <code>while</code> loop the <code>break</code> statement
+may be paired with an <code>else</code> clause.  If the loop finishes without
+executing the <code>break</code>, the <code>else</code> clause executes.</p>
+<p>In a <code>for</code> loop, the <code>else</code> clause is executed
+after the loop finishes its final iteration, that is, if no break occurred.</p>
+<p>In a <code>while</code> loop, it’s executed after the loop’s condition becomes false.</p>
+<p>In either kind of loop, the <code>else</code> clause is <strong>not</strong> executed if the
+loop was terminated by a <code>break</code>.  Of course, other ways of ending the
+loop early, such as a <code>return</code> or a raised exception, will also skip
+execution of the <code>else</code> clause.</p>
+<p>This is exemplified in the following <code>for</code> loop,
+which searches for prime numbers:</p>
+<pre><code class="language-python">for n in range(2, 10):
+    for x in range(2, n):
+        if n % x == 0:
+            print(n, 'equals', x, '*', n//x)
+            break
+    else:
+        # loop fell through without finding a factor
+        print(n, 'is a prime number')
+# 2 is a prime number
+# 3 is a prime number
+# 4 equals 2 * 2
+# 5 is a prime number
+# 6 equals 2 * 3
+# 7 is a prime number
+# 8 equals 2 * 4
+# 9 equals 3 * 3
+</code></pre>
+<p>(Yes, this is the correct code.  Look closely: the <code>else</code> clause belongs to
+the <code>for</code> loop, <strong>not</strong> the <code>if</code> statement.)</p>
+<p>One way to think of the else clause is to imagine it paired with the <code>if</code>
+inside the loop.  As the loop executes, it will run a sequence like
+if/if/if/else. The <code>if</code> is inside the loop, encountered a number of times. If
+the condition is ever true, a <code>break</code> will happen. If the condition is never
+true, the <code>else</code> clause outside the loop will execute.</p>
+<p>When used with a loop, the <code>else</code> clause has more in common with the <code>else</code>
+clause of a <code>try</code> statement than it does with that of <code>if</code>
+statements: a <code>try</code> statement’s <code>else</code> clause runs when no exception
+occurs, and a loop’s <code>else</code> clause runs when no <code>break</code> occurs. For more on
+the <code>try</code> statement and exceptions, see <a href="errors.html#tut-handling">Handling Exceptions</a>.</p>
+<p><a id="tut-pass"></a></p>
+<h2 id="pass-statements"><a class="header" href="#pass-statements"><code>pass</code> Statements</a></h2>
+<p>The <code>pass</code> statement does nothing. It can be used when a statement is
+required syntactically but the program requires no action. For example:</p>
+<pre><code class="language-python">while True:
+    pass  # Busy-wait for keyboard interrupt (Ctrl+C)
+</code></pre>
+<p>This is commonly used for creating minimal classes:</p>
+<pre><code class="language-python">class MyEmptyClass:
+    pass
+</code></pre>
+<p>Another place <code>pass</code> can be used is as a place-holder for a function or
+conditional body when you are working on new code, allowing you to keep thinking
+at a more abstract level.  The <code>pass</code> is silently ignored:</p>
+<pre><code class="language-python">def initlog(*args):
+    pass   # Remember to implement this!
+</code></pre>
+<p>For this last case, many people use the ellipsis literal <code>...</code> instead of
+<code>pass</code>. This use has no special meaning to Python, and is not part of
+the language definition (you could use any constant expression here), but
+<code>...</code> is used conventionally as a placeholder body as well.
+See <a href="https://docs.python.org/3/library/stdtypes.html#bltin-ellipsis-object">The Ellipsis Object</a>.</p>
+<p><a id="tut-match"></a></p>
+<h2 id="match-statements"><a class="header" href="#match-statements"><code>match</code> Statements</a></h2>
+<p>A <code>match</code> statement takes an expression and compares its value to successive
+patterns given as one or more case blocks.  This is superficially
+similar to a switch statement in C, Java or JavaScript (and many
+other languages), but it’s more similar to pattern matching in
+languages like Rust or Haskell. Only the first pattern that matches
+gets executed and it can also extract components (sequence elements
+or object attributes) from the value into variables. If no case matches,
+none of the branches is executed.</p>
+<p>The simplest form compares a subject value against one or more literals:</p>
+<pre><code class="language-python">def http_error(status):
+    match status:
+        case 400:
+            return "Bad request"
+        case 404:
+            return "Not found"
+        case 418:
+            return "I'm a teapot"
+        case _:
+            return "Something's wrong with the internet"
+</code></pre>
+<p>Note the last block: the “variable name” <code>_</code> acts as a <em>wildcard</em> and
+never fails to match.</p>
+<p>You can combine several literals in a single pattern using <code>|</code> (“or”):</p>
+<pre><code class="language-python">case 401 | 403 | 404:
+    return "Not allowed"
+</code></pre>
+<p>Patterns can look like unpacking assignments, and can be used to bind
+variables:</p>
+<pre><code class="language-python"># point is an (x, y) tuple
+match point:
+    case (0, 0):
+        print("Origin")
+    case (0, y):
+        print(f"Y={y}")
+    case (x, 0):
+        print(f"X={x}")
+    case (x, y):
+        print(f"X={x}, Y={y}")
+    case _:
+        raise ValueError("Not a point")
+</code></pre>
+<p>Study that one carefully!  The first pattern has two literals, and can
+be thought of as an extension of the literal pattern shown above.  But
+the next two patterns combine a literal and a variable, and the
+variable <em>binds</em> a value from the subject (<code>point</code>).  The fourth
+pattern captures two values, which makes it conceptually similar to
+the unpacking assignment <code>(x, y) = point</code>.</p>
+<p>If you are using classes to structure your data
+you can use the class name followed by an argument list resembling a
+constructor, but with the ability to capture attributes into variables:</p>
+<pre><code class="language-python">class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+def where_is(point):
+    match point:
+        case Point(x=0, y=0):
+            print("Origin")
+        case Point(x=0, y=y):
+            print(f"Y={y}")
+        case Point(x=x, y=0):
+            print(f"X={x}")
+        case Point():
+            print("Somewhere else")
+        case _:
+            print("Not a point")
+</code></pre>
+<p>You can use positional parameters with some builtin classes that provide an
+ordering for their attributes (e.g. dataclasses). You can also define a specific
+position for attributes in patterns by setting the <code>__match_args__</code> special
+attribute in your classes. If it’s set to (“x”, “y”), the following patterns are all
+equivalent (and all bind the <code>y</code> attribute to the <code>var</code> variable):</p>
+<pre><code class="language-python">Point(1, var)
+Point(1, y=var)
+Point(x=1, y=var)
+Point(y=var, x=1)
+</code></pre>
+<p>A recommended way to read patterns is to look at them as an extended form of what you
+would put on the left of an assignment, to understand which variables would be set to
+what.
+Only the standalone names (like <code>var</code> above) are assigned to by a match statement.
+Dotted names (like <code>foo.bar</code>), attribute names (the <code>x=</code> and <code>y=</code> above) or class names
+(recognized by the “(…)” next to them like <code>Point</code> above) are never assigned to.</p>
+<p>Patterns can be arbitrarily nested.  For example, if we have a short
+list of Points, with <code>__match_args__</code> added, we could match it like this:</p>
+<pre><code class="language-python">class Point:
+    __match_args__ = ('x', 'y')
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+match points:
+    case []:
+        print("No points")
+    case [Point(0, 0)]:
+        print("The origin")
+    case [Point(x, y)]:
+        print(f"Single point {x}, {y}")
+    case [Point(0, y1), Point(0, y2)]:
+        print(f"Two on the Y axis at {y1}, {y2}")
+    case _:
+        print("Something else")
+</code></pre>
+<p>We can add an <code>if</code> clause to a pattern, known as a “guard”.  If the
+guard is false, <code>match</code> goes on to try the next case block.  Note
+that value capture happens before the guard is evaluated:</p>
+<pre><code class="language-python">match point:
+    case Point(x, y) if x == y:
+        print(f"Y=X at {x}")
+    case Point(x, y):
+        print(f"Not on the diagonal")
+</code></pre>
+<p>Several other key features of this statement:</p>
+<ul>
+<li>
+<p>Like unpacking assignments, tuple and list patterns have exactly the
+same meaning and actually match arbitrary sequences.  An important
+exception is that they don’t match iterators or strings.</p>
+</li>
+<li>
+<p>Sequence patterns support extended unpacking: <code>[x, y, *rest]</code> and <code>(x, y, *rest)</code> work similar to unpacking assignments.  The
+name after <code>*</code> may also be <code>_</code>, so <code>(x, y, *_)</code> matches a sequence
+of at least two items without binding the remaining items.</p>
+</li>
+<li>
+<p>Mapping patterns: <code>{"bandwidth": b, "latency": l}</code> captures the
+<code>"bandwidth"</code> and <code>"latency"</code> values from a dictionary.  Unlike sequence
+patterns, extra keys are ignored.  An unpacking like <code>**rest</code> is also
+supported.  (But <code>**_</code> would be redundant, so it is not allowed.)</p>
+</li>
+<li>
+<p>Subpatterns may be captured using the <code>as</code> keyword:</p>
+<pre><code class="language-python">case (Point(x1, y1), Point(x2, y2) as p2): ...
+</code></pre>
+<p>will capture the second element of the input as <code>p2</code> (as long as the input is
+a sequence of two points)</p>
+</li>
+<li>
+<p>Most literals are compared by equality, however the singletons <code>True</code>,
+<code>False</code> and <code>None</code> are compared by identity.</p>
+</li>
+<li>
+<p>Patterns may use named constants.  These must be dotted names
+to prevent them from being interpreted as capture variables:</p>
+<pre><code class="language-python">from enum import Enum
+class Color(Enum):
+    RED = 'red'
+    GREEN = 'green'
+    BLUE = 'blue'
+
+color = Color(input("Enter your choice of 'red', 'blue' or 'green': "))
+
+match color:
+    case Color.RED:
+        print("I see red!")
+    case Color.GREEN:
+        print("Grass is green")
+    case Color.BLUE:
+        print("I'm feeling the blues :(")
+</code></pre>
+</li>
+</ul>
+<p>For a more detailed explanation and additional examples, you can look into
+<a href="https://peps.python.org/pep-0636/"><strong>PEP 636</strong></a> which is written in a tutorial format.</p>
+<p><a id="tut-functions"></a></p>
+<h2 id="defining-functions"><a class="header" href="#defining-functions">Defining Functions</a></h2>
+<p>We can create a function that writes the Fibonacci series to an arbitrary
+boundary:</p>
+<pre><code class="language-python">def fib(n):    # write Fibonacci series less than n
+    """Print a Fibonacci series less than n."""
+    a, b = 0, 1
+    while a &lt; n:
+        print(a, end=' ')
+        a, b = b, a+b
+    print()
+# Now call the function we just defined:
+fib(2000)
+# 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597
+</code></pre>
+<p>The keyword <code>def</code> introduces a function <em>definition</em>.  It must be
+followed by the function name and the parenthesized list of formal parameters.
+The statements that form the body of the function start at the next line, and
+must be indented.</p>
+<p>The first statement of the function body can optionally be a string literal;
+this string literal is the function’s documentation string, or <em>docstring</em>.
+(More about docstrings can be found in the section <a href="#tut-docstrings">Documentation Strings</a>.)
+There are tools which use docstrings to automatically produce online or printed
+documentation, or to let the user interactively browse through code; it’s good
+practice to include docstrings in code that you write, so make a habit of it.</p>
+<p>The <em>execution</em> of a function introduces a new symbol table used for the local
+variables of the function.  More precisely, all variable assignments in a
+function store the value in the local symbol table; whereas variable references
+first look in the local symbol table, then in the local symbol tables of
+enclosing functions, then in the global symbol table, and finally in the table
+of built-in names. Thus, global variables and variables of enclosing functions
+cannot be directly assigned a value within a function (unless, for global
+variables, named in a <code>global</code> statement, or, for variables of enclosing
+functions, named in a <code>nonlocal</code> statement), although they may be
+referenced.</p>
+<p>The actual parameters (arguments) to a function call are introduced in the local
+symbol table of the called function when it is called; thus, arguments are
+passed using <em>call by value</em> (where the <em>value</em> is always an object <em>reference</em>,
+not the value of the object). <sup><a href="#id2">1</a></sup> When a function calls another function,
+or calls itself recursively, a new
+local symbol table is created for that call.</p>
+<p>A function definition associates the function name with the function object in
+the current symbol table.  The interpreter recognizes the object pointed to by
+that name as a user-defined function.  Other names can also point to that same
+function object and can also be used to access the function:</p>
+<pre><code class="language-python">fib  # &lt;function fib at 10042ed0&gt;
+f = fib
+f(100)
+# 0 1 1 2 3 5 8 13 21 34 55 89
+</code></pre>
+<p>Coming from other languages, you might object that <code>fib</code> is not a function but
+a procedure since it doesn’t return a value.  In fact, even functions without a
+<code>return</code> statement do return a value, albeit a rather boring one.  This
+value is called <code>None</code> (it’s a built-in name).  Writing the value <code>None</code> is
+normally suppressed by the interpreter if it would be the only value written.
+You can see it if you really want to using <code>print()</code>:</p>
+<pre><code class="language-python">fib(0)
+print(fib(0))
+# None
+</code></pre>
+<p>It is simple to write a function that returns a list of the numbers of the
+Fibonacci series, instead of printing it:</p>
+<pre><code class="language-python">def fib2(n):  # return Fibonacci series up to n
+    """Return a list containing the Fibonacci series up to n."""
+    result = []
+    a, b = 0, 1
+    while a &lt; n:
+        result.append(a)    # see below
+        a, b = b, a+b
+    return result
+f100 = fib2(100)    # call it
+f100                # write the result
+# [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+</code></pre>
+<p>This example, as usual, demonstrates some new Python features:</p>
+<ul>
+<li>The <code>return</code> statement returns with a value from a function.
+<code>return</code> without an expression argument returns <code>None</code>. Falling off
+the end of a function also returns <code>None</code>.</li>
+<li>The statement <code>result.append(a)</code> calls a <em>method</em> of the list object
+<code>result</code>.  A method is a function that ‘belongs’ to an object and is named
+<code>obj.methodname</code>, where <code>obj</code> is some object (this may be an expression),
+and <code>methodname</code> is the name of a method that is defined by the object’s type.
+Different types define different methods.  Methods of different types may have
+the same name without causing ambiguity.  (It is possible to define your own
+object types and methods, using <em>classes</em>, see <a href="classes.html#tut-classes">Classes</a>)
+The method <code>append()</code> shown in the example is defined for list objects; it
+adds a new element at the end of the list.  In this example it is equivalent to
+<code>result = result + [a]</code>, but more efficient.</li>
+</ul>
+<p><a id="tut-defining"></a></p>
+<h2 id="more-on-defining-functions"><a class="header" href="#more-on-defining-functions">More on Defining Functions</a></h2>
+<p>It is also possible to define functions with a variable number of arguments.
+There are three forms, which can be combined.</p>
+<p><a id="tut-defaultargs"></a></p>
+<h3 id="default-argument-values"><a class="header" href="#default-argument-values">Default Argument Values</a></h3>
+<p>The most useful form is to specify a default value for one or more arguments.
+This creates a function that can be called with fewer arguments than it is
+defined to allow.  For example:</p>
+<pre><code class="language-python">def ask_ok(prompt, retries=4, reminder='Please try again!'):
+    while True:
+        reply = input(prompt)
+        if reply in {'y', 'ye', 'yes'}:
+            return True
+        if reply in {'n', 'no', 'nop', 'nope'}:
+            return False
+        retries = retries - 1
+        if retries &lt; 0:
+            raise ValueError('invalid user response')
+        print(reminder)
+</code></pre>
+<p>This function can be called in several ways:</p>
+<ul>
+<li>giving only the mandatory argument:
+<code>ask_ok('Do you really want to quit?')</code></li>
+<li>giving one of the optional arguments:
+<code>ask_ok('OK to overwrite the file?', 2)</code></li>
+<li>or even giving all arguments:
+<code>ask_ok('OK to overwrite the file?', 2, 'Come on, only yes or no!')</code></li>
+</ul>
+<p>This example also introduces the <code>in</code> keyword. This tests whether or
+not a sequence contains a certain value.</p>
+<p>The default values are evaluated at the point of function definition in the
+<em>defining</em> scope, so that</p>
+<pre><code class="language-python">i = 5
+
+def f(arg=i):
+    print(arg)
+
+i = 6
+f()
+</code></pre>
+<p>will print <code>5</code>.</p>
+<p><strong>Important warning:</strong>  The default value is evaluated only once. This makes a
+difference when the default is a mutable object such as a list, dictionary, or
+instances of most classes.  For example, the following function accumulates the
+arguments passed to it on subsequent calls:</p>
+<pre><code class="language-python">def f(a, L=[]):
+    L.append(a)
+    return L
+
+print(f(1))
+print(f(2))
+print(f(3))
+</code></pre>
+<p>This will print</p>
+<pre><code class="language-python">[1]
+[1, 2]
+[1, 2, 3]
+</code></pre>
+<p>If you don’t want the default to be shared between subsequent calls, you can
+write the function like this instead:</p>
+<pre><code class="language-python">def f(a, L=None):
+    if L is None:
+        L = []
+    L.append(a)
+    return L
+</code></pre>
+<p><a id="tut-keywordargs"></a></p>
+<h3 id="keyword-arguments"><a class="header" href="#keyword-arguments">Keyword Arguments</a></h3>
+<p>Functions can also be called using <a href="https://docs.python.org/3/glossary.html#term-keyword-argument">keyword arguments</a>
+of the form <code>kwarg=value</code>.  For instance, the following function:</p>
+<pre><code class="language-python">def parrot(voltage, state='a stiff', action='voom', type='Norwegian Blue'):
+    print("-- This parrot wouldn't", action, end=' ')
+    print("if you put", voltage, "volts through it.")
+    print("-- Lovely plumage, the", type)
+    print("-- It's", state, "!")
+</code></pre>
+<p>accepts one required argument (<code>voltage</code>) and three optional arguments
+(<code>state</code>, <code>action</code>, and <code>type</code>).  This function can be called in any
+of the following ways:</p>
+<pre><code class="language-python">parrot(1000)                                          # 1 positional argument
+parrot(voltage=1000)                                  # 1 keyword argument
+parrot(voltage=1000000, action='VOOOOOM')             # 2 keyword arguments
+parrot(action='VOOOOOM', voltage=1000000)             # 2 keyword arguments
+parrot('a million', 'bereft of life', 'jump')         # 3 positional arguments
+parrot('a thousand', state='pushing up the daisies')  # 1 positional, 1 keyword
+</code></pre>
+<p>but all the following calls would be invalid:</p>
+<pre><code class="language-python">parrot()                     # required argument missing
+parrot(voltage=5.0, 'dead')  # non-keyword argument after a keyword argument
+parrot(110, voltage=220)     # duplicate value for the same argument
+parrot(actor='John Cleese')  # unknown keyword argument
+</code></pre>
+<p>In a function call, keyword arguments must follow positional arguments.
+All the keyword arguments passed must match one of the arguments
+accepted by the function (e.g. <code>actor</code> is not a valid argument for the
+<code>parrot</code> function), and their order is not important.  This also includes
+non-optional arguments (e.g. <code>parrot(voltage=1000)</code> is valid too).
+No argument may receive a value more than once.
+Here’s an example that fails due to this restriction:</p>
+<pre><code class="language-python">def function(a):
+    pass
+function(0, a=0)
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: function() got multiple values for argument 'a'
+</code></pre>
+<p>When a final formal parameter of the form <code>**name</code> is present, it receives a
+dictionary (see <a href="https://docs.python.org/3/library/stdtypes.html#typesmapping">Mapping Types — dict</a>) containing all keyword arguments except for
+those corresponding to a formal parameter.  This may be combined with a formal
+parameter of the form <code>*name</code> (described in the next subsection) which
+receives a <a href="datastructures.html#tut-tuples">tuple</a> containing the positional
+arguments beyond the formal parameter list.  (<code>*name</code> must occur
+before <code>**name</code>.) For example, if we define a function like this:</p>
+<pre><code class="language-python">def cheeseshop(kind, *arguments, **keywords):
+    print("-- Do you have any", kind, "?")
+    print("-- I'm sorry, we're all out of", kind)
+    for arg in arguments:
+        print(arg)
+    print("-" * 40)
+    for kw in keywords:
+        print(kw, ":", keywords[kw])
+</code></pre>
+<p>It could be called like this:</p>
+<pre><code class="language-python">cheeseshop("Limburger", "It's very runny, sir.",
+           "It's really very, VERY runny, sir.",
+           shopkeeper="Michael Palin",
+           client="John Cleese",
+           sketch="Cheese Shop Sketch")
+</code></pre>
+<p>and of course it would print:</p>
+<pre><code class="language-text">-- Do you have any Limburger ?
+-- I'm sorry, we're all out of Limburger
+It's very runny, sir.
+It's really very, VERY runny, sir.
+----------------------------------------
+shopkeeper : Michael Palin
+client : John Cleese
+sketch : Cheese Shop Sketch
+</code></pre>
+<p>Note that the order in which the keyword arguments are printed is guaranteed
+to match the order in which they were provided in the function call.</p>
+<h3 id="special-parameters"><a class="header" href="#special-parameters">Special parameters</a></h3>
+<p>By default, arguments may be passed to a Python function either by position
+or explicitly by keyword. For readability and performance, it makes sense to
+restrict the way arguments can be passed so that a developer need only look
+at the function definition to determine if items are passed by position, by
+position or keyword, or by keyword.</p>
+<p>A function definition may look like:</p>
+<pre><code class="language-text">def f(pos1, pos2, /, pos_or_kwd, *, kwd1, kwd2):
+      -----------    ----------     ----------
+        |             |                  |
+        |        Positional or keyword   |
+        |                                - Keyword only
+         -- Positional only
+</code></pre>
+<p>where <code>/</code> and <code>*</code> are optional. If used, these symbols indicate the kind of
+parameter by how the arguments may be passed to the function:
+positional-only, positional-or-keyword, and keyword-only. Keyword parameters
+are also referred to as named parameters.</p>
+<h4 id="positional-or-keyword-arguments"><a class="header" href="#positional-or-keyword-arguments">Positional-or-Keyword Arguments</a></h4>
+<p>If <code>/</code> and <code>*</code> are not present in the function definition, arguments may
+be passed to a function by position or by keyword.</p>
+<h4 id="positional-only-parameters"><a class="header" href="#positional-only-parameters">Positional-Only Parameters</a></h4>
+<p>Looking at this in a bit more detail, it is possible to mark certain parameters
+as <em>positional-only</em>. If <em>positional-only</em>, the parameters’ order matters, and
+the parameters cannot be passed by keyword. Positional-only parameters are
+placed before a <code>/</code> (forward-slash). The <code>/</code> is used to logically
+separate the positional-only parameters from the rest of the parameters.
+If there is no <code>/</code> in the function definition, there are no positional-only
+parameters.</p>
+<p>Parameters following the <code>/</code> may be <em>positional-or-keyword</em> or <em>keyword-only</em>.</p>
+<h4 id="keyword-only-arguments"><a class="header" href="#keyword-only-arguments">Keyword-Only Arguments</a></h4>
+<p>To mark parameters as <em>keyword-only</em>, indicating the parameters must be passed
+by keyword argument, place an <code>*</code> in the arguments list just before the first
+<em>keyword-only</em> parameter.</p>
+<h4 id="function-examples"><a class="header" href="#function-examples">Function Examples</a></h4>
+<p>Consider the following example function definitions paying close attention to the
+markers <code>/</code> and <code>*</code>:</p>
+<pre><code class="language-python">def standard_arg(arg):
+    print(arg)
+def pos_only_arg(arg, /):
+    print(arg)
+def kwd_only_arg(*, arg):
+    print(arg)
+def combined_example(pos_only, /, standard, *, kwd_only):
+    print(pos_only, standard, kwd_only)
+</code></pre>
+<p>The first function definition, <code>standard_arg</code>, the most familiar form,
+places no restrictions on the calling convention and arguments may be
+passed by position or keyword:</p>
+<pre><code class="language-python">standard_arg(2)  # 2
+
+standard_arg(arg=2)  # 2
+</code></pre>
+<p>The second function <code>pos_only_arg</code> is restricted to only use positional
+parameters as there is a <code>/</code> in the function definition:</p>
+<pre><code class="language-python">pos_only_arg(1)  # 1
+
+pos_only_arg(arg=1)
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: pos_only_arg() got some positional-only arguments passed as keyword arguments: 'arg'
+</code></pre>
+<p>The third function <code>kwd_only_arg</code> only allows keyword arguments as indicated
+by a <code>*</code> in the function definition:</p>
+<pre><code class="language-python">kwd_only_arg(3)
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: kwd_only_arg() takes 0 positional arguments but 1 was given
+
+kwd_only_arg(arg=3)  # 3
+</code></pre>
+<p>And the last uses all three calling conventions in the same function
+definition:</p>
+<pre><code class="language-python">combined_example(1, 2, 3)
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: combined_example() takes 2 positional arguments but 3 were given
+
+combined_example(1, 2, kwd_only=3)  # 1 2 3
+
+combined_example(1, standard=2, kwd_only=3)  # 1 2 3
+
+combined_example(pos_only=1, standard=2, kwd_only=3)
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: combined_example() got some positional-only arguments passed as keyword arguments: 'pos_only'
+</code></pre>
+<p>Finally, consider this function definition which has a potential collision between the positional argument <code>name</code>  and <code>**kwds</code> which has <code>name</code> as a key:</p>
+<pre><code class="language-python">def foo(name, **kwds):
+    return 'name' in kwds
+</code></pre>
+<p>There is no possible call that will make it return <code>True</code> as the keyword <code>'name'</code>
+will always bind to the first parameter. For example:</p>
+<pre><code class="language-python">foo(1, **{'name': 2})
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: foo() got multiple values for argument 'name'
+</code></pre>
+<p>But using <code>/</code> (positional only arguments), it is possible since it allows <code>name</code> as a positional argument and <code>'name'</code> as a key in the keyword arguments:</p>
+<pre><code class="language-python">def foo(name, /, **kwds):
+    return 'name' in kwds
+foo(1, **{'name': 2})
+# True
+</code></pre>
+<p>In other words, the names of positional-only parameters can be used in
+<code>**kwds</code> without ambiguity.</p>
+<h4 id="recap"><a class="header" href="#recap">Recap</a></h4>
+<p>The use case will determine which parameters to use in the function definition:</p>
+<pre><code class="language-python">def f(pos1, pos2, /, pos_or_kwd, *, kwd1, kwd2):
+</code></pre>
+<p>As guidance:</p>
+<ul>
+<li>Use positional-only if you want the name of the parameters to not be
+available to the user. This is useful when parameter names have no real
+meaning, if you want to enforce the order of the arguments when the function
+is called or if you need to take some positional parameters and arbitrary
+keywords.</li>
+<li>Use keyword-only when names have meaning and the function definition is
+more understandable by being explicit with names or you want to prevent
+users relying on the position of the argument being passed.</li>
+<li>For an API, use positional-only to prevent breaking API changes
+if the parameter’s name is modified in the future.</li>
+</ul>
+<p><a id="tut-arbitraryargs"></a></p>
+<h3 id="arbitrary-argument-lists"><a class="header" href="#arbitrary-argument-lists">Arbitrary Argument Lists</a></h3>
+<p>Finally, the least frequently used option is to specify that a function can be
+called with an arbitrary number of arguments.  These arguments will be wrapped
+up in a tuple (see <a href="datastructures.html#tut-tuples">Tuples and Sequences</a>).  Before the variable number of arguments,
+zero or more normal arguments may occur.</p>
+<pre><code class="language-python">def write_multiple_items(file, separator, *args):
+    file.write(separator.join(args))
+</code></pre>
+<p>Normally, these <em>variadic</em> arguments will be last in the list of formal
+parameters, because they scoop up all remaining input arguments that are
+passed to the function. Any formal parameters which occur after the <code>*args</code>
+parameter are ‘keyword-only’ arguments, meaning that they can only be used as
+keywords rather than positional arguments.</p>
+<pre><code class="language-python">def concat(*args, sep="/"):
+    return sep.join(args)
+concat("earth", "mars", "venus")
+# 'earth/mars/venus'
+concat("earth", "mars", "venus", sep=".")  # 'earth.mars.venus'
+</code></pre>
+<p><a id="tut-unpacking-arguments"></a></p>
+<h3 id="unpacking-argument-lists"><a class="header" href="#unpacking-argument-lists">Unpacking Argument Lists</a></h3>
+<p>The reverse situation occurs when the arguments are already in a list or tuple
+but need to be unpacked for a function call requiring separate positional
+arguments.  For instance, the built-in <code>range()</code> function expects separate
+<em>start</em> and <em>stop</em> arguments.  If they are not available separately, write the
+function call with the  <code>*</code>-operator to unpack the arguments out of a list
+or tuple:</p>
+<pre><code class="language-python">list(range(3, 6))            # normal call with separate arguments
+# [3, 4, 5]
+args = [3, 6]
+list(range(*args))            # call with arguments unpacked from a list
+# [3, 4, 5]
+</code></pre>
+<p>In the same fashion, dictionaries can deliver keyword arguments with the
+<code>**</code>-operator:</p>
+<pre><code class="language-python">def parrot(voltage, state='a stiff', action='voom'):
+    print("-- This parrot wouldn't", action, end=' ')
+    print("if you put", voltage, "volts through it.", end=' ')
+    print("E's", state, "!")
+d = {"voltage": "four million", "state": "bleedin' demised", "action": "VOOM"}
+parrot(**d)
+# -- This parrot wouldn't VOOM if you put four million volts through it. E's bleedin' demised !
+</code></pre>
+<p><a id="tut-lambda"></a></p>
+<h3 id="lambda-expressions"><a class="header" href="#lambda-expressions">Lambda Expressions</a></h3>
+<p>Small anonymous functions can be created with the <code>lambda</code> keyword.
+This function returns the sum of its two arguments: <code>lambda a, b: a+b</code>.
+Lambda functions can be used wherever function objects are required.  They are
+syntactically restricted to a single expression.  Semantically, they are just
+syntactic sugar for a normal function definition.  Like nested function
+definitions, lambda functions can reference variables from the containing
+scope:</p>
+<pre><code class="language-python">def make_incrementor(n):
+    return lambda x: x + n
+f = make_incrementor(42)
+f(0)
+# 42
+f(1)  # 43
+</code></pre>
+<p>The above example uses a lambda expression to return a function.  Another use
+is to pass a small function as an argument.  For instance, <code>list.sort()</code>
+takes a sorting key function <em>key</em> which can be a lambda function:</p>
+<pre><code class="language-python">pairs = [(1, 'one'), (2, 'two'), (3, 'three'), (4, 'four')]
+pairs.sort(key=lambda pair: pair[1])
+pairs
+# [(4, 'four'), (1, 'one'), (3, 'three'), (2, 'two')]
+</code></pre>
+<p><a id="tut-docstrings"></a></p>
+<h3 id="documentation-strings"><a class="header" href="#documentation-strings">Documentation Strings</a></h3>
+<p>Here are some conventions about the content and formatting of documentation
+strings.</p>
+<p>The first line should always be a short, concise summary of the object’s
+purpose.  For brevity, it should not explicitly state the object’s name or type,
+since these are available by other means (except if the name happens to be a
+verb describing a function’s operation).  This line should begin with a capital
+letter and end with a period.</p>
+<p>If there are more lines in the documentation string, the second line should be
+blank, visually separating the summary from the rest of the description.  The
+following lines should be one or more paragraphs describing the object’s calling
+conventions, its side effects, etc.</p>
+<p>The Python parser strips indentation from multi-line string literals when they
+serve as module, class, or function docstrings.</p>
+<p>Here is an example of a multi-line docstring:</p>
+<pre><code class="language-python">def my_function():
+    """Do nothing, but document it.
+    No, really, it doesn't do anything:
+        &gt;&gt;&gt; my_function()
+        &gt;&gt;&gt;
+    """
+    pass
+print(my_function.__doc__)
+# Do nothing, but document it.
+#
+# No, really, it doesn't do anything:
+#
+#     &gt;&gt;&gt; my_function()
+#     &gt;&gt;&gt;
+</code></pre>
+<p><a id="tut-annotations"></a></p>
+<h3 id="function-annotations"><a class="header" href="#function-annotations">Function Annotations</a></h3>
+<p><a href="https://docs.python.org/3/reference/compound_stmts.html#function">Function annotations</a> are completely optional metadata
+information about the types used by user-defined functions (see <a href="https://peps.python.org/pep-3107/"><strong>PEP 3107</strong></a> and
+<a href="https://peps.python.org/pep-0484/"><strong>PEP 484</strong></a> for more information).</p>
+<p><a href="https://docs.python.org/3/glossary.html#term-function-annotation">Annotations</a> are stored in the <code>__annotations__</code>
+attribute of the function as a dictionary and have no effect on any other part of the
+function.  Parameter annotations are defined by a colon after the parameter name, followed
+by an expression evaluating to the value of the annotation.  Return annotations are
+defined by a literal <code>-&gt;</code>, followed by an expression, between the parameter
+list and the colon denoting the end of the <code>def</code> statement.  The
+following example has a required argument, an optional argument, and the return
+value annotated:</p>
+<pre><code class="language-python">def f(ham: str, eggs: str = 'eggs') -&gt; str:
+    print("Annotations:", f.__annotations__)
+    print("Arguments:", ham, eggs)
+    return ham + ' and ' + eggs
+f('spam')
+# Annotations: {'ham': &lt;class 'str'&gt;, 'return': &lt;class 'str'&gt;, 'eggs': &lt;class 'str'&gt;}
+# Arguments: spam eggs
+# 'spam and eggs'
+</code></pre>
+<p><a id="tut-codingstyle"></a></p>
+<h2 id="intermezzo-coding-style"><a class="header" href="#intermezzo-coding-style">Intermezzo: Coding Style</a></h2>
+<p>Now that you are about to write longer, more complex pieces of Python, it is a
+good time to talk about <em>coding style</em>.  Most languages can be written (or more
+concisely, <em>formatted</em>) in different styles; some are more readable than others.
+Making it easy for others to read your code is always a good idea, and adopting
+a nice coding style helps tremendously for that.</p>
+<p>For Python, <a href="https://peps.python.org/pep-0008/"><strong>PEP 8</strong></a> has emerged as the style guide that most projects adhere to;
+it promotes a very readable and eye-pleasing coding style.  Every Python
+developer should read it at some point; here are the most important points
+extracted for you:</p>
+<ul>
+<li>
+<p>Use 4-space indentation, and no tabs.</p>
+<p>4 spaces are a good compromise between small indentation (allows greater
+nesting depth) and large indentation (easier to read).  Tabs introduce
+confusion, and are best left out.</p>
+</li>
+<li>
+<p>Wrap lines so that they don’t exceed 79 characters.</p>
+<p>This helps users with small displays and makes it possible to have several
+code files side-by-side on larger displays.</p>
+</li>
+<li>
+<p>Use blank lines to separate functions and classes, and larger blocks of
+code inside functions.</p>
+</li>
+<li>
+<p>When possible, put comments on a line of their own.</p>
+</li>
+<li>
+<p>Use docstrings.</p>
+</li>
+<li>
+<p>Use spaces around operators and after commas, but not directly inside
+bracketing constructs: <code>a = f(1, 2) + g(3, 4)</code>.</p>
+</li>
+<li>
+<p>Name your classes and functions consistently; the convention is to use
+<code>UpperCamelCase</code> for classes and <code>lowercase_with_underscores</code> for functions
+and methods.  Always use <code>self</code> as the name for the first method argument
+(see <a href="classes.html#tut-firstclasses">A First Look at Classes</a> for more on classes and methods).</p>
+</li>
+<li>
+<p>Don’t use fancy encodings if your code is meant to be used in international
+environments.  Python’s default, UTF-8, or even plain ASCII work best in any
+case.</p>
+</li>
+<li>
+<p>Likewise, don’t use non-ASCII characters in identifiers if there is only the
+slightest chance people speaking a different language will read or maintain
+the code.</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Going deeper</strong></p>
+<p>The chapters nested under this one expand on its topics:</p>
+<ul>
+<li><a href="pattern-matching.html">Pattern Matching in Depth</a> — sequence, mapping and class patterns,
+guards, and a case study interpreting a tiny Lisp dialect with <code>match</code>.</li>
+<li><a href="first-class-functions.html">Functions as First-Class Objects</a> — higher-order functions, the
+nine kinds of callables, parameter introspection, <code>operator</code> and <code>functools.partial</code>.</li>
+<li><a href="type-hints-functions.html">Type Hints in Functions</a> — gradual typing, the types usable in
+annotations, <code>Protocol</code>, <code>Callable</code>, and type parameters.</li>
+<li><a href="decorators.html">Decorators and Closures</a> — variable scope rules, closures, <code>nonlocal</code>,
+<code>functools.cache</code>, <code>singledispatch</code>, and parameterized decorators.</li>
+<li><a href="function-patterns.html">Design Patterns with First-Class Functions</a> — Strategy and Command
+refactored with functions.</li>
+</ul>
+</blockquote>
+<h3 id="footnotes"><a class="header" href="#footnotes">Footnotes</a></h3>
+<ul>
+<li><a id="id2"><strong>[1]</strong></a> Actually, <em>call by object reference</em> would be a better description, since if a mutable object is passed, the caller will see any changes the callee makes to it (items inserted into a list).</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="unicode.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="pattern-matching.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="unicode.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="pattern-matching.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

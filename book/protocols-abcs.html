@@ -1,0 +1,1829 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Interfaces, Protocols, and ABCs - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="interfaces-protocols-and-abcs"><a class="header" href="#interfaces-protocols-and-abcs">Interfaces, Protocols, and ABCs</a></h1>
+<blockquote>
+<p>Program to an interface, not an implementation.</p>
+<p>— Gamma, Helm, Johnson, Vlissides, <em>Design Patterns</em></p>
+</blockquote>
+<p>Object-oriented programming is all about interfaces.  The best approach to
+understanding a type in Python is knowing the methods it provides — its interface —
+as discussed in <a href="type-hints-functions.html#types-are-defined-by-supported-operations">Types Are Defined by Supported Operations</a>.</p>
+<p>Depending on the programming language, there are one or more ways of defining and
+using interfaces.  Python has four of them, and they complement each other:</p>
+<dl>
+<dt id="duck-typing"><a class="header" href="#duck-typing"><strong>Duck typing</strong></a></dt>
+<dd>Python’s default approach to typing from the beginning.  An object is acceptable if
+it supports the operations you need, whatever its class.  We’ve been relying on it
+since <a href="data-model.html">The Python Data Model</a>.</dd>
+<dt id="goose-typing"><a class="header" href="#goose-typing"><strong>Goose typing</strong></a></dt>
+<dd>The approach supported by abstract base classes (ABCs), which relies on runtime
+checks of objects against ABCs with <code>isinstance()</code> and <code>issubclass()</code>.  Goose typing
+is a major subject of this chapter.</dd>
+<dt id="static-typing"><a class="header" href="#static-typing"><strong>Static typing</strong></a></dt>
+<dd>The traditional approach of statically typed languages like C and Java, supported
+by the <a href="https://docs.python.org/3/library/typing.html"><code>typing</code></a> module and enforced
+by external type checkers such as Mypy or Pyright.  Most of
+<a href="type-hints-functions.html">Type Hints in Functions</a> and
+<a href="type-hints-more.html">More About Type Hints</a> is about static typing.</dd>
+<dt id="static-duck-typing"><a class="header" href="#static-duck-typing"><strong>Static duck typing</strong></a></dt>
+<dd>An approach made popular by the Go language, supported by subclasses of
+<code>typing.Protocol</code> and also enforced by external type checkers.</dd>
+</dl>
+<p>You can picture these four approaches as the quadrants of a “typing map”.  The top half
+holds the approaches checked at runtime by the interpreter alone (duck typing and
+goose typing); the bottom half holds those that need an external static checker
+(static duck typing and static typing).  The left half is <em>structural</em> — it looks at
+which methods an object provides, regardless of the name of its class — while the
+right half is <em>nominal</em>, depending on objects having explicitly named types or
+superclasses.  It doesn’t make sense to dismiss any of the four; each has different
+pros and cons.</p>
+<p>This chapter covers three of the four quadrants: the two kinds of protocols (the
+structural half), how to make duck typing safer, goose typing with ABCs, and the design
+of static protocols.</p>
+<h2 id="two-kinds-of-protocols"><a class="header" href="#two-kinds-of-protocols">Two Kinds of Protocols</a></h2>
+<p>The word <em>protocol</em> has different meanings in computer science depending on context.
+A network protocol such as HTTP specifies commands that a client can send to a server,
+such as <code>GET</code>, <code>PUT</code> and <code>HEAD</code>.  An <em>object protocol</em> specifies methods that an object
+must provide to fulfill a role.  The <code>FrenchDeck</code> example in
+<a href="data-model.html">The Python Data Model</a> demonstrated one object protocol, the sequence
+protocol: the methods that allow a Python object to behave as a sequence.</p>
+<p>Implementing a full protocol may require several methods, but often it is OK to
+implement only part of it.  Consider this <code>Vowels</code> class:</p>
+<pre><code class="language-python">class Vowels:
+    def __getitem__(self, i):
+        return 'AEIOU'[i]
+
+v = Vowels()
+v[0]
+# 'A'
+v[-1]
+# 'U'
+for c in v:
+    print(c)
+
+# A
+# E
+# I
+# O
+# U
+'E' in v
+# True
+'Z' in v
+# False
+</code></pre>
+<p>Implementing <code>__getitem__()</code> is enough to allow retrieving items by index, and also to
+support iteration and the <code>in</code> operator.  The <code>__getitem__()</code> special method is really
+the key to the sequence protocol.  The Python/C API Reference Manual says that
+<code>PySequence_Check()</code> returns 1 for Python classes with a <code>__getitem__()</code> method unless
+they are <code>dict</code> subclasses.</p>
+<p>We expect a sequence to also support <code>len()</code>, by implementing <code>__len__()</code>.  <code>Vowels</code>
+has no <code>__len__()</code> method, but it still behaves as a sequence in some contexts, and that
+may be enough for our purposes.  That is why a protocol is often described as an
+“informal interface”.  That is also how protocols are understood in Smalltalk, the first
+object-oriented programming environment to use that term.  Except in pages about
+network programming, most uses of the word “protocol” in the Python documentation refer
+to these informal interfaces.</p>
+<p>Since <a href="https://peps.python.org/pep-0544/"><strong>PEP 544</strong></a> (Python 3.8), the word
+“protocol” has a second, closely related meaning in Python.  As we saw in
+<a href="type-hints-functions.html#static-protocols">Static Protocols</a>, PEP 544 lets us create
+subclasses of <code>typing.Protocol</code> to define one or more methods that a class must
+implement (or inherit) to satisfy a static type checker.  When we need to be specific,
+we’ll use these terms:</p>
+<dl>
+<dt id="dynamic-protocol"><a class="header" href="#dynamic-protocol"><strong>Dynamic protocol</strong></a></dt>
+<dd>The informal protocols Python always had.  Dynamic protocols are implicit, defined by
+convention, and described in the documentation.  Python’s most important dynamic
+protocols are supported by the interpreter itself, and are documented in the
+<a href="https://docs.python.org/3/reference/datamodel.html">Data model</a> chapter of the
+Language Reference.</dd>
+<dt id="static-protocol"><a class="header" href="#static-protocol"><strong>Static protocol</strong></a></dt>
+<dd>A protocol as defined by PEP 544.  A static protocol has an explicit definition: a
+<code>typing.Protocol</code> subclass.</dd>
+</dl>
+<p>There are two key differences between them:</p>
+<ul>
+<li>An object may implement only part of a dynamic protocol and still be useful; but to
+fulfill a static protocol, the object must provide every method declared in the
+protocol class, even if your program doesn’t need them all.</li>
+<li>Static protocols can be verified by static type checkers, but dynamic protocols
+can’t.</li>
+</ul>
+<p>Both kinds of protocols share the essential characteristic that a class never needs to
+declare that it supports a protocol by name, i.e., by inheritance.  In addition to
+static protocols, Python provides another way of defining an explicit interface in
+code: an abstract base class.  The rest of this chapter covers dynamic and static
+protocols, as well as ABCs.</p>
+<h2 id="programming-ducks"><a class="header" href="#programming-ducks">Programming Ducks</a></h2>
+<p>Let’s start our discussion of dynamic protocols with two of the most important in
+Python: the sequence and iterable protocols.  The interpreter goes out of its way to
+handle objects that provide even a minimal implementation of those protocols.</p>
+<h3 id="python-digs-sequences"><a class="header" href="#python-digs-sequences">Python Digs Sequences</a></h3>
+<p>The philosophy of the Python Data Model is to cooperate with essential dynamic
+protocols as much as possible.  When it comes to sequences, Python tries hard to work
+with even the simplest implementations.</p>
+<p>The <code>Sequence</code> interface is formalized as an ABC in
+<a href="https://docs.python.org/3/library/collections.abc.html"><code>collections.abc</code></a>:
+<code>Sequence</code> inherits from <code>Reversible</code> and <code>Collection</code>, and <code>Collection</code> in turn
+inherits from <code>Sized</code>, <code>Iterable</code> and <code>Container</code>.  A correct subclass of <code>Sequence</code>
+must implement <code>__getitem__()</code> and <code>__len__()</code> (from <code>Sized</code>); all the other methods —
+<code>__contains__()</code>, <code>__iter__()</code>, <code>__reversed__()</code>, <code>index()</code> and <code>count()</code> — are
+concrete, so subclasses can inherit their implementations, or provide better ones.</p>
+<p>But the interpreter and built-in sequences like <code>list</code> and <code>str</code> do not rely on that
+ABC at all.  It’s only a description of what a full-fledged sequence is expected to
+support.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Most ABCs in the <code>collections.abc</code> module exist to formalize interfaces that are
+implemented by built-in objects and are implicitly supported by the interpreter —
+both of which predate the ABCs themselves.  The ABCs are useful as starting points for
+new classes, and to support explicit type checking at runtime (goose typing) as well
+as type hints for static type checkers.</p>
+</blockquote>
+<p>Now, recall the <code>Vowels</code> class.  It does not inherit from <code>abc.Sequence</code> and it only
+implements <code>__getitem__()</code>.  There is no <code>__iter__()</code> method, yet <code>Vowels</code> instances are
+iterable because — as a fallback — if Python finds a <code>__getitem__()</code> method, it tries to
+iterate over the object by calling that method with integer indexes starting with 0.
+Because Python is smart enough to iterate over <code>Vowels</code> instances, it can also make the
+<code>in</code> operator work even when the <code>__contains__()</code> method is missing: it does a
+sequential scan to check if an item is present.</p>
+<p>In summary, given the importance of sequence-like data structures, Python manages to
+make iteration and the <code>in</code> operator work by invoking <code>__getitem__()</code> when <code>__iter__()</code>
+and <code>__contains__()</code> are unavailable.</p>
+<p>The original <code>FrenchDeck</code> does not subclass <code>abc.Sequence</code> either, but it does
+implement both methods of the sequence protocol:</p>
+<pre><code class="language-python">import collections
+
+Card = collections.namedtuple('Card', ['rank', 'suit'])
+
+class FrenchDeck:
+    ranks = [str(n) for n in range(2, 11)] + list('JQKA')
+    suits = 'spades diamonds clubs hearts'.split()
+
+    def __init__(self):
+        self._cards = [Card(rank, suit) for suit in self.suits
+                                        for rank in self.ranks]
+
+    def __len__(self):
+        return len(self._cards)
+
+    def __getitem__(self, position):
+        return self._cards[position]
+</code></pre>
+<p>Many of the things you can do with a <code>FrenchDeck</code> work because of the special treatment
+Python gives to anything vaguely resembling a sequence.  The iterable protocol in
+Python represents an extreme form of duck typing: the interpreter tries two different
+methods to iterate over objects.</p>
+<p>To be clear, these behaviors are implemented in the interpreter itself, mostly in C.
+They do not depend on methods from the <code>Sequence</code> ABC.  For example, the concrete
+methods <code>__iter__()</code> and <code>__contains__()</code> in the <code>Sequence</code> class emulate the built-in
+behaviors of the interpreter.  If you are curious, read their source code in
+<a href="https://github.com/python/cpython/blob/main/Lib/_collections_abc.py"><code>Lib/_collections_abc.py</code></a>.</p>
+<p>Now let’s study another example emphasizing the dynamic nature of protocols — and why
+static type checkers have no chance of dealing with them.</p>
+<h3 id="monkey-patching-implementing-a-protocol-at-runtime"><a class="header" href="#monkey-patching-implementing-a-protocol-at-runtime">Monkey Patching: Implementing a Protocol at Runtime</a></h3>
+<p><em>Monkey patching</em> is dynamically changing a module, class or function at runtime, to
+add features or fix bugs.  For example, the gevent networking library monkey patches
+parts of Python’s standard library to allow lightweight concurrency without threads or
+<code>async</code>/<code>await</code>.</p>
+<p>The <code>FrenchDeck</code> class is missing an essential feature: it cannot be shuffled.  It
+doesn’t need its own <code>shuffle</code> method, because there is already
+<a href="https://docs.python.org/3/library/random.html#random.shuffle"><code>random.shuffle()</code></a>,
+documented as “Shuffle the sequence <em>x</em> in place”:</p>
+<pre><code class="language-python">from random import shuffle
+l = list(range(10))
+shuffle(l)
+l
+# [5, 2, 9, 7, 8, 3, 1, 4, 0, 6]
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>When you follow established protocols, you improve your chances of leveraging
+existing standard library and third-party code, thanks to duck typing.</p>
+</blockquote>
+<p>However, if we try to shuffle a <code>FrenchDeck</code> instance, we get an exception:</p>
+<pre><code class="language-python">deck = FrenchDeck()
+shuffle(deck)
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+#   File ".../random.py", line 361, in shuffle
+#     x[i], x[j] = x[j], x[i]
+#     ~^^^
+# TypeError: 'FrenchDeck' object does not support item assignment
+</code></pre>
+<p>The error message is clear: <code>'FrenchDeck' object does not support item assignment</code>.
+The problem is that <code>shuffle</code> operates <em>in place</em>, by swapping items inside the
+collection, and <code>FrenchDeck</code> only implements the <em>immutable</em> sequence protocol.
+Mutable sequences must also provide a <code>__setitem__()</code> method.</p>
+<p>Because Python is dynamic, we can fix this at runtime, even at the interactive
+console:</p>
+<pre><code class="language-python">def set_card(deck, position, card):
+    deck._cards[position] = card
+
+FrenchDeck.__setitem__ = set_card
+shuffle(deck)
+deck[:5]
+# [Card(rank='3', suit='hearts'), Card(rank='4', suit='diamonds'), Card(rank='4',
+# suit='clubs'), Card(rank='7', suit='hearts'), Card(rank='9', suit='spades')]
+</code></pre>
+<p>We create a function that takes <code>deck</code>, <code>position</code> and <code>card</code> as arguments, and assign
+that function to an attribute named <code>__setitem__</code> in the <code>FrenchDeck</code> class.  Now
+<code>deck</code> can be shuffled, because we added the necessary method of the mutable sequence
+protocol.</p>
+<p>The signature of the <code>__setitem__()</code> special method is defined in the Language
+Reference in <a href="https://docs.python.org/3/reference/datamodel.html#emulating-container-types">Emulating container types</a>.
+Here the arguments are named <code>deck, position, card</code> — and not <code>self, key, value</code> as in
+the Language Reference — to show that every Python method starts life as a plain
+function, and naming the first argument <code>self</code> is merely a convention (see
+<a href="classes.html#tut-methodobjects">Method Objects</a>).  This is OK in a console session, but in
+a Python source file it’s much better to use <code>self</code>, <code>key</code> and <code>value</code> as documented.</p>
+<p>The trick is that <code>set_card</code> knows that the <code>deck</code> object has an attribute named
+<code>_cards</code>, and <code>_cards</code> must be a mutable sequence.  The <code>set_card</code> function is then
+attached to the <code>FrenchDeck</code> class as the <code>__setitem__()</code> special method.  This is an
+example of monkey patching: changing a class or module at runtime, without touching the
+source code.  Monkey patching is powerful, but the code that does the actual patching is
+very tightly coupled with the program to be patched, often handling private and
+undocumented attributes.</p>
+<p>Besides being an example of monkey patching, this highlights the dynamic nature of
+protocols in dynamic duck typing: <code>random.shuffle</code> doesn’t care about the class of the
+argument, it only needs the object to implement methods from the mutable sequence
+protocol.  It doesn’t even matter if the object was “born” with the necessary methods
+or if they were somehow acquired later.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Monkey patching has a bad reputation.  If abused, it leads to systems that are hard to
+understand and maintain, and two libraries that patch the same target may step on each
+other’s toes.  Unlike Ruby and JavaScript, Python does not let you monkey patch the
+built-in types: you can be certain that a <code>str</code> object will always have the same
+methods.  That limitation is an advantage.  The Adapter design pattern solves the same
+problem as our patch by implementing a whole new class.</p>
+</blockquote>
+<p>Duck typing doesn’t need to be wildly unsafe or hard to debug.  The next section shows
+some useful code patterns to detect dynamic protocols without resorting to explicit
+checks.</p>
+<h3 id="defensive-programming-and-fail-fast"><a class="header" href="#defensive-programming-and-fail-fast">Defensive Programming and “Fail Fast”</a></h3>
+<p>Defensive programming is like defensive driving: a set of practices to enhance safety
+even when faced with careless programmers — or drivers.</p>
+<p>Many bugs cannot be caught except at runtime, even in mainstream statically typed
+languages (that’s why automated testing is necessary).  In a dynamically typed language,
+“fail fast” is excellent advice for safer and easier-to-maintain programs.  Failing fast
+means raising runtime errors as soon as possible, for example, rejecting invalid
+arguments right at the beginning of a function body.</p>
+<p>Here is one example: when you write code that accepts a sequence of items to process
+internally as a <code>list</code>, don’t enforce a <code>list</code> argument by type checking.  Instead, take
+the argument and immediately build a <code>list</code> from it.  The <code>LottoBlower</code> class later in
+this chapter does exactly that:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __init__(self, iterable):
+    self._balls = list(iterable)
+</code></pre>
+<p>That way you make your code more flexible, because the <code>list()</code> constructor handles any
+iterable that fits in memory.  If the argument is not iterable, the call will fail fast
+with a very clear <code>TypeError</code> exception, right when the object is initialized.  If you
+want to be more explicit, you can wrap the <code>list()</code> call with <code>try</code>/<code>except</code> to
+customize the error message — but use that extra code only on an external API, because
+the problem would be easy to see for maintainers of the codebase.  Either way, the
+offending call will appear near the end of the traceback, making it straightforward to
+fix.  If you don’t catch the invalid argument in the class constructor, the program will
+blow up later, when some other method of the class needs to operate on <code>self._balls</code> and
+it is not a <code>list</code>.  Then the root cause will be harder to find.</p>
+<p>Of course, calling <code>list()</code> on the argument would be bad if the data shouldn’t be
+copied, either because it’s too large or because the function, by design, needs to
+change it in place for the benefit of the caller, like <code>random.shuffle</code> does.  In that
+case, a runtime check like <code>isinstance(x, abc.MutableSequence)</code> would be the way to go.</p>
+<p>If you are afraid of getting an infinite generator — not a common issue — you can begin
+by calling <code>len()</code> on the argument.  This would reject iterators, while safely dealing
+with tuples, arrays and other existing or future classes that fully implement the
+<code>Sequence</code> interface.  Calling <code>len()</code> is usually very cheap, and an invalid argument
+will raise an error immediately.</p>
+<p>On the other hand, if any iterable is acceptable, then call <code>iter(x)</code> as soon as
+possible to obtain an iterator, as we’ll see in
+<a href="iterators-generators.html">Iterators, Generators, and Classic Coroutines</a>.  Again, if <code>x</code>
+is not iterable, this will fail fast with an easy-to-debug exception.</p>
+<p>In the cases just described, a type hint could catch some problems earlier, but not all
+problems.  Recall that the type <code>Any</code> is consistent-with every other type, and type
+inference may cause a variable to be tagged with <code>Any</code>.  When that happens, the type
+checker is in the dark.  In addition, type hints are not enforced at runtime.  Fail fast
+is the last line of defense.</p>
+<p>Defensive code leveraging duck types can also include logic to handle different types
+without using <code>isinstance()</code> or <code>hasattr()</code> tests.  One example is how we might emulate
+the handling of the <code>field_names</code> argument in <code>collections.namedtuple</code>: <code>field_names</code>
+accepts a single string with identifiers separated by spaces or commas, or a sequence of
+identifiers.  Here is how to do it with duck typing:</p>
+<pre><code class="language-python">def parse_field_names(field_names):
+    try:
+        field_names = field_names.replace(',', ' ').split()  # assume it's a string (EAFP)
+    except AttributeError:  # sorry, field_names doesn't quack like a str
+        pass  # assume it's already an iterable of names
+    field_names = tuple(field_names)  # make our own copy, and make sure it's iterable
+    if not all(s.isidentifier() for s in field_names):
+        raise ValueError('field_names must all be valid identifiers')
+    return field_names
+
+parse_field_names('x, y z')
+# ('x', 'y', 'z')
+parse_field_names(['lat', 'lon'])
+# ('lat', 'lon')
+parse_field_names('1st 2nd')
+# Traceback (most recent call last):
+#   ...
+# ValueError: field_names must all be valid identifiers
+</code></pre>
+<p>We first assume it’s a string — <em>EAFP</em>, “it’s easier to ask forgiveness than
+permission” (see the <a href="https://docs.python.org/3/glossary.html#term-EAFP">glossary</a>) — and
+convert commas to spaces and split the result into a list of names.  If
+<code>AttributeError</code> was raised, <code>field_names</code> is not a <code>str</code> and we assume it was already
+an iterable of names.  To make sure it’s an iterable and to keep our own copy, we create
+a tuple out of what we have.  A tuple is more compact than a list, and it also prevents
+our code from changing the names by mistake.  Finally, <code>str.isidentifier()</code> ensures every
+name is valid.</p>
+<p>This is one situation where duck typing is more expressive than static type hints.
+There is no way to spell a type hint that says “<code>field_names</code> must be a string of
+identifiers separated by spaces or commas”.  The <code>namedtuple</code> signature in typeshed
+annotates it as <code>str | Iterable[str]</code>, which is OK as far as it goes, but is not enough
+to catch all possible problems.</p>
+<p>After reviewing dynamic protocols, we move to a more explicit form of runtime type
+checking: goose typing.</p>
+<h2 id="goose-typing-1"><a class="header" href="#goose-typing-1">Goose Typing</a></h2>
+<blockquote>
+<p>An abstract class represents an interface.</p>
+<p>— Bjarne Stroustrup, creator of C++</p>
+</blockquote>
+<p>Python doesn’t have an <code>interface</code> keyword.  We use abstract base classes to define
+interfaces for explicit type checking at runtime — also supported by static type
+checkers.  The Python Glossary entry for
+<a href="https://docs.python.org/3/glossary.html#term-abstract-base-class">abstract base class</a>
+has a good explanation of the value they bring to duck-typed languages:</p>
+<blockquote>
+<p>Abstract base classes complement duck-typing by providing a way to define interfaces
+when other techniques like <code>hasattr()</code> would be clumsy or subtly wrong (for example
+with magic methods).  ABCs introduce virtual subclasses, which are classes that don’t
+inherit from a class but are still recognized by <code>isinstance()</code> and <code>issubclass()</code>;
+see the <code>abc</code> module documentation.</p>
+</blockquote>
+<p><em>Goose typing</em> is a runtime type checking approach that leverages ABCs.  The term was
+coined by Alex Martelli, who also helped spread “duck typing”.  His argument goes like
+this.</p>
+<p>Biologists used to classify species by <em>phenetics</em>: similarities of morphology and
+behavior — observable traits.  The analogy to duck typing is strong.  But parallel
+evolution often produces similar traits among species that are actually unrelated, and
+similar “accidental similarities” happen in programming too.  Consider the classic
+example:</p>
+<pre><code class="language-python">class Artist:
+    def draw(self): ...
+
+class Gunslinger:
+    def draw(self): ...
+
+class Lottery:
+    def draw(self): ...
+</code></pre>
+<p>The mere existence of a method named <code>draw</code>, callable without arguments, is far from
+sufficient to assure us that two objects <code>x</code> and <code>y</code> such that <code>x.draw()</code> and <code>y.draw()</code>
+can be called are in any way exchangeable or abstractly equivalent.  Nothing about the
+semantics of such calls can be inferred.  We need a knowledgeable programmer to
+positively assert that such an equivalence holds!</p>
+<p>In biology, this led to <em>cladistics</em>: classifying by characteristics inherited from
+common ancestors, rather than ones independently evolved — DNA analysis reclassified
+several waterfowl that had long been grouped by looks.  By loose analogy, Martelli
+recommends <em>supplementing</em> (not replacing) duck typing with goose typing:
+<code>isinstance(obj, cls)</code> is now just fine… as long as <code>cls</code> is an abstract base class —
+in other words, <code>cls</code>’s metaclass is <code>abc.ABCMeta</code>.  You can find many useful existing
+ABCs in <code>collections.abc</code> (and additional ones in the <code>numbers</code> module).</p>
+<p>Among the many conceptual advantages of ABCs over concrete classes, Python’s ABCs add
+one major practical advantage: the <code>register</code> class method, which lets end-user code
+“declare” that a certain class becomes a “virtual” subclass of an ABC.  The registered
+class must meet the ABC’s method name and signature requirements, and more importantly
+the underlying semantic contract, but it need not have been developed with any
+awareness of the ABC, and in particular need not inherit from it.  This goes a long way
+toward breaking the rigidity and strong coupling that make inheritance something to use
+with much more caution than typically practiced.</p>
+<p>Sometimes you don’t even need to register a class for an ABC to recognize it as a
+subclass!  That’s the case for ABCs whose essence boils down to a few special methods:</p>
+<pre><code class="language-python">class Struggle:
+    def __len__(self): return 23
+
+from collections import abc
+isinstance(Struggle(), abc.Sized)
+# True
+</code></pre>
+<p>As you see, <code>abc.Sized</code> recognizes <code>Struggle</code> as “a subclass”, with no need for
+registration, since implementing the special method named <code>__len__</code> is all it takes.
+(It’s supposed to be implemented with the proper syntax — callable without arguments —
+and semantics — returning a nonnegative integer denoting an object’s “length”; any code
+that implements a specially named method with arbitrary, noncompliant syntax and
+semantics has much worse problems anyway.)</p>
+<p>So Martelli’s advice is: whenever you’re implementing a class embodying any of the
+concepts represented in the ABCs in <code>numbers</code>, <code>collections.abc</code> or another framework
+you may be using, be sure (if needed) to subclass it from, or register it into, the
+corresponding ABC.  At the start of programs using a library that omitted to do that,
+perform the registrations yourself; then, when you must check for (most typically) an
+argument being, say, “a sequence”, check whether
+<code>isinstance(the_arg, collections.abc.Sequence)</code>.</p>
+<p>And, don’t define custom ABCs (or metaclasses) in production code.  If you feel the urge
+to do so, it’s likely a case of “all problems look like a nail” syndrome for somebody who
+just got a shiny new hammer.</p>
+<p>To summarize, goose typing entails:</p>
+<ul>
+<li>Subclassing from ABCs to make it explicit that you are implementing a previously
+defined interface.</li>
+<li>Runtime type checking using ABCs instead of concrete classes as the second argument
+for <code>isinstance</code> and <code>issubclass</code>.</li>
+</ul>
+<p>Inheriting from an ABC is more than implementing the required methods: it’s also a clear
+declaration of intent by the developer.  That intent can also be made explicit by
+registering a virtual subclass.  For example, given the <code>FrenchDeck</code> class, to make it
+pass a check like <code>issubclass(FrenchDeck, Sequence)</code>, you can make it a virtual subclass
+of the <code>Sequence</code> ABC with these lines (details in
+<a href="#a-virtual-subclass-of-an-abc">A Virtual Subclass of an ABC</a>):</p>
+<pre><code class="language-python">from collections.abc import Sequence
+Sequence.register(FrenchDeck)
+# &lt;class '__main__.FrenchDeck'&gt;
+issubclass(FrenchDeck, Sequence)
+# True
+</code></pre>
+<p>The use of <code>isinstance</code> and <code>issubclass</code> becomes more acceptable if you are checking
+against ABCs instead of concrete classes.  Used with concrete classes, type checks limit
+polymorphism — an essential feature of object-oriented programming.  With ABCs these
+tests are more flexible: if a component does not implement an ABC by subclassing — but
+does implement the required methods — it can always be registered after the fact so it
+passes those explicit type checks.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Even with ABCs, excessive use of <code>isinstance</code> checks may be a code smell — a symptom of
+bad OO design.  It’s usually not OK to have a chain of <code>if</code>/<code>elif</code>/<code>elif</code> with
+<code>isinstance</code> checks performing different actions depending on the type of object: you
+should be using polymorphism for that, i.e., design your classes so that the
+interpreter dispatches calls to the proper methods, instead of hardcoding the dispatch
+logic.  (When you do need type-based dispatch in a function, consider
+<a href="decorators.html#single-dispatch-generic-functions"><code>functools.singledispatch</code></a> or a
+<a href="pattern-matching.html"><code>match</code> statement</a> with class patterns.)</p>
+</blockquote>
+<p>On the other hand, it’s OK to perform an <code>isinstance</code> check against an ABC if you must
+enforce an API contract: “Dude, you have to implement this if you want to call me,” as
+technical reviewer Lennart Regebro put it.  That’s particularly useful in systems that
+have a plug-in architecture.  Outside of frameworks, duck typing is often simpler and
+more flexible than type checks.</p>
+<p>Finally, restraint is needed in the creation of ABCs.  Excessive use of ABCs would impose
+ceremony in a language that became popular because it is practical and pragmatic.  As
+Martelli put it: ABCs are meant to encapsulate very general concepts introduced by a
+framework — things like “a sequence” and “an exact number”.  Most readers don’t need to
+write any new ABCs, just use existing ones correctly, to get 99.9% of the benefits without
+serious risk of misdesign.</p>
+<p>Now let’s see goose typing in practice.</p>
+<h3 id="subclassing-an-abc"><a class="header" href="#subclassing-an-abc">Subclassing an ABC</a></h3>
+<p>Following Martelli’s advice, we’ll leverage an existing ABC,
+<code>collections.abc.MutableSequence</code>, before daring to invent our own.  Here <code>FrenchDeck2</code>
+is explicitly declared a subclass of <code>MutableSequence</code>:</p>
+<pre><code class="language-python">from collections import namedtuple, abc
+
+Card = namedtuple('Card', ['rank', 'suit'])
+
+class FrenchDeck2(abc.MutableSequence):
+    ranks = [str(n) for n in range(2, 11)] + list('JQKA')
+    suits = 'spades diamonds clubs hearts'.split()
+
+    def __init__(self):
+        self._cards = [Card(rank, suit) for suit in self.suits
+                                        for rank in self.ranks]
+
+    def __len__(self):
+        return len(self._cards)
+
+    def __getitem__(self, position):
+        return self._cards[position]
+
+    def __setitem__(self, position, value):  # all we need to enable shuffling...
+        self._cards[position] = value
+
+    def __delitem__(self, position):  # ...but MutableSequence forces us to implement this
+        del self._cards[position]
+
+    def insert(self, position, value):  # ...and this, its third abstract method
+        self._cards.insert(position, value)
+</code></pre>
+<p><code>__setitem__()</code> is all we need to enable shuffling, but subclassing <code>MutableSequence</code>
+forces us to implement <code>__delitem__()</code>, an abstract method of that ABC.  We are also
+required to implement <code>insert</code>, another abstract method of <code>MutableSequence</code>.</p>
+<p>Python does not check for the implementation of the abstract methods at import time
+(when the module is loaded and compiled), but only at runtime when we actually try to
+instantiate the class.  Then, if we fail to implement any of the abstract methods, we
+get a <code>TypeError</code> exception with a message such as <code>"Can't instantiate abstract class FrenchDeck2 without an implementation for abstract methods '__delitem__', 'insert'"</code>.
+That’s why we must implement <code>__delitem__()</code> and <code>insert</code>, even if our examples do not
+need those behaviors: the <code>MutableSequence</code> ABC demands them.</p>
+<p>Not all methods of the <code>Sequence</code> and <code>MutableSequence</code> ABCs are abstract.  You can ask
+an ABC which methods are abstract:</p>
+<pre><code class="language-python">sorted(abc.MutableSequence.__abstractmethods__)
+# ['__delitem__', '__getitem__', '__len__', '__setitem__', 'insert']
+</code></pre>
+<p>To write <code>FrenchDeck2</code> as a subclass of <code>MutableSequence</code>, we had to pay the price of
+implementing <code>__delitem__()</code> and <code>insert</code>, which our examples did not require.  In
+return, <code>FrenchDeck2</code> inherits five concrete methods from <code>Sequence</code>: <code>__contains__()</code>,
+<code>__iter__()</code>, <code>__reversed__()</code>, <code>index</code> and <code>count</code>.  From <code>MutableSequence</code>, it gets
+another six methods: <code>append</code>, <code>reverse</code>, <code>extend</code>, <code>pop</code>, <code>remove</code> and <code>__iadd__()</code> —
+which supports the <code>+=</code> operator for in-place concatenation.</p>
+<pre><code class="language-python">deck2 = FrenchDeck2()
+deck2.pop()
+# Card(rank='A', suit='hearts')
+len(deck2)
+# 51
+deck2.index(Card('Q', 'hearts'))
+# 49
+</code></pre>
+<p>The concrete methods in each <code>collections.abc</code> ABC are implemented in terms of the
+public interface of the class, so they work without any knowledge of the internal
+structure of instances.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>As the coder of a concrete subclass, you may be able to override methods inherited
+from ABCs with more efficient implementations.  For example, <code>__contains__()</code> works by
+doing a sequential scan of the sequence, but if your concrete sequence keeps its items
+sorted, you can write a faster <code>__contains__()</code> that does a binary search using the
+<a href="stdlib2.html#tut-list-tools"><code>bisect</code></a> module.</p>
+</blockquote>
+<p>To use ABCs well, you need to know what’s available.  We’ll review the collections ABCs
+next.</p>
+<h3 id="abcs-in-the-standard-library"><a class="header" href="#abcs-in-the-standard-library">ABCs in the Standard Library</a></h3>
+<p>The standard library provides many ABCs.  Most are defined in the <code>collections.abc</code>
+module, but there are others: you can find ABCs in the <code>io</code> and <code>numbers</code> packages, for
+example.  But the most widely used are in <code>collections.abc</code>.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>There are two modules named <code>abc</code> in the standard library.  Here we are talking about
+<code>collections.abc</code>.  To reduce loading time, that module is implemented outside of the
+<code>collections</code> package — in <code>Lib/_collections_abc.py</code> — so it’s imported separately from
+<code>collections</code>.  The other <code>abc</code> module is just <code>abc</code> (i.e., <code>Lib/abc.py</code>) where the
+<code>abc.ABC</code> class is defined.  Every ABC depends on the <code>abc</code> module, but we don’t need to
+import it ourselves except to create a brand-new ABC.</p>
+</blockquote>
+<p>The documentation of <code>collections.abc</code> has a
+<a href="https://docs.python.org/3/library/collections.abc.html#collections-abstract-base-classes">nice table</a>
+summarizing the ABCs, their relationships, and their abstract and concrete methods
+(called “mixin methods”).  There is plenty of multiple inheritance going on there.
+<a href="inheritance.html">Inheritance: For Better or for Worse</a> is devoted to multiple
+inheritance, but for now it’s enough to say that it is usually not a problem when ABCs
+are concerned.  Here are the main clusters:</p>
+<dl>
+<dt id="iterable-container-sized"><a class="header" href="#iterable-container-sized"><strong><code>Iterable</code>, <code>Container</code>, <code>Sized</code></strong></a></dt>
+<dd>Every collection should either inherit from these ABCs or implement compatible
+protocols.  <code>Iterable</code> supports iteration with <code>__iter__()</code>, <code>Container</code> supports the
+<code>in</code> operator with <code>__contains__()</code>, and <code>Sized</code> supports <code>len()</code> with <code>__len__()</code>.</dd>
+<dt id="collection"><a class="header" href="#collection"><strong><code>Collection</code></strong></a></dt>
+<dd>This ABC has no methods of its own, but was added in Python 3.6 to make it easier to
+subclass from <code>Iterable</code>, <code>Container</code> and <code>Sized</code>.</dd>
+<dt id="sequence-mapping-set"><a class="header" href="#sequence-mapping-set"><strong><code>Sequence</code>, <code>Mapping</code>, <code>Set</code></strong></a></dt>
+<dd>These are the main immutable collection types, and each has a mutable subclass:
+<code>MutableSequence</code>, <code>MutableMapping</code> and <code>MutableSet</code>.</dd>
+<dt id="mappingview"><a class="header" href="#mappingview"><strong><code>MappingView</code></strong></a></dt>
+<dd>The objects returned from the mapping methods <code>.items()</code>, <code>.keys()</code> and <code>.values()</code>
+implement the interfaces defined in <code>ItemsView</code>, <code>KeysView</code> and <code>ValuesView</code>,
+respectively.  The first two also implement the rich interface of <code>Set</code>, with all the
+operators we saw in <a href="dicts-sets.html">Set Operations</a>.</dd>
+<dt id="iterator"><a class="header" href="#iterator"><strong><code>Iterator</code></strong></a></dt>
+<dd>Note that <code>Iterator</code> subclasses <code>Iterable</code>.  We discuss this further in
+<a href="iterators-generators.html">Iterators, Generators, and Classic Coroutines</a>.</dd>
+<dt id="callable-hashable"><a class="header" href="#callable-hashable"><strong><code>Callable</code>, <code>Hashable</code></strong></a></dt>
+<dd>These are not collections, but <code>collections.abc</code> was the first package to define ABCs
+in the standard library, and these two were deemed important enough to be included.
+They support type checking objects that must be callable or hashable.</dd>
+<dt id="buffer"><a class="header" href="#buffer"><strong><code>Buffer</code></strong></a></dt>
+<dd>Added in Python 3.12 (<a href="https://peps.python.org/pep-0688/"><strong>PEP 688</strong></a>) for objects
+implementing the buffer protocol, such as <code>bytes</code>, <code>bytearray</code>, <code>memoryview</code> and
+<code>array.array</code>.</dd>
+</dl>
+<p>There are also ABCs for asynchronous programming — <code>Awaitable</code>, <code>Coroutine</code>,
+<code>AsyncIterable</code>, <code>AsyncIterator</code> and <code>AsyncGenerator</code> — which we’ll meet in
+<a href="asyncio.html">Asynchronous Programming</a>.</p>
+<p>For callable detection, the <code>callable(obj)</code> built-in function is more convenient than
+<code>isinstance(obj, Callable)</code>.  If <code>isinstance(obj, Hashable)</code> returns <code>False</code>, you can be
+certain that <code>obj</code> is not hashable.  But if the return is <code>True</code>, it may be a false
+positive, as the next note explains.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>It’s easy to misinterpret the results of <code>isinstance</code> and <code>issubclass</code> tests against
+the <code>Hashable</code> and <code>Iterable</code> ABCs.</p>
+<p>If <code>isinstance(obj, Hashable)</code> returns <code>True</code>, that only means that the class of <code>obj</code>
+implements or inherits <code>__hash__()</code>.  But if <code>obj</code> is a tuple containing unhashable
+items, then <code>obj</code> is not hashable, despite the positive result of the <code>isinstance</code>
+check.  Duck typing provides the most accurate way to determine if an instance is
+hashable: call <code>hash(obj)</code>.  That call will raise <code>TypeError</code> if <code>obj</code> is not hashable.</p>
+<p>On the other hand, even when <code>isinstance(obj, Iterable)</code> returns <code>False</code>, Python may
+still be able to iterate over <code>obj</code> using <code>__getitem__()</code> with 0-based indices, as we
+saw with <code>Vowels</code>.  The documentation for <code>collections.abc.Iterable</code> states: “The only
+reliable way to determine whether an object is iterable is to call <code>iter(obj)</code>.”</p>
+</blockquote>
+<pre><code class="language-python">from collections.abc import Hashable, Iterable
+t = (1, 2, [30, 40])
+isinstance(t, Hashable)
+# True
+hash(t)
+# Traceback (most recent call last):
+#   ...
+# TypeError: unhashable type: 'list'
+isinstance(Vowels(), Iterable)
+# False
+list(iter(Vowels()))
+# ['A', 'E', 'I', 'O', 'U']
+</code></pre>
+<p>After looking at some existing ABCs, let’s practice goose typing by implementing an ABC
+from scratch and putting it to use.  The goal here is not to encourage everyone to start
+creating ABCs left and right, but to learn how to read the source code of the ABCs you’ll
+find in the standard library and other packages.</p>
+<h3 id="defining-and-using-an-abc"><a class="header" href="#defining-and-using-an-abc">Defining and Using an ABC</a></h3>
+<p>ABCs, like descriptors and metaclasses, are tools for building frameworks.  But they
+also have use cases in type hints: as discussed in
+<a href="type-hints-functions.html#abstract-base-classes">Abstract Base Classes</a>, using ABCs
+instead of concrete types in function argument type hints gives more flexibility to the
+caller.</p>
+<p>To justify creating an ABC, we need to come up with a context for using it as an
+extension point in a framework.  So here is our context: imagine you need to display
+advertisements on a website or a mobile app in random order, but without repeating an ad
+before the full inventory of ads is shown.  Now let’s assume we are building an ad
+management framework called ADAM.  One of its requirements is to support user-provided
+nonrepeating random-picking classes.  To make it clear to ADAM users what is expected of
+a “nonrepeating random-picking” component, we’ll define an ABC.</p>
+<p>In the literature about data structures, “stack” and “queue” describe abstract
+interfaces in terms of physical arrangements of objects.  We’ll follow suit and use a
+real-world metaphor to name our ABC: bingo cages and lottery blowers are machines
+designed to pick items at random from a finite set, without repeating, until the set is
+exhausted.  The ABC will be named <code>Tombola</code>, after the Italian name of bingo and the
+tumbling container that mixes the numbers.</p>
+<p>The <code>Tombola</code> ABC has four methods.  The two abstract methods are:</p>
+<dl>
+<dt id="load"><a class="header" href="#load"><code>.load(...)</code></a></dt>
+<dd>Put items into the container.</dd>
+<dt id="pick"><a class="header" href="#pick"><code>.pick()</code></a></dt>
+<dd>Remove one item at random from the container, returning it.</dd>
+</dl>
+<p>The concrete methods are:</p>
+<dl>
+<dt id="loaded"><a class="header" href="#loaded"><code>.loaded()</code></a></dt>
+<dd>Return <code>True</code> if there is at least one item in the container.</dd>
+<dt id="inspect"><a class="header" href="#inspect"><code>.inspect()</code></a></dt>
+<dd>Return a tuple built from the items currently in the container, without changing its
+contents (the internal ordering is not preserved).</dd>
+</dl>
+<p>Here is the definition of the <code>Tombola</code> ABC:</p>
+<pre><code class="language-python">import abc
+
+class Tombola(abc.ABC):  # to define an ABC, subclass abc.ABC
+
+    @abc.abstractmethod
+    def load(self, iterable):
+        """Add items from an iterable."""
+
+    @abc.abstractmethod
+    def pick(self):
+        """Remove item at random, returning it.
+
+        This method should raise `LookupError` when the instance is empty.
+        """
+
+    def loaded(self):  # an ABC may include concrete methods
+        """Return `True` if there's at least 1 item, `False` otherwise."""
+        return bool(self.inspect())
+
+    def inspect(self):
+        """Return a sorted tuple with the items currently inside."""
+        items = []
+        while True:
+            try:
+                items.append(self.pick())
+            except LookupError:
+                break
+        self.load(items)
+        return tuple(sorted(items))
+</code></pre>
+<p>To define an ABC, subclass <code>abc.ABC</code>.  An abstract method is marked with the
+<a href="https://docs.python.org/3/library/abc.html#abc.abstractmethod"><code>@abstractmethod</code></a>
+decorator, and often its body is empty except for a docstring.  (Before ABCs existed,
+abstract methods would raise <code>NotImplementedError</code> to signal that subclasses were
+responsible for their implementation.)  The docstring of <code>pick</code> instructs implementers
+to raise <code>LookupError</code> if there are no items to pick.</p>
+<p>An ABC may include concrete methods, but concrete methods in an ABC must rely only on
+the interface defined by the ABC (i.e., other concrete or abstract methods or properties
+of the ABC).  We can’t know how concrete subclasses will store the items, but we can
+build the <code>inspect</code> result by emptying the <code>Tombola</code> with successive calls to <code>.pick()</code>,
+and then use <code>.load(...)</code> to put everything back.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>An abstract method can actually have an implementation.  Even if it does, subclasses
+will still be forced to override it, but they will be able to invoke the abstract
+method with <code>super()</code>, adding functionality to it instead of implementing from
+scratch.</p>
+</blockquote>
+<p>The code for <code>.inspect()</code> is silly, but it shows that we can rely on <code>.pick()</code> and
+<code>.load(...)</code> to inspect what’s inside the <code>Tombola</code> — without knowing how the items are
+actually stored.  The point of this example is to highlight that it’s OK to provide
+concrete methods in ABCs, as long as they only depend on other methods in the interface.
+Being aware of their internal data structures, concrete subclasses of <code>Tombola</code> may
+always override <code>.inspect()</code> with a smarter implementation, but they don’t have to.</p>
+<p>The <code>.loaded()</code> method has one line, but it’s expensive: it calls <code>.inspect()</code> to build
+the tuple just to apply <code>bool()</code> on it.  This works, but a concrete subclass can do much
+better, as we’ll see.</p>
+<p>Note that our roundabout implementation of <code>.inspect()</code> requires that we catch a
+<code>LookupError</code> thrown by <code>self.pick()</code>.  The fact that <code>self.pick()</code> may raise
+<code>LookupError</code> is also part of its interface, but there is no way to make this explicit in
+Python, except in the documentation.</p>
+<p>We chose the <code>LookupError</code> exception because of its place in the
+<a href="https://docs.python.org/3/library/exceptions.html#exception-hierarchy">exception hierarchy</a>
+in relation to <code>IndexError</code> and <code>KeyError</code>, the most likely exceptions to be raised by
+the data structures used to implement a concrete <code>Tombola</code>:</p>
+<pre><code class="language-text">BaseException
+ └── Exception
+      └── LookupError
+           ├── IndexError
+           └── KeyError
+</code></pre>
+<p><code>IndexError</code> is the <code>LookupError</code> subclass raised when we try to get an item from a
+sequence with an index beyond the last position; <code>KeyError</code> is raised when we use a
+nonexistent key to get an item from a mapping.  Therefore, implementations can raise
+<code>LookupError</code>, <code>IndexError</code>, <code>KeyError</code>, or a custom subclass of <code>LookupError</code> to comply
+(see <a href="errors.html#tut-handling">Handling Exceptions</a> for how <code>except</code> clauses match
+subclasses).</p>
+<p>We now have our very own <code>Tombola</code> ABC.  To witness the interface checking performed by
+an ABC, let’s try to fool <code>Tombola</code> with a defective implementation:</p>
+<pre><code class="language-python">class Fake(Tombola):  # declare Fake as a subclass of Tombola
+    def pick(self):
+        return 13
+
+Fake  # the class was created, no errors so far
+# &lt;class '__main__.Fake'&gt;
+f = Fake()
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: Can't instantiate abstract class Fake without an implementation for abstract method 'load'
+</code></pre>
+<p><code>TypeError</code> is raised when we try to instantiate <code>Fake</code>.  The message is very clear:
+<code>Fake</code> is considered abstract because it failed to implement <code>load</code>, one of the abstract
+methods declared in the <code>Tombola</code> ABC.</p>
+<p>So we have our first ABC defined, and we put it to work validating a class.  We’ll soon
+subclass the <code>Tombola</code> ABC, but first we must cover some ABC coding rules.</p>
+<h3 id="abc-syntax-details"><a class="header" href="#abc-syntax-details">ABC Syntax Details</a></h3>
+<p>The standard way to declare an ABC is to subclass <code>abc.ABC</code> or any other ABC.  (Older
+code uses the <code>metaclass</code> keyword — <code>class Tombola(metaclass=abc.ABCMeta):</code> — which is
+what <code>abc.ABC</code> does for you; metaclasses are covered in
+<a href="class-metaprogramming.html">Class Metaprogramming</a>.)</p>
+<p>Besides the <code>ABC</code> base class and the <code>@abstractmethod</code> decorator, the <code>abc</code> module
+defines the <code>@abstractclassmethod</code>, <code>@abstractstaticmethod</code> and <code>@abstractproperty</code>
+decorators.  However, these last three are deprecated, because it’s possible to stack
+decorators on top of <code>@abstractmethod</code>, making the others redundant.  For example, the
+preferred way to declare an abstract class method is:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class MyABC(abc.ABC):
+    @classmethod
+    @abc.abstractmethod
+    def an_abstract_classmethod(cls, ...):
+        pass
+</code></pre>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>The order of stacked function decorators matters, and in the case of
+<code>@abstractmethod</code>, the documentation is explicit: “When <code>abstractmethod()</code> is applied
+in combination with other method descriptors, it should be applied as the innermost
+decorator.”  In other words, no other decorator may appear between <code>@abstractmethod</code>
+and the <code>def</code> statement.</p>
+</blockquote>
+<p>Now that we’ve got these ABC syntax issues covered, let’s put <code>Tombola</code> to use by
+implementing two concrete descendants of it.</p>
+<h3 id="subclassing-the-tombola-abc"><a class="header" href="#subclassing-the-tombola-abc">Subclassing the <code>Tombola</code> ABC</a></h3>
+<p>Given the <code>Tombola</code> ABC, we’ll now develop two concrete subclasses that satisfy its
+interface.  The <code>BingoCage</code> class below is a variation of the one in
+<a href="first-class-functions.html#user-defined-callable-types">User-Defined Callable Types</a>,
+using a better randomizer.  This <code>BingoCage</code> implements the required abstract methods
+<code>load</code> and <code>pick</code>:</p>
+<pre><code class="language-python">import random
+
+class BingoCage(Tombola):  # BingoCage explicitly extends Tombola
+
+    def __init__(self, items):
+        self._randomizer = random.SystemRandom()
+        self._items = []
+        self.load(items)  # delegate initial loading to the .load() method
+
+    def load(self, items):
+        self._items.extend(items)
+        self._randomizer.shuffle(self._items)
+
+    def pick(self):
+        try:
+            return self._items.pop()
+        except IndexError:
+            raise LookupError('pick from empty BingoCage')
+
+    def __call__(self):
+        return self.pick()
+</code></pre>
+<p>Pretend we’ll use this for online gaming:
+<a href="https://docs.python.org/3/library/random.html#random.SystemRandom"><code>random.SystemRandom</code></a>
+implements the <code>random</code> API on top of the <code>os.urandom(...)</code> function, which provides
+random bytes “suitable for cryptographic use”, according to the <code>os</code> module docs.
+Instead of the plain <code>random.shuffle()</code> function, we use the <code>.shuffle()</code> method of our
+<code>SystemRandom</code> instance.  <code>__call__()</code> is not needed to satisfy the <code>Tombola</code> interface,
+but there’s no harm in adding extra methods.</p>
+<p><code>BingoCage</code> inherits the expensive <code>loaded</code> and the silly <code>inspect</code> methods from
+<code>Tombola</code>.  Both could be overridden with much faster one-liners, as in the next example.
+The point is: we can be lazy and just inherit the suboptimal concrete methods from an
+ABC.  The methods inherited from <code>Tombola</code> are not as fast as they could be for
+<code>BingoCage</code>, but they do provide correct results for any <code>Tombola</code> subclass that
+correctly implements <code>pick</code> and <code>load</code>:</p>
+<pre><code class="language-python">cage = BingoCage(range(5))
+cage.inspect()
+# (0, 1, 2, 3, 4)
+cage.loaded()
+# True
+picks = {cage() for _ in range(5)}
+sorted(picks)
+# [0, 1, 2, 3, 4]
+cage.loaded()
+# False
+cage.pick()
+# Traceback (most recent call last):
+#   ...
+# LookupError: pick from empty BingoCage
+</code></pre>
+<p>Here is a very different but equally valid implementation of the <code>Tombola</code> interface.
+Instead of shuffling the “balls” and popping the last, <code>LottoBlower</code> pops from a random
+position:</p>
+<pre><code class="language-python">import random
+
+class LottoBlower(Tombola):
+
+    def __init__(self, iterable):
+        self._balls = list(iterable)  # accept any iterable, build a list
+
+    def load(self, iterable):
+        self._balls.extend(iterable)
+
+    def pick(self):
+        try:
+            position = random.randrange(len(self._balls))
+        except ValueError:
+            raise LookupError('pick from empty LottoBlower')
+        return self._balls.pop(position)
+
+    def loaded(self):  # override loaded to avoid calling inspect
+        return bool(self._balls)
+
+    def inspect(self):  # override inspect with a one-liner
+        return tuple(sorted(self._balls))
+</code></pre>
+<p>The initializer accepts any iterable: the argument is used to build a list.  The
+<code>random.randrange(...)</code> function raises <code>ValueError</code> if the range is empty, so we catch
+that and raise <code>LookupError</code> instead, to be compatible with <code>Tombola</code>.  Otherwise the
+randomly selected item is popped from <code>self._balls</code>.  We override <code>loaded</code> to avoid
+calling <code>inspect</code> (as <code>Tombola.loaded</code> does): we can make it faster by working with
+<code>self._balls</code> directly — no need to build a whole new tuple.  And we override <code>inspect</code>
+with a one-liner.</p>
+<p>This illustrates an idiom worth mentioning: in <code>__init__()</code>, <code>self._balls</code> stores
+<code>list(iterable)</code> and not just a reference to <code>iterable</code> (i.e., we did not merely assign
+<code>self._balls = iterable</code>, aliasing the argument).  As mentioned in
+<a href="#defensive-programming-and-fail-fast">Defensive Programming and “Fail Fast”</a>, this
+makes our <code>LottoBlower</code> flexible because the <code>iterable</code> argument may be any iterable
+type.  At the same time, we make sure to store its items in a <code>list</code> so we can pop
+items.  And even if we always get lists as the <code>iterable</code> argument, <code>list(iterable)</code>
+produces a copy of the argument, which is a good practice considering we will be
+removing items from it and the client might not expect that the provided list will be
+changed (see <a href="references.html#defensive-programming-with-mutable-parameters">Defensive Programming with Mutable Parameters</a>).</p>
+<p>We now come to the crucial dynamic feature of goose typing: declaring virtual subclasses
+with the <code>register</code> method.</p>
+<h3 id="a-virtual-subclass-of-an-abc"><a class="header" href="#a-virtual-subclass-of-an-abc">A Virtual Subclass of an ABC</a></h3>
+<p>An essential characteristic of goose typing — and one reason why it deserves a waterfowl
+name — is the ability to register a class as a <em>virtual subclass</em> of an ABC, even if it
+does not inherit from it.  When doing so, we promise that the class faithfully implements
+the interface defined in the ABC, and Python will believe us without checking.  If we
+lie, we’ll be caught by the usual runtime exceptions.</p>
+<p>This is done by calling a <code>register</code> class method on the ABC.  The registered class then
+becomes a virtual subclass of the ABC, and will be recognized as such by <code>issubclass</code>,
+but it does not inherit any methods or attributes from the ABC.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Virtual subclasses do not inherit from their registered ABCs, and are not checked for
+conformance to the ABC interface at any time, not even when they are instantiated.
+Also, static type checkers don’t understand virtual subclasses.</p>
+</blockquote>
+<p>The <code>register</code> method is usually invoked as a plain function (see
+<a href="#usage-of-register-in-practice">Usage of <code>register</code> in Practice</a>), but it can also be
+used as a decorator.  Here we use the decorator syntax and implement <code>TomboList</code>, a
+real subclass of <code>list</code> and a virtual subclass of <code>Tombola</code>:</p>
+<pre><code class="language-python">from random import randrange
+
+@Tombola.register  # TomboList is registered as a virtual subclass of Tombola
+class TomboList(list):  # TomboList extends list
+
+    def pick(self):
+        if self:  # TomboList inherits its boolean behavior from list
+            position = randrange(len(self))
+            return self.pop(position)  # our pick calls self.pop, inherited from list
+        else:
+            raise LookupError('pop from empty TomboList')
+
+    load = list.extend  # TomboList.load is the same as list.extend
+
+    def loaded(self):
+        return bool(self)
+
+    def inspect(self):
+        return tuple(sorted(self))
+
+# Tombola.register(TomboList)  # the alternative, without decorator syntax
+</code></pre>
+<p><code>TomboList</code> inherits its boolean behavior from <code>list</code>, which returns <code>True</code> if the list
+is not empty.  <code>TomboList.load</code> is the same as <code>list.extend</code>, and <code>loaded</code> delegates to
+<code>bool</code>.  (The same trick used with <code>load</code> doesn’t work with <code>loaded</code>, because the <code>list</code>
+type does not implement <code>__bool__()</code>, the method we’d have to bind to <code>loaded</code>.  The
+<code>bool()</code> built-in doesn’t need <code>__bool__()</code> to work because it can also use <code>__len__()</code>;
+see <a href="https://docs.python.org/3/library/stdtypes.html#truth">Truth Value Testing</a>.)</p>
+<p>It’s always possible to call <code>register</code> as in the commented line at the end, and it’s
+useful to do so when you need to register a class that you do not maintain, but which
+does fulfill the interface.</p>
+<p>Because of the registration, the functions <code>issubclass</code> and <code>isinstance</code> act as if
+<code>TomboList</code> is a subclass of <code>Tombola</code>:</p>
+<pre><code class="language-python">issubclass(TomboList, Tombola)
+# True
+t = TomboList(range(100))
+isinstance(t, Tombola)
+# True
+</code></pre>
+<p>However, inheritance is guided by a special class attribute named <code>__mro__</code> — the Method
+Resolution Order.  It basically lists the class and its superclasses in the order Python
+uses to search for methods (there’s a whole section about it in
+<a href="inheritance.html#multiple-inheritance-and-method-resolution-order">Multiple Inheritance and Method Resolution Order</a>).
+If you inspect the <code>__mro__</code> of <code>TomboList</code>, you’ll see that it lists only the “real”
+superclasses — <code>list</code> and <code>object</code>:</p>
+<pre><code class="language-python">TomboList.__mro__
+# (&lt;class '__main__.TomboList'&gt;, &lt;class 'list'&gt;, &lt;class 'object'&gt;)
+</code></pre>
+<p><code>Tombola</code> is not in <code>TomboList.__mro__</code>, so <code>TomboList</code> does not inherit any methods from
+<code>Tombola</code>.</p>
+<p>This concludes our <code>Tombola</code> ABC case study.  In the next section, we’ll address how the
+<code>register</code> ABC function is used in the wild.</p>
+<h3 id="usage-of-register-in-practice"><a class="header" href="#usage-of-register-in-practice">Usage of <code>register</code> in Practice</a></h3>
+<p>Above we used <code>Tombola.register</code> as a class decorator, but it’s more widely deployed as a
+function to register classes defined elsewhere.  For example, in the source code for the
+<code>collections.abc</code> module, the built-in types <code>tuple</code>, <code>str</code>, <code>range</code> and <code>memoryview</code> are
+registered as virtual subclasses of <code>Sequence</code>, like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">Sequence.register(tuple)
+Sequence.register(str)
+Sequence.register(range)
+Sequence.register(memoryview)
+</code></pre>
+<p>Several other built-in types are registered to ABCs in <code>_collections_abc.py</code>.  Those
+registrations happen only when that module is imported, which is OK because you’ll have
+to import it anyway to get the ABCs.  For example, you need to import <code>MutableMapping</code>
+from <code>collections.abc</code> to perform a check like <code>isinstance(my_dict, MutableMapping)</code>.</p>
+<p>Subclassing an ABC or registering with an ABC are both explicit ways of making our
+classes pass <code>issubclass</code> checks — as well as <code>isinstance</code> checks, which also rely on
+<code>issubclass</code>.  But some ABCs support structural typing as well.  The next section
+explains.</p>
+<h3 id="structural-typing-with-abcs"><a class="header" href="#structural-typing-with-abcs">Structural Typing with ABCs</a></h3>
+<p>ABCs are mostly used with nominal typing.  When a class <code>Sub</code> explicitly inherits from
+<code>AnABC</code>, or is registered with <code>AnABC</code>, the name of <code>AnABC</code> is linked to the <code>Sub</code> class —
+and that’s how, at runtime, <code>issubclass(Sub, AnABC)</code> returns <code>True</code>.</p>
+<p>In contrast, structural typing is about looking at the structure of an object’s public
+interface to determine its type: an object is consistent-with a type if it implements the
+methods defined in the type.  Dynamic and static duck typing are two approaches to
+structural typing.</p>
+<p>It turns out that some ABCs also support structural typing.  Recall the <code>Struggle</code> class
+from the beginning of this section, now with an added test using <code>issubclass</code>:</p>
+<pre><code class="language-python">class Struggle:
+    def __len__(self): return 23
+
+from collections import abc
+isinstance(Struggle(), abc.Sized)
+# True
+issubclass(Struggle, abc.Sized)
+# True
+</code></pre>
+<p>Class <code>Struggle</code> is considered a subclass of <code>abc.Sized</code> by the <code>issubclass</code> function
+(and, consequently, by <code>isinstance</code> as well) because <code>abc.Sized</code> implements a special
+class method named <code>__subclasshook__()</code>.  The <code>__subclasshook__()</code> for <code>Sized</code> checks
+whether the class argument has an attribute named <code>__len__</code>.  If it does, then it is
+considered a virtual subclass of <code>Sized</code>.  Here is the definition of <code>Sized</code> from
+<code>Lib/_collections_abc.py</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class Sized(metaclass=ABCMeta):
+
+    __slots__ = ()
+
+    @abstractmethod
+    def __len__(self):
+        return 0
+
+    @classmethod
+    def __subclasshook__(cls, C):
+        if cls is Sized:
+            return _check_methods(C, "__len__")
+        return NotImplemented
+</code></pre>
+<p>The helper <code>_check_methods()</code> looks for an attribute named <code>__len__</code> in the <code>__dict__</code> of
+any class listed in <code>C.__mro__</code> (i.e., <code>C</code> and its superclasses).  If it finds one, the
+hook returns <code>True</code>, signaling that <code>C</code> is a virtual subclass of <code>Sized</code>.  Otherwise it
+returns <code>NotImplemented</code> to let the subclass check proceed.  (A method set to <code>None</code> in a
+class counts as explicitly blocked; that’s how a class can opt out of a protocol, the way
+<code>__hash__ = None</code> makes a class unhashable.)</p>
+<p>That’s how <code>__subclasshook__()</code> allows ABCs to support structural typing.  You can
+formalize an interface with an ABC, you can make <code>isinstance</code> checks against that ABC,
+and still have a completely unrelated class pass an <code>issubclass</code> check because it
+implements a certain method (or because it does whatever it takes to convince a
+<code>__subclasshook__()</code> to vouch for it).</p>
+<p>Is it a good idea to implement <code>__subclasshook__()</code> in our own ABCs?  Probably not.  All
+the implementations of <code>__subclasshook__()</code> in the Python source code are in ABCs like
+<code>Sized</code> that declare just one special method, and they simply check for that special
+method name.  Given their “special” status, you can be pretty sure that any method named
+<code>__len__</code> does what you expect.  But even in the realm of special methods and
+fundamental ABCs, it can be risky to make such assumptions.  For example, mappings
+implement <code>__len__()</code>, <code>__getitem__()</code> and <code>__iter__()</code>, but they are rightly not
+considered subtypes of <code>Sequence</code>, because you can’t retrieve items using integer
+offsets or slices.  That’s why the <code>abc.Sequence</code> class does not implement
+<code>__subclasshook__()</code>.</p>
+<p>For ABCs that you and I may write, a <code>__subclasshook__()</code> would be even less dependable.
+We should not believe that any class named <code>Spam</code> that implements or inherits <code>load</code>,
+<code>pick</code>, <code>inspect</code> and <code>loaded</code> is guaranteed to behave as a <code>Tombola</code>.  It’s better to let
+the programmer affirm it by subclassing <code>Spam</code> from <code>Tombola</code>, or registering it with
+<code>Tombola.register(Spam)</code>.</p>
+<h2 id="static-protocols"><a class="header" href="#static-protocols">Static Protocols</a></h2>
+<p>Static protocols were introduced in <a href="type-hints-functions.html#static-protocols">Static Protocols</a>,
+in the chapter about type hints in functions, because static type checking without
+protocols doesn’t handle Pythonic APIs very well.  We will wrap up this chapter by
+illustrating static protocols with two simple examples, and a discussion of numeric ABCs
+and protocols.</p>
+<h3 id="the-typed-double-function"><a class="header" href="#the-typed-double-function">The Typed <code>double</code> Function</a></h3>
+<p>When introducing Python to programmers more used to statically typed languages, one
+favorite example is this simple <code>double</code> function:</p>
+<pre><code class="language-python">def double(x):
+    return x * 2
+
+double(1.5)
+# 3.0
+double('A')
+# 'AA'
+double([10, 20, 30])
+# [10, 20, 30, 10, 20, 30]
+from fractions import Fraction
+double(Fraction(2, 5))
+# Fraction(4, 5)
+</code></pre>
+<p>Before static protocols were introduced, there was no practical way to add type hints to
+<code>double</code> without limiting its possible uses.  Thanks to duck typing, <code>double</code> works even
+with types from the future, such as the enhanced <code>Vector</code> class that we’ll see in
+<a href="operator-overloading.html#overloading--for-scalar-multiplication">Overloading <code>*</code> for Scalar Multiplication</a>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">double(Vector([11.0, 12.0, 13.0]))
+# Vector([22.0, 24.0, 26.0])
+</code></pre>
+<p>The initial implementation of type hints in Python was a nominal type system: the name of
+a type in an annotation had to match the name of the type of the actual arguments — or
+the name of one of its superclasses.  Since it’s impossible to name all types that
+implement a protocol by supporting the required operations, duck typing could not be
+described by type hints before Python 3.8.</p>
+<p>Now, with <code>typing.Protocol</code> we can tell a type checker that <code>double</code> takes an argument
+<code>x</code> that supports <code>x * 2</code>.  Here’s how:</p>
+<pre><code class="language-python">from typing import Protocol, Self
+
+class Repeatable(Protocol):
+    def __mul__(self, repeat_count: int) -&gt; Self: ...
+
+def double[RT: Repeatable](x: RT) -&gt; RT:
+    return x * 2
+</code></pre>
+<p><code>__mul__</code> is the essence of the <code>Repeatable</code> protocol.  The <code>self</code> parameter is usually
+not annotated — its type is assumed to be the class — and the
+<a href="https://docs.python.org/3/library/typing.html#typing.Self"><code>Self</code></a> return type
+(Python 3.11+) says the result type is the same as the type of <code>self</code>.  Note that
+<code>repeat_count</code> is limited to <code>int</code> in this protocol.  <code>RT</code> is a type parameter bounded
+by <code>Repeatable</code> (using the <a href="https://peps.python.org/pep-0695/"><strong>PEP 695</strong></a> syntax
+introduced in Python 3.12; see
+<a href="type-hints-functions.html#bounded-type-variables">Bounded type variables</a>): the type
+checker will require that the actual type implements <code>Repeatable</code>.</p>
+<p>Now the type checker is able to verify that the <code>x</code> parameter is an object that can be
+multiplied by an integer, and the return value has the same type as <code>x</code>.  This example
+shows why PEP 544 is titled “Protocols: Structural subtyping (static duck typing)”.  The
+nominal type of the actual argument <code>x</code> given to <code>double</code> is irrelevant as long as it
+quacks — that is, as long as it implements <code>__mul__</code>.</p>
+<h3 id="runtime-checkable-static-protocols"><a class="header" href="#runtime-checkable-static-protocols">Runtime Checkable Static Protocols</a></h3>
+<p>On the typing map, <code>typing.Protocol</code> appears in the static checking half.  However, when
+defining a <code>typing.Protocol</code> subclass, you can use the
+<a href="https://docs.python.org/3/library/typing.html#typing.runtime_checkable"><code>@runtime_checkable</code></a>
+decorator to make that protocol support <code>isinstance</code>/<code>issubclass</code> checks at runtime.
+This works because <code>typing.Protocol</code> is an ABC, therefore it supports the
+<code>__subclasshook__()</code> we saw in <a href="#structural-typing-with-abcs">Structural Typing with ABCs</a>.</p>
+<p>The <code>typing</code> module includes several ready-to-use protocols that are runtime checkable.
+Here are two of them, quoted from the <code>typing</code> documentation:</p>
+<dl>
+<dt id="class-typingsupportscomplex"><a class="header" href="#class-typingsupportscomplex"><code>class typing.SupportsComplex</code></a></dt>
+<dd>An ABC with one abstract method, <code>__complex__</code>.</dd>
+<dt id="class-typingsupportsfloat"><a class="header" href="#class-typingsupportsfloat"><code>class typing.SupportsFloat</code></a></dt>
+<dd>An ABC with one abstract method, <code>__float__</code>.</dd>
+</dl>
+<p>These protocols are designed to check numeric types for “convertibility”: if an object
+<code>o</code> implements <code>__complex__()</code>, then you should be able to get a <code>complex</code> by invoking
+<code>complex(o)</code> — because the <code>__complex__()</code> special method exists to support the
+<code>complex()</code> built-in function.  Here is the source code for the <code>typing.SupportsComplex</code>
+protocol:</p>
+<!-- nocheck -->
+<pre><code class="language-python">@runtime_checkable
+class SupportsComplex(Protocol):
+    """An ABC with one abstract method __complex__."""
+
+    __slots__ = ()
+
+    @abstractmethod
+    def __complex__(self) -&gt; complex:
+        pass
+</code></pre>
+<p>The key is the <code>__complex__</code> abstract method.  (The <code>__slots__</code> attribute is irrelevant
+here — it’s the optimization covered in
+<a href="pythonic-object.html#saving-memory-with-__slots__">Saving Memory with <code>__slots__</code></a>.)
+During static type checking, an object will be considered consistent-with the
+<code>SupportsComplex</code> protocol if it implements a <code>__complex__</code> method that takes only <code>self</code>
+and returns a <code>complex</code>.  Thanks to <code>@runtime_checkable</code>, that protocol can also be used
+with <code>isinstance</code> checks:</p>
+<pre><code class="language-python">from typing import SupportsComplex
+import numpy as np
+c64 = np.complex64(3+4j)  # complex64 is one of the complex types provided by NumPy
+isinstance(c64, complex)  # none of them subclasses the built-in complex
+# False
+isinstance(c64, SupportsComplex)  # but they implement __complex__, so they comply
+# True
+c = complex(c64)  # therefore you can create built-in complex objects from them
+c
+# (3+4j)
+isinstance(c, SupportsComplex)  # the built-in complex has __complex__ too (3.11+)
+# True
+complex(c)
+# (3+4j)
+</code></pre>
+<p>An alternative would be to use the <code>Complex</code> ABC, defined in the
+<a href="https://docs.python.org/3/library/numbers.html"><code>numbers</code></a> module.  The built-in
+<code>complex</code> type and the NumPy <code>complex64</code> and <code>complex128</code> types are all registered as
+virtual subclasses of <code>numbers.Complex</code>, therefore this works:</p>
+<pre><code class="language-python">import numbers
+isinstance(c, numbers.Complex)
+# True
+isinstance(c64, numbers.Complex)
+# True
+</code></pre>
+<p>The <code>numbers</code> ABCs were once recommended for this kind of check, but that’s no longer
+good advice, because those ABCs are not recognized by static type checkers, as we’ll see
+in <a href="#the-numbers-abcs-and-numeric-protocols">The <code>numbers</code> ABCs and Numeric Protocols</a>.</p>
+<p>This example demonstrates that a runtime checkable protocol works with <code>isinstance</code>, but
+it turns out this is not a particularly good use case of <code>isinstance</code>, as the next note
+explains.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>If you’re using an external type checker, there is one advantage of explicit
+<code>isinstance</code> checks: when you write an <code>if</code> statement where the condition is
+<code>isinstance(o, MyType)</code>, then the type checker can infer that inside the <code>if</code> block,
+the type of the <code>o</code> object is consistent-with <code>MyType</code>.  This is called <em>type
+narrowing</em>.</p>
+</blockquote>
+<h4 id="duck-typing-is-your-friend"><a class="header" href="#duck-typing-is-your-friend">Duck typing is your friend</a></h4>
+<p>Very often at runtime, duck typing is the best approach for type checking: instead of
+calling <code>isinstance</code> or <code>hasattr</code>, just try the operations you need to do on the object,
+and handle exceptions as needed.  Given an object <code>o</code> that you need to use as a complex
+number, this would be one approach:</p>
+<!-- nocheck -->
+<pre><code class="language-python">if isinstance(o, (complex, SupportsComplex)):
+    # do something that requires `o` to be convertible to complex
+    ...
+else:
+    raise TypeError('o must be convertible to complex')
+</code></pre>
+<p>The goose typing approach would be to use the <code>numbers.Complex</code> ABC:</p>
+<!-- nocheck -->
+<pre><code class="language-python">if isinstance(o, numbers.Complex):
+    # do something with `o`, an instance of `Complex`
+    ...
+else:
+    raise TypeError('o must be an instance of Complex')
+</code></pre>
+<p>However, it’s often better to leverage duck typing and do this using the EAFP
+principle:</p>
+<!-- nocheck -->
+<pre><code class="language-python">try:
+    c = complex(o)
+except TypeError as exc:
+    raise TypeError('o must be convertible to complex') from exc
+</code></pre>
+<p>And, if all you’re going to do is raise a <code>TypeError</code> anyway, then omit the
+<code>try</code>/<code>except</code>/<code>raise</code> statements and just write this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">c = complex(o)
+</code></pre>
+<p>In this last case, if <code>o</code> is not an acceptable type, Python will raise an exception with
+a very clear message.  For example, this is what you get if <code>o</code> is a tuple (the exact
+wording varies across versions):</p>
+<pre><code class="language-text">TypeError: complex() first argument must be a string or a number, not 'tuple'
+</code></pre>
+<p>The duck typing approach is much better in this case.</p>
+<p>Now that we’ve seen how to use static protocols at runtime with preexisting types like
+<code>complex</code> and <code>numpy.complex64</code>, we need to discuss the limitations of runtime checkable
+protocols.</p>
+<h3 id="limitations-of-runtime-protocol-checks"><a class="header" href="#limitations-of-runtime-protocol-checks">Limitations of Runtime Protocol Checks</a></h3>
+<p>We’ve seen that type hints are generally ignored at runtime, and this also affects the use
+of <code>isinstance</code> or <code>issubclass</code> checks against static protocols.  For example, any class
+with a <code>__float__()</code> method is considered — at runtime — a virtual subclass of
+<code>SupportsFloat</code>, even if the <code>__float__()</code> method does not return a <code>float</code>.</p>
+<p>Here is a cautionary tale.  In Python 3.9, the <code>complex</code> type had a <code>__float__()</code> method,
+but it existed only to raise <code>TypeError</code> with an explicit message: “can’t convert complex
+to float”.  So in Python 3.9, <code>isinstance(3+4j, SupportsFloat)</code> returned <code>True</code>, which was
+misleading: the runtime check suggested that you can convert a <code>complex</code> to <code>float</code>, but
+in fact that raised a type error.  The specific issue with <code>complex</code> was fixed in Python
+3.10 with the removal of <code>complex.__float__()</code>:</p>
+<pre><code class="language-python">from typing import SupportsFloat
+isinstance(3+4j, SupportsFloat)
+# False
+</code></pre>
+<p>But the overall issue remains: <code>isinstance</code>/<code>issubclass</code> checks only look at the presence
+or absence of methods, without checking their signatures, much less their type
+annotations.  And this is not about to change, because such type checks at runtime would
+have an unacceptable performance cost: type checking is not just a matter of checking
+whether the type of <code>x</code> is <code>T</code>; it’s about determining that the type of <code>x</code> is
+consistent-with <code>T</code>, which may be expensive.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Since Python 3.12, <code>isinstance()</code> checks against runtime checkable protocols use
+<a href="https://docs.python.org/3/library/inspect.html#inspect.getattr_static"><code>inspect.getattr_static()</code></a>
+to look up attributes, so they no longer trigger properties or <code>__getattr__()</code> on the
+object being checked.  They are also noticeably faster than before, but still much
+slower than <code>isinstance()</code> against a concrete class.</p>
+</blockquote>
+<p>Now let’s see how to implement a static protocol in a user-defined class.</p>
+<h3 id="supporting-a-static-protocol"><a class="header" href="#supporting-a-static-protocol">Supporting a Static Protocol</a></h3>
+<p>Recall the <code>Vector2d</code> class we built in <a href="pythonic-object.html">A Pythonic Object</a>.  Given
+that a <code>complex</code> number and a <code>Vector2d</code> instance both consist of a pair of floats, it
+makes sense to support conversion from <code>Vector2d</code> to <code>complex</code>.  Here are the methods to
+add to <code>Vector2d</code> for that, plus a <code>fromcomplex</code> class method for the inverse operation:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __complex__(self):
+    return complex(self.x, self.y)
+
+@classmethod
+def fromcomplex(cls, datum):
+    return cls(datum.real, datum.imag)  # assumes datum has .real and .imag attributes
+</code></pre>
+<p>Given the preceding code, and the <code>__abs__()</code> method <code>Vector2d</code> already had, we get
+these features:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from typing import SupportsComplex, SupportsAbs
+v = Vector2d(3, 4)
+isinstance(v, SupportsComplex)
+# True
+isinstance(v, SupportsAbs)
+# True
+complex(v)
+# (3+4j)
+abs(v)
+# 5.0
+Vector2d.fromcomplex(3+4j)
+# Vector2d(3.0, 4.0)
+</code></pre>
+<p>For runtime type checking, that is fine, but for better static coverage and error
+reporting with a type checker, the <code>__abs__()</code>, <code>__complex__()</code> and <code>fromcomplex</code>
+methods should get type hints:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __abs__(self) -&gt; float:
+    return math.hypot(self.x, self.y)
+
+def __complex__(self) -&gt; complex:
+    return complex(self.x, self.y)
+
+@classmethod
+def fromcomplex(cls, datum: SupportsComplex) -&gt; Vector2d:
+    c = complex(datum)
+    return cls(c.real, c.imag)
+</code></pre>
+<p>The <code>float</code> return annotation on <code>__abs__()</code> is needed, otherwise Mypy infers <code>Any</code>, and
+doesn’t check the body of the method.  Even without the annotation, Mypy is able to infer
+that <code>__complex__()</code> returns a <code>complex</code>; the annotation prevents a warning, depending on
+your configuration.  In <code>fromcomplex</code>, <code>SupportsComplex</code> ensures the <code>datum</code> is
+convertible.  The explicit conversion <code>complex(datum)</code> is necessary, because the
+<code>SupportsComplex</code> type does not declare <code>.real</code> and <code>.imag</code> attributes, used in the next
+line.  For example, <code>Vector2d</code> doesn’t have those attributes, but implements
+<code>__complex__()</code>.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Can the return type of <code>fromcomplex</code> really be written as <code>Vector2d</code>, inside the body of
+class <code>Vector2d</code> itself?  In Python 3.14 and later, yes: annotations are evaluated lazily
+(<a href="https://peps.python.org/pep-0649/"><strong>PEP 649</strong></a> and
+<a href="https://peps.python.org/pep-0749/"><strong>PEP 749</strong></a>), so a reference to a class that is not
+fully defined yet is fine.  In older versions you’d write the name as a string,
+<code>'Vector2d'</code>, or add <code>from __future__ import annotations</code> at the top of the module.  In
+this case, <code>Self</code> would also work as the return type.</p>
+</blockquote>
+<p>Next, let’s see how to create — and later, extend — a new static protocol.</p>
+<h3 id="designing-a-static-protocol"><a class="header" href="#designing-a-static-protocol">Designing a Static Protocol</a></h3>
+<p>While studying goose typing, we saw the <code>Tombola</code> ABC.  Here we’ll see how to define a
+similar interface using a static protocol.</p>
+<p>The <code>Tombola</code> ABC specifies two methods: <code>pick</code> and <code>load</code>.  We could define a static
+protocol with these two methods as well, but the Go community has learned that
+single-method protocols make static duck typing more useful and flexible.  The Go standard
+library has several interfaces like <code>Reader</code>, an interface for I/O that requires just a
+<code>read</code> method.  After a while, if you realize a more complete protocol is required, you
+can combine two or more protocols to define a new one.</p>
+<p>Using a container that picks items at random may or may not require reloading the
+container, but it certainly needs a method to do the actual pick, so that’s the method
+we’ll choose for the minimal <code>RandomPicker</code> protocol:</p>
+<pre><code class="language-python">from typing import Protocol, runtime_checkable, Any
+
+@runtime_checkable
+class RandomPicker(Protocol):
+    def pick(self) -&gt; Any: ...
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The <code>pick</code> method returns <code>Any</code>.  In
+<a href="type-hints-more.html#implementing-a-generic-static-protocol">Implementing a Generic Static Protocol</a>,
+we will see how to make <code>RandomPicker</code> a generic type with a parameter to let users of
+the protocol specify the return type of the <code>pick</code> method.</p>
+</blockquote>
+<p>And here are some tests using it:</p>
+<pre><code class="language-python">import random
+from collections.abc import Iterable
+from typing import Any, TYPE_CHECKING
+
+class SimplePicker:  # implements RandomPicker, but does not subclass it
+    def __init__(self, items: Iterable) -&gt; None:
+        self._items = list(items)
+        random.shuffle(self._items)
+
+    def pick(self) -&gt; Any:
+        return self._items.pop()
+
+def test_isinstance() -&gt; None:
+    popper: RandomPicker = SimplePicker([1])
+    assert isinstance(popper, RandomPicker)
+
+def test_item_type() -&gt; None:
+    items = [1, 2]
+    popper = SimplePicker(items)
+    item = popper.pick()
+    assert item in items
+    if TYPE_CHECKING:
+        reveal_type(item)
+    assert isinstance(item, int)
+
+test_isinstance()
+test_item_type()
+</code></pre>
+<p>It’s not necessary to import the static protocol to define a class that implements it;
+here <code>RandomPicker</code> is used only in <code>test_isinstance</code>.  <code>SimplePicker</code> implements
+<code>RandomPicker</code> — but it does not subclass it.  This is static duck typing in action.
+<code>Any</code> is the default return type, so the <code>pick</code> annotation is not strictly necessary, but
+it does make it more clear that we are implementing the <code>RandomPicker</code> protocol.</p>
+<p>Don’t forget to add <code>-&gt; None</code> hints to your tests if you want Mypy to look at them.  The
+type hint on the <code>popper</code> variable shows that the type checker understands that
+<code>SimplePicker</code> is consistent-with <code>RandomPicker</code>.  <code>test_isinstance</code> proves that an
+instance of <code>SimplePicker</code> is also an instance of <code>RandomPicker</code>.  This works because of
+the <code>@runtime_checkable</code> decorator applied to <code>RandomPicker</code>, and because <code>SimplePicker</code>
+has a <code>pick</code> method as required.</p>
+<p><code>test_item_type</code> invokes the <code>pick</code> method from a <code>SimplePicker</code>, verifies that it returns
+one of the items given to <code>SimplePicker</code>, and then does static and runtime checks on the
+returned item.  <code>reveal_type</code> is a “magic” function recognized by type checkers; we can
+only call it inside <code>if</code> blocks protected by
+<a href="https://docs.python.org/3/library/typing.html#typing.TYPE_CHECKING"><code>typing.TYPE_CHECKING</code></a>,
+which is only <code>True</code> in the eyes of a static type checker, but is <code>False</code> at runtime.
+(Since Python 3.11 there is also a real <code>typing.reveal_type()</code> function that prints the
+runtime type, so the guard is no longer strictly required.)  Both tests pass, and Mypy
+shows the result of the <code>reveal_type</code> on the item returned by <code>pick</code>:</p>
+<pre><code class="language-console">$ mypy randompick_test.py
+randompick_test.py:24: note: Revealed type is "Any"
+</code></pre>
+<p>Having created our first protocol, let’s study some advice on the matter.</p>
+<h3 id="best-practices-for-protocol-design"><a class="header" href="#best-practices-for-protocol-design">Best Practices for Protocol Design</a></h3>
+<p>After years of experience with static duck typing in Go, it is clear that narrow
+protocols are more useful — often such protocols have a single method, rarely more than a
+couple of methods.  Martin Fowler wrote a post defining
+<a href="https://martinfowler.com/bliki/RoleInterface.html">role interface</a>, a useful idea to keep
+in mind when designing protocols.</p>
+<p>Also, sometimes you see a protocol defined near the function that uses it — that is,
+defined in “client code” instead of being defined in a library.  This makes it easy to
+create new types to call that function, which is good for extensibility and testing with
+mocks.</p>
+<p>The practices of narrow protocols and client-code protocols both avoid unnecessary tight
+coupling, in line with the <em>Interface Segregation Principle</em>, which we can summarize as
+“Clients should not be forced to depend upon interfaces that they do not use.”</p>
+<p>The typeshed contributing guidelines recommend this naming convention for static
+protocols:</p>
+<ul>
+<li>Use plain names for protocols that represent a clear concept (e.g., <code>Iterator</code>,
+<code>Container</code>).</li>
+<li>Use <code>SupportsX</code> for protocols that provide callable methods (e.g., <code>SupportsInt</code>,
+<code>SupportsRead</code>, <code>SupportsReadSeek</code>).</li>
+<li>Use <code>HasX</code> for protocols that have readable and/or writable attributes or getter/setter
+methods (e.g., <code>HasItems</code>, <code>HasFileno</code>).</li>
+</ul>
+<p>The Go standard library has another nice naming convention: for single-method protocols,
+if the method name is a verb, append “-er” or “-or” to make it a noun.  For example,
+instead of <code>SupportsRead</code>, have <code>Reader</code>.  More examples include <code>Formatter</code>, <code>Animator</code>
+and <code>Scanner</code>.</p>
+<p>One good reason to create minimalistic protocols is the ability to extend them later, if
+needed.  We’ll now see that it’s not hard to create a derived protocol with an additional
+method.</p>
+<h3 id="extending-a-protocol"><a class="header" href="#extending-a-protocol">Extending a Protocol</a></h3>
+<p>When practice reveals that a protocol with more methods is useful, instead of adding
+methods to the original protocol, it’s better to derive a new protocol from it.
+Extending a static protocol in Python has a few caveats, as this example shows:</p>
+<pre><code class="language-python">from typing import Protocol, runtime_checkable
+
+@runtime_checkable
+class LoadableRandomPicker(RandomPicker, Protocol):
+    def load(self, iterable: Iterable) -&gt; None: ...
+
+isinstance(SimplePicker([1]), LoadableRandomPicker)  # no load method
+# False
+isinstance(LottoBlower([1]), LoadableRandomPicker)  # has both pick and load
+# True
+</code></pre>
+<p>If you want the derived protocol to be runtime checkable, you must apply the decorator
+again — its behavior is not inherited.  Every protocol must explicitly name
+<code>typing.Protocol</code> as one of its base classes in addition to the protocol we are
+extending; this is different from the way inheritance works in Python (see “Merging and
+extending protocols” in PEP 544 for the rationale).  Back to “regular” object-oriented
+programming: we only need to declare the method that is new in this derived protocol.
+The <code>pick</code> method declaration is inherited from <code>RandomPicker</code>.</p>
+<p>Note how <code>LottoBlower</code>, a subclass of the <code>Tombola</code> ABC that knows nothing about
+<code>LoadableRandomPicker</code>, satisfies it anyway: that’s structural typing.</p>
+<p>To wrap up the chapter, we’ll go over numeric ABCs and their possible replacement with
+numeric protocols.</p>
+<h3 id="the-numbers-abcs-and-numeric-protocols"><a class="header" href="#the-numbers-abcs-and-numeric-protocols">The <code>numbers</code> ABCs and Numeric Protocols</a></h3>
+<p>As we saw in <a href="type-hints-functions.html#the-fall-of-the-numeric-tower">The fall of the numeric tower</a>,
+the ABCs in the <code>numbers</code> package of the standard library work fine for runtime type
+checking.  If you need to check for an integer, you can use
+<code>isinstance(x, numbers.Integral)</code> to accept <code>int</code>, <code>bool</code> (which subclasses <code>int</code>) or
+other integer types that are provided by external libraries that register their types as
+virtual subclasses of the <code>numbers</code> ABCs.  For example, NumPy has many integer types, all
+registered as <code>numbers.Integral</code> — as well as floating-point types registered as
+<code>numbers.Real</code>, and complex numbers with various bit widths registered as
+<code>numbers.Complex</code>.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Somewhat surprisingly, <code>decimal.Decimal</code> is not registered as a virtual subclass of
+<code>numbers.Real</code>.  The reason is that, if you need the precision of <code>Decimal</code> in your
+program, then you want to be protected from accidental mixing of decimals with
+floating-point numbers that are less precise.</p>
+</blockquote>
+<p>Sadly, the numeric tower was not designed for static type checking.  The root ABC —
+<code>numbers.Number</code> — has no methods, so if you declare <code>x: Number</code>, a type checker will not
+let you do arithmetic or call any methods on <code>x</code>.</p>
+<p>If the <code>numbers</code> ABCs are not supported, what are the options?  A good place to look for
+typing solutions is the typeshed project.  The stub file for the <code>statistics</code> module
+uses definitions like these, written here in modern syntax:</p>
+<!-- nocheck -->
+<pre><code class="language-python">type _Number = float | Decimal | Fraction
+_NumberT = TypeVar('_NumberT', float, Decimal, Fraction)
+</code></pre>
+<p>That approach is correct, but limited.  It does not support numeric types outside of the
+standard library, which the <code>numbers</code> ABCs do support at runtime — when the numeric types
+are registered as virtual subclasses.</p>
+<p>The current trend is to recommend the numeric protocols provided by the <code>typing</code> module,
+which we discussed in <a href="#runtime-checkable-static-protocols">Runtime Checkable Static Protocols</a>.
+Unfortunately, at runtime, the numeric protocols may let you down.  The built-ins
+<code>float</code> and <code>int</code>, and also <code>numpy.float16</code> and <code>numpy.uint8</code>, don’t have a
+<code>__complex__()</code> method, so <code>isinstance(x, SupportsComplex)</code> returns <code>False</code> for them.
+However, in practice, the <code>complex()</code> built-in constructor handles instances of all these
+types with no errors or warnings:</p>
+<pre><code class="language-python">import numpy as np
+from typing import SupportsComplex
+sample = [1+0j, np.complex64(1+0j), 1.0, np.float16(1.0), 1, np.uint8(1)]
+[isinstance(x, SupportsComplex) for x in sample]
+# [True, True, False, False, False, False]
+[complex(x) for x in sample]
+# [(1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (1+0j)]
+</code></pre>
+<p>This shows that <code>isinstance</code> checks against <code>SupportsComplex</code> suggest that some of those
+conversions to <code>complex</code> would fail, but they all succeed.  Guido van Rossum pointed out
+that the built-in <code>complex</code> accepts a single argument of these types (through
+<code>__float__()</code> and <code>__index__()</code>), and that’s why those conversions work.</p>
+<p>On the other hand, Mypy accepts arguments of all those six types in a call to a
+<code>to_complex()</code> function defined like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def to_complex(n: SupportsComplex) -&gt; complex:
+    return complex(n)
+</code></pre>
+<p>Mypy is “aware” that the built-in <code>int</code> and <code>float</code> can be converted to <code>complex</code>, even
+though they don’t implement <code>__complex__()</code>.  In conclusion, although numeric types
+should not be hard to type check, the current situation is this: PEP 484 eschews the
+numeric tower and implicitly recommends that type checkers hardcode the subtype
+relationships among built-in <code>complex</code>, <code>float</code> and <code>int</code>.  Mypy does that, and it also
+pragmatically accepts that <code>int</code> and <code>float</code> are consistent-with <code>SupportsComplex</code>.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>The unexpected results with <code>isinstance</code> checks against numeric <code>Supports*</code> protocols
+show up mostly in conversions to or from <code>complex</code>.  If you don’t use complex numbers,
+you can rely on those protocols instead of the <code>numbers</code> ABCs.</p>
+</blockquote>
+<p>The main takeaways for this section are:</p>
+<ul>
+<li>The <code>numbers</code> ABCs are fine for runtime type checking, but unsuitable for static
+typing.</li>
+<li>The numeric static protocols <code>SupportsComplex</code>, <code>SupportsFloat</code>, etc. work well for
+static typing, but are unreliable for runtime type checking when complex numbers are
+involved.</li>
+</ul>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>The typing map is the key to making sense of this chapter.  After a brief introduction to
+the four approaches to typing, we contrasted dynamic and static protocols, which
+respectively support duck typing and static duck typing.  Both kinds of protocols share
+the essential characteristic that a class is never required to explicitly declare
+support for any specific protocol.  A class supports a protocol simply by implementing
+the necessary methods.</p>
+<p>In <a href="#programming-ducks">Programming Ducks</a>, we explored the lengths to which the Python
+interpreter goes to make the sequence and iterable dynamic protocols work, including
+partial implementations of both.  We then saw how a class can be made to implement a
+protocol at runtime through the addition of extra methods via monkey patching.  The duck
+typing section ended with hints for defensive programming, including detection of
+structural types without explicit <code>isinstance</code> or <code>hasattr</code> checks using <code>try</code>/<code>except</code>
+and failing fast.</p>
+<p>After Alex Martelli’s case for goose typing, we saw how to subclass existing ABCs,
+surveyed important ABCs in the standard library, and created an ABC from scratch, which
+we then implemented by traditional subclassing and by registration.  To close that
+section, we saw how the <code>__subclasshook__()</code> special method enables ABCs to support
+structural typing by recognizing unrelated classes that provide methods fulfilling the
+interface defined in the ABC.</p>
+<p>In <a href="#static-protocols">Static Protocols</a>, we resumed coverage of static duck typing.  We
+saw how the <code>@runtime_checkable</code> decorator also leverages <code>__subclasshook__()</code> to support
+structural typing at runtime — even though the best use of static protocols is with
+static type checkers, which can take into account type hints to make structural typing
+more reliable.  Next we talked about the design and coding of a static protocol and how
+to extend it.  The chapter ended with the sad story of the derelict state of the numeric
+tower and a few shortcomings of the proposed alternative: the numeric static protocols
+such as <code>SupportsFloat</code>.</p>
+<p>The main message of this chapter is that we have four complementary ways of programming
+with interfaces in modern Python, each with different advantages and drawbacks.  You are
+likely to find suitable use cases for each typing scheme in any modern Python codebase of
+significant size.  Rejecting any one of these approaches will make your work as a Python
+programmer harder than it needs to be.</p>
+<p>Having said that, Python achieved widespread popularity while supporting only duck
+typing.  Other popular languages such as JavaScript, PHP and Ruby, as well as Lisp,
+Smalltalk, Erlang and Clojure — not popular but very influential — are all languages that
+had and still have tremendous impact by leveraging the power and simplicity of duck
+typing.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Python’s static typing followed a “minimum viable product” strategy.  First,
+<a href="https://peps.python.org/pep-3107/"><strong>PEP 3107</strong></a> added function annotations in Python
+3.0 with no semantics at all, to allow experimentation.  Eight years later,
+<a href="https://peps.python.org/pep-0484/"><strong>PEP 484</strong></a> added the <code>typing</code> module with
+nominal types and generics, but no protocols.  Then came variable annotations
+(PEP 526), generic built-in collections (PEP 585), protocols (PEP 544), <code>X | Y</code> unions
+(PEP 604), the type parameter syntax (PEP 695) and lazy annotations (PEP 649), each step
+guided by feedback from real use.  Incremental progress turned out to be safer than a
+big-bang release.</p>
+</blockquote>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li>Glyph Lefkowitz, <a href="https://glyph.twistedmatrix.com/2020/07/new-duck.html">“I Want A New Duck: <code>typing.Protocol</code> and the future of duck
+typing”</a>, a quick look at
+typing pros and cons and the importance of <code>typing.Protocol</code>.</li>
+<li>The Mypy documentation chapter
+<a href="https://mypy.readthedocs.io/en/stable/protocols.html">“Protocols and structural subtyping”</a>.</li>
+<li>Martin Fowler, <a href="https://martinfowler.com/bliki/DynamicTyping.html">“Dynamic Typing”</a>
+and <a href="https://martinfowler.com/bliki/RoleInterface.html">“Role Interface”</a>.</li>
+<li><a href="https://peps.python.org/pep-3119/"><strong>PEP 3119</strong></a> — Introducing Abstract Base Classes
+gives the rationale for ABCs; <a href="https://peps.python.org/pep-3141/"><strong>PEP 3141</strong></a>
+presents the ABCs of the <code>numbers</code> module.</li>
+<li>The <a href="https://docs.python.org/3/library/abc.html"><code>abc</code></a> and
+<a href="https://docs.python.org/3/library/collections.abc.html"><code>collections.abc</code></a> module
+documentation.</li>
+<li>Because each of the fundamental collection ABCs extends <code>Collection</code>, which in turn
+extends multiple ABCs, multiple inheritance is practically inevitable when using
+ABCs.  Therefore, <a href="inheritance.html">Inheritance: For Better or for Worse</a> is an
+important follow-up to this chapter.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="sequence-protocol.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="inheritance.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="sequence-protocol.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="inheritance.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

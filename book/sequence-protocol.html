@@ -1,0 +1,1219 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Special Methods for Sequences - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="special-methods-for-sequences"><a class="header" href="#special-methods-for-sequences">Special Methods for Sequences</a></h1>
+<p>“Don’t check whether it <em>is</em>-a duck: check whether it <em>quacks</em>-like-a duck,
+<em>walks</em>-like-a duck, etc., etc., depending on exactly what subset of duck-like
+behavior you need,” Alex Martelli wrote on comp.lang.python in July 2000.  That
+attitude is the heart of this chapter.</p>
+<p>Here we create a class to represent a multidimensional <code>Vector</code>, a significant step
+up from the two-dimensional <code>Vector2d</code> of <a href="pythonic-object.html">A Pythonic Object</a>.
+<code>Vector</code> will behave like a standard Python immutable flat sequence.  Its elements
+will be floats, and by the end of this chapter it will support:</p>
+<ul>
+<li>the basic sequence protocol: <code>__len__()</code> and <code>__getitem__()</code>;</li>
+<li>safe representation of instances with many items;</li>
+<li>proper slicing support, producing new <code>Vector</code> instances;</li>
+<li>aggregate hashing, taking into account every contained element value;</li>
+<li>a custom formatting language extension.</li>
+</ul>
+<p>We’ll also implement dynamic attribute access with <code>__getattr__()</code> as a way of
+replacing the read-only properties we used in <code>Vector2d</code>, although this is not typical
+of sequence types.  The code-intensive presentation will be interrupted by a
+conceptual discussion of protocols as informal interfaces: how protocols and duck
+typing are related, and the practical implications when you create your own types.</p>
+<h2 id="vector-a-user-defined-sequence-type"><a class="header" href="#vector-a-user-defined-sequence-type"><code>Vector</code>: A User-Defined Sequence Type</a></h2>
+<p>Our strategy to implement <code>Vector</code> will be to use composition, not inheritance.  We’ll
+store the components in an array of floats, and implement the methods needed for our
+<code>Vector</code> to behave like an immutable flat sequence.  But before implementing the
+sequence methods, let’s make sure we have a baseline implementation of <code>Vector</code> that
+is compatible with our earlier <code>Vector2d</code> class, except where such compatibility
+would not make sense.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Who needs a vector with 1,000 dimensions?  <em>N</em>-dimensional vectors (with large
+values of <em>N</em>) are widely used in information retrieval, where documents and text
+queries are represented as vectors, with one dimension per word.  This is called the
+<em>vector space model</em>.  In this model, a key relevance metric is the <em>cosine
+similarity</em>: the cosine of the angle between the vector representing the query and
+the vector representing the document.  As the angle decreases, the cosine approaches
+the maximum value of 1, and so does the relevance of the document to the query.
+Modern machine learning uses high-dimensional vectors (“embeddings”) in the same
+way.  Our <code>Vector</code> class is a didactic example; NumPy and SciPy are the tools you
+need for real-world vector math.</p>
+</blockquote>
+<h2 id="vector-take-1-vector2d-compatible"><a class="header" href="#vector-take-1-vector2d-compatible"><code>Vector</code> Take #1: <code>Vector2d</code> Compatible</a></h2>
+<p>The first version of <code>Vector</code> should be as compatible as possible with <code>Vector2d</code>.
+However, by design, the <code>Vector</code> constructor is not compatible with the <code>Vector2d</code>
+constructor.  We could make <code>Vector(3, 4)</code> and <code>Vector(3, 4, 5)</code> work by taking
+arbitrary arguments with <code>*args</code> in <code>__init__()</code>, but the best practice for a sequence
+constructor is to take the data as an iterable argument, as all built-in sequence types
+do.  Here are some ways of instantiating our new <code>Vector</code> objects:</p>
+<!-- nocheck -->
+<pre><code class="language-python">Vector([3.1, 4.2])
+# Vector([3.1, 4.2])
+Vector((3, 4, 5))
+# Vector([3.0, 4.0, 5.0])
+Vector(range(10))
+# Vector([0.0, 1.0, 2.0, 3.0, 4.0, ...])
+</code></pre>
+<p>Apart from the new constructor signature, every test done with <code>Vector2d</code> (e.g.,
+<code>Vector2d(3, 4)</code>) should pass and produce the same result with a two-component
+<code>Vector([3, 4])</code>.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>When a <code>Vector</code> has more than six components, the string produced by <code>repr()</code> is
+abbreviated with <code>...</code>, as seen in the last line above.  This is crucial in any
+collection type that may contain a large number of items, because <code>repr</code> is used for
+debugging, and you don’t want a single large object to span thousands of lines in
+your console or log.  Use the <a href="https://docs.python.org/3/library/reprlib.html"><code>reprlib</code></a>
+module to produce limited-length representations, as below.</p>
+</blockquote>
+<p>Here is the first version of <code>Vector</code>, building on the code of <code>Vector2d</code>:</p>
+<pre><code class="language-python">from array import array
+import reprlib
+import math
+
+class Vector:
+    typecode = 'd'
+
+    def __init__(self, components):
+        self._components = array(self.typecode, components)
+
+    def __iter__(self):
+        return iter(self._components)
+
+    def __repr__(self):
+        components = reprlib.repr(self._components)
+        components = components[components.find('['):-1]
+        return f'Vector({components})'
+
+    def __str__(self):
+        return str(tuple(self))
+
+    def __bytes__(self):
+        return (bytes([ord(self.typecode)]) +
+                bytes(self._components))
+
+    def __eq__(self, other):
+        return tuple(self) == tuple(other)
+
+    def __abs__(self):
+        return math.hypot(*self)
+
+    def __bool__(self):
+        return bool(abs(self))
+
+    @classmethod
+    def frombytes(cls, octets):
+        typecode = chr(octets[0])
+        memv = memoryview(octets[1:]).cast(typecode)
+        return cls(memv)
+
+Vector([3.1, 4.2])
+# Vector([3.1, 4.2])
+Vector((3, 4, 5))
+# Vector([3.0, 4.0, 5.0])
+Vector(range(10))
+# Vector([0.0, 1.0, 2.0, 3.0, 4.0, ...])
+</code></pre>
+<p>The <code>self._components</code> instance “protected” attribute holds an <code>array</code> with the
+<code>Vector</code> components.  To allow iteration, <code>__iter__()</code> returns an iterator over
+<code>self._components</code> (the <code>iter()</code> function is covered in
+<a href="iterators-generators.html">Iterators, Generators, and Classic Coroutines</a>).
+<code>__repr__()</code> uses <code>reprlib.repr()</code> to get a limited-length representation of
+<code>self._components</code> (e.g., <code>array('d', [0.0, 1.0, 2.0, 3.0, 4.0, ...])</code>), and then
+removes the <code>array('d',</code> prefix and the trailing <code>)</code> before plugging the string into a
+<code>Vector</code> constructor call.  <code>__bytes__()</code> builds a <code>bytes</code> object directly from
+<code>self._components</code>.  <code>math.hypot</code> accepts <em>N</em>-dimensional points (since Python 3.8;
+before that you’d write <code>math.sqrt(sum(x * x for x in self))</code>).  The only change
+needed in <code>frombytes</code> is in the last line: we pass the <code>memoryview</code> directly to the
+constructor, without unpacking with <code>*</code> as before.</p>
+<p>The way <code>reprlib.repr</code> is used deserves some elaboration.  That function produces
+safe representations of large or recursive structures by limiting the length of the
+output string and marking the cut with <code>'...'</code>.  We want the <code>repr</code> of a <code>Vector</code> to
+look like <code>Vector([3.0, 4.0, 5.0])</code> and not <code>Vector(array('d', [3.0, 4.0, 5.0]))</code>,
+because the fact that there is an <code>array</code> inside a <code>Vector</code> is an implementation
+detail.  Because these constructor calls build identical <code>Vector</code> objects, the simpler
+syntax using a <code>list</code> argument is preferable.</p>
+<p>When writing <code>__repr__()</code>, we could have produced the simplified components display
+with <code>reprlib.repr(list(self._components))</code>.  However, that would be wasteful,
+copying every item from <code>self._components</code> to a list just to use the <code>list</code> repr.
+Instead, <code>reprlib.repr</code> is applied to the array directly, and the characters outside
+of the <code>[]</code> are chopped off.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Because of its role in debugging, calling <code>repr()</code> on an object should never raise an
+exception.  If something goes wrong inside your implementation of <code>__repr__()</code>, you
+must deal with the issue and do your best to produce some serviceable output that
+gives the user a chance of identifying the receiver (<code>self</code>).</p>
+</blockquote>
+<p>Note that the <code>__str__()</code>, <code>__eq__()</code> and <code>__bool__()</code> methods are unchanged from
+<code>Vector2d</code>, and only one character was changed in <code>frombytes</code> (a <code>*</code> was removed in
+the last line).  This is one of the benefits of making the original <code>Vector2d</code>
+iterable.</p>
+<p>We could have subclassed <code>Vector</code> from <code>Vector2d</code>, but there are two reasons not to.
+First, the incompatible constructors make subclassing inadvisable; we could work
+around that with some clever parameter handling in <code>__init__()</code>, but the second
+reason is more important: <code>Vector</code> should be a standalone example of a class
+implementing the sequence protocol.  That’s what we’ll do next, after a discussion of
+the term <em>protocol</em>.</p>
+<h2 id="protocols-and-duck-typing"><a class="header" href="#protocols-and-duck-typing">Protocols and Duck Typing</a></h2>
+<p>As early as <a href="data-model.html">The Python Data Model</a>, we saw that you don’t need to
+inherit from any special class to create a fully functional sequence type in Python;
+you just need to implement the methods that fulfill the sequence protocol.  But what
+kind of protocol are we talking about?</p>
+<p>In the context of object-oriented programming, a <em>protocol</em> is an informal interface,
+defined only in documentation and not in code.  For example, the sequence protocol in
+Python entails just the <code>__len__()</code> and <code>__getitem__()</code> methods.  Any class <code>Spam</code>
+that implements those methods with the standard signature and semantics can be used
+anywhere a sequence is expected.  Whether <code>Spam</code> is a subclass of this or that is
+irrelevant; all that matters is that it provides the necessary methods.  We saw that
+in the <code>FrenchDeck</code> class:</p>
+<pre><code class="language-python">import collections
+
+Card = collections.namedtuple('Card', ['rank', 'suit'])
+
+class FrenchDeck:
+    ranks = [str(n) for n in range(2, 11)] + list('JQKA')
+    suits = 'spades diamonds clubs hearts'.split()
+
+    def __init__(self):
+        self._cards = [Card(rank, suit) for suit in self.suits
+                                        for rank in self.ranks]
+
+    def __len__(self):
+        return len(self._cards)
+
+    def __getitem__(self, position):
+        return self._cards[position]
+</code></pre>
+<p><code>FrenchDeck</code> takes advantage of many Python facilities because it implements the
+sequence protocol, even if that is not declared anywhere in the code.  An experienced
+Python programmer will look at it and understand that it is a sequence, even though it
+subclasses <code>object</code>.  We say it <em>is</em> a sequence because it <em>behaves</em> like one, and
+that is what matters.  This became known as <em>duck typing</em>, after Alex Martelli’s post
+quoted at the beginning of this chapter.</p>
+<p>Because protocols are informal and unenforced, you can often get away with
+implementing just part of a protocol, if you know the specific context where a class
+will be used.  For example, to support iteration, only <code>__getitem__()</code> is required;
+there is no need to provide <code>__len__()</code>.  The Data Model documentation itself
+suggests that when implementing a class that emulates a built-in type, the emulation
+should only be implemented to the degree that makes sense for the object being
+modeled: some sequences may work well with retrieval of individual elements, but
+extracting a slice may not make sense.  Not having to write nonsense methods just to
+fulfill an overdesigned interface makes it easier to keep things simple.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>With <a href="https://peps.python.org/pep-0544/"><strong>PEP 544</strong></a>, Python supports <em>protocol
+classes</em>: the typing constructs from <a href="type-hints-functions.html#static-protocols">Static Protocols</a>.
+This use of the word protocol has a related but different meaning.  When they need
+to be distinguished, we’ll write <em>static protocol</em> for the protocols formalized in
+protocol classes, and <em>dynamic protocol</em> for the traditional sense.  One key
+difference is that static protocol implementations must provide all methods defined
+in the protocol class.  <a href="protocols-abcs.html#two-kinds-of-protocols">Two Kinds of Protocols</a>
+has more details.</p>
+</blockquote>
+<p>We’ll now implement the sequence protocol in <code>Vector</code>, initially without proper
+support for slicing, then adding it.</p>
+<h2 id="a-sliceable-sequence"><a class="header" href="#a-sliceable-sequence">A Sliceable Sequence</a></h2>
+<p>As we saw with <code>FrenchDeck</code>, supporting the sequence protocol is really easy if you
+can delegate to a sequence attribute in your object, like our <code>self._components</code>
+array.  These <code>__len__()</code> and <code>__getitem__()</code> one-liners are a good start:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class Vector:
+    # many lines omitted
+    # ...
+
+    def __len__(self):
+        return len(self._components)
+
+    def __getitem__(self, index):
+        return self._components[index]
+</code></pre>
+<p>With these additions, all of these operations now work:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v1 = Vector([3, 4, 5])
+len(v1)
+# 3
+v1[0], v1[-1]
+# (3.0, 5.0)
+v7 = Vector(range(7))
+v7[1:4]
+# array('d', [1.0, 2.0, 3.0])
+</code></pre>
+<p>As you can see, even slicing is supported, but not very well.  It would be better if a
+slice of a <code>Vector</code> was also a <code>Vector</code> instance and not an <code>array</code>.  The old
+<code>FrenchDeck</code> class has a similar problem: when you slice it, you get a <code>list</code>.  In the
+case of <code>Vector</code>, a lot of functionality is lost when slicing produces plain arrays.</p>
+<p>Consider the built-in sequence types: every one of them, when sliced, produces a new
+instance of its own type, and not of some other type.  To make <code>Vector</code> produce slices
+as <code>Vector</code> instances, we can’t just delegate the slicing to <code>array</code>.  We need to
+analyze the arguments we get in <code>__getitem__()</code> and do the right thing.  So let’s see
+how Python turns the syntax <code>my_seq[1:3]</code> into arguments for <code>my_seq.__getitem__(...)</code>.</p>
+<h3 id="how-slicing-works"><a class="header" href="#how-slicing-works">How Slicing Works</a></h3>
+<p>A demo is worth a thousand words:</p>
+<pre><code class="language-python">class MySeq:
+    def __getitem__(self, index):
+        return index  # for this demonstration, __getitem__ returns whatever is passed
+
+s = MySeq()
+s[1]  # a single index, nothing new
+# 1
+s[1:4]  # the notation 1:4 becomes slice(1, 4, None)
+# slice(1, 4, None)
+s[1:4:2]  # start at 1, stop at 4, step by 2
+# slice(1, 4, 2)
+s[1:4:2, 9]  # surprise: commas inside the [] mean __getitem__ receives a tuple
+# (slice(1, 4, 2), 9)
+s[1:4:2, 7:9]  # the tuple may even hold several slice objects
+# (slice(1, 4, 2), slice(7, 9, None))
+</code></pre>
+<p>Now let’s take a closer look at <code>slice</code> itself:</p>
+<pre><code class="language-python">slice  # slice is a built-in type
+# &lt;class 'slice'&gt;
+sorted(name for name in dir(slice) if not name.startswith('__'))
+# ['indices', 'start', 'step', 'stop']
+</code></pre>
+<p>Inspecting a <code>slice</code>, we find the data attributes <code>start</code>, <code>stop</code> and <code>step</code>, and an
+<code>indices</code> method.  That method is very interesting but little known.  Here is what
+<code>help(slice.indices)</code> reveals:</p>
+<pre><code class="language-text">S.indices(len) -&gt; (start, stop, stride)
+
+Assuming a sequence of length len, calculate the start and stop indices,
+and the stride length of the extended slice described by S. Out-of-bounds
+indices are clipped in a manner consistent with handling of normal slices.
+</code></pre>
+<p>In other words, <code>indices</code> exposes the tricky logic that’s implemented in the built-in
+sequences to gracefully handle missing or negative indices and slices that are longer
+than the original sequence.  This method produces “normalized” tuples of nonnegative
+<code>start</code>, <code>stop</code> and <code>stride</code> integers tailored to a sequence of the given length.
+Here are a couple of examples, considering a sequence of <code>len == 5</code>, e.g., <code>'ABCDE'</code>:</p>
+<pre><code class="language-python">slice(None, 10, 2).indices(5)  # 'ABCDE'[:10:2] is the same as 'ABCDE'[0:5:2]
+# (0, 5, 2)
+slice(-3, None, None).indices(5)  # 'ABCDE'[-3:] is the same as 'ABCDE'[2:5:1]
+# (2, 5, 1)
+</code></pre>
+<p>In our <code>Vector</code> code, we won’t need <code>slice.indices()</code>, because when we get a slice
+argument we’ll delegate its handling to the <code>_components</code> array.  But if you can’t
+count on the services of an underlying sequence, this method can be a huge time saver.</p>
+<h3 id="a-slice-aware-__getitem__"><a class="header" href="#a-slice-aware-__getitem__">A Slice-Aware <code>__getitem__</code></a></h3>
+<p>These are the two methods needed to make <code>Vector</code> behave as a sequence, with
+<code>__getitem__()</code> now implemented to handle slicing correctly:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __len__(self):
+    return len(self._components)
+
+def __getitem__(self, key):
+    if isinstance(key, slice):
+        cls = type(self)
+        return cls(self._components[key])
+    index = operator.index(key)
+    return self._components[index]
+</code></pre>
+<p>If the <code>key</code> argument is a <code>slice</code>, we get the class of the instance (i.e., <code>Vector</code>)
+and invoke it to build another <code>Vector</code> instance from a slice of the <code>_components</code>
+array.  Otherwise, if we can get an index from <code>key</code>, we return the specific item from
+<code>_components</code>.</p>
+<p>The <a href="https://docs.python.org/3/library/operator.html#operator.index"><code>operator.index()</code></a>
+function calls the <code>__index__()</code> special method.  The function and the special method
+were defined in <a href="https://peps.python.org/pep-0357/"><strong>PEP 357</strong></a>, proposed by Travis
+Oliphant to allow any of the numerous types of integers in NumPy to be used as indexes
+and slice arguments.  The key difference between <code>operator.index()</code> and <code>int()</code> is that
+the former is intended for this specific purpose.  For example, <code>int(3.14)</code> returns
+<code>3</code>, but <code>operator.index(3.14)</code> raises <code>TypeError</code>, because a <code>float</code> should not be
+used as an index.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Excessive use of <code>isinstance</code> may be a sign of bad object-oriented design, but
+handling slices in <code>__getitem__()</code> is a justified use case.  Using <code>operator.index</code>
+instead of an <code>isinstance</code> test for integers is more flexible, and it raises
+<code>TypeError</code> with a very informative message if we can’t get an index from <code>key</code>, as
+the last test below shows.</p>
+</blockquote>
+<p>With that code added to the <code>Vector</code> class, we have proper slicing behavior:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v7 = Vector(range(7))
+v7[-1]  # an integer index retrieves just one component value as a float
+# 6.0
+v7[1:4]  # a slice index creates a new Vector
+# Vector([1.0, 2.0, 3.0])
+v7[-1:]  # a slice of len == 1 also creates a Vector
+# Vector([6.0])
+v7[1,2]  # Vector does not support multidimensional indexing
+# Traceback (most recent call last):
+#   ...
+# TypeError: 'tuple' object cannot be interpreted as an integer
+</code></pre>
+<h2 id="dynamic-attribute-access"><a class="header" href="#dynamic-attribute-access">Dynamic Attribute Access</a></h2>
+<p>In the evolution from <code>Vector2d</code> to <code>Vector</code>, we lost the ability to access vector
+components by name (e.g., <code>v.x</code>, <code>v.y</code>).  We are now dealing with vectors that may
+have a large number of components.  Still, it may be convenient to access the first few
+components with shortcut letters such as <code>x</code>, <code>y</code>, <code>z</code> instead of <code>v[0]</code>, <code>v[1]</code> and
+<code>v[2]</code>.  Here is the alternative syntax we want to provide for reading the first four
+components of a vector:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v = Vector(range(10))
+v.x
+# 0.0
+v.y, v.z, v.t
+# (1.0, 2.0, 3.0)
+</code></pre>
+<p>In <code>Vector2d</code>, we provided read-only access to <code>x</code> and <code>y</code> using the <code>@property</code>
+decorator.  We could write four properties in <code>Vector</code>, but it would be tedious.  The
+<code>__getattr__()</code> special method provides a better way.</p>
+<p>The <code>__getattr__()</code> method is invoked by the interpreter when attribute lookup fails.
+In simple terms, given the expression <code>my_obj.x</code>, Python checks whether the <code>my_obj</code>
+instance has an attribute named <code>x</code>; if not, the search goes to the class
+(<code>my_obj.__class__</code>), and then up the inheritance graph.  If the <code>x</code> attribute is not
+found, then the <code>__getattr__()</code> method defined in the class of <code>my_obj</code> is called with
+<code>self</code> and the name of the attribute as a string (e.g., <code>'x'</code>).  (Attribute lookup is
+more complicated than this; the gory details are in
+<a href="dynamic-attributes.html">Dynamic Attributes and Properties</a>.  For now, this simplified
+explanation will do.)</p>
+<p>Here is our <code>__getattr__()</code> method.  Essentially, it checks whether the attribute being
+sought is one of the letters <code>xyzt</code> and, if so, returns the corresponding vector
+component:</p>
+<!-- nocheck -->
+<pre><code class="language-python">__match_args__ = ('x', 'y', 'z', 't')
+
+def __getattr__(self, name):
+    cls = type(self)
+    try:
+        pos = cls.__match_args__.index(name)
+    except ValueError:
+        pos = -1
+    if 0 &lt;= pos &lt; len(self._components):
+        return self._components[pos]
+    msg = f'{cls.__name__!r} object has no attribute {name!r}'
+    raise AttributeError(msg)
+</code></pre>
+<p>We set <code>__match_args__</code> to allow positional pattern matching on the dynamic attributes
+supported by <code>__getattr__()</code>.  (It does double duty: it supports positional patterns in
+<code>case</code> clauses, and it holds the names of the dynamic attributes supported by special
+logic in <code>__getattr__()</code> and <code>__setattr__()</code>.)  <code>__getattr__()</code> gets the <code>Vector</code> class
+for later use, and tries to get the position of <code>name</code> in <code>__match_args__</code>;
+<code>.index(name)</code> raises <code>ValueError</code> when <code>name</code> is not found, so we set <code>pos</code> to <code>-1</code>.
+(A method like <code>str.find</code> would be nicer here, but <code>tuple</code> doesn’t implement it.)  If
+<code>pos</code> is within range of the available components, we return the component; otherwise
+we raise <code>AttributeError</code> with a standard message text.</p>
+<p>It’s not hard to implement <code>__getattr__()</code>, but in this case it’s not enough.
+Consider this bizarre interaction:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v = Vector(range(5))
+v
+# Vector([0.0, 1.0, 2.0, 3.0, 4.0])
+v.x  # access element v[0] as v.x
+# 0.0
+v.x = 10  # assign a new value to v.x; this should raise an exception
+v.x  # reading v.x shows the new value, 10
+# 10
+v  # however, the vector components did not change
+# Vector([0.0, 1.0, 2.0, 3.0, 4.0])
+</code></pre>
+<p>Can you explain what is happening?  In particular, why does <code>v.x</code> return <code>10</code> the
+second time, if that value is not in the vector components array?  If you don’t know
+right away, study the explanation of <code>__getattr__()</code> given above.  It’s a bit subtle,
+but a very important foundation to understand a lot of what comes later.</p>
+<p>After you’ve given it some thought, read on.  The inconsistency was introduced because
+of the way <code>__getattr__()</code> works: Python only calls that method as a fallback, when the
+object does not have the named attribute.  However, after we assign <code>v.x = 10</code>, the <code>v</code>
+object now has an <code>x</code> attribute, so <code>__getattr__()</code> is no longer called to retrieve
+<code>v.x</code>: the interpreter just returns the value <code>10</code> that is bound to <code>v.x</code>.  On the other
+hand, our implementation of <code>__getattr__()</code> pays no attention to instance attributes
+other than <code>self._components</code>, from where it retrieves the values of the “virtual
+attributes” listed in <code>__match_args__</code>.</p>
+<p>We need to customize the logic for setting attributes in our <code>Vector</code> class to avoid
+this inconsistency.  Recall that trying to assign to the <code>.x</code> or <code>.y</code> attributes of a
+<code>Vector2d</code> raised <code>AttributeError</code>.  In <code>Vector</code>, we want the same exception with any
+attempt at assigning to all single-letter lowercase attribute names, just to avoid
+confusion.  To do that, we implement <code>__setattr__()</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __setattr__(self, name, value):
+    cls = type(self)
+    if len(name) == 1:
+        if name in cls.__match_args__:
+            error = 'readonly attribute {attr_name!r}'
+        elif name.islower():
+            error = "can't set attributes 'a' to 'z' in {cls_name!r}"
+        else:
+            error = ''
+        if error:
+            msg = error.format(cls_name=cls.__name__, attr_name=name)
+            raise AttributeError(msg)
+    super().__setattr__(name, value)
+</code></pre>
+<p>Single-character attribute names get special handling.  If <code>name</code> is one of
+<code>__match_args__</code>, we set a specific error message; if <code>name</code> is lowercase, an error
+message about all single-letter names; otherwise, a blank error message.  If there is a
+nonblank error message, we raise <code>AttributeError</code>.  In the default case, we call
+<code>__setattr__()</code> on the superclass for standard behavior.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>The <a href="https://docs.python.org/3/library/functions.html#super"><code>super()</code></a> function
+provides a way to access methods of superclasses dynamically, a necessity in a
+dynamic language supporting multiple inheritance like Python.  It’s used to delegate
+some task from a method in a subclass to a suitable method in a superclass, as here.
+There is more about <code>super</code> in
+<a href="inheritance.html#multiple-inheritance-and-method-resolution-order">Multiple Inheritance and Method Resolution Order</a>.</p>
+</blockquote>
+<p>When choosing the error message to display, it helps to look at the behavior of the
+built-in <code>complex</code> type, because complex numbers are immutable and have a pair of data
+attributes, <code>real</code> and <code>imag</code>.  Trying to change either raises <code>AttributeError</code>, and
+trying to set a read-only property, as in <code>Vector2d</code>, produces a similar message.  The
+messages above are inspired by both, but more explicit about the forbidden attributes.</p>
+<p>Note that we are not disallowing setting all attributes, only single-letter lowercase
+ones, to avoid confusion with the supported read-only attributes <code>x</code>, <code>y</code>, <code>z</code> and <code>t</code>.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Knowing that declaring <code>__slots__</code> at the class level prevents setting new instance
+attributes, it’s tempting to use that feature instead of implementing
+<code>__setattr__()</code> as we did.  However, because of all the caveats discussed in
+<a href="pythonic-object.html#summarizing-the-issues-with-__slots__">Summarizing the Issues with <code>__slots__</code></a>,
+using <code>__slots__</code> just to prevent instance attribute creation is not recommended.
+<code>__slots__</code> should be used only to save memory, and only if that is a real issue.</p>
+</blockquote>
+<p>Even without supporting writing to the <code>Vector</code> components, here is an important
+takeaway from this example: very often when you implement <code>__getattr__()</code>, you need to
+write <code>__setattr__()</code> as well, to avoid inconsistent behavior in your objects.</p>
+<p>If we wanted to allow changing components, we could implement <code>__setitem__()</code> to
+enable <code>v[0] = 1.1</code> and/or <code>__setattr__()</code> to make <code>v.x = 1.1</code> work.  But <code>Vector</code> will
+remain immutable, because we want to make it hashable in the coming section.</p>
+<h2 id="hashing-and-a-faster-"><a class="header" href="#hashing-and-a-faster-">Hashing and a Faster <code>==</code></a></h2>
+<p>Once more we get to implement a <code>__hash__()</code> method.  Together with the existing
+<code>__eq__()</code>, it will make <code>Vector</code> instances hashable.</p>
+<p>The <code>__hash__()</code> of <code>Vector2d</code> computed the hash of a tuple built with the two
+components, <code>self.x</code> and <code>self.y</code>.  Now we may be dealing with thousands of components,
+so building a tuple may be too costly.  Instead, we will apply the <code>^</code> (xor) operator to
+the hashes of every component in succession, like this: <code>v[0] ^ v[1] ^ v[2]</code>.  That is
+what the <code>functools.reduce</code> function is for.  <code>reduce</code> is not as popular as it used to
+be, but computing the hash of all vector components is a good use case for it.</p>
+<p>So far we’ve seen that <code>functools.reduce()</code> can be replaced by <code>sum()</code>; now let’s
+properly explain how it works.  The key idea is to <em>reduce</em> a series of values to a
+single value, as <code>sum</code>, <code>any</code> and <code>all</code> also do.  The first argument to <code>reduce()</code> is a
+two-argument function, and the second argument is an iterable.  Say we have a
+two-argument function <code>fn</code> and a list <code>lst</code>.  When you call <code>reduce(fn, lst)</code>, <code>fn</code> is
+applied to the first pair of elements, <code>fn(lst[0], lst[1])</code>, producing a first result,
+<code>r1</code>.  Then <code>fn</code> is applied to <code>r1</code> and the next element, <code>fn(r1, lst[2])</code>, producing a
+second result, <code>r2</code>.  Now <code>fn(r2, lst[3])</code> is called to produce <code>r3</code>, and so on until
+the last element, when a single result, <code>rN</code>, is returned.  Here is how you could use
+<code>reduce</code> to compute 5! (the factorial of 5):</p>
+<pre><code class="language-python">2 * 3 * 4 * 5  # the result we want: 5! == 120
+# 120
+import functools
+functools.reduce(lambda a,b: a*b, range(1, 6))
+# 120
+</code></pre>
+<p>Back to our hashing problem: here are three ways of computing the aggregate xor of the
+integers from 0 to 5, with a <code>for</code> loop and with two <code>reduce</code> calls:</p>
+<pre><code class="language-python">n = 0
+for i in range(1, 6):  # aggregate xor with a for loop and an accumulator variable
+    n ^= i
+
+n
+# 1
+import functools
+functools.reduce(lambda a, b: a^b, range(6))  # reduce with an anonymous function
+# 1
+import operator
+functools.reduce(operator.xor, range(6))  # reduce with operator.xor instead of lambda
+# 1
+</code></pre>
+<p>Of those alternatives, the last one is arguably the best, and the <code>for</code> loop comes
+second.  What is your preference?  As you saw in
+<a href="first-class-functions.html#the-operator-module">The <code>operator</code> Module</a>, <code>operator</code>
+provides the functionality of all Python infix operators in function form, lessening
+the need for <code>lambda</code>.  To write <code>Vector.__hash__()</code> in that style, we need to import
+the <code>functools</code> and <code>operator</code> modules:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from array import array
+import reprlib
+import math
+import functools
+import operator
+
+class Vector:
+    typecode = 'd'
+
+    # many lines omitted in book listing...
+
+    def __eq__(self, other):
+        return tuple(self) == tuple(other)
+
+    def __hash__(self):
+        hashes = (hash(x) for x in self._components)
+        return functools.reduce(operator.xor, hashes, 0)
+
+    # more lines omitted...
+</code></pre>
+<p>We import <code>functools</code> to use <code>reduce</code>, and <code>operator</code> to use <code>xor</code>.  There’s no change
+to <code>__eq__()</code>; it’s listed here because it’s good practice to keep <code>__eq__()</code> and
+<code>__hash__()</code> close in source code, since they need to work together.  <code>__hash__()</code>
+creates a generator expression to lazily compute the hash of each component, and feeds
+the hashes to <code>reduce</code> with the <code>xor</code> function to compute the aggregate hash code; the
+third argument, <code>0</code>, is the initializer.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>When using <code>reduce</code>, it’s good practice to provide the third argument,
+<code>reduce(function, iterable, initializer)</code>, to prevent this exception:
+<code>TypeError: reduce() of empty iterable with no initial value</code> (an excellent message:
+it explains the problem and how to fix it).  The <code>initializer</code> is the value returned
+if the sequence is empty, and it is used as the first argument in the reducing loop,
+so it should be the identity value of the operation.  For example, for <code>+</code>, <code>|</code> and
+<code>^</code> the <code>initializer</code> should be <code>0</code>, but for <code>*</code> and <code>&amp;</code> it should be <code>1</code>.</p>
+</blockquote>
+<p>As implemented, <code>__hash__()</code> is a perfect example of a <em>map-reduce</em> computation: apply
+a function to each item to generate a new series (map), then compute the aggregate
+(reduce).  The mapping step produces one hash for each component, and the reduce step
+aggregates all hashes with the <code>xor</code> operator.  Using <code>map</code> instead of a genexp makes
+the mapping step even more visible:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __hash__(self):
+    hashes = map(hash, self._components)
+    return functools.reduce(operator.xor, hashes)
+</code></pre>
+<p>(In Python 3, <code>map</code> is lazy: it creates an iterator that yields the results on demand,
+thus saving memory, just like a generator expression.)</p>
+<p>While we are on the topic of reducing functions, we can replace our quick
+implementation of <code>__eq__()</code> with one that is cheaper in terms of processing and
+memory, at least for large vectors.  We have this very concise implementation:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __eq__(self, other):
+    return tuple(self) == tuple(other)
+</code></pre>
+<p>This works for <code>Vector2d</code> and for <code>Vector</code>; it even considers <code>Vector([1, 2])</code> equal to
+<code>(1, 2)</code>, which may be a problem, but we’ll overlook that for now (it is taken up in
+<a href="operator-overloading.html#operator-overloading-101">Operator Overloading 101</a>).  But for
+<code>Vector</code> instances that may have thousands of components, it’s very inefficient.  It
+builds two tuples copying the entire contents of the operands just to use the
+<code>__eq__()</code> of the <code>tuple</code> type.  For <code>Vector2d</code> (with only two components), it’s a good
+shortcut, but not for large multidimensional vectors.  A better way of comparing one
+<code>Vector</code> to another <code>Vector</code> or iterable is this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __eq__(self, other):
+    if len(self) != len(other):
+        return False
+    for a, b in zip(self, other):
+        if a != b:
+            return False
+    return True
+</code></pre>
+<p>If the lengths of the objects are different, they are not equal.  <code>zip</code> produces a
+generator of tuples made from the items in each iterable argument; the length check is
+needed because <code>zip</code> stops producing values without warning as soon as one of the
+inputs is exhausted.  As soon as two components are different, we exit, returning
+<code>False</code>; otherwise, the objects are equal.  (The <code>zip</code> function is named after the
+zipper fastener, because the physical device works by interlocking pairs of teeth taken
+from both sides, a good visual analogy for what <code>zip(left, right)</code> does.  No relation to
+compressed files.)</p>
+<p>That version is efficient, but the <code>all</code> function can produce the same aggregate
+computation as the <code>for</code> loop in one line: if all comparisons between corresponding
+components in the operands are <code>True</code>, the result is <code>True</code>; as soon as one comparison
+is <code>False</code>, <code>all</code> returns <code>False</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __eq__(self, other):
+    return len(self) == len(other) and all(a == b for a, b in zip(self, other))
+</code></pre>
+<p>Note that we first check that the operands have equal length, because <code>zip</code> will stop
+at the shortest operand.  This is the implementation we choose for <code>__eq__()</code>.</p>
+<h3 id="the-awesome-zip"><a class="header" href="#the-awesome-zip">The Awesome <code>zip</code></a></h3>
+<p>Having a <code>for</code> loop that iterates over items without fiddling with index variables is
+great and prevents lots of bugs, but it demands some special utility functions.  One of
+them is the <a href="https://docs.python.org/3/library/functions.html#zip"><code>zip</code></a> built-in,
+which makes it easy to iterate in parallel over two or more iterables by returning
+tuples that you can unpack into variables, one for each item in the parallel inputs:</p>
+<pre><code class="language-python">zip(range(3), 'ABC')  # zip returns an iterator that produces tuples on demand
+# &lt;zip object at 0x10063ae48&gt;
+list(zip(range(3), 'ABC'))  # build a list just for display
+# [(0, 'A'), (1, 'B'), (2, 'C')]
+list(zip(range(3), 'ABC', [0.0, 1.1, 2.2, 3.3]))  # zip stops at the shortest iterable
+# [(0, 'A', 0.0), (1, 'B', 1.1), (2, 'C', 2.2)]
+from itertools import zip_longest
+list(zip_longest(range(3), 'ABC', [0.0, 1.1, 2.2, 3.3], fillvalue=-1))
+# [(0, 'A', 0.0), (1, 'B', 1.1), (2, 'C', 2.2), (-1, -1, 3.3)]
+</code></pre>
+<p><code>zip</code> stops without warning when one of the iterables is exhausted.  The
+<code>itertools.zip_longest</code> function behaves differently: it uses an optional <code>fillvalue</code>
+(<code>None</code> by default) to complete missing values, so it can generate tuples until the
+last iterable is exhausted.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Silently stopping at the shortest iterable can cause subtle bugs.
+<a href="https://peps.python.org/pep-0618/"><strong>PEP 618</strong></a> added an optional <code>strict</code> argument
+to <code>zip</code> (Python 3.10+): with <code>strict=True</code>, <code>zip</code> raises <code>ValueError</code> if the
+iterables are not all of the same length, in line with Python’s fail-fast policy.</p>
+<pre><code class="language-python">list(zip('ABC', range(2), strict=True))
+# Traceback (most recent call last):
+#   ...
+# ValueError: zip() argument 2 is shorter than argument 1
+</code></pre>
+</blockquote>
+<p>The <code>zip</code> function can also be used to transpose a matrix represented as nested
+iterables:</p>
+<pre><code class="language-python">a = [(1, 2, 3),
+     (4, 5, 6)]
+list(zip(*a))
+# [(1, 4), (2, 5), (3, 6)]
+b = [(1, 2),
+     (3, 4),
+     (5, 6)]
+list(zip(*b))
+# [(1, 3, 5), (2, 4, 6)]
+</code></pre>
+<p>If you want to grok <code>zip</code>, spend some time figuring out how these examples work.  The
+<code>enumerate</code> built-in is another generator function often used in <code>for</code> loops to avoid
+direct handling of index variables (see <a href="datastructures.html#tut-loopidioms">Looping Techniques</a>).
+Both, along with several other generator functions in the standard library, are covered
+in <a href="iterators-generators.html#generator-functions-in-the-standard-library">Generator Functions in the Standard Library</a>.</p>
+<h2 id="formatting"><a class="header" href="#formatting">Formatting</a></h2>
+<p>The <code>__format__()</code> method of <code>Vector</code> will resemble that of <code>Vector2d</code>, but instead of
+providing a custom display in polar coordinates, <code>Vector</code> will use spherical
+coordinates, also known as “hyperspherical” coordinates, because now we support <em>n</em>
+dimensions, and spheres are “hyperspheres” in 4D and beyond.  Accordingly, we’ll change
+the custom format suffix from <code>'p'</code> to <code>'h'</code>.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>As explained in <a href="pythonic-object.html#formatted-displays">Formatted Displays</a>, when
+extending the Format Specification Mini-Language it’s best to avoid reusing format
+codes supported by built-in types.  Our extended mini-language also uses the float
+formatting codes <code>'eEfFgGn%'</code> in their original meaning, so we must avoid these.
+Integers use <code>'bcdoxXn'</code> and strings use <code>'s'</code>.  <code>'p'</code> was used for <code>Vector2d</code> polar
+coordinates; <code>'h'</code> for hyperspherical coordinates is a good choice.</p>
+</blockquote>
+<p>For example, given a <code>Vector</code> object in 4D space (<code>len(v) == 4</code>), the <code>'h'</code> code will
+produce a display like <code>&lt;r, Φ₁, Φ₂, Φ₃&gt;</code>, where <code>r</code> is the magnitude (<code>abs(v)</code>), and the
+remaining numbers are the angular components Φ₁, Φ₂, Φ₃.  Here are some samples:</p>
+<!-- nocheck -->
+<pre><code class="language-python">format(Vector([-1, -1, -1, -1]), 'h')
+# '&lt;2.0, 2.0943951023931957, 2.186276035465284, 3.9269908169872414&gt;'
+format(Vector([2, 2, 2, 2]), '.3eh')
+# '&lt;4.000e+00, 1.047e+00, 9.553e-01, 7.854e-01&gt;'
+format(Vector([0, 1, 0, 0]), '0.5fh')
+# '&lt;1.00000, 1.57080, 0.00000, 0.00000&gt;'
+</code></pre>
+<p>Before we can implement the minor changes required in <code>__format__()</code>, we need a pair
+of support methods: <code>angle(n)</code> to compute one of the angular coordinates (e.g., Φ₁),
+and <code>angles()</code> to return an iterable of all angular coordinates.  The math is not
+explained here; if you’re curious, the “n-sphere” entry in Wikipedia has the formulas
+used to calculate the spherical coordinates from the Cartesian coordinates.</p>
+<p>Here is the full listing of <code>vector_v5.py</code>, consolidating everything implemented since
+<a href="#vector-take-1-vector2d-compatible"><code>Vector</code> Take #1</a> and introducing custom
+formatting:</p>
+<pre><code class="language-python">"""
+A multidimensional ``Vector`` class, take 5
+"""
+
+from array import array
+import reprlib
+import math
+import functools
+import operator
+import itertools
+
+class Vector:
+    typecode = 'd'
+
+    def __init__(self, components):
+        self._components = array(self.typecode, components)
+
+    def __iter__(self):
+        return iter(self._components)
+
+    def __repr__(self):
+        components = reprlib.repr(self._components)
+        components = components[components.find('['):-1]
+        return f'Vector({components})'
+
+    def __str__(self):
+        return str(tuple(self))
+
+    def __bytes__(self):
+        return (bytes([ord(self.typecode)]) +
+                bytes(self._components))
+
+    def __eq__(self, other):
+        return (len(self) == len(other) and
+                all(a == b for a, b in zip(self, other)))
+
+    def __hash__(self):
+        hashes = (hash(x) for x in self)
+        return functools.reduce(operator.xor, hashes, 0)
+
+    def __abs__(self):
+        return math.hypot(*self)
+
+    def __bool__(self):
+        return bool(abs(self))
+
+    def __len__(self):
+        return len(self._components)
+
+    def __getitem__(self, key):
+        if isinstance(key, slice):
+            cls = type(self)
+            return cls(self._components[key])
+        index = operator.index(key)
+        return self._components[index]
+
+    __match_args__ = ('x', 'y', 'z', 't')
+
+    def __getattr__(self, name):
+        cls = type(self)
+        try:
+            pos = cls.__match_args__.index(name)
+        except ValueError:
+            pos = -1
+        if 0 &lt;= pos &lt; len(self._components):
+            return self._components[pos]
+        msg = f'{cls.__name__!r} object has no attribute {name!r}'
+        raise AttributeError(msg)
+
+    def __setattr__(self, name, value):
+        cls = type(self)
+        if len(name) == 1:
+            if name in cls.__match_args__:
+                error = 'readonly attribute {attr_name!r}'
+            elif name.islower():
+                error = "can't set attributes 'a' to 'z' in {cls_name!r}"
+            else:
+                error = ''
+            if error:
+                msg = error.format(cls_name=cls.__name__, attr_name=name)
+                raise AttributeError(msg)
+        super().__setattr__(name, value)
+
+    def angle(self, n):
+        r = math.hypot(*self[n:])
+        a = math.atan2(r, self[n-1])
+        if (n == len(self) - 1) and (self[-1] &lt; 0):
+            return math.pi * 2 - a
+        else:
+            return a
+
+    def angles(self):
+        return (self.angle(n) for n in range(1, len(self)))
+
+    def __format__(self, fmt_spec=''):
+        if fmt_spec.endswith('h'):  # hyperspherical coordinates
+            fmt_spec = fmt_spec[:-1]
+            coords = itertools.chain([abs(self)],
+                                     self.angles())
+            outer_fmt = '&lt;{}&gt;'
+        else:
+            coords = self
+            outer_fmt = '({})'
+        components = (format(c, fmt_spec) for c in coords)
+        return outer_fmt.format(', '.join(components))
+
+    @classmethod
+    def frombytes(cls, octets):
+        typecode = chr(octets[0])
+        memv = memoryview(octets[1:]).cast(typecode)
+        return cls(memv)
+</code></pre>
+<p>The new parts: we import <code>itertools</code> to use the <code>chain</code> function in <code>__format__()</code>.
+<code>angle(n)</code> computes one of the angular coordinates, using formulas adapted from the
+n-sphere article, and <code>angles()</code> creates a generator expression to compute all angular
+coordinates on demand.  In <code>__format__()</code>, we use <code>itertools.chain</code> to produce a genexp
+that iterates seamlessly over the magnitude and the angular coordinates, and configure
+a spherical coordinate display with angle brackets; otherwise, we configure a
+Cartesian coordinate display with parentheses.  Then we create a generator expression
+to format each coordinate item on demand, and plug the formatted components, separated
+by commas, inside the brackets or parentheses.  (We are making heavy use of generator
+expressions in <code>__format__()</code>, <code>angle</code> and <code>angles</code>; generators are explained in detail
+in <a href="iterators-generators.html">Iterators, Generators, and Classic Coroutines</a>.)</p>
+<p>Here are the tests used while developing <code>vector_v5.py</code>:</p>
+<pre><code class="language-python">Vector([3.1, 4.2])  # a Vector is built from an iterable of numbers
+# Vector([3.1, 4.2])
+Vector((3, 4, 5))
+# Vector([3.0, 4.0, 5.0])
+Vector(range(10))
+# Vector([0.0, 1.0, 2.0, 3.0, 4.0, ...])
+v1 = Vector([3, 4])  # tests with two dimensions (same results as Vector2d)
+x, y = v1
+x, y
+# (3.0, 4.0)
+v1
+# Vector([3.0, 4.0])
+v1_clone = eval(repr(v1))
+v1 == v1_clone
+# True
+print(v1)
+# (3.0, 4.0)
+octets = bytes(v1)
+octets
+# b'd\x00\x00\x00\x00\x00\x00\x08@\x00\x00\x00\x00\x00\x00\x10@'
+abs(v1)
+# 5.0
+bool(v1), bool(Vector([0, 0]))
+# (True, False)
+v1_clone = Vector.frombytes(bytes(v1))  # test of the .frombytes() class method
+v1_clone
+# Vector([3.0, 4.0])
+v1 == v1_clone
+# True
+v1 = Vector([3, 4, 5])  # tests with three dimensions
+x, y, z = v1
+x, y, z
+# (3.0, 4.0, 5.0)
+v1
+# Vector([3.0, 4.0, 5.0])
+print(v1)
+# (3.0, 4.0, 5.0)
+abs(v1)
+# 7.0710678118654755
+v7 = Vector(range(7))  # tests with many dimensions
+v7
+# Vector([0.0, 1.0, 2.0, 3.0, 4.0, ...])
+abs(v7)
+# 9.539392014169456
+v1 = Vector([3, 4, 5])  # tests of sequence behavior
+len(v1)
+# 3
+v1[0], v1[len(v1)-1], v1[-1]
+# (3.0, 5.0, 5.0)
+v7[-1]  # tests of slicing
+# 6.0
+v7[1:4]
+# Vector([1.0, 2.0, 3.0])
+v7[-1:]
+# Vector([6.0])
+v7[1,2]
+# Traceback (most recent call last):
+#   ...
+# TypeError: 'tuple' object cannot be interpreted as an integer
+v7 = Vector(range(10))  # tests of dynamic attribute access
+v7.x
+# 0.0
+v7.y, v7.z, v7.t
+# (1.0, 2.0, 3.0)
+v7.k  # dynamic attribute lookup failures
+# Traceback (most recent call last):
+#   ...
+# AttributeError: 'Vector' object has no attribute 'k'
+v3 = Vector(range(3))
+v3.t
+# Traceback (most recent call last):
+#   ...
+# AttributeError: 'Vector' object has no attribute 't'
+v3.x = 7  # assignment to single-letter attributes is forbidden
+# Traceback (most recent call last):
+#   ...
+# AttributeError: readonly attribute 'x'
+v1 = Vector([3, 4])  # tests of hashing
+v3 = Vector([3, 4, 5])
+v6 = Vector(range(6))
+hash(v1), hash(v3), hash(v6)
+# (7, 2, 1)
+v1 = Vector([3, 4])  # tests of format() with Cartesian coordinates
+format(v1)
+# '(3.0, 4.0)'
+format(v1, '.2f')
+# '(3.00, 4.00)'
+format(Vector(range(7)))
+# '(0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0)'
+format(Vector([1, 1]), 'h')  # tests of format() with spherical coordinates
+# '&lt;1.4142135623730951, 0.7853981633974483&gt;'
+format(Vector([1, 1, 1]), 'h')
+# '&lt;1.7320508075688772, 0.9553166181245093, 0.7853981633974483&gt;'
+format(Vector([2, 2, 2]), '.3eh')
+# '&lt;3.464e+00, 9.553e-01, 7.854e-01&gt;'
+format(Vector([0, 0, 0]), '0.5fh')
+# '&lt;0.00000, 0.00000, 0.00000&gt;'
+format(Vector([-1, -1, -1, -1]), 'h')
+# '&lt;2.0, 2.0943951023931957, 2.186276035465284, 3.9269908169872414&gt;'
+format(Vector([2, 2, 2, 2]), '.3eh')
+# '&lt;4.000e+00, 1.047e+00, 9.553e-01, 7.854e-01&gt;'
+format(Vector([0, 1, 0, 0]), '0.5fh')
+# '&lt;1.00000, 1.57080, 0.00000, 0.00000&gt;'
+</code></pre>
+<p>(Hash codes of most non-integers vary between 32-bit and 64-bit CPython builds, so
+<code>hash(Vector([3.1, 4.2]))</code> is <code>384307168202284039</code> on a 64-bit build but a different
+number on a 32-bit build.)</p>
+<p>That concludes our mission for this chapter.  <code>Vector</code> will be enhanced with infix
+operators in <a href="operator-overloading.html">Operator Overloading</a>, but the goal here was to
+explore techniques for writing special methods that are useful in a wide variety of
+collection classes.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>The <code>Vector</code> example in this chapter was designed to be compatible with <code>Vector2d</code>,
+except for the use of a different constructor signature accepting a single iterable
+argument, just as the built-in sequence types do.  The fact that <code>Vector</code> behaves as a
+sequence just by implementing <code>__getitem__()</code> and <code>__len__()</code> prompted a discussion of
+protocols, the informal interfaces used in duck-typed languages.</p>
+<p>We then looked at how the <code>my_seq[a:b:c]</code> syntax works behind the scenes, by creating a
+<code>slice(a, b, c)</code> object and handing it to <code>__getitem__()</code>.  Armed with this knowledge,
+we made <code>Vector</code> respond correctly to slicing, by returning new <code>Vector</code> instances, just
+as a Pythonic sequence is expected to do.</p>
+<p>The next step was to provide read-only access to the first few <code>Vector</code> components
+using notation such as <code>my_vec.x</code>, by implementing <code>__getattr__()</code>.  Doing that opened
+the possibility of tempting the user to assign to those special components by writing
+<code>my_vec.x = 7</code>, revealing a potential bug.  We fixed it by implementing <code>__setattr__()</code>
+as well, to forbid assigning values to single-letter attributes.  Very often, when you
+write a <code>__getattr__()</code> you need to add <code>__setattr__()</code> too, to avoid inconsistent
+behavior.</p>
+<p>Implementing the <code>__hash__()</code> function provided the perfect context for using
+<code>functools.reduce</code>, because we needed to apply the xor operator <code>^</code> in succession to the
+hashes of all <code>Vector</code> components to produce an aggregate hash code for the whole
+<code>Vector</code>.  After applying <code>reduce</code> in <code>__hash__()</code>, we used the <code>all</code> reducing built-in
+to create a more efficient <code>__eq__()</code> method.</p>
+<p>The last enhancement was to reimplement <code>__format__()</code> from <code>Vector2d</code>, supporting
+spherical coordinates as an alternative to the default Cartesian coordinates.  As in
+the previous chapter, we often looked at how standard Python objects behave, to emulate
+them and provide a “Pythonic” look and feel to <code>Vector</code>.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>What is the most Pythonic way to sum the <em>n</em>th item of each sublist?  A 2003 thread
+on python-list explored <code>reduce</code> with a <code>lambda</code>, <code>reduce(operator.add, ...)</code>, NumPy
+slicing, and a plain <code>for</code> loop with an accumulator, which many found the most
+readable.  Alex Martelli then proposed a <code>sum()</code> built-in, which appeared in Python
+2.3 three months later; with generator expressions, added in Python 2.4, the answer
+became <code>sum(sub[1] for sub in my_list)</code>.  It reads like “the sum of a list of items”,
+and <code>sum([])</code> is simply <code>0</code>.  That conversation also helped demote <code>reduce</code> from a
+built-in to <code>functools</code> in Python 3.  Still, <code>functools.reduce</code> has its place, as in
+<code>Vector.__hash__()</code>.</p>
+</blockquote>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li>The references in <a href="pythonic-object.html#summary">A Pythonic Object</a> are all relevant
+here, since most special methods in <code>Vector</code> also appear in <code>Vector2d</code>.</li>
+<li>The powerful <code>reduce</code> higher-order function is also known as fold, accumulate,
+aggregate, compress and inject; Wikipedia’s “Fold (higher-order function)” article
+compares fold-like functions in dozens of languages.</li>
+<li><a href="https://peps.python.org/pep-0357/"><strong>PEP 357</strong></a> details the need for <code>__index__</code>
+from the perspective of an implementor of a C extension: Travis Oliphant, the
+primary creator of NumPy.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="pythonic-object.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="protocols-abcs.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="pythonic-object.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="protocols-abcs.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,913 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Functions as First-Class Objects - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="functions-as-first-class-objects"><a class="header" href="#functions-as-first-class-objects">Functions as First-Class Objects</a></h1>
+<p>Functions in Python are first-class objects.  Programming language researchers
+define a “first-class object” as a program entity that can be:</p>
+<ul>
+<li>created at runtime;</li>
+<li>assigned to a variable or element in a data structure;</li>
+<li>passed as an argument to a function;</li>
+<li>returned as the result of a function.</li>
+</ul>
+<p>Integers, strings and dictionaries are other examples of first-class objects in
+Python; nothing fancy there.  Having functions as first-class objects is an
+essential feature of functional languages such as Clojure, Elixir and Haskell.
+However, first-class functions are so useful that they’ve been adopted by
+popular languages like JavaScript, Go and Java, none of which claim to be
+“functional languages”.  Guido van Rossum himself has said that he never
+considered Python to be heavily influenced by functional languages; he made
+functions first-class objects, but he was much more familiar with imperative
+languages such as C and Algol 68.</p>
+<p>This chapter, and the next three, explore the practical applications of treating
+functions as objects.  They build on <a href="controlflow.html#tut-functions">Defining Functions</a>
+and <a href="controlflow.html#tut-defining">More on Defining Functions</a>.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The term “first-class functions” is widely used as shorthand for “functions as
+first-class objects”.  It’s not ideal, because it implies an “elite” among
+functions.  In Python, all functions are first-class.</p>
+</blockquote>
+<h2 id="treating-a-function-like-an-object"><a class="header" href="#treating-a-function-like-an-object">Treating a Function Like an Object</a></h2>
+<p>The following session shows that Python functions are objects.  Here we create a
+function, call it, read its <code>__doc__</code> attribute, and check that the function object
+itself is an instance of the <code>function</code> class:</p>
+<pre><code class="language-python">def factorial(n):
+    """returns n!"""
+    return 1 if n &lt; 2 else n * factorial(n - 1)
+
+factorial(42)
+# 1405006117752879898543142606244511569936384000000000
+factorial.__doc__  # __doc__ is one of several attributes of function objects
+# 'returns n!'
+type(factorial)  # factorial is an instance of the function class
+# &lt;class 'function'&gt;
+</code></pre>
+<p>At the interactive prompt, we are creating that function at “runtime”.  The
+<code>__doc__</code> attribute is used to generate the help text of an object: in the
+interactive interpreter, <code>help(factorial)</code> displays a screen built from it (see
+<a href="controlflow.html#tut-docstrings">Documentation Strings</a>).</p>
+<p>The next snippet shows the “first-class” nature of a function object.  We can
+assign it to a variable <code>fact</code> and call it through that name.  We can also pass
+<code>factorial</code> as an argument to the <a href="https://docs.python.org/3/library/functions.html#map"><code>map()</code></a>
+function.  Calling <code>map(function, iterable)</code> returns an iterable where each item is
+the result of calling the first argument (a function) on successive elements of
+the second argument (an iterable), <code>range(11)</code> in this example:</p>
+<pre><code class="language-python">fact = factorial
+fact
+# &lt;function factorial at 0x...&gt;
+fact(5)
+# 120
+map(factorial, range(11))
+# &lt;map object at 0x...&gt;
+list(map(factorial, range(11)))
+# [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800]
+</code></pre>
+<p>Having first-class functions enables programming in a functional style.  One of
+the hallmarks of functional programming is the use of higher-order functions.</p>
+<h2 id="higher-order-functions"><a class="header" href="#higher-order-functions">Higher-Order Functions</a></h2>
+<p>A function that takes a function as an argument or returns a function as the
+result is a <em>higher-order function</em>.  One example is <code>map</code>.  Another is the
+built-in function <code>sorted</code>: its optional <code>key</code> argument lets you provide a function
+to be applied to each item for sorting, as you saw in
+<a href="sequences.html#listsort-versus-the-sorted-built-in"><code>list.sort</code> Versus the <code>sorted</code> Built-In</a>.
+For example, to sort a list of words by length, pass the <code>len</code> function as the key:</p>
+<pre><code class="language-python">fruits = ['strawberry', 'fig', 'apple', 'cherry', 'raspberry', 'banana']
+sorted(fruits, key=len)
+# ['fig', 'apple', 'cherry', 'banana', 'raspberry', 'strawberry']
+</code></pre>
+<p>Any one-argument function can be used as the key.  For example, to create a rhyme
+dictionary it might be useful to sort each word spelled backward.  Note that the
+words in the list are not changed at all; only their reversed spelling is used as
+the sort criterion, so that the berries appear together:</p>
+<pre><code class="language-python">def reverse(word):
+    return word[::-1]
+
+reverse('testing')
+# 'gnitset'
+sorted(fruits, key=reverse)
+# ['banana', 'apple', 'fig', 'raspberry', 'strawberry', 'cherry']
+</code></pre>
+<p>In the functional programming paradigm, some of the best-known higher-order
+functions are <code>map</code>, <code>filter</code>, <code>reduce</code> and <code>apply</code>.  The <code>apply</code> function was
+removed in Python 3 because it’s no longer necessary: if you need to call a
+function with a dynamic set of arguments, you can write <code>fn(*args, **kwargs)</code>
+instead of <code>apply(fn, args, kwargs)</code>.  The <code>map</code>, <code>filter</code> and <code>reduce</code>
+higher-order functions are still around, but better alternatives are available for
+most of their use cases.</p>
+<h3 id="modern-replacements-for-map-filter-and-reduce"><a class="header" href="#modern-replacements-for-map-filter-and-reduce">Modern Replacements for <code>map</code>, <code>filter</code>, and <code>reduce</code></a></h3>
+<p>Functional languages commonly offer the <code>map</code>, <code>filter</code> and <code>reduce</code> higher-order
+functions (sometimes with different names).  The <code>map</code> and <code>filter</code> functions are
+still built-ins in Python 3, but since the introduction of list comprehensions and
+generator expressions, they are not as important.  A listcomp or a genexp does the
+job of <code>map</code> and <code>filter</code> combined, and is more readable:</p>
+<pre><code class="language-python">list(map(factorial, range(6)))  # a list of factorials from 0! to 5!
+# [1, 1, 2, 6, 24, 120]
+[factorial(n) for n in range(6)]  # same operation, with a list comprehension
+# [1, 1, 2, 6, 24, 120]
+list(map(factorial, filter(lambda n: n % 2, range(6))))  # factorials of odd numbers
+# [1, 6, 120]
+[factorial(n) for n in range(6) if n % 2]  # no map, filter or lambda needed
+# [1, 6, 120]
+</code></pre>
+<p>In Python 3, <code>map</code> and <code>filter</code> return iterators, so their direct substitute is
+now a generator expression.  (In Python 2 they returned lists, so their closest
+alternative was a listcomp.)</p>
+<p>The <code>reduce</code> function was demoted from a built-in to the
+<a href="https://docs.python.org/3/library/functools.html"><code>functools</code></a> module in Python 3.
+Its most common use case, summation, is better served by the <code>sum</code> built-in.  This
+is a big win in readability and performance:</p>
+<pre><code class="language-python">from functools import reduce  # reduce is no longer a built-in
+from operator import add  # import add to avoid creating a function just to add two numbers
+reduce(add, range(100))  # sum integers up to 99
+# 4950
+sum(range(100))  # same task, no need to import and call reduce and add
+# 4950
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The common idea of <code>sum</code> and <code>reduce</code> is to apply some operation to successive
+items in a series, accumulating previous results, thus <em>reducing</em> a series of
+values to a single value.</p>
+</blockquote>
+<p>Other reducing built-ins are <code>all</code> and <code>any</code>:</p>
+<dl>
+<dt id="alliterable"><a class="header" href="#alliterable"><code>all(iterable)</code></a></dt>
+<dd>returns <code>True</code> if there are no falsy elements in the iterable; <code>all([])</code>
+returns <code>True</code>.</dd>
+<dt id="anyiterable"><a class="header" href="#anyiterable"><code>any(iterable)</code></a></dt>
+<dd>returns <code>True</code> if any element of the iterable is truthy; <code>any([])</code> returns
+<code>False</code>.</dd>
+</dl>
+<p>You’ll see a meaningful use of <code>reduce</code> in
+<a href="sequence-protocol.html#hashing-and-a-faster-">Special Methods for Sequences</a>, and the
+reducing functions are summarized in
+<a href="iterators-generators.html#iterable-reducing-functions">Iterators, Generators, and Classic Coroutines</a>.</p>
+<p>To use a higher-order function, it is sometimes convenient to create a small,
+one-off function.  That is why anonymous functions exist.</p>
+<h2 id="anonymous-functions"><a class="header" href="#anonymous-functions">Anonymous Functions</a></h2>
+<p>The <code>lambda</code> keyword creates an anonymous function within a Python expression
+(see <a href="controlflow.html#tut-lambda">Lambda Expressions</a>).  However, Python’s simple
+syntax limits the body of a <code>lambda</code> to a pure expression.  In other words, the body
+cannot contain other Python statements such as <code>while</code>, <code>try</code>, etc.  Assignment
+with <code>=</code> is also a statement, so it cannot occur in a <code>lambda</code>.  The assignment
+expression syntax using <code>:=</code> can be used, but if you need it, your <code>lambda</code> is
+probably too complicated and hard to read, and it should be refactored into a
+regular function using <code>def</code>.</p>
+<p>The best use of anonymous functions is in the argument list of a higher-order
+function.  For example, here is the rhyme index example rewritten with <code>lambda</code>,
+without defining a <code>reverse</code> function:</p>
+<pre><code class="language-python">fruits = ['strawberry', 'fig', 'apple', 'cherry', 'raspberry', 'banana']
+sorted(fruits, key=lambda word: word[::-1])
+# ['banana', 'apple', 'fig', 'raspberry', 'strawberry', 'cherry']
+</code></pre>
+<p>Outside the limited context of arguments to higher-order functions, anonymous
+functions are rarely useful in Python.  The syntactic restrictions tend to make
+nontrivial lambdas either unreadable or unworkable.  Anonymous functions also have
+a drawback in any language: they have no name, which makes stack traces harder to
+read.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>If you find a piece of code hard to understand because of a <code>lambda</code>, the
+<a href="https://docs.python.org/3/howto/functional.html">Functional Programming HOWTO</a>
+passes along Fredrik Lundh’s refactoring procedure:</p>
+<ol>
+<li>Write a comment explaining what the heck that lambda does.</li>
+<li>Study the comment for a while, and think of a name that captures the essence
+of the comment.</li>
+<li>Convert the lambda to a <code>def</code> statement, using that name.</li>
+<li>Remove the comment.</li>
+</ol>
+</blockquote>
+<p>The <code>lambda</code> syntax is just syntactic sugar: a <code>lambda</code> expression creates a
+function object just like the <code>def</code> statement.  That is just one of several kinds
+of callable objects in Python.</p>
+<h2 id="the-nine-flavors-of-callable-objects"><a class="header" href="#the-nine-flavors-of-callable-objects">The Nine Flavors of Callable Objects</a></h2>
+<p>The call operator <code>()</code> may be applied to other objects besides functions.  To
+determine whether an object is callable, use the
+<a href="https://docs.python.org/3/library/functions.html#callable"><code>callable()</code></a> built-in.
+The Data Model documentation lists nine callable types:</p>
+<dl>
+<dt id="user-defined-functions"><a class="header" href="#user-defined-functions"><em>User-defined functions</em></a></dt>
+<dd>created with <code>def</code> statements or <code>lambda</code> expressions.</dd>
+<dt id="built-in-functions"><a class="header" href="#built-in-functions"><em>Built-in functions</em></a></dt>
+<dd>functions implemented in C (in CPython), like <code>len</code> or <code>time.strftime</code>.</dd>
+<dt id="built-in-methods"><a class="header" href="#built-in-methods"><em>Built-in methods</em></a></dt>
+<dd>methods implemented in C, like <code>dict.get</code>.</dd>
+<dt id="methods"><a class="header" href="#methods"><em>Methods</em></a></dt>
+<dd>functions defined in the body of a class.</dd>
+<dt id="classes"><a class="header" href="#classes"><em>Classes</em></a></dt>
+<dd>when invoked, a class runs its <code>__new__()</code> method to create an instance, then
+<code>__init__()</code> to initialize it, and finally the instance is returned to the
+caller.  Because there is no <code>new</code> operator in Python, calling a class is like
+calling a function.  (Usually calling a class creates an instance of that same
+class, but other behaviors are possible by overriding <code>__new__()</code>, as you’ll see in
+<a href="dynamic-attributes.html#flexible-object-creation-with-__new__">Flexible Object Creation with <code>__new__</code></a>.)</dd>
+<dt id="class-instances"><a class="header" href="#class-instances"><em>Class instances</em></a></dt>
+<dd>if a class defines a <code>__call__()</code> method, its instances may be invoked as
+functions, as the next section shows.</dd>
+<dt id="generator-functions"><a class="header" href="#generator-functions"><em>Generator functions</em></a></dt>
+<dd>functions or methods that use the <code>yield</code> keyword in their body.  When called,
+they return a generator object.</dd>
+<dt id="native-coroutine-functions"><a class="header" href="#native-coroutine-functions"><em>Native coroutine functions</em></a></dt>
+<dd>functions or methods defined with <code>async def</code>.  When called, they return a
+coroutine object.</dd>
+<dt id="asynchronous-generator-functions"><a class="header" href="#asynchronous-generator-functions"><em>Asynchronous generator functions</em></a></dt>
+<dd>functions or methods defined with <code>async def</code> that have <code>yield</code> in their body.
+When called, they return an asynchronous generator for use with <code>async for</code>.</dd>
+</dl>
+<p>Generators, native coroutines and asynchronous generator functions are unlike other
+callables in that their return values are never application data, but objects that
+require further processing to yield application data or perform useful work.
+Generator functions return iterators; they are covered in
+<a href="iterators-generators.html">Iterators, Generators, and Classic Coroutines</a>.  Native
+coroutine functions and asynchronous generator functions return objects that only
+work with the help of an asynchronous programming framework, such as <code>asyncio</code>;
+they are the subject of <a href="asyncio.html">Asynchronous Programming</a>.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Given the variety of callable types, the safest way to determine whether an
+object is callable is to use the <code>callable()</code> built-in:</p>
+<pre><code class="language-python">abs, str, 'Ni!'
+# (&lt;built-in function abs&gt;, &lt;class 'str'&gt;, 'Ni!')
+[callable(obj) for obj in (abs, str, 'Ni!')]
+# [True, True, False]
+</code></pre>
+</blockquote>
+<h2 id="user-defined-callable-types"><a class="header" href="#user-defined-callable-types">User-Defined Callable Types</a></h2>
+<p>Not only are Python functions real objects, but arbitrary Python objects may also be
+made to behave like functions.  Implementing a <code>__call__()</code> instance method is all
+it takes.</p>
+<p>The following <code>BingoCage</code> class is built from any iterable and stores an internal
+list of items, in random order.  Calling the instance pops an item:</p>
+<pre><code class="language-python">import random
+
+class BingoCage:
+
+    def __init__(self, items):
+        self._items = list(items)
+        random.shuffle(self._items)
+
+    def pick(self):
+        try:
+            return self._items.pop()
+        except IndexError:
+            raise LookupError('pick from empty BingoCage')
+
+    def __call__(self):
+        return self.pick()
+</code></pre>
+<p><code>__init__()</code> accepts any iterable; building a local copy prevents unexpected side
+effects on any list passed as an argument (see
+<a href="references.html#defensive-programming-with-mutable-parameters">Defensive Programming with Mutable Parameters</a>),
+and <code>shuffle</code> is guaranteed to work because <code>self._items</code> is a list.  <code>pick</code> is the
+main method; it raises an exception with a custom message if <code>self._items</code> is
+empty.  <code>__call__()</code> is a shortcut, so that <code>bingo()</code> does the same as
+<code>bingo.pick()</code>.  (Why build a <code>BingoCage</code> when we already have <code>random.choice</code>?
+<code>choice</code> may return the same item several times, because the picked item is not
+removed from the collection.  Calling a <code>BingoCage</code> never returns duplicate results,
+as long as it is filled with unique values.)</p>
+<p>Here is a simple demo.  Note how a <code>bingo</code> instance can be invoked as a function,
+and the <code>callable()</code> built-in recognizes it as a callable object:</p>
+<pre><code class="language-python">bingo = BingoCage(range(3))
+bingo.pick()
+# 1
+bingo()
+# 0
+callable(bingo)
+# True
+</code></pre>
+<p>A class implementing <code>__call__()</code> is an easy way to create function-like objects
+that have some internal state that must be kept across invocations, like the
+remaining items in the <code>BingoCage</code>.  Another good use case for <code>__call__()</code> is
+implementing decorators.  Decorators must be callable, and it is sometimes
+convenient to “remember” something between calls of the decorator (for example,
+for memoization, caching the results of expensive computations for later use) or
+to split a complex implementation into separate methods.</p>
+<p>The functional approach to creating functions with internal state is to use
+<em>closures</em>.  Closures, as well as decorators, are the subject of
+<a href="decorators.html">Decorators and Closures</a>.</p>
+<h2 id="from-positional-to-keyword-only-parameters"><a class="header" href="#from-positional-to-keyword-only-parameters">From Positional to Keyword-Only Parameters</a></h2>
+<p>One of the best features of Python functions is their extremely flexible
+parameter-handling mechanism.  Closely related is the use of <code>*</code> and <code>**</code> to unpack
+iterables and mappings into separate arguments when calling a function (see
+<a href="controlflow.html#tut-unpacking-arguments">Unpacking Argument Lists</a>).  To see these
+features in action, consider this function, which generates HTML elements.  It
+uses a keyword-only argument <code>class_</code> to pass “class” attributes, as a workaround
+because <code>class</code> is a keyword in Python:</p>
+<pre><code class="language-python">def tag(name, *content, class_=None, **attrs):
+    """Generate one or more HTML tags"""
+    if class_ is not None:
+        attrs['class'] = class_
+    attr_pairs = (f' {attr}="{value}"' for attr, value
+                    in sorted(attrs.items()))
+    attr_str = ''.join(attr_pairs)
+    if content:
+        elements = (f'&lt;{name}{attr_str}&gt;{c}&lt;/{name}&gt;'
+                    for c in content)
+        return '\n'.join(elements)
+    else:
+        return f'&lt;{name}{attr_str} /&gt;'
+</code></pre>
+<p>The <code>tag</code> function can be invoked in many ways:</p>
+<pre><code class="language-python">tag('br')
+# '&lt;br /&gt;'
+tag('p', 'hello')
+# '&lt;p&gt;hello&lt;/p&gt;'
+print(tag('p', 'hello', 'world'))
+# &lt;p&gt;hello&lt;/p&gt;
+# &lt;p&gt;world&lt;/p&gt;
+tag('p', 'hello', id=33)
+# '&lt;p id="33"&gt;hello&lt;/p&gt;'
+print(tag('p', 'hello', 'world', class_='sidebar'))
+# &lt;p class="sidebar"&gt;hello&lt;/p&gt;
+# &lt;p class="sidebar"&gt;world&lt;/p&gt;
+tag(content='testing', name="img")
+# '&lt;img content="testing" /&gt;'
+my_tag = {'name': 'img', 'title': 'Sunset Boulevard',
+          'src': 'sunset.jpg', 'class': 'framed'}
+tag(**my_tag)
+# '&lt;img class="framed" src="sunset.jpg" title="Sunset Boulevard" /&gt;'
+</code></pre>
+<p>Taking those calls in order:</p>
+<ol>
+<li>A single positional argument produces an empty tag with that name.</li>
+<li>Any number of arguments after the first are captured by <code>*content</code> as a tuple.</li>
+<li>Keyword arguments not explicitly named in the <code>tag</code> signature are captured by
+<code>**attrs</code> as a <code>dict</code>.</li>
+<li>The <code>class_</code> parameter can only be passed as a keyword argument.</li>
+<li>The first positional argument can also be passed as a keyword.</li>
+<li>Prefixing the <code>my_tag</code> dict with <code>**</code> passes all its items as separate
+arguments, which are then bound to the named parameters, with the remaining
+ones caught by <code>**attrs</code>.  In this case the arguments dict can have a <code>'class'</code>
+key, because it is a string, and does not clash with the <code>class</code> reserved word.</li>
+</ol>
+<p>Keyword-only arguments are a feature of Python 3.  In <code>tag</code>, the <code>class_</code> parameter
+can only be given as a keyword argument; it will never capture unnamed positional
+arguments.  To specify keyword-only arguments when defining a function, name them
+after the argument prefixed with <code>*</code>.  If you don’t want to support variable
+positional arguments but still want keyword-only arguments, put a <code>*</code> by itself in
+the signature, like this:</p>
+<pre><code class="language-python">def f(a, *, b):
+    return a, b
+
+f(1, b=2)
+# (1, 2)
+f(1, 2)
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: f() takes 1 positional argument but 2 were given
+</code></pre>
+<p>Note that keyword-only arguments do not need to have a default value: they can be
+mandatory, like <code>b</code> in the preceding example.</p>
+<h3 id="positional-only-parameters"><a class="header" href="#positional-only-parameters">Positional-Only Parameters</a></h3>
+<p>User-defined function signatures may also specify <em>positional-only</em> parameters.
+This feature always existed for built-in functions such as <code>divmod(a, b)</code>, which can
+only be called with positional arguments, not as <code>divmod(a=10, b=4)</code>.  To define a
+function requiring positional-only parameters, use <code>/</code> in the parameter list.  This
+example from “What’s New In Python 3.8” emulates the <code>divmod</code> built-in:</p>
+<pre><code class="language-python">def divmod(a, b, /):
+    return (a // b, a % b)
+
+divmod(10, 4)
+# (2, 2)
+divmod(a=10, b=4)
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: divmod() got some positional-only arguments passed as keyword arguments: 'a, b'
+del divmod  # restore the built-in
+</code></pre>
+<p>All arguments to the left of the <code>/</code> are positional-only.  After the <code>/</code>, you may
+specify other arguments, which work as usual.  For example, to make the <code>name</code>
+parameter of <code>tag</code> positional-only, add a <code>/</code> after it:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def tag(name, /, *content, class_=None, **attrs):
+    ...
+</code></pre>
+<p>The tutorial section <a href="controlflow.html#special-parameters">Special parameters</a>
+covers the rules in detail, and <a href="https://peps.python.org/pep-0570/"><strong>PEP 570</strong></a>
+gives the rationale.</p>
+<h3 id="introspection-of-function-parameters"><a class="header" href="#introspection-of-function-parameters">Introspection of Function Parameters</a></h3>
+<p>Function objects have several attributes beyond <code>__doc__</code>.  Some of them store
+information about the parameters, and frameworks use them to call your functions
+with the right arguments.  For example, <code>__defaults__</code> holds a tuple with the default
+values of positional parameters, <code>__kwdefaults__</code> holds the defaults of keyword-only
+parameters, and <code>__code__</code> refers to a code object with details such as the names of
+the parameters and local variables:</p>
+<pre><code class="language-python">tag.__defaults__
+tag.__kwdefaults__
+# {'class_': None}
+tag.__code__.co_varnames[:tag.__code__.co_argcount]
+# ('name',)
+</code></pre>
+<p>(<code>tag.__defaults__</code> is <code>None</code>, so the interactive interpreter displays nothing.)
+Those low-level attributes are awkward to use.  The
+<a href="https://docs.python.org/3/library/inspect.html"><code>inspect</code></a> module provides a much
+better interface, <code>inspect.signature()</code>, which returns a <code>Signature</code> object with an
+ordered mapping of <code>Parameter</code> objects:</p>
+<pre><code class="language-python">import inspect
+sig = inspect.signature(tag)
+str(sig)
+# '(name, *content, class_=None, **attrs)'
+for name, param in sig.parameters.items():
+    print(param.kind, ':', name, '=', param.default)
+# POSITIONAL_OR_KEYWORD : name = &lt;class 'inspect._empty'&gt;
+# VAR_POSITIONAL : content = &lt;class 'inspect._empty'&gt;
+# KEYWORD_ONLY : class_ = None
+# VAR_KEYWORD : attrs = &lt;class 'inspect._empty'&gt;
+</code></pre>
+<p><code>inspect._empty</code> denotes parameters with no default.  The kind of each parameter is
+one of <code>POSITIONAL_OR_KEYWORD</code>, <code>VAR_POSITIONAL</code> (<code>*args</code>), <code>VAR_KEYWORD</code>
+(<code>**kwargs</code>), <code>KEYWORD_ONLY</code> and <code>POSITIONAL_ONLY</code>.  A <code>Signature</code> also has a <code>bind</code>
+method that takes any number of arguments and binds them to the parameters,
+applying the same rules Python uses when calling a function.  A framework can use it
+to validate arguments before the actual call:</p>
+<pre><code class="language-python">my_tag = {'name': 'img', 'title': 'Sunset Boulevard',
+          'src': 'sunset.jpg', 'class': 'framed'}
+bound_args = sig.bind(**my_tag)
+bound_args
+# &lt;BoundArguments (name='img', attrs={'title': 'Sunset Boulevard', 'src': 'sunset.jpg', 'class': 'framed'})&gt;
+for name, value in bound_args.arguments.items():
+    print(name, '=', value)
+# name = img
+# attrs = {'title': 'Sunset Boulevard', 'src': 'sunset.jpg', 'class': 'framed'}
+del my_tag['name']
+bound_args = sig.bind(**my_tag)
+# Traceback (most recent call last):
+#   ...
+# TypeError: missing a required argument: 'name'
+</code></pre>
+<p>This is how frameworks and IDEs can validate code before running it.  Function
+annotations, which are also accessible through <code>Signature</code> and <code>Parameter</code> objects,
+are covered in <a href="type-hints-functions.html">Type Hints in Functions</a> and
+<a href="type-hints-more.html#reading-type-hints-at-runtime">Reading Type Hints at Runtime</a>.</p>
+<h2 id="packages-for-functional-programming"><a class="header" href="#packages-for-functional-programming">Packages for Functional Programming</a></h2>
+<p>Although Guido made it clear that he did not design Python to be a functional
+programming language, a functional coding style can be used to good extent,
+thanks to first-class functions, pattern matching, and the support of packages like
+<code>operator</code> and <code>functools</code>.</p>
+<h3 id="the-operator-module"><a class="header" href="#the-operator-module">The <code>operator</code> Module</a></h3>
+<p>In functional programming it is often convenient to use an arithmetic operator as
+a function.  For example, suppose you want to multiply a sequence of numbers to
+calculate factorials without using recursion.  To perform summation you can use
+<code>sum</code>, but there is no equivalent function for multiplication.  (Actually, since
+Python 3.8 there is <a href="https://docs.python.org/3/library/math.html#math.prod"><code>math.prod()</code></a>,
+but let’s pretend there isn’t.)  You could use <code>reduce</code>, but it requires a function
+to multiply two items of the sequence.  Here is how to solve this using <code>lambda</code>:</p>
+<pre><code class="language-python">from functools import reduce
+
+def factorial(n):
+    return reduce(lambda a, b: a*b, range(1, n+1))
+</code></pre>
+<p>The <a href="https://docs.python.org/3/library/operator.html"><code>operator</code></a> module provides
+function equivalents for dozens of operators, so you don’t have to write trivial
+functions like <code>lambda a, b: a*b</code>.  With it, we can rewrite <code>factorial</code> as:</p>
+<pre><code class="language-python">from functools import reduce
+from operator import mul
+
+def factorial(n):
+    return reduce(mul, range(1, n+1))
+
+factorial(5)
+# 120
+</code></pre>
+<p>Another group of one-trick lambdas that <code>operator</code> replaces are functions to pick
+items from sequences or read attributes from objects: <code>itemgetter</code> and <code>attrgetter</code>
+are factories that build custom functions to do that.</p>
+<p>A common use of <code>itemgetter</code> is sorting a list of tuples by the value of one field.
+Here the cities are printed sorted by country code (field 1).  Essentially,
+<code>itemgetter(1)</code> creates a function that, given a collection, returns the item at
+index 1.  That’s easier to write and read than <code>lambda fields: fields[1]</code>, which does
+the same thing:</p>
+<pre><code class="language-python">metro_data = [
+    ('Tokyo', 'JP', 36.933, (35.689722, 139.691667)),
+    ('Delhi NCR', 'IN', 21.935, (28.613889, 77.208889)),
+    ('Mexico City', 'MX', 20.142, (19.433333, -99.133333)),
+    ('New York-Newark', 'US', 20.104, (40.808611, -74.020386)),
+    ('São Paulo', 'BR', 19.649, (-23.547778, -46.635833)),
+]
+
+from operator import itemgetter
+for city in sorted(metro_data, key=itemgetter(1)):
+    print(city)
+# ('São Paulo', 'BR', 19.649, (-23.547778, -46.635833))
+# ('Delhi NCR', 'IN', 21.935, (28.613889, 77.208889))
+# ('Tokyo', 'JP', 36.933, (35.689722, 139.691667))
+# ('Mexico City', 'MX', 20.142, (19.433333, -99.133333))
+# ('New York-Newark', 'US', 20.104, (40.808611, -74.020386))
+</code></pre>
+<p>If you pass several index arguments to <code>itemgetter</code>, the function it builds returns
+tuples with the extracted values, which is useful for sorting on multiple keys:</p>
+<pre><code class="language-python">cc_name = itemgetter(1, 0)
+for city in metro_data:
+    print(cc_name(city))
+# ('JP', 'Tokyo')
+# ('IN', 'Delhi NCR')
+# ('MX', 'Mexico City')
+# ('US', 'New York-Newark')
+# ('BR', 'São Paulo')
+</code></pre>
+<p>Because <code>itemgetter</code> uses the <code>[]</code> operator, it supports not only sequences but also
+mappings and any class that implements <code>__getitem__()</code>.</p>
+<p>A sibling of <code>itemgetter</code> is <code>attrgetter</code>, which creates functions to extract object
+attributes by name.  If you pass <code>attrgetter</code> several attribute names as arguments,
+it also returns a tuple of values.  In addition, if any argument name contains a <code>.</code>
+(dot), <code>attrgetter</code> navigates through nested objects to retrieve the attribute.  To
+show that, we need a nested structure:</p>
+<pre><code class="language-python">from collections import namedtuple
+LatLon = namedtuple('LatLon', 'lat lon')
+Metropolis = namedtuple('Metropolis', 'name cc pop coord')
+metro_areas = [Metropolis(name, cc, pop, LatLon(lat, lon))
+    for name, cc, pop, (lat, lon) in metro_data]
+metro_areas[0]
+# Metropolis(name='Tokyo', cc='JP', pop=36.933, coord=LatLon(lat=35.689722,
+# lon=139.691667))
+metro_areas[0].coord.lat
+# 35.689722
+from operator import attrgetter
+name_lat = attrgetter('name', 'coord.lat')
+
+for city in sorted(metro_areas, key=attrgetter('coord.lat')):
+    print(name_lat(city))
+# ('São Paulo', -23.547778)
+# ('Mexico City', 19.433333)
+# ('Delhi NCR', 28.613889)
+# ('Tokyo', 35.689722)
+# ('New York-Newark', 40.808611)
+</code></pre>
+<p>We use <code>namedtuple</code> to define <code>LatLon</code> and <code>Metropolis</code>, then build the
+<code>metro_areas</code> list with <code>Metropolis</code> instances; note the nested tuple unpacking to
+extract <code>(lat, lon)</code> and use them to build the <code>LatLon</code> for the <code>coord</code> attribute.
+<code>name_lat</code> is an <code>attrgetter</code> that retrieves the <code>name</code> and the nested <code>coord.lat</code>
+attribute; another <code>attrgetter</code> sorts the list of cities by latitude.</p>
+<p>Here is the list of public functions defined in <code>operator</code> in Python 3.13 (later
+versions add a few more, such as <code>is_none</code>):</p>
+<pre><code class="language-python">import operator
+[name for name in dir(operator) if not name.startswith('_')]
+# ['abs', 'add', 'and_', 'attrgetter', 'call', 'concat', 'contains',
+#  'countOf', 'delitem', 'eq', 'floordiv', 'ge', 'getitem', 'gt',
+#  'iadd', 'iand', 'iconcat', 'ifloordiv', 'ilshift', 'imatmul',
+#  'imod', 'imul', 'index', 'indexOf', 'inv', 'invert', 'ior',
+#  'ipow', 'irshift', 'is_', 'is_not', 'isub', 'itemgetter',
+#  'itruediv', 'ixor', 'le', 'length_hint', 'lshift', 'lt', 'matmul',
+#  'methodcaller', 'mod', 'mul', 'ne', 'neg', 'not_', 'or_', 'pos',
+#  'pow', 'rshift', 'setitem', 'sub', 'truediv', 'truth', 'xor']
+</code></pre>
+<p>Most of the names are self-evident.  The group of names prefixed with <code>i</code> and the
+name of another operator, like <code>iadd</code> and <code>iand</code>, correspond to the augmented
+assignment operators, like <code>+=</code> and <code>&amp;=</code>.  These change their first argument in
+place, if it is mutable; if not, the function works like the one without the <code>i</code>
+prefix: it simply returns the result of the operation.</p>
+<p>Of the remaining <code>operator</code> functions, <code>methodcaller</code> is the last we will cover.  It
+is somewhat similar to <code>attrgetter</code> and <code>itemgetter</code> in that it creates a function on
+the fly.  The function it creates calls a method by name on the object given as
+argument:</p>
+<pre><code class="language-python">from operator import methodcaller
+s = 'The time has come'
+upcase = methodcaller('upper')
+upcase(s)
+# 'THE TIME HAS COME'
+hyphenate = methodcaller('replace', ' ', '-')
+hyphenate(s)
+# 'The-time-has-come'
+</code></pre>
+<p>The first test is there just to show <code>methodcaller</code> at work, but if you need to use
+<code>str.upper</code> as a function, you can just call it on the <code>str</code> class and pass a string
+as an argument:</p>
+<pre><code class="language-python">str.upper(s)
+# 'THE TIME HAS COME'
+</code></pre>
+<p>The second test shows that <code>methodcaller</code> can also do a <em>partial application</em> to
+freeze some arguments, like the <code>functools.partial</code> function does.</p>
+<h3 id="freezing-arguments-with-functoolspartial"><a class="header" href="#freezing-arguments-with-functoolspartial">Freezing Arguments with <code>functools.partial</code></a></h3>
+<p>The <code>functools</code> module provides several higher-order functions.  You saw <code>reduce</code>
+above.  Another is <a href="https://docs.python.org/3/library/functools.html#functools.partial"><code>partial</code></a>:
+given a callable, it produces a new callable with some of the arguments of the
+original callable bound to predetermined values.  This is useful to adapt a
+function that takes one or more arguments to an interface that requires a callback
+with fewer arguments.  A trivial demonstration:</p>
+<pre><code class="language-python">from operator import mul
+from functools import partial
+triple = partial(mul, 3)  # a new triple function from mul, binding the first argument to 3
+triple(7)
+# 21
+list(map(triple, range(1, 10)))  # mul would not work with map in this example
+# [3, 6, 9, 12, 15, 18, 21, 24, 27]
+</code></pre>
+<p>A more useful example involves the <code>unicodedata.normalize</code> function from
+<a href="unicode.html#normalizing-unicode-for-reliable-comparisons">Normalizing Unicode for Reliable Comparisons</a>.
+If you work with text from many languages, you may want to apply
+<code>unicodedata.normalize('NFC', s)</code> to any string <code>s</code> before comparing or storing it.
+If you do that often, it’s handy to have an <code>nfc</code> function:</p>
+<pre><code class="language-python">import unicodedata, functools
+nfc = functools.partial(unicodedata.normalize, 'NFC')
+s1 = 'café'
+s2 = 'cafe\u0301'
+s1, s2
+# ('café', 'café')
+s1 == s2
+# False
+nfc(s1) == nfc(s2)
+# True
+</code></pre>
+<p><code>partial</code> takes a callable as its first argument, followed by an arbitrary number
+of positional and keyword arguments to bind.  Here it is with the <code>tag</code> function,
+freezing one positional argument and one keyword argument:</p>
+<pre><code class="language-python">from functools import partial
+picture = partial(tag, 'img', class_='pic-frame')
+picture(src='wumpus.jpeg')
+# '&lt;img class="pic-frame" src="wumpus.jpeg" /&gt;'
+picture
+# functools.partial(&lt;function tag at 0x10206d1e0&gt;, 'img', class_='pic-frame')
+picture.func
+# &lt;function tag at 0x10206d1e0&gt;
+picture.args
+# ('img',)
+picture.keywords
+# {'class_': 'pic-frame'}
+</code></pre>
+<p>We create the <code>picture</code> function from <code>tag</code> by fixing the first positional argument
+with <code>'img'</code> and the <code>class_</code> keyword argument with <code>'pic-frame'</code>, and <code>picture</code>
+works as expected.  <code>partial()</code> returns a <code>functools.partial</code> object, which has
+attributes providing access to the original function and the fixed arguments.</p>
+<p>The <a href="https://docs.python.org/3/library/functools.html#functools.partialmethod"><code>functools.partialmethod</code></a>
+function does the same job as <code>partial</code>, but is designed to work with methods.</p>
+<p>The <code>functools</code> module also includes higher-order functions designed to be used as
+function decorators, such as <code>cache</code> and <code>singledispatch</code>.  Those are covered in
+<a href="decorators.html">Decorators and Closures</a>, which also explains how to implement
+custom decorators.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>This chapter explored the first-class nature of functions in Python.  The main
+ideas are that you can assign functions to variables, pass them to other functions,
+store them in data structures, and access function attributes, allowing frameworks
+and tools to act on that information.</p>
+<p>Higher-order functions, a staple of functional programming, are common in Python.
+The <code>sorted</code>, <code>min</code> and <code>max</code> built-ins and <code>functools.partial</code> are examples of
+commonly used higher-order functions.  Using <code>map</code>, <code>filter</code> and <code>reduce</code> is not as
+common as it used to be, thanks to list comprehensions (and similar constructs like
+generator expressions) and the addition of reducing built-ins like <code>sum</code>, <code>all</code> and
+<code>any</code>.</p>
+<p>Callables come in nine different flavors, from the simple functions created with
+<code>lambda</code> to instances of classes implementing <code>__call__()</code>.  Generators and
+coroutines are also callable, although their behavior is very different from other
+callables.  All callables can be detected by the <code>callable()</code> built-in.  Callables
+offer rich syntax for declaring formal parameters, including keyword-only
+parameters, positional-only parameters, and annotations, and <code>inspect.signature()</code>
+lets you introspect them.</p>
+<p>Lastly, we covered some functions from the <code>operator</code> module and
+<code>functools.partial</code>, which facilitate functional programming by minimizing the need
+for the functionally challenged <code>lambda</code> syntax.</p>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li><a href="https://docs.python.org/3/reference/datamodel.html#the-standard-type-hierarchy">The standard type hierarchy</a>
+in the language reference presents the nine callable types, along with all the
+other built-in types.</li>
+<li>A. M. Kuchling’s <a href="https://docs.python.org/3/howto/functional.html">Functional Programming HOWTO</a>
+is a great introduction to functional programming in Python, with a focus on
+iterators and generators.</li>
+<li><a href="https://peps.python.org/pep-3102/"><strong>PEP 3102</strong></a> explains the rationale and use
+cases for keyword-only arguments.</li>
+<li>Chapter 7 of the <em>Python Cookbook</em>, 3rd ed., by David Beazley and Brian K. Jones,
+covers much of the same ground with a different approach.</li>
+<li>Is Python a functional language?  Not by design.  Python borrows a few good ideas
+from functional languages: first-class functions, <code>map</code>, <code>filter</code> and <code>reduce</code>
+(which motivated the addition of <code>lambda</code>), and list comprehensions, borrowed
+from Haskell, which in turn reduced the need for <code>map</code>, <code>filter</code> and <code>lambda</code>.
+Python’s statement-oriented syntax limits <code>lambda</code>, and the language deliberately
+lacks tail-call elimination; Guido’s blog post “Tail Recursion Elimination”
+explains why, with usability arguments first.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="pattern-matching.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="type-hints-functions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="pattern-matching.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="type-hints-functions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

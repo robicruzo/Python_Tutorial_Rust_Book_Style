@@ -1,0 +1,1564 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Dynamic Attributes and Properties - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="dynamic-attributes-and-properties"><a class="header" href="#dynamic-attributes-and-properties">Dynamic Attributes and Properties</a></h1>
+<blockquote>
+<p>The crucial importance of properties is that their existence makes it perfectly safe and
+indeed advisable for you to expose public data attributes as part of your class’s public
+interface.</p>
+<p>— Martelli, Ravenscroft and Holden, <em>Python in a Nutshell</em></p>
+</blockquote>
+<p>Data attributes and methods are collectively known as <em>attributes</em> in Python.  A method is
+an attribute that is callable.  <em>Dynamic attributes</em> present the same interface as data
+attributes — i.e., <code>obj.attr</code> — but are computed on demand.  This follows Bertrand Meyer’s
+<em>Uniform Access Principle</em>:</p>
+<blockquote>
+<p>All services offered by a module should be available through a uniform notation, which
+does not betray whether they are implemented through storage or through computation.</p>
+</blockquote>
+<p>There are several ways to implement dynamic attributes in Python.  This chapter covers the
+simplest ways: the <code>@property</code> decorator and the <code>__getattr__</code> special method.</p>
+<p>A user-defined class implementing <code>__getattr__</code> can implement a variation of dynamic
+attributes we can call <em>virtual attributes</em>: attributes that are not explicitly declared
+anywhere in the source code of the class, and are not present in the instance <code>__dict__</code>,
+but may be retrieved elsewhere or computed on the fly whenever a user tries to read a
+nonexistent attribute like <code>obj.no_such_attr</code>.</p>
+<p>Coding dynamic and virtual attributes is the kind of metaprogramming that framework authors
+do.  However, in Python the basic techniques are straightforward, so we can use them in
+everyday data wrangling tasks.  That’s how we’ll start this chapter.</p>
+<h2 id="data-wrangling-with-dynamic-attributes"><a class="header" href="#data-wrangling-with-dynamic-attributes">Data Wrangling with Dynamic Attributes</a></h2>
+<p>In the next few examples, we’ll leverage dynamic attributes to work with a JSON dataset
+published by O’Reilly for the OSCON 2014 conference.  The full dataset has 895 records (a
+copy, <code>osconfeed.json</code>, is in the <em>Fluent Python</em> example code repository).  To keep the
+examples here self-contained, we’ll use a small sample with the same structure:</p>
+<pre><code class="language-python">SAMPLE_JSON = """
+{ "Schedule":
+  { "conferences": [{"serial": 115 }],
+    "events": [
+      { "serial": 34505,
+        "name": "Why Schools Don't Use Open Source to Teach Programming",
+        "event_type": "40-minute conference session",
+        "time_start": "2014-07-23 11:30:00",
+        "time_stop": "2014-07-23 12:10:00",
+        "venue_serial": 1462,
+        "speakers": [157509],
+        "categories": ["Education"] },
+      { "serial": 33950,
+        "name": "There *Will* Be Bugs",
+        "event_type": "40-minute conference session",
+        "time_start": "2014-07-23 14:30:00",
+        "time_stop": "2014-07-23 15:10:00",
+        "venue_serial": 1449,
+        "speakers": [3471, 5199],
+        "categories": ["Python"] }
+    ],
+    "speakers": [
+      { "serial": 157509, "name": "Robert Lefkowitz",
+        "twitter": "sharewaveteam", "position": "CTO" },
+      { "serial": 3471, "name": "Anna Martelli Ravenscroft",
+        "twitter": "annaraven" },
+      { "serial": 5199, "name": "Alex Martelli",
+        "twitter": "aleaxit" }
+    ],
+    "venues": [
+      { "serial": 1462, "name": "F151", "category": "Conference Venues" },
+      { "serial": 1449, "name": "Portland 251", "category": "Conference Venues" }
+    ]
+  }
+}
+"""
+</code></pre>
+<p>The entire dataset is a single JSON object with the key <code>"Schedule"</code>, and its value is
+another mapping with four keys: <code>"conferences"</code>, <code>"events"</code>, <code>"speakers"</code> and <code>"venues"</code>.
+Each of those four keys maps to a list of records.  In the full dataset, the <code>"events"</code>,
+<code>"speakers"</code> and <code>"venues"</code> lists have dozens or hundreds of records, while <code>"conferences"</code>
+has only one record.  Every record has a <code>"serial"</code> field, which is a unique identifier for
+the record within the list.  Let’s explore it in the console:</p>
+<pre><code class="language-python">import json
+feed = json.loads(SAMPLE_JSON)  # a dict holding nested dicts and lists, strings and ints
+sorted(feed['Schedule'].keys())  # the four record collections inside "Schedule"
+# ['conferences', 'events', 'speakers', 'venues']
+for key, value in sorted(feed['Schedule'].items()):
+    print(f'{len(value):3} {key}')
+
+#   1 conferences
+#   2 events
+#   3 speakers
+#   2 venues
+feed['Schedule']['speakers'][-1]['name']  # navigate the nested dicts and lists
+# 'Alex Martelli'
+feed['Schedule']['speakers'][-1]['serial']
+# 5199
+feed['Schedule']['events'][1]['name']
+# 'There *Will* Be Bugs'
+feed['Schedule']['events'][1]['speakers']  # a list of speaker serial numbers
+# [3471, 5199]
+</code></pre>
+<h3 id="exploring-json-like-data-with-dynamic-attributes"><a class="header" href="#exploring-json-like-data-with-dynamic-attributes">Exploring JSON-Like Data with Dynamic Attributes</a></h3>
+<p>That is simple enough, but the syntax <code>feed['Schedule']['events'][1]['name']</code> is
+cumbersome.  In JavaScript, you can get the same value by writing
+<code>feed.Schedule.events[1].name</code>.  It’s easy to implement a <code>dict</code>-like class that does the
+same in Python — there are plenty of implementations on the web.  <code>FrozenJSON</code> is simpler
+than most because it supports reading only: it’s just for exploring the data.
+<code>FrozenJSON</code> is also recursive, dealing automatically with nested mappings and lists:</p>
+<pre><code class="language-python">from collections import abc
+
+class FrozenJSON:
+    """A read-only façade for navigating a JSON-like object
+       using attribute notation
+    """
+
+    def __init__(self, mapping):
+        self.__data = dict(mapping)  # a dict from the argument; private attribute
+
+    def __getattr__(self, name):  # called only when there's no attribute with that name
+        try:
+            return getattr(self.__data, name)  # e.g. keys, items: attributes of the dict
+        except AttributeError:
+            return FrozenJSON.build(self.__data[name])  # otherwise, fetch the item and build
+
+    def __dir__(self):  # supports dir() and auto-completion in consoles
+        return self.__data.keys()
+
+    @classmethod
+    def build(cls, obj):  # an alternate constructor
+        if isinstance(obj, abc.Mapping):  # if obj is a mapping, build a FrozenJSON
+            return cls(obj)
+        elif isinstance(obj, abc.MutableSequence):  # if it's a list, build a list recursively
+            return [cls.build(item) for item in obj]
+        else:  # otherwise, return the item as it is
+            return obj
+</code></pre>
+<p>We build a <code>dict</code> from the <code>mapping</code> argument.  This ensures we get a mapping or something
+that can be converted to one.  The double-underscore prefix on <code>__data</code> makes it a private
+attribute (see <a href="classes.html#tut-private">Private Variables</a>).  <code>__getattr__</code> is called only
+when there’s no attribute with that name.  If <code>name</code> matches an attribute of the instance
+<code>__data</code> dict, we return that.  This is how calls like <code>feed.keys()</code> are handled: the
+<code>keys</code> method is an attribute of the <code>__data</code> dict.  Otherwise, we fetch the item with the
+key <code>name</code> from <code>self.__data</code>, and return the result of calling <code>FrozenJSON.build()</code> on
+that.</p>
+<p>Implementing <code>__dir__</code> supports the <code>dir()</code> built-in, which in turn supports
+auto-completion in the standard Python console as well as IPython, Jupyter Notebook, etc.
+This simple code will enable recursive auto-completion based on the keys in <code>self.__data</code>,
+because <code>__getattr__</code> builds <code>FrozenJSON</code> instances on the fly — useful for interactive
+exploration of the data.</p>
+<p><code>build</code> is an alternate constructor, a common use for the <code>@classmethod</code> decorator.  If
+<code>obj</code> is a mapping, it builds a <code>FrozenJSON</code> with it.  This is an example of goose typing
+(see <a href="protocols-abcs.html#goose-typing">Goose Typing</a>).  If it is a <code>MutableSequence</code>, it must
+be a list (the only collection types in JSON data are <code>dict</code> and <code>list</code>), so we build a list
+by passing each item in <code>obj</code> recursively to <code>.build()</code>.  If it’s not a <code>dict</code> or a <code>list</code>,
+we return the item as it is.  Here it is in action:</p>
+<pre><code class="language-python">raw_feed = json.loads(SAMPLE_JSON)
+feed = FrozenJSON(raw_feed)  # build a FrozenJSON from nested dicts and lists
+len(feed.Schedule.speakers)  # traverse nested dicts using attribute notation
+# 3
+feed.keys()  # methods of the underlying dicts can also be accessed
+# dict_keys(['Schedule'])
+sorted(feed.Schedule.keys())
+# ['conferences', 'events', 'speakers', 'venues']
+for key, value in sorted(feed.Schedule.items()):
+    print(f'{len(value):3} {key}')
+
+#   1 conferences
+#   2 events
+#   3 speakers
+#   2 venues
+feed.Schedule.speakers[-1].name  # a list remains a list, but its items are FrozenJSON
+# 'Alex Martelli'
+talk = feed.Schedule.events[1]
+type(talk)  # item 1 in the events list was a JSON object; now it's a FrozenJSON
+# &lt;class '__main__.FrozenJSON'&gt;
+talk.name
+# 'There *Will* Be Bugs'
+talk.speakers
+# [3471, 5199]
+talk.flavor  # reading a missing attribute raises KeyError, not AttributeError
+# Traceback (most recent call last):
+#   ...
+# KeyError: 'flavor'
+</code></pre>
+<p>The keystone of the <code>FrozenJSON</code> class is the <code>__getattr__</code> method, which we already used in
+the <code>Vector</code> example in <a href="sequence-protocol.html#dynamic-attribute-access">Dynamic Attribute Access</a>,
+to retrieve <code>Vector</code> components by letter: <code>v.x</code>, <code>v.y</code>, <code>v.z</code>, etc.  It’s essential to
+recall that the <code>__getattr__</code> special method is only invoked by the interpreter when the
+usual process fails to retrieve an attribute (i.e., when the named attribute cannot be found
+in the instance, nor in the class or in its superclasses).</p>
+<p>The last line of that example exposes a minor issue: trying to read a missing attribute
+should raise <code>AttributeError</code>, and not <code>KeyError</code> as shown.  Implementing the error handling
+to do that makes the <code>__getattr__</code> method twice as long, distracting from the most important
+logic.  Given that users know that a <code>FrozenJSON</code> is built from mappings and lists, the
+<code>KeyError</code> is not too confusing — but handling it is a good exercise.</p>
+<p>A <code>FrozenJSON</code> instance has the <code>__data</code> private instance attribute stored under the name
+<code>_FrozenJSON__data</code>.  Attempts to retrieve attributes by other names will trigger
+<code>__getattr__</code>.  This method will first look if the <code>self.__data</code> dict has an attribute (not
+a key!) by that name; this allows <code>FrozenJSON</code> instances to handle <code>dict</code> methods such as
+<code>items</code>, by delegating to <code>self.__data.items()</code>.  If <code>self.__data</code> doesn’t have an attribute
+with the given name, <code>__getattr__</code> uses <code>name</code> as a key to retrieve an item from
+<code>self.__data</code>, and passes that item to <code>FrozenJSON.build</code>.  This allows navigating through
+nested structures in the JSON data, as each nested mapping is converted to another
+<code>FrozenJSON</code> instance by the <code>build</code> class method.</p>
+<p>Note that <code>FrozenJSON</code> does not transform or cache the original dataset.  As we traverse the
+data, <code>__getattr__</code> creates <code>FrozenJSON</code> instances again and again.  That’s OK for a dataset
+of this size, and for a script that will only be used to explore or convert the data.</p>
+<p>Any script that generates or emulates dynamic attribute names from arbitrary sources must
+deal with one issue: the keys in the original data may not be suitable attribute names.  The
+next section addresses this.</p>
+<h3 id="the-invalid-attribute-name-problem"><a class="header" href="#the-invalid-attribute-name-problem">The Invalid Attribute Name Problem</a></h3>
+<p>The <code>FrozenJSON</code> code doesn’t handle attribute names that are Python keywords.  For example,
+if you build an object like this:</p>
+<pre><code class="language-python">student = FrozenJSON({'name': 'Jim Bo', 'class': 1982})
+</code></pre>
+<p>You won’t be able to read <code>student.class</code> because <code>class</code> is a reserved keyword in Python:</p>
+<pre><code class="language-text">&gt;&gt;&gt; student.class
+  File "&lt;stdin&gt;", line 1
+    student.class
+            ^^^^^
+SyntaxError: invalid syntax
+</code></pre>
+<p>You can always do this, of course:</p>
+<pre><code class="language-python">getattr(student, 'class')
+# 1982
+</code></pre>
+<p>But the idea of <code>FrozenJSON</code> is to provide convenient access to the data, so a better
+solution is checking whether a key in the mapping given to <code>FrozenJSON.__init__</code> is a
+keyword, and if so, append an <code>_</code> to it, so the attribute can be read like <code>student.class_</code>.
+This can be achieved by replacing the one-liner <code>__init__</code> with this version:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __init__(self, mapping):
+    self.__data = {}
+    for key, value in mapping.items():
+        if keyword.iskeyword(key):  # needs import keyword
+            key += '_'
+        self.__data[key] = value
+</code></pre>
+<p>The <a href="https://docs.python.org/3/library/keyword.html#keyword.iskeyword"><code>keyword.iskeyword(...)</code></a>
+function is exactly what we need; to use it, the <code>keyword</code> module must be imported.</p>
+<p>A similar problem may arise if a key in a JSON record is not a valid Python identifier, like
+<code>'2be'</code>: <code>x.2be</code> is a <code>SyntaxError</code>.  Such problematic keys are easy to detect because the
+<code>str</code> class provides the <code>s.isidentifier()</code> method, which tells you whether <code>s</code> is a valid
+Python identifier according to the language grammar.  But turning a key that is not a valid
+identifier into a valid attribute name is not trivial.  One solution would be to implement
+<code>__getitem__</code> to allow attribute access using notation like <code>x['2be']</code>.  For the sake of
+simplicity, we will not worry about this issue.</p>
+<p>After giving some thought to the dynamic attribute names, let’s turn to another essential
+feature of <code>FrozenJSON</code>: the logic of the <code>build</code> class method.  <code>FrozenJSON.build</code> is used
+by <code>__getattr__</code> to return a different type of object depending on the value of the
+attribute being accessed: nested structures are converted to <code>FrozenJSON</code> instances or lists
+of <code>FrozenJSON</code> instances.  Instead of a class method, the same logic could be implemented as
+the <code>__new__</code> special method, as we’ll see next.</p>
+<h3 id="flexible-object-creation-with-__new__"><a class="header" href="#flexible-object-creation-with-__new__">Flexible Object Creation with <code>__new__</code></a></h3>
+<p>We often refer to <code>__init__</code> as the constructor method, but that’s because we adopted jargon
+from other languages.  In Python, <code>__init__</code> gets <code>self</code> as the first argument, therefore the
+object already exists when <code>__init__</code> is called by the interpreter.  Also, <code>__init__</code> cannot
+return anything.  So it’s really an initializer, not a constructor.</p>
+<p>When a class is called to create an instance, the special method that Python calls on that
+class to construct an instance is <code>__new__</code>.  It’s a class method, but gets special
+treatment, so the <code>@classmethod</code> decorator is not applied to it.  Python takes the instance
+returned by <code>__new__</code> and then passes it as the first argument <code>self</code> of <code>__init__</code>.  We
+rarely need to code <code>__new__</code>, because the implementation inherited from <code>object</code> suffices
+for the vast majority of use cases.</p>
+<p>If necessary, the <code>__new__</code> method can also return an instance of a different class.  When
+that happens, the interpreter does not call <code>__init__</code>.  In other words, Python’s logic for
+building an object is similar to this pseudocode:</p>
+<!-- nocheck -->
+<pre><code class="language-python"># pseudocode for object construction
+def make(the_class, some_arg):
+    new_object = the_class.__new__(some_arg)
+    if isinstance(new_object, the_class):
+        the_class.__init__(new_object, some_arg)
+    return new_object
+
+# the following statements are roughly equivalent
+x = Foo('bar')
+x = make(Foo, 'bar')
+</code></pre>
+<p>Here is a variation of <code>FrozenJSON</code> where the logic of the former <code>build</code> class method was
+moved to <code>__new__</code>:</p>
+<pre><code class="language-python">from collections import abc
+import keyword
+
+class FrozenJSON:
+    """A read-only façade for navigating a JSON-like object
+       using attribute notation
+    """
+
+    def __new__(cls, arg):  # gets the class itself, then the same arguments as __init__
+        if isinstance(arg, abc.Mapping):
+            return super().__new__(cls)  # default: delegate to object.__new__
+        elif isinstance(arg, abc.MutableSequence):  # the rest is as in the old build method
+            return [cls(item) for item in arg]
+        else:
+            return arg
+
+    def __init__(self, mapping):
+        self.__data = {}
+        for key, value in mapping.items():
+            if keyword.iskeyword(key):
+                key += '_'
+            self.__data[key] = value
+
+    def __getattr__(self, name):
+        try:
+            return getattr(self.__data, name)
+        except AttributeError:
+            return FrozenJSON(self.__data[name])  # just call the class: Python calls __new__
+
+    def __dir__(self):
+        return self.__data.keys()
+
+student = FrozenJSON({'name': 'Jim Bo', 'class': 1982})
+student.class_  # keywords get a trailing underscore
+# 1982
+FrozenJSON([1, {'a': 2}])  # __new__ can return objects that are not FrozenJSON
+# [1, &lt;__main__.FrozenJSON object at 0x...&gt;]
+FrozenJSON(json.loads(SAMPLE_JSON)).Schedule.venues[1].name
+# 'Portland 251'
+</code></pre>
+<p>As a class method, the first argument <code>__new__</code> gets is the class itself, and the remaining
+arguments are the same that <code>__init__</code> gets, except for <code>self</code>.  The default behavior is to
+delegate to the <code>__new__</code> of a superclass.  In this case, we are calling <code>__new__</code> from the
+<code>object</code> base class, passing <code>FrozenJSON</code> as the only argument.  The remaining lines of
+<code>__new__</code> are exactly as in the old <code>build</code> method.  Where <code>FrozenJSON.build</code> was called
+before, now we just call the <code>FrozenJSON</code> class, which Python handles by calling
+<code>FrozenJSON.__new__</code>.</p>
+<p>The <code>__new__</code> method gets the class as the first argument because, usually, the created
+object will be an instance of that class.  So, in <code>FrozenJSON.__new__</code>, when the expression
+<code>super().__new__(cls)</code> effectively calls <code>object.__new__(FrozenJSON)</code>, the instance built by
+the <code>object</code> class is actually an instance of <code>FrozenJSON</code>.  The <code>__class__</code> attribute of the
+new instance will hold a reference to <code>FrozenJSON</code>, even though the actual construction is
+performed by <code>object.__new__</code>, implemented in C, in the guts of the interpreter.</p>
+<p>The OSCON JSON dataset is structured in a way that is not helpful for interactive
+exploration.  For example, the event titled <code>'There *Will* Be Bugs'</code> has two speakers, 3471
+and 5199.  Finding the names of the speakers is awkward, because those are serial numbers and
+the <code>Schedule.speakers</code> list is not indexed by them.  To get each speaker, we must iterate
+over that list until we find a record with a matching serial number.  Our next task is
+restructuring the data to prepare for automatic retrieval of linked records.</p>
+<h2 id="computed-properties"><a class="header" href="#computed-properties">Computed Properties</a></h2>
+<p>We first saw the <code>@property</code> decorator in <a href="pythonic-object.html#a-hashable-vector2d">A Pythonic Object</a>,
+where we used two properties in <code>Vector2d</code> just to make the <code>x</code> and <code>y</code> attributes read-only.
+Here we will see properties that compute values, leading to a discussion of how to cache such
+values.</p>
+<p>The records in the <code>'events'</code> list of the OSCON JSON data contain integer serial numbers
+pointing to records in the <code>'speakers'</code> and <code>'venues'</code> lists.  We will implement an <code>Event</code>
+class with <code>venue</code> and <code>speakers</code> properties to return the linked data automatically — in
+other words, “dereferencing” the serial number.  Given an <code>Event</code> instance, this is the
+desired behavior:</p>
+<!-- nocheck -->
+<pre><code class="language-python">event  # given an Event instance...
+# &lt;Event 'There *Will* Be Bugs'&gt;
+event.venue  # ...reading event.venue returns a Record object instead of a serial number
+# &lt;Record serial=1449&gt;
+event.venue.name  # now it's easy to get the name of the venue
+# 'Portland 251'
+for spkr in event.speakers:  # event.speakers returns a list of Record instances
+    print(f'{spkr.serial}: {spkr.name}')
+
+# 3471: Anna Martelli Ravenscroft
+# 5199: Alex Martelli
+</code></pre>
+<p>As usual, we will build the code step-by-step, starting with the <code>Record</code> class and a
+function to read the JSON data and return a <code>dict</code> with <code>Record</code> instances.</p>
+<h3 id="step-1-data-driven-attribute-creation"><a class="header" href="#step-1-data-driven-attribute-creation">Step 1: Data-Driven Attribute Creation</a></h3>
+<p>Here is <code>schedule_v1.py</code>.  (The original reads a JSON file; this version reads our sample
+string, so the examples run anywhere.)</p>
+<pre><code class="language-python">import json
+
+class Record:
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)  # build attributes from keyword arguments
+
+    def __repr__(self):
+        return f'&lt;{self.__class__.__name__} serial={self.serial!r}&gt;'
+
+def load(source=SAMPLE_JSON):
+    records = {}  # load will return a dict of Record instances
+    raw_data = json.loads(source)  # native Python objects: lists, dicts, strings, numbers
+    for collection, raw_records in raw_data['Schedule'].items():  # the four top-level lists
+        record_type = collection.removesuffix('s')  # e.g. speakers -&gt; speaker
+        for raw_record in raw_records:
+            key = f'{record_type}.{raw_record["serial"]}'  # e.g. 'speaker.3471'
+            records[key] = Record(**raw_record)  # store a Record under that key
+    return records
+
+records = load()  # a dict with the JSON data
+speaker = records['speaker.3471']  # keys are built from the record type and serial number
+speaker  # speaker is an instance of Record
+# &lt;Record serial=3471&gt;
+speaker.name, speaker.twitter  # fields from the JSON are Record instance attributes
+# ('Anna Martelli Ravenscroft', 'annaraven')
+</code></pre>
+<p><code>load</code> iterates over the four top-level lists named <code>'conferences'</code>, <code>'events'</code>,
+<code>'speakers'</code> and <code>'venues'</code>.  <code>record_type</code> is the list name without the trailing <code>s</code>, so
+<code>speakers</code> becomes <code>speaker</code>, using the <code>str.removesuffix</code> method (Python 3.9+,
+<a href="https://peps.python.org/pep-0616/"><strong>PEP 616</strong></a>).  It builds keys in the format
+<code>'speaker.3471'</code>, and creates a <code>Record</code> instance saved in <code>records</code> with that key.</p>
+<p>The <code>Record.__init__</code> method illustrates an old Python hack.  Recall that the <code>__dict__</code> of
+an object is where its attributes are kept — unless <code>__slots__</code> is declared in the class, as
+we saw in <a href="pythonic-object.html#saving-memory-with-__slots__">Saving Memory with <code>__slots__</code></a>.
+So, updating an instance <code>__dict__</code> with a mapping is a quick way to create a bunch of
+attributes in that instance.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Depending on the application, the <code>Record</code> class may need to deal with keys that are not
+valid attribute names, as we saw in <a href="#the-invalid-attribute-name-problem">The Invalid Attribute Name Problem</a>.
+Dealing with that issue would distract from the key idea of this example, and is not a
+problem in the dataset we are reading.</p>
+</blockquote>
+<p>The definition of <code>Record</code> is so simple that you may be wondering why we did not use it
+before, instead of the more complicated <code>FrozenJSON</code>.  There are two reasons.  First,
+<code>FrozenJSON</code> works by recursively converting the nested mappings and lists; <code>Record</code> doesn’t
+need that because our converted dataset doesn’t have mappings nested in mappings or lists.
+The records contain only strings, integers, lists of strings, and lists of integers.  Second
+reason: <code>FrozenJSON</code> provides access to the embedded <code>__data</code> dict attributes — which we used
+to invoke methods like <code>.keys()</code> — and now we don’t need that functionality either.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>The Python standard library provides classes similar to <code>Record</code>, where each instance has
+an arbitrary set of attributes built from keyword arguments given to <code>__init__</code>:
+<a href="https://docs.python.org/3/library/types.html#types.SimpleNamespace"><code>types.SimpleNamespace</code></a>,
+<code>argparse.Namespace</code> and <code>multiprocessing.managers.Namespace</code>.  The simpler <code>Record</code> class
+here highlights the essential idea: <code>__init__</code> updating the instance <code>__dict__</code>.</p>
+</blockquote>
+<pre><code class="language-python">from types import SimpleNamespace
+ns = SimpleNamespace(serial=3471, name='Anna Martelli Ravenscroft')
+ns
+# namespace(serial=3471, name='Anna Martelli Ravenscroft')
+ns.name
+# 'Anna Martelli Ravenscroft'
+</code></pre>
+<p>After reorganizing the schedule dataset, we can enhance the <code>Record</code> class to automatically
+retrieve venue and speaker records referenced in an event record.  We’ll use properties to
+do that in the next examples.</p>
+<h3 id="step-2-property-to-retrieve-a-linked-record"><a class="header" href="#step-2-property-to-retrieve-a-linked-record">Step 2: Property to Retrieve a Linked Record</a></h3>
+<p>The goal of this next version is: given an event record, reading its <code>venue</code> property will
+return a <code>Record</code>.  This is similar to what the Django ORM does when you access a
+<code>ForeignKey</code> field: instead of the key, you get the linked model object.  We start with an
+enhanced <code>Record</code> class:</p>
+<pre><code class="language-python">import inspect
+import json
+
+class Record:
+
+    __index = None  # will hold a reference to the dict returned by load
+
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
+
+    def __repr__(self):
+        return f'&lt;{self.__class__.__name__} serial={self.serial!r}&gt;'
+
+    @staticmethod
+    def fetch(key):  # a staticmethod: not influenced by the instance or class it's called on
+        if Record.__index is None:  # populate the Record.__index, if needed
+            Record.__index = load()
+        return Record.__index[key]  # use it to retrieve the record with the given key
+</code></pre>
+<p><code>inspect</code> will be used in <code>load</code>, listed next.  The <code>__index</code> private class attribute will
+eventually hold a reference to the <code>dict</code> returned by <code>load</code>.  <code>fetch</code> is a <code>staticmethod</code> to
+make it explicit that its effect is not influenced by the instance or class on which it is
+called.  This is one example where the use of <code>staticmethod</code> makes sense.  The <code>fetch</code>
+method always acts on the <code>Record.__index</code> class attribute, even if invoked from a subclass,
+like <code>Event.fetch()</code> — which we’ll soon explore.  It would be misleading to code it as a class
+method because the <code>cls</code> first argument would not be used.</p>
+<p>Now we get to the use of a property in the <code>Event</code> class:</p>
+<pre><code class="language-python">class Event(Record):  # Event extends Record
+
+    def __repr__(self):
+        try:
+            return f'&lt;{self.__class__.__name__} {self.name!r}&gt;'  # use name, if available
+        except AttributeError:
+            return super().__repr__()
+
+    @property
+    def venue(self):
+        key = f'venue.{self.venue_serial}'
+        return self.__class__.fetch(key)  # fetch is inherited from Record
+</code></pre>
+<p>If the instance has a <code>name</code> attribute, it is used to produce a custom representation.
+Otherwise, we delegate to the <code>__repr__</code> from <code>Record</code>.  The <code>venue</code> property builds a <code>key</code>
+from the <code>venue_serial</code> attribute, and passes it to the <code>fetch</code> method, inherited from
+<code>Record</code>.</p>
+<p>The second line of the <code>venue</code> method returns <code>self.__class__.fetch(key)</code>.  Why not simply
+call <code>self.fetch(key)</code>?  The simpler form works with the specific OSCON dataset because there
+is no event record with a <code>'fetch'</code> key.  But, if an event record had a key named <code>'fetch'</code>,
+then within that specific <code>Event</code> instance, the reference <code>self.fetch</code> would retrieve the
+value of that field, instead of the <code>fetch</code> method that <code>Event</code> inherits from <code>Record</code>.  This
+is a subtle bug, and it could easily sneak through testing because it depends on the
+dataset.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>When creating instance attribute names from data, there is always the risk of bugs due to
+shadowing of class attributes — such as methods — or data loss through accidental
+overwriting of existing instance attributes.  These problems may explain why Python dicts
+are not like JavaScript objects in the first place.</p>
+</blockquote>
+<p>If the <code>Record</code> class behaved more like a mapping, implementing a dynamic <code>__getitem__</code>
+instead of a dynamic <code>__getattr__</code>, there would be no risk of bugs from overwriting or
+shadowing.  A custom mapping is probably the Pythonic way to implement <code>Record</code>.  But if we
+took that road, we’d not be studying the tricks and traps of dynamic attribute programming.</p>
+<p>The final piece of this example is the revised <code>load</code> function:</p>
+<pre><code class="language-python">def load(source=SAMPLE_JSON):
+    records = {}
+    raw_data = json.loads(source)
+    for collection, raw_records in raw_data['Schedule'].items():
+        record_type = collection.removesuffix('s')  # no changes so far
+        cls_name = record_type.capitalize()  # e.g. 'event' becomes 'Event'
+        cls = globals().get(cls_name, Record)  # get an object by that name, or Record
+        if inspect.isclass(cls) and issubclass(cls, Record):  # if it's a Record subclass...
+            factory = cls  # ...use it as the factory
+        else:
+            factory = Record  # otherwise, use Record
+        for raw_record in raw_records:  # the same loop as before, except that...
+            key = f'{record_type}.{raw_record["serial"]}'
+            records[key] = factory(**raw_record)  # ...the record is built by factory
+    return records
+
+event = Record.fetch('event.33950')  # fetch gets a Record or an Event from the dataset
+event  # event is an instance of the Event class
+# &lt;Event 'There *Will* Be Bugs'&gt;
+event.venue  # accessing event.venue returns a Record instance
+# &lt;Record serial=1449&gt;
+event.venue.name
+# 'Portland 251'
+event.venue_serial  # the Event instance also has a venue_serial attribute
+# 1449
+</code></pre>
+<p>We capitalize the <code>record_type</code> to get a possible class name; e.g., <code>'event'</code> becomes
+<code>'Event'</code>.  Then we get an object by that name from the module global scope, or the <code>Record</code>
+class if there’s no such object.  If the object just retrieved is a class, and is a subclass
+of <code>Record</code>, we bind the <code>factory</code> name to it.  This means <code>factory</code> may be any subclass of
+<code>Record</code>, depending on the <code>record_type</code>.  The object stored in <code>records</code> is constructed by
+<code>factory</code>.</p>
+<p>Note that the only <code>record_type</code> that has a custom class is <code>Event</code>, but if classes named
+<code>Speaker</code> or <code>Venue</code> are coded, <code>load</code> will automatically use those classes when building and
+saving records, instead of the default <code>Record</code> class.</p>
+<p>We’ll now apply the same idea to a new <code>speakers</code> property in the <code>Event</code> class.</p>
+<h3 id="step-3-property-overriding-an-existing-attribute"><a class="header" href="#step-3-property-overriding-an-existing-attribute">Step 3: Property Overriding an Existing Attribute</a></h3>
+<p>The name of the <code>venue</code> property does not match a field name in records of the <code>"events"</code>
+collection.  Its data comes from a <code>venue_serial</code> field name.  In contrast, each record in
+the <code>events</code> collection has a <code>speakers</code> field with a list of serial numbers.  We want to
+expose that information as a <code>speakers</code> property in <code>Event</code> instances, which returns a list
+of <code>Record</code> instances.  This name clash requires some special attention:</p>
+<!-- nocheck -->
+<pre><code class="language-python">@property
+def speakers(self):
+    spkr_serials = self.__dict__['speakers']  # read from __dict__ to avoid recursion
+    fetch = self.__class__.fetch
+    return [fetch(f'speaker.{key}')
+            for key in spkr_serials]  # all records matching the serial numbers
+</code></pre>
+<p>The data we want is in a <code>speakers</code> attribute, but we must retrieve it directly from the
+instance <code>__dict__</code> to avoid a recursive call to the <code>speakers</code> property.  Inside the
+<code>speakers</code> method, trying to read <code>self.speakers</code> will invoke the property itself, quickly
+raising a <code>RecursionError</code>.  However, if we read the same data via
+<code>self.__dict__['speakers']</code>, Python’s usual algorithm for retrieving attributes is bypassed,
+the property is not called, and the recursion is avoided.  For this reason, reading or
+writing data directly to an object’s <code>__dict__</code> is a common Python metaprogramming trick.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>The interpreter evaluates <code>obj.my_attr</code> by first looking at the class of <code>obj</code>.  If the
+class has a property with the <code>my_attr</code> name, that property shadows an instance attribute
+by the same name.  Examples in <a href="#properties-override-instance-attributes">Properties Override Instance Attributes</a>
+will demonstrate this, and <a href="descriptors.html">Attribute Descriptors</a> will reveal that a
+property is implemented as a descriptor — a more powerful and general abstraction.</p>
+</blockquote>
+<p>Here it is, added to <code>Event</code>:</p>
+<pre><code class="language-python">class Event(Record):
+
+    def __repr__(self):
+        try:
+            return f'&lt;{self.__class__.__name__} {self.name!r}&gt;'
+        except AttributeError:
+            return super().__repr__()
+
+    @property
+    def venue(self):
+        key = f'venue.{self.venue_serial}'
+        return self.__class__.fetch(key)
+
+    @property
+    def speakers(self):
+        spkr_serials = self.__dict__['speakers']
+        fetch = self.__class__.fetch
+        return [fetch(f'speaker.{key}')
+                for key in spkr_serials]
+
+Record._Record__index = None  # reset the index, so load() uses the new Event class
+event = Record.fetch('event.33950')
+for spkr in event.speakers:
+    print(f'{spkr.serial}: {spkr.name}')
+
+# 3471: Anna Martelli Ravenscroft
+# 5199: Alex Martelli
+</code></pre>
+<p>(The line resetting <code>Record._Record__index</code> — the mangled name of the private <code>__index</code>
+attribute — is needed only because we redefined <code>Event</code> in the same session.)</p>
+<p>The list comprehension in <code>speakers</code> may look expensive.  Not really, because events in the
+OSCON dataset have few speakers, so coding anything more complicated would be premature
+optimization.  However, caching a property is a common need — and there are caveats.  So
+let’s see how to do that in the next examples.</p>
+<h3 id="step-4-bespoke-property-cache"><a class="header" href="#step-4-bespoke-property-cache">Step 4: Bespoke Property Cache</a></h3>
+<p>Caching properties is a common need because there is an expectation that an expression like
+<code>event.venue</code> should be inexpensive.  Some form of caching could become necessary if the
+<code>Record.fetch</code> method behind the <code>Event</code> properties needed to query a database or a web API.
+A straightforward handmade cache looks like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">@property
+def speakers(self):
+    if not hasattr(self, '__speaker_objs'):  # if there is no cache attribute, compute it
+        spkr_serials = self.__dict__['speakers']
+        fetch = self.__class__.fetch
+        self.__speaker_objs = [fetch(f'speaker.{key}')
+                for key in spkr_serials]
+    return self.__speaker_objs
+</code></pre>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>That code has a subtle bug: <code>hasattr(self, '__speaker_objs')</code> uses the literal string
+<code>'__speaker_objs'</code>, but the assignment <code>self.__speaker_objs = ...</code> inside the class stores
+the attribute under the mangled name <code>_Event__speaker_objs</code>, so the check always fails and
+the “cache” is recomputed on every access.  Name mangling applies to identifiers in the
+source code, not to strings.</p>
+</blockquote>
+<p>Creating an attribute after the instance is initialized also works against the key-sharing
+dictionary optimization of <a href="https://peps.python.org/pep-0412/"><strong>PEP 412</strong></a>, which lets
+instances of the same class share the storage of their attribute names, provided they all
+create the same attributes in <code>__init__</code>.  A similar hand-rolled solution that plays well
+with key sharing requires coding an <code>__init__</code> for the <code>Event</code> class, to create the necessary
+<code>__speaker_objs</code> initialized to <code>None</code>, and then checking for that in the <code>speakers</code> method:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class Event(Record):
+
+    def __init__(self, **kwargs):
+        self.__speaker_objs = None
+        super().__init__(**kwargs)
+
+    # 15 lines omitted...
+
+    @property
+    def speakers(self):
+        if self.__speaker_objs is None:
+            spkr_serials = self.__dict__['speakers']
+            fetch = self.__class__.fetch
+            self.__speaker_objs = [fetch(f'speaker.{key}')
+                    for key in spkr_serials]
+        return self.__speaker_objs
+</code></pre>
+<p>These illustrate simple caching techniques that are fairly common in legacy Python codebases.
+However, in multithreaded programs, handmade caches like those introduce race conditions: if
+two threads are reading a property that was not previously cached, both may compute the value,
+and one may read a value that another thread is still building.  The standard library offers
+ready-made caching decorators, with their own caveats, explained next.</p>
+<h3 id="step-5-caching-properties-with-functools"><a class="header" href="#step-5-caching-properties-with-functools">Step 5: Caching Properties with <code>functools</code></a></h3>
+<p>The <code>functools</code> module provides three decorators for caching.  We saw <code>@cache</code> and
+<code>@lru_cache</code> in <a href="decorators.html#memoization-with-functoolscache">Memoization with <code>functools.cache</code></a>.
+The third one is
+<a href="https://docs.python.org/3/library/functools.html#functools.cached_property"><code>@cached_property</code></a>.</p>
+<p>The <code>functools.cached_property</code> decorator caches the result of the method in an instance
+attribute with the same name.  For example, here the value computed by the <code>venue</code> method is
+stored in a <code>venue</code> attribute in <code>self</code>.  After that, when client code tries to read <code>venue</code>,
+the newly created <code>venue</code> instance attribute is used instead of the method:</p>
+<!-- nocheck -->
+<pre><code class="language-python">@cached_property
+def venue(self):
+    key = f'venue.{self.venue_serial}'
+    return self.__class__.fetch(key)
+</code></pre>
+<p>In <a href="#step-3-property-overriding-an-existing-attribute">Step 3</a>, we saw that a property shadows
+an instance attribute by the same name.  If that is true, how can <code>@cached_property</code> work?  If
+the property overrides the instance attribute, the <code>venue</code> attribute will be ignored and the
+<code>venue</code> method will always be called, computing the <code>key</code> and running <code>fetch</code> every time!</p>
+<p>The answer is a bit sad: <code>cached_property</code> is a misnomer.  The <code>@cached_property</code> decorator
+does not create a full-fledged property, it creates a <em>nonoverriding descriptor</em>.  A
+descriptor is an object that manages the access to an attribute in another class.  We will
+dive into descriptors in <a href="descriptors.html">Attribute Descriptors</a>.  The <code>property</code> decorator
+is a high-level API to create an <em>overriding descriptor</em>.</p>
+<p>For now, let us set aside the underlying implementation and focus on the differences between
+<code>cached_property</code> and <code>property</code> from a user’s point of view.  Raymond Hettinger explains them
+very well in the Python docs:</p>
+<blockquote>
+<p>The mechanics of <code>cached_property()</code> are somewhat different from <code>property()</code>.  A regular
+property blocks attribute writes unless a setter is defined.  In contrast, a
+<code>cached_property</code> allows writes.</p>
+<p>The <code>cached_property</code> decorator only runs on lookups and only when an attribute of the same
+name doesn’t exist.  When it does run, the <code>cached_property</code> writes to the attribute with
+the same name.  Subsequent attribute reads and writes take precedence over the
+<code>cached_property</code> method and it works like a normal attribute.</p>
+<p>The cached value can be cleared by deleting the attribute.  This allows the
+<code>cached_property</code> method to run again.</p>
+</blockquote>
+<pre><code class="language-python">from functools import cached_property
+
+class Circle:
+    def __init__(self, radius):
+        self.radius = radius
+
+    @cached_property
+    def area(self):
+        print('computing area...')
+        return 3.14159 * self.radius ** 2
+
+c = Circle(2)
+c.area  # the first read runs the method...
+# computing area...
+# 12.56636
+c.area  # ...and stores the result in c.__dict__['area']
+# 12.56636
+vars(c)
+# {'radius': 2, 'area': 12.56636}
+del c.area  # deleting the attribute clears the cache
+c.radius = 1
+c.area
+# computing area...
+# 3.14159
+</code></pre>
+<p>Back to our <code>Event</code> class: the specific behavior of <code>@cached_property</code> makes it unsuitable to
+decorate <code>speakers</code>, because that method relies on an existing attribute also named
+<code>speakers</code>, containing the serial numbers of the event speakers.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p><code>@cached_property</code> has some important limitations:</p>
+<ul>
+<li>It cannot be used as a drop-in replacement to <code>@property</code> if the decorated method already
+depends on an instance attribute with the same name.</li>
+<li>It cannot be used in a class that defines <code>__slots__</code> (it needs an instance <code>__dict__</code>).</li>
+<li>It defeats the key-sharing optimization of the instance <code>__dict__</code>, because it creates an
+instance attribute after <code>__init__</code>.</li>
+<li>It is not synchronized: since Python 3.12 it no longer holds a lock (the old lock was per
+property, not per instance, which caused contention), so in multithreaded code the method
+may run more than once for the same instance.  That’s harmless if the method is idempotent.</li>
+</ul>
+</blockquote>
+<p>The <code>@cached_property</code> documentation recommends an alternative solution that we can use with
+<code>speakers</code>: stacking <code>@property</code> and <code>@cache</code> decorators:</p>
+<!-- nocheck -->
+<pre><code class="language-python">@property  # the order is important: @property goes on top...
+@cache  # ...of @cache
+def speakers(self):
+    spkr_serials = self.__dict__['speakers']
+    fetch = self.__class__.fetch
+    return [fetch(f'speaker.{key}')
+            for key in spkr_serials]
+</code></pre>
+<p>Recall from <a href="decorators.html#memoization-with-functoolscache">Memoization with <code>functools.cache</code></a> the meaning of that syntax.
+The top three lines are similar to <code>speakers = property(cache(speakers))</code>.  The <code>@cache</code> is
+applied to <code>speakers</code>, returning a new function.  That function then is decorated by
+<code>@property</code>, which replaces it with a newly constructed property.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p><code>@cache</code> on a method stores <code>self</code> as part of the cache key, in a cache that belongs to the
+class.  That keeps every instance alive as long as the class exists — a memory leak for
+classes with many short-lived instances — and requires instances to be hashable.  It’s fine
+for our <code>Event</code> records, which live as long as the program, but keep the trade-off in mind.</p>
+</blockquote>
+<p>This wraps up our discussion of read-only properties and caching decorators, exploring the
+OSCON dataset.  In the next section, we start a new series of examples creating read/write
+properties.</p>
+<h2 id="using-a-property-for-attribute-validation"><a class="header" href="#using-a-property-for-attribute-validation">Using a Property for Attribute Validation</a></h2>
+<p>Besides computing attribute values, properties are also used to enforce business rules by
+changing a public attribute into an attribute protected by a getter and setter without
+affecting client code.  Let’s work through an extended example.</p>
+<h3 id="lineitem-take-1-class-for-an-item-in-an-order"><a class="header" href="#lineitem-take-1-class-for-an-item-in-an-order">LineItem Take #1: Class for an Item in an Order</a></h3>
+<p>Imagine an app for a store that sells organic food in bulk, where customers can order nuts,
+dried fruit or cereals by weight.  In that system, each order would hold a sequence of line
+items, and each line item could be represented by an instance of a class like this:</p>
+<pre><code class="language-python">class LineItem:
+
+    def __init__(self, description, weight, price):
+        self.description = description
+        self.weight = weight
+        self.price = price
+
+    def subtotal(self):
+        return self.weight * self.price
+</code></pre>
+<p>That’s nice and simple.  Perhaps too simple:</p>
+<pre><code class="language-python">raisins = LineItem('Golden raisins', 10, 6.95)
+raisins.subtotal()
+# 69.5
+raisins.weight = -20  # garbage in...
+raisins.subtotal()  # garbage out...
+# -139.0
+</code></pre>
+<p>This is a toy example, but not as fanciful as you may think.  Here is a story from the early
+days of Amazon.com: “We found that customers could order a negative quantity of books!  And we
+would credit their credit card with the price and, I assume, wait around for them to ship the
+books,” said Jeff Bezos.</p>
+<p>How do we fix this?  We could change the interface of <code>LineItem</code> to use a getter and a setter
+for the <code>weight</code> attribute.  That would be the Java way, and it’s not wrong.  On the other
+hand, it’s natural to be able to set the <code>weight</code> of an item by just assigning to it; and
+perhaps the system is in production with other parts already accessing <code>item.weight</code>
+directly.  In this case, the Python way would be to replace the data attribute with a
+property.</p>
+<h3 id="lineitem-take-2-a-validating-property"><a class="header" href="#lineitem-take-2-a-validating-property">LineItem Take #2: A Validating Property</a></h3>
+<p>Implementing a property will allow us to use a getter and a setter, but the interface of
+<code>LineItem</code> will not change (i.e., setting the <code>weight</code> of a <code>LineItem</code> will still be written
+as <code>raisins.weight = 12</code>):</p>
+<pre><code class="language-python">class LineItem:
+
+    def __init__(self, description, weight, price):
+        self.description = description
+        self.weight = weight  # the property setter is already in use here
+        self.price = price
+
+    def subtotal(self):
+        return self.weight * self.price
+
+    @property  # @property decorates the getter method
+    def weight(self):  # all methods implementing a property share the public name
+        return self.__weight  # the actual value is stored in a private attribute
+
+    @weight.setter  # the getter's .setter attribute ties the getter and setter together
+    def weight(self, value):
+        if value &gt; 0:
+            self.__weight = value  # if the value is greater than zero, set it
+        else:
+            raise ValueError('value must be &gt; 0')  # otherwise, raise ValueError
+</code></pre>
+<p>The property setter is already in use in <code>__init__</code>, making sure that no instances with
+negative weight can be created.  <code>@property</code> decorates the getter method.  All the methods
+that implement a property share the name of the public attribute: <code>weight</code>.  The actual value
+is stored in a private attribute <code>__weight</code>.  The decorated getter has a <code>.setter</code> attribute,
+which is also a decorator; this ties the getter and setter together.  Note how a <code>LineItem</code>
+with an invalid weight cannot be created now:</p>
+<pre><code class="language-python">walnuts = LineItem('walnuts', 0, 10.00)
+# Traceback (most recent call last):
+#     ...
+# ValueError: value must be &gt; 0
+</code></pre>
+<p>Now we have protected <code>weight</code> from users providing negative values.  Although buyers usually
+can’t set the price of an item, a clerical error or a bug may create a <code>LineItem</code> with a
+negative <code>price</code>.  To prevent that, we could also turn <code>price</code> into a property, but this would
+entail some repetition in our code.</p>
+<p>Remember the Paul Graham quote from <a href="iterators-generators.html">Iterators, Generators, and Classic Coroutines</a>:
+“When I see patterns in my programs, I consider it a sign of trouble.”  The cure for
+repetition is abstraction.  There are two ways to abstract away property definitions: using a
+property factory or a descriptor class.  The descriptor class approach is more flexible, and
+we’ll devote <a href="descriptors.html">Attribute Descriptors</a> to a full discussion of it.  Properties
+are in fact implemented as descriptor classes themselves.  But here we will continue our
+exploration of properties by implementing a property factory as a function.  But before we
+can implement a property factory, we need to have a deeper understanding of properties.</p>
+<h2 id="a-proper-look-at-properties"><a class="header" href="#a-proper-look-at-properties">A Proper Look at Properties</a></h2>
+<p>Although often used as a decorator, the <code>property</code> built-in is actually a class.  In Python,
+functions and classes are often interchangeable, because both are callable and there is no
+<code>new</code> operator for object instantiation, so invoking a constructor is no different from
+invoking a factory function.  And both can be used as decorators, as long as they return a
+new callable that is a suitable replacement of the decorated callable.  This is the full
+signature of the <a href="https://docs.python.org/3/library/functions.html#property"><code>property</code></a>
+constructor:</p>
+<!-- nocheck -->
+<pre><code class="language-python">property(fget=None, fset=None, fdel=None, doc=None)
+</code></pre>
+<p>All arguments are optional, and if a function is not provided for one of them, the
+corresponding operation is not allowed by the resulting property object.</p>
+<p>The <code>property</code> type was added in Python 2.2, but the <code>@</code> decorator syntax appeared only in
+Python 2.4, so for a few years, properties were defined by passing the accessor functions as
+the first two arguments.  Here is the “classic” syntax for defining properties without
+decorators:</p>
+<pre><code class="language-python">class LineItem:
+
+    def __init__(self, description, weight, price):
+        self.description = description
+        self.weight = weight
+        self.price = price
+
+    def subtotal(self):
+        return self.weight * self.price
+
+    def get_weight(self):  # a plain getter
+        return self.__weight
+
+    def set_weight(self, value):  # a plain setter
+        if value &gt; 0:
+            self.__weight = value
+        else:
+            raise ValueError('value must be &gt; 0')
+
+    weight = property(get_weight, set_weight)  # build the property, assign to a class attribute
+</code></pre>
+<p>The classic form is better than the decorator syntax in some situations; the code of the
+property factory we’ll discuss shortly is one example.  On the other hand, in a class body
+with many methods, the decorators make it explicit which are the getters and setters, without
+depending on the convention of using <code>get</code> and <code>set</code> prefixes in their names.</p>
+<p>The presence of a property in a class affects how attributes in instances of that class can be
+found in a way that may be surprising at first.  The next section explains.</p>
+<h3 id="properties-override-instance-attributes"><a class="header" href="#properties-override-instance-attributes">Properties Override Instance Attributes</a></h3>
+<p>Properties are always class attributes, but they actually manage attribute access in the
+instances of the class.  In <a href="pythonic-object.html#overriding-class-attributes">Overriding Class Attributes</a>
+we saw that when an instance and its class both have a data attribute by the same name, the
+instance attribute overrides, or shadows, the class attribute — at least when read through
+that instance:</p>
+<pre><code class="language-python">class Class:  # two class attributes: the data attribute and the prop property
+    data = 'the class data attr'
+    @property
+    def prop(self):
+        return 'the prop value'
+
+obj = Class()
+vars(obj)  # vars returns the __dict__ of obj: it has no instance attributes
+# {}
+obj.data  # reading obj.data retrieves the value of Class.data
+# 'the class data attr'
+obj.data = 'bar'  # writing to obj.data creates an instance attribute
+vars(obj)
+# {'data': 'bar'}
+obj.data  # now the instance data shadows the class data
+# 'bar'
+Class.data  # the Class.data attribute is intact
+# 'the class data attr'
+</code></pre>
+<p>Now, let’s try to override the <code>prop</code> attribute on the <code>obj</code> instance:</p>
+<pre><code class="language-python">Class.prop  # reading prop from Class retrieves the property object itself
+# &lt;property object at 0x...&gt;
+obj.prop  # reading obj.prop executes the property getter
+# 'the prop value'
+obj.prop = 'foo'  # trying to set an instance prop attribute fails
+# Traceback (most recent call last):
+#   ...
+# AttributeError: property 'prop' of 'Class' object has no setter
+obj.__dict__['prop'] = 'foo'  # putting 'prop' directly in obj.__dict__ works
+vars(obj)  # obj now has two instance attributes: data and prop
+# {'data': 'bar', 'prop': 'foo'}
+obj.prop  # but reading obj.prop still runs the getter: the property is not shadowed
+# 'the prop value'
+Class.prop = 'baz'  # overwriting Class.prop destroys the property object
+obj.prop  # now obj.prop retrieves the instance attribute
+# 'foo'
+</code></pre>
+<p>As a final demonstration, we’ll add a new property to <code>Class</code>, and see it overriding an
+instance attribute:</p>
+<pre><code class="language-python">obj.data  # obj.data retrieves the instance data attribute
+# 'bar'
+Class.data  # Class.data retrieves the class data attribute
+# 'the class data attr'
+Class.data = property(lambda self: 'the "data" prop value')  # a new property
+obj.data  # obj.data is now shadowed by the Class.data property
+# 'the "data" prop value'
+del Class.data  # delete the property
+obj.data  # obj.data now reads the instance data attribute again
+# 'bar'
+</code></pre>
+<p>The main point of this section is that an expression like <code>obj.data</code> does not start the
+search for <code>data</code> in <code>obj</code>.  The search actually starts at <code>obj.__class__</code>, and only if there
+is no property named <code>data</code> in the class, Python looks in the <code>obj</code> instance itself.  This
+applies to <em>overriding descriptors</em> in general, of which properties are just one example.
+Further treatment of descriptors must wait for <a href="descriptors.html">Attribute Descriptors</a>.</p>
+<p>Now back to properties.  Every Python code unit — modules, functions, classes, methods — can
+have a docstring.  The next topic is how to attach documentation to properties.</p>
+<h3 id="property-documentation"><a class="header" href="#property-documentation">Property Documentation</a></h3>
+<p>When tools such as the console <code>help()</code> function or IDEs need to display the documentation of
+a property, they extract the information from the <code>__doc__</code> attribute of the property.  If
+used with the classic call syntax, <code>property</code> can get the documentation string as the <code>doc</code>
+argument:</p>
+<!-- nocheck -->
+<pre><code class="language-python">weight = property(get_weight, set_weight, doc='weight in kilograms')
+</code></pre>
+<p>The docstring of the getter method — the one with the <code>@property</code> decorator itself — is used
+as the documentation of the property as a whole:</p>
+<pre><code class="language-python">class Foo:
+
+    @property
+    def bar(self):
+        """The bar attribute"""
+        return self.__dict__['bar']
+
+    @bar.setter
+    def bar(self, value):
+        self.__dict__['bar'] = value
+
+Foo.bar.__doc__  # this is what help(Foo.bar) and help(Foo) display
+# 'The bar attribute'
+</code></pre>
+<p>Now that we have these property essentials covered, let’s go back to the issue of protecting
+both the <code>weight</code> and <code>price</code> attributes of <code>LineItem</code> so they only accept values greater than
+zero — but without implementing two nearly identical pairs of getters/setters by hand.</p>
+<h2 id="coding-a-property-factory"><a class="header" href="#coding-a-property-factory">Coding a Property Factory</a></h2>
+<p>We’ll create a factory to create <code>quantity</code> properties — so named because the managed
+attributes represent quantities that can’t be negative or zero in the application.  Here is
+the implementation of the <code>quantity</code> property factory (adapted from “Recipe 9.21. Avoiding
+Repetitive Property Methods” in <em>Python Cookbook</em>, 3rd ed., by Beazley and Jones):</p>
+<pre><code class="language-python">def quantity(storage_name):  # storage_name determines where the data is stored
+
+    def qty_getter(instance):  # instance refers to the LineItem where the value is stored
+        return instance.__dict__[storage_name]  # bypass the property to avoid recursion
+
+    def qty_setter(instance, value):
+        if value &gt; 0:
+            instance.__dict__[storage_name] = value  # store directly in the instance __dict__
+        else:
+            raise ValueError('value must be &gt; 0')
+
+    return property(qty_getter, qty_setter)  # build a custom property object and return it
+</code></pre>
+<p>And here is the clean look of the <code>LineItem</code> class using two instances of <code>quantity</code>
+properties: one for managing the <code>weight</code> attribute, the other for <code>price</code>:</p>
+<pre><code class="language-python">class LineItem:
+    weight = quantity('weight')  # use the factory to define the weight property
+    price = quantity('price')  # this second call builds another custom property, price
+
+    def __init__(self, description, weight, price):
+        self.description = description
+        self.weight = weight  # the property is already active here, rejecting weight &lt;= 0
+        self.price = price
+
+    def subtotal(self):
+        return self.weight * self.price  # the properties retrieve the values stored
+</code></pre>
+<p>Recall that properties are class attributes.  When building each <code>quantity</code> property, we need
+to pass the name of the <code>LineItem</code> attribute that will be managed by that specific property.
+Having to type the word <code>weight</code> twice in <code>weight = quantity('weight')</code> is unfortunate.  But
+avoiding that repetition is complicated because the property has no way of knowing which class
+attribute name will be bound to it.  Remember: the righthand side of an assignment is
+evaluated first, so when <code>quantity()</code> is invoked, the <code>weight</code> class attribute doesn’t even
+exist.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Improving the <code>quantity</code> property so that the user doesn’t need to retype the attribute name
+is a nontrivial metaprogramming problem.  We’ll solve that problem in
+<a href="descriptors.html">Attribute Descriptors</a>, with the <code>__set_name__</code> special method.</p>
+</blockquote>
+<p>The bits of the factory that deserve careful study revolve around the <code>storage_name</code>
+variable.  When you code each property in the traditional way, the name of the attribute where
+you will store a value is hardcoded in the getter and setter methods.  But here, the
+<code>qty_getter</code> and <code>qty_setter</code> functions are generic, and they depend on the <code>storage_name</code>
+variable to know where to get/set the managed attribute in the instance <code>__dict__</code>.  Each time
+the <code>quantity</code> factory is called to build a property, the <code>storage_name</code> must be set to a
+unique value.  The functions <code>qty_getter</code> and <code>qty_setter</code> will be wrapped by the <code>property</code>
+object created in the last line of the factory function.  Later, when called to perform their
+duties, these functions will read the <code>storage_name</code> from their closures (see
+<a href="decorators.html#closures">Closures</a>) to determine where to retrieve/store the managed attribute
+values.</p>
+<p>Here we create and inspect a <code>LineItem</code> instance, exposing the storage attributes:</p>
+<pre><code class="language-python">nutmeg = LineItem('Moluccan nutmeg', 8, 13.95)
+nutmeg.weight, nutmeg.price  # read through the properties shadowing the instance attributes
+# (8, 13.95)
+nutmeg.__dict__  # the actual instance attributes used to store the values
+# {'description': 'Moluccan nutmeg', 'weight': 8, 'price': 13.95}
+nutmeg.price = -1
+# Traceback (most recent call last):
+#   ...
+# ValueError: value must be &gt; 0
+</code></pre>
+<p>Note how the properties built by our factory leverage the behavior described in
+<a href="#properties-override-instance-attributes">Properties Override Instance Attributes</a>: the
+<code>weight</code> property overrides the <code>weight</code> instance attribute so that every reference to
+<code>self.weight</code> or <code>nutmeg.weight</code> is handled by the property functions, and the only way to
+bypass the property logic is to access the instance <code>__dict__</code> directly.</p>
+<p>The factory may be a bit tricky, but it’s concise: it’s identical in length to the decorated
+getter/setter pair defining just the <code>weight</code> property in Take #2.  The <code>LineItem</code> definition
+looks much better without the noise of the getter/setters.  In a real system, that same kind
+of validation may appear in many fields, across several classes, and the <code>quantity</code> factory
+would be placed in a utility module to be used over and over again.  Eventually that simple
+factory could be refactored into a more extensible descriptor class, with specialized
+subclasses performing different validations.  We’ll do that in
+<a href="descriptors.html">Attribute Descriptors</a>.</p>
+<p>Now let us wrap up the discussion of properties with the issue of attribute deletion.</p>
+<h2 id="handling-attribute-deletion"><a class="header" href="#handling-attribute-deletion">Handling Attribute Deletion</a></h2>
+<p>We can use the <code>del</code> statement to delete not only variables, but also attributes:</p>
+<pre><code class="language-python">class Demo:
+    pass
+
+d = Demo()
+d.color = 'green'
+d.color
+# 'green'
+del d.color
+d.color
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# AttributeError: 'Demo' object has no attribute 'color'
+</code></pre>
+<p>In practice, deleting attributes is not something we do every day in Python, and the
+requirement to handle it with a property is even more unusual.  But it is supported, and here
+is a silly example to demonstrate it.  In a property definition, the
+<code>@my_property.deleter</code> decorator wraps the method in charge of deleting the attribute managed
+by the property.  This example is inspired by the scene with the Black Knight from <em>Monty
+Python and the Holy Grail</em>:</p>
+<pre><code class="language-python">class BlackKnight:
+
+    def __init__(self):
+        self.phrases = [
+            ('an arm', "'Tis but a scratch."),
+            ('another arm', "It's just a flesh wound."),
+            ('a leg', "I'm invincible!"),
+            ('another leg', "All right, we'll call it a draw.")
+        ]
+
+    @property
+    def member(self):
+        print('next member is:')
+        return self.phrases[0][0]
+
+    @member.deleter
+    def member(self):
+        member, text = self.phrases.pop(0)
+        print(f'BLACK KNIGHT (loses {member}) -- {text}')
+
+knight = BlackKnight()
+knight.member
+# next member is:
+# 'an arm'
+del knight.member
+# BLACK KNIGHT (loses an arm) -- 'Tis but a scratch.
+del knight.member
+# BLACK KNIGHT (loses another arm) -- It's just a flesh wound.
+del knight.member
+# BLACK KNIGHT (loses a leg) -- I'm invincible!
+del knight.member
+# BLACK KNIGHT (loses another leg) -- All right, we'll call it a draw.
+</code></pre>
+<p>Using the classic call syntax instead of decorators, the <code>fdel</code> argument configures the deleter
+function.  For example, the <code>member</code> property would be coded like this in the body of the
+<code>BlackKnight</code> class: <code>member = property(member_getter, fdel=member_deleter)</code>.</p>
+<p>If you are not using a property, attribute deletion can also be handled by implementing the
+lower-level <code>__delattr__</code> special method, presented in
+<a href="#special-methods-for-attribute-handling">Special Methods for Attribute Handling</a>.</p>
+<p>Properties are a powerful feature, but sometimes simpler or lower-level alternatives are
+preferable.  In the final section of this chapter, we’ll review some of the core APIs that
+Python offers for dynamic attribute programming.</p>
+<h2 id="essential-attributes-and-functions-for-attribute-handling"><a class="header" href="#essential-attributes-and-functions-for-attribute-handling">Essential Attributes and Functions for Attribute Handling</a></h2>
+<p>Throughout this chapter, and even before in this book, we’ve used some of the built-in
+functions and special methods Python provides for dealing with dynamic attributes.  This
+section gives an overview of them in one place, because their documentation is scattered in
+the official docs.</p>
+<h3 id="special-attributes-that-affect-attribute-handling"><a class="header" href="#special-attributes-that-affect-attribute-handling">Special Attributes that Affect Attribute Handling</a></h3>
+<p>The behavior of many of the functions and special methods listed in the following sections
+depend on three special attributes:</p>
+<dl>
+<dt id="__class__"><a class="header" href="#__class__"><code>__class__</code></a></dt>
+<dd>A reference to the object’s class (i.e., <code>obj.__class__</code> is the same as <code>type(obj)</code>).
+Python looks for special methods such as <code>__getattr__</code> only in an object’s class, and not in
+the instances themselves.</dd>
+<dt id="__dict__"><a class="header" href="#__dict__"><code>__dict__</code></a></dt>
+<dd>A mapping that stores the writable attributes of an object or class.  An object that has a
+<code>__dict__</code> can have arbitrary new attributes set at any time.  If a class has a <code>__slots__</code>
+attribute, then its instances may not have a <code>__dict__</code>.</dd>
+<dt id="__slots__"><a class="header" href="#__slots__"><code>__slots__</code></a></dt>
+<dd>An attribute that may be defined in a class to save memory.  <code>__slots__</code> is a tuple of
+strings naming the allowed attributes.  (It can be coded as a list, but it’s better to be
+explicit and always use a tuple, because changing the list after the class body is processed
+has no effect.)  If the <code>'__dict__'</code> name is not in <code>__slots__</code>, then the instances of that
+class will not have a <code>__dict__</code> of their own, and only the attributes listed in <code>__slots__</code>
+will be allowed in those instances.  Recall
+<a href="pythonic-object.html#saving-memory-with-__slots__">Saving Memory with <code>__slots__</code></a> for more.</dd>
+</dl>
+<h3 id="built-in-functions-for-attribute-handling"><a class="header" href="#built-in-functions-for-attribute-handling">Built-In Functions for Attribute Handling</a></h3>
+<p>These five built-in functions perform object attribute reading, writing and introspection:</p>
+<dl>
+<dt id="dirobject"><a class="header" href="#dirobject"><code>dir([object])</code></a></dt>
+<dd>Lists most attributes of the object.  The official docs say <code>dir</code> is intended for
+interactive use so it does not provide a comprehensive list of attributes, but an
+“interesting” set of names.  <code>dir</code> can inspect objects implemented with or without a
+<code>__dict__</code>.  The <code>__dict__</code> attribute itself is not listed by <code>dir</code>, but the <code>__dict__</code> keys
+are listed.  Several special attributes of classes, such as <code>__mro__</code>, <code>__bases__</code> and
+<code>__name__</code>, are not listed by <code>dir</code> either.  You can customize the output of <code>dir</code> by
+implementing the <code>__dir__</code> special method, as we saw in <code>FrozenJSON</code>.  If the optional
+<code>object</code> argument is not given, <code>dir</code> lists the names in the current scope.</dd>
+<dt id="getattrobject-name-default"><a class="header" href="#getattrobject-name-default"><code>getattr(object, name[, default])</code></a></dt>
+<dd>Gets the attribute identified by the <code>name</code> string from the <code>object</code>.  The main use case is
+to retrieve attributes (or methods) whose names we don’t know beforehand.  This may fetch an
+attribute from the object’s class or from a superclass.  If no such attribute exists,
+<code>getattr</code> raises <code>AttributeError</code> or returns the <code>default</code> value, if given.  One great
+example of using <code>getattr</code> is in the <code>Cmd.onecmd</code> method in the <code>cmd</code> package of the
+standard library, where it is used to get and execute a user-defined command.</dd>
+<dt id="hasattrobject-name"><a class="header" href="#hasattrobject-name"><code>hasattr(object, name)</code></a></dt>
+<dd>Returns <code>True</code> if the named attribute exists in the <code>object</code>, or can be somehow fetched
+through it (by inheritance, for example).  The documentation explains: “This is implemented
+by calling <code>getattr(object, name)</code> and seeing whether it raises an <code>AttributeError</code> or not.”</dd>
+<dt id="setattrobject-name-value"><a class="header" href="#setattrobject-name-value"><code>setattr(object, name, value)</code></a></dt>
+<dd>Assigns the <code>value</code> to the named attribute of <code>object</code>, if the <code>object</code> allows it.  This may
+create a new attribute or overwrite an existing one.</dd>
+<dt id="varsobject"><a class="header" href="#varsobject"><code>vars([object])</code></a></dt>
+<dd>Returns the <code>__dict__</code> of <code>object</code>; <code>vars</code> can’t deal with instances of classes that define
+<code>__slots__</code> and don’t have a <code>__dict__</code> (contrast with <code>dir</code>, which handles such instances).
+Without an argument, <code>vars()</code> does the same as <code>locals()</code>: returns a <code>dict</code> representing the
+local scope.</dd>
+</dl>
+<pre><code class="language-python">class Cmd:
+    def do_greet(self, name):
+        return f'Hello, {name}!'
+
+    def onecmd(self, line):  # dispatch on a name read at runtime, like cmd.Cmd.onecmd
+        command, _, arg = line.partition(' ')
+        method = getattr(self, f'do_{command}', None)
+        if method is None:
+            return f'*** Unknown syntax: {line}'
+        return method(arg)
+
+c = Cmd()
+c.onecmd('greet world')
+# 'Hello, world!'
+c.onecmd('fly away')
+# '*** Unknown syntax: fly away'
+hasattr(c, 'do_greet'), hasattr(c, 'do_fly')
+# (True, False)
+setattr(c, 'mood', 'cheerful')
+vars(c)
+# {'mood': 'cheerful'}
+</code></pre>
+<h3 id="special-methods-for-attribute-handling"><a class="header" href="#special-methods-for-attribute-handling">Special Methods for Attribute Handling</a></h3>
+<p>When implemented in a user-defined class, the special methods listed here handle attribute
+retrieval, setting, deletion and listing.  Attribute access using either dot notation or the
+built-in functions <code>getattr</code>, <code>hasattr</code> and <code>setattr</code> triggers the appropriate special methods
+listed here.  Reading and writing attributes directly in the instance <code>__dict__</code> does not
+trigger these special methods — and that’s the usual way to bypass them if needed.</p>
+<p>The <a href="https://docs.python.org/3/reference/datamodel.html#special-method-lookup">Special method lookup</a>
+section of the Data Model warns: “For custom classes, implicit invocations of special methods
+are only guaranteed to work correctly if defined on an object’s type, not in the object’s
+instance dictionary.”  In other words, assume that the special methods will be retrieved on
+the class itself, even when the target of the action is an instance.  For this reason, special
+methods are not shadowed by instance attributes with the same name.</p>
+<p>In the following descriptions, assume there is a class named <code>Class</code>, <code>obj</code> is an instance of
+<code>Class</code>, and <code>attr</code> is an attribute of <code>obj</code>.  For every one of these special methods, it
+doesn’t matter if the attribute access is done using dot notation or one of the built-in
+functions listed above.  For example, both <code>obj.attr</code> and <code>getattr(obj, 'attr', 42)</code> trigger
+<code>Class.__getattribute__(obj, 'attr')</code>.</p>
+<dl>
+<dt id="__delattr__self-name"><a class="header" href="#__delattr__self-name"><code>__delattr__(self, name)</code></a></dt>
+<dd>Always called when there is an attempt to delete an attribute using the <code>del</code> statement;
+e.g., <code>del obj.attr</code> triggers <code>Class.__delattr__(obj, 'attr')</code>.  If <code>attr</code> is a property, its
+deleter method is never called if the class implements <code>__delattr__</code>.</dd>
+<dt id="__dir__self"><a class="header" href="#__dir__self"><code>__dir__(self)</code></a></dt>
+<dd>Called when <code>dir</code> is invoked on the object, to provide a listing of attributes; e.g.,
+<code>dir(obj)</code> triggers <code>Class.__dir__(obj)</code>.  Also used by tab-completion in all modern Python
+consoles.</dd>
+<dt id="__getattr__self-name"><a class="header" href="#__getattr__self-name"><code>__getattr__(self, name)</code></a></dt>
+<dd>Called only when an attempt to retrieve the named attribute fails, after the <code>obj</code>, <code>Class</code>
+and its superclasses are searched.  The expressions <code>obj.no_such_attr</code>,
+<code>getattr(obj, 'no_such_attr')</code> and <code>hasattr(obj, 'no_such_attr')</code> may trigger
+<code>Class.__getattr__(obj, 'no_such_attr')</code>, but only if an attribute by that name cannot be
+found in <code>obj</code> or in <code>Class</code> and its superclasses.</dd>
+<dt id="__getattribute__self-name"><a class="header" href="#__getattribute__self-name"><code>__getattribute__(self, name)</code></a></dt>
+<dd>Always called when there is an attempt to retrieve the named attribute directly from Python
+code (the interpreter may bypass this in some cases, for example, to get the <code>__repr__</code>
+method).  Dot notation and the <code>getattr</code> and <code>hasattr</code> built-ins trigger this method.
+<code>__getattr__</code> is only invoked after <code>__getattribute__</code>, and only when <code>__getattribute__</code>
+raises <code>AttributeError</code>.  To retrieve attributes of the instance <code>obj</code> without triggering an
+infinite recursion, implementations of <code>__getattribute__</code> should use
+<code>super().__getattribute__(name)</code>.</dd>
+<dt id="__setattr__self-name-value"><a class="header" href="#__setattr__self-name-value"><code>__setattr__(self, name, value)</code></a></dt>
+<dd>Always called when there is an attempt to set the named attribute.  Dot notation and the
+<code>setattr</code> built-in trigger this method; e.g., both <code>obj.attr = 42</code> and
+<code>setattr(obj, 'attr', 42)</code> trigger <code>Class.__setattr__(obj, 'attr', 42)</code>.</dd>
+</dl>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>In practice, because they are unconditionally called and affect practically every attribute
+access, the <code>__getattribute__</code> and <code>__setattr__</code> special methods are harder to use correctly
+than <code>__getattr__</code>, which only handles nonexisting attribute names.  Using properties or
+descriptors is less error prone than defining these special methods.</p>
+</blockquote>
+<p>Here is a class that logs every attribute access, to see the order of calls:</p>
+<pre><code class="language-python">class Traced:
+    def __init__(self):
+        self.x = 1  # goes through __setattr__
+
+    def __getattribute__(self, name):
+        print(f'__getattribute__({name!r})')
+        return super().__getattribute__(name)
+
+    def __getattr__(self, name):
+        print(f'__getattr__({name!r})')
+        return f'&lt;virtual {name}&gt;'
+
+    def __setattr__(self, name, value):
+        print(f'__setattr__({name!r}, {value!r})')
+        super().__setattr__(name, value)
+
+t = Traced()
+# __setattr__('x', 1)
+t.x  # found: only __getattribute__ runs
+# __getattribute__('x')
+# 1
+t.y  # not found: __getattribute__ raises AttributeError, then __getattr__ runs
+# __getattribute__('y')
+# __getattr__('y')
+# '&lt;virtual y&gt;'
+</code></pre>
+<p>This concludes our dive into properties, special methods, and other techniques for coding
+dynamic attributes.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>We started our coverage of dynamic attributes by showing practical examples of simple classes
+to make it easier to deal with a JSON dataset.  The first example was the <code>FrozenJSON</code> class
+that converted nested dicts and lists into nested <code>FrozenJSON</code> instances and lists of them.
+The <code>FrozenJSON</code> code demonstrated the use of the <code>__getattr__</code> special method to convert data
+structures on the fly, whenever their attributes were read.  The last version of <code>FrozenJSON</code>
+showcased the use of the <code>__new__</code> constructor method to transform a class into a flexible
+factory of objects, not limited to instances of itself.</p>
+<p>We then converted the JSON dataset to a <code>dict</code> storing instances of a <code>Record</code> class.  The
+first rendition of <code>Record</code> was a few lines long and introduced the “bunch” idiom: using
+<code>self.__dict__.update(**kwargs)</code> to build arbitrary attributes from keyword arguments passed to
+<code>__init__</code>.  The second iteration added the <code>Event</code> class, implementing automatic retrieval of
+linked records through properties.  Computed property values sometimes require caching, and we
+covered a few ways of doing that.  After realizing that <code>@functools.cached_property</code> is not
+always applicable, we learned about an alternative: combining <code>@property</code> on top of
+<code>@functools.cache</code>, in that order.</p>
+<p>Coverage of properties continued with the <code>LineItem</code> class, where a property was deployed to
+protect a <code>weight</code> attribute from negative or zero values that make no business sense.  After a
+deeper look at property syntax and semantics, we created a property factory to enforce the same
+validation on <code>weight</code> and <code>price</code>, without coding multiple getters and setters.  The property
+factory leveraged subtle concepts — such as closures, and instance attribute overriding by
+properties — to provide an elegant generic solution using the same number of lines as a single
+hand-coded property definition.</p>
+<p>Finally, we had a brief look at handling attribute deletion with properties, followed by an
+overview of the key special attributes, built-in functions and special methods that support
+attribute metaprogramming in the core Python language.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Python’s approach to the Uniform Access Principle lets us start simple, coding data members
+as public attributes, because we know they can always be wrapped by properties (or
+descriptors) later, without changing client code.  That’s why Alex Martelli calls Java-style
+accessors “goofy idioms”: <code>someInstance.widgetCounter += 1</code> reads much better than
+<code>someInstance.setWidgetCounter(someInstance.getWidgetCounter() + 1)</code>.  The trade-off is that
+users of an API can’t tell whether reading <code>product.price</code> is cheap or expensive — a general
+problem with abstractions, which make it hard to reason about the runtime cost of an
+expression.</p>
+</blockquote>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li><a href="https://docs.python.org/3/reference/datamodel.html#customizing-attribute-access">Customizing attribute access</a>
+and <a href="https://docs.python.org/3/reference/datamodel.html#special-method-lookup">Special method lookup</a>
+in the Language Reference; the <a href="https://docs.python.org/3/library/functions.html">Built-in Functions</a>
+chapter for <code>getattr</code>, <code>setattr</code>, <code>property</code>, etc.</li>
+<li><em>Python Cookbook</em>, 3rd ed., by David Beazley and Brian K. Jones: “Recipe 8.8. Extending a
+Property in a Subclass”, “Recipe 8.15. Delegating Attribute Access” and “Recipe 9.21.
+Avoiding Repetitive Property Methods”.</li>
+<li><em>Python in a Nutshell</em> by Alex Martelli, Anna Ravenscroft, Steve Holden and Paul McGuire
+(O’Reilly), for a rigorous description of the semantics of Python classes.</li>
+<li>Bertrand Meyer, <em>Object-Oriented Software Construction</em>, 2nd ed. (Pearson), where the
+Uniform Access Principle is defined.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="metaprogramming.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="descriptors.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="metaprogramming.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="descriptors.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

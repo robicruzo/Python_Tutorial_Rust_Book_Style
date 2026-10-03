@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# Source material — copyrighted, keep it out of the public repo
+*.pdf
+Fluent Python.txt
+
+# Local scratch / backups
+_to_delete/
+_legacy_site/

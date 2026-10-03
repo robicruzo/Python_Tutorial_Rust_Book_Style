@@ -1,0 +1,1730 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Type Hints in Functions - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="type-hints-in-functions"><a class="header" href="#type-hints-in-functions">Type Hints in Functions</a></h1>
+<p>Type hints are the biggest change in the history of Python since the
+unification of types and classes in Python 2.2, released in 2001.  However, type
+hints do not benefit all Python users equally, and that’s why they should always
+be optional.  The authors of <a href="https://peps.python.org/pep-0484/"><strong>PEP 484</strong></a>, which
+introduced them, emphasized that Python will remain a dynamically typed
+language, and that they have no desire to ever make type hints mandatory, even by
+convention.</p>
+<p>PEP 484 introduced syntax and semantics for explicit type declarations in
+function arguments, return values and variables.  The goal is to help developer
+tools find bugs in Python code bases via <em>static analysis</em>, that is, without
+actually running the code through tests.  The main beneficiaries are professional
+software engineers using IDEs (Integrated Development Environments) and CI
+(Continuous Integration).  The cost-benefit analysis that makes type hints
+attractive to that group does not apply to all users of Python.</p>
+<p>Python’s user base is much wider than that.  It includes scientists, traders,
+journalists, artists, makers, analysts and students in many fields.  For most of
+them, the cost of learning type hints is likely higher, unless they already know a
+language with static types, subtyping and generics.  The benefits are also lower
+for many of those users, given how they interact with Python and the smaller size
+of their code bases and teams, often “teams” of one.  Python’s default dynamic
+typing is simpler and more expressive when writing code for exploring data and
+ideas, as in data science, creative computing and learning.</p>
+<p>The tutorial introduced the syntax in <a href="controlflow.html#tut-annotations">Function Annotations</a>.
+This chapter focuses on type hints in function signatures; <a href="type-hints-more.html">More About Type
+Hints</a> explores type hints in the context of classes, and other
+<code>typing</code> features.  The major topics here are:</p>
+<ul>
+<li>a hands-on introduction to gradual typing with Mypy;</li>
+<li>the complementary perspectives of duck typing and nominal typing;</li>
+<li>an overview of the main categories of types that can appear in annotations;</li>
+<li>type hinting variadic parameters (<code>*args</code>, <code>**kwargs</code>);</li>
+<li>the limitations and downsides of type hints and static typing.</li>
+</ul>
+<h2 id="about-gradual-typing"><a class="header" href="#about-gradual-typing">About Gradual Typing</a></h2>
+<p>PEP 484 introduced a <em>gradual type system</em> to Python.  Other languages with gradual
+type systems are Microsoft’s TypeScript, Dart (the language of the Flutter SDK) and
+Hack (a dialect of PHP).  The Mypy type checker itself started as a language: a
+gradually typed dialect of Python with its own interpreter.  Guido van Rossum
+convinced its creator, Jukka Lehtosalo, to make it a tool for checking annotated
+Python code instead.</p>
+<p>A gradual type system:</p>
+<dl>
+<dt id="is-optional"><a class="header" href="#is-optional"><em>Is optional</em></a></dt>
+<dd>By default, the type checker should not emit warnings for code that has no type
+hints.  Instead, the type checker assumes the <code>Any</code> type when it cannot determine
+the type of an object.  The <code>Any</code> type is considered compatible with all other
+types.</dd>
+<dt id="does-not-catch-type-errors-at-runtime"><a class="header" href="#does-not-catch-type-errors-at-runtime"><em>Does not catch type errors at runtime</em></a></dt>
+<dd>Type hints are used by static type checkers, linters and IDEs to raise warnings.
+They do not prevent inconsistent values from being passed to functions or
+assigned to variables at runtime.</dd>
+<dt id="does-not-enhance-performance"><a class="header" href="#does-not-enhance-performance"><em>Does not enhance performance</em></a></dt>
+<dd>Type annotations provide data that could, in theory, allow optimizations in the
+generated bytecode, but CPython does not use them that way.  (A just-in-time
+compiler, like PyPy’s, has better data than type hints: it monitors the program as
+it runs, detects the concrete types in use, and generates optimized machine code
+for them.)</dd>
+</dl>
+<p>The best usability feature of gradual typing is that annotations are always
+optional.  With static type systems, most type constraints are easy to express,
+many are cumbersome, some are hard, and a few are impossible.  You may very well
+write an excellent piece of Python code, with good test coverage and passing tests,
+but still be unable to add type hints that satisfy a type checker.  That’s OK; just
+leave out the problematic type hints and ship it!</p>
+<p>Type hints are optional at all levels: you can have entire packages with no type
+hints, you can silence the type checker when you import one of those packages into
+a module where you use type hints, and you can add special comments to make the
+type checker ignore specific lines in your code.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Seeking 100% coverage of type hints is likely to encourage adding hints without
+proper thought, only to satisfy the metric.  It will also prevent teams from making
+the most of the power and flexibility of Python.  Code without type hints should
+naturally be accepted when annotations would make an interface less
+user-friendly, or unduly complicate its implementation.</p>
+</blockquote>
+<h2 id="gradual-typing-in-practice"><a class="header" href="#gradual-typing-in-practice">Gradual Typing in Practice</a></h2>
+<p>Let’s see how gradual typing works in practice, starting with a simple function and
+gradually adding type hints to it, guided by Mypy.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>There are several Python type checkers compatible with PEP 484, including
+Microsoft’s Pyright, Google’s pytype, Meta’s Pyre, and the type checkers embedded
+in IDEs.  The examples here use <a href="https://mypy-lang.org/">Mypy</a> because it’s the
+best known, but one of the others may be a better fit for some projects or teams.
+Type checkers evolve quickly, so the exact messages you get may differ from those
+shown here.</p>
+</blockquote>
+<p>We will annotate a <code>show_count</code> function that returns a string with a count and a
+singular or plural word, depending on the count:</p>
+<!-- nocheck -->
+<pre><code class="language-python">show_count(99, 'bird')
+# '99 birds'
+show_count(1, 'bird')
+# '1 bird'
+show_count(0, 'bird')
+# 'no birds'
+</code></pre>
+<p>Here is the source code of <code>show_count</code>, without annotations:</p>
+<pre><code class="language-python">def show_count(count, word):
+    if count == 1:
+        return f'1 {word}'
+    count_str = str(count) if count else 'no'
+    return f'{count_str} {word}s'
+</code></pre>
+<h3 id="starting-with-mypy"><a class="header" href="#starting-with-mypy">Starting with Mypy</a></h3>
+<p>To begin type checking, install Mypy and run it on the <code>messages.py</code> module:</p>
+<pre><code class="language-console">…/no_hints/ $ pip install mypy
+[lots of messages omitted...]
+…/no_hints/ $ mypy messages.py
+Success: no issues found in 1 source file
+</code></pre>
+<p>Mypy with default settings finds no problem: if a function signature has no
+annotations, Mypy ignores it by default, unless configured otherwise.  Suppose we
+also have these <a href="https://docs.pytest.org/">pytest</a> unit tests in
+<code>messages_test.py</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from pytest import mark
+
+from messages import show_count
+
+@mark.parametrize('qty, expected', [
+    (1, '1 part'),
+    (2, '2 parts'),
+])
+def test_show_count(qty, expected):
+    got = show_count(qty, 'part')
+    assert got == expected
+
+def test_show_count_zero():
+    got = show_count(0, 'part')
+    assert got == 'no parts'
+</code></pre>
+<p>Now let’s add type hints, guided by Mypy.</p>
+<h3 id="making-mypy-more-strict"><a class="header" href="#making-mypy-more-strict">Making Mypy More Strict</a></h3>
+<p>The command-line option <code>--disallow-untyped-defs</code> makes Mypy flag any function
+definition that does not have type hints for all its parameters and for its return
+value.  Using it on the test file produces three errors and a note:</p>
+<pre><code class="language-console">…/no_hints/ $ mypy --disallow-untyped-defs messages_test.py
+messages.py:14: error: Function is missing a type annotation
+messages_test.py:10: error: Function is missing a type annotation
+messages_test.py:15: error: Function is missing a return type annotation
+messages_test.py:15: note: Use "-&gt; None" if function does not return a value
+Found 3 errors in 2 files (checked 1 source file)
+</code></pre>
+<p>For the first steps with gradual typing, another option is more convenient:
+<code>--disallow-incomplete-defs</code>.  Initially, it tells us nothing:</p>
+<pre><code class="language-console">…/no_hints/ $ mypy --disallow-incomplete-defs messages_test.py
+Success: no issues found in 1 source file
+</code></pre>
+<p>Now we can add just the return type to <code>show_count</code> in <code>messages.py</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def show_count(count, word) -&gt; str:
+</code></pre>
+<p>This is enough to make Mypy look at it.  Using the same command line as before:</p>
+<pre><code class="language-console">…/no_hints/ $ mypy --disallow-incomplete-defs messages_test.py
+messages.py:14: error: Function is missing a type annotation
+for one or more arguments
+Found 1 error in 1 file (checked 1 source file)
+</code></pre>
+<p>Now we can add type hints function by function, without getting warnings about
+functions we haven’t annotated yet.  This fully annotated signature satisfies Mypy:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def show_count(count: int, word: str) -&gt; str:
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Instead of typing command-line options like <code>--disallow-incomplete-defs</code>, you can
+save your favorites as described in the Mypy configuration file documentation.
+You can have global and per-module settings.  Here is a simple <code>mypy.ini</code> to get
+started:</p>
+<pre><code class="language-text">[mypy]
+python_version = 3.15
+warn_unused_configs = True
+disallow_incomplete_defs = True
+</code></pre>
+</blockquote>
+<h3 id="a-default-parameter-value"><a class="header" href="#a-default-parameter-value">A Default Parameter Value</a></h3>
+<p><code>show_count</code> only works with regular nouns.  If the plural can’t be spelled by
+appending an <code>'s'</code>, we should let the user provide the plural form, like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">show_count(3, 'mouse', 'mice')
+# '3 mice'
+</code></pre>
+<p>Let’s do a little “type-driven development”.  First we add a test that uses that
+third argument.  Don’t forget to add the return type hint to the test function,
+otherwise Mypy will not check it:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def test_irregular() -&gt; None:
+    got = show_count(2, 'child', 'children')
+    assert got == '2 children'
+</code></pre>
+<p>Mypy detects the error:</p>
+<pre><code class="language-console">…/hints_2/ $ mypy messages_test.py
+messages_test.py:22: error: Too many arguments for "show_count"
+Found 1 error in 1 file (checked 1 source file)
+</code></pre>
+<p>Now we edit <code>show_count</code>, adding the optional <code>plural</code> parameter:</p>
+<pre><code class="language-python">def show_count(count: int, singular: str, plural: str = '') -&gt; str:
+    if count == 1:
+        return f'1 {singular}'
+    count_str = str(count) if count else 'no'
+    if not plural:
+        plural = singular + 's'
+    return f'{count_str} {plural}'
+
+show_count(3, 'mouse', 'mice')
+# '3 mice'
+show_count(0, 'bird')
+# 'no birds'
+</code></pre>
+<p>Now Mypy reports “Success”.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Here is one typing mistake that Python does not catch.  Can you spot it?</p>
+<pre><code class="language-python">def hex2rgb(color=str) -&gt; tuple[int, int, int]:
+    ...
+</code></pre>
+<p>Mypy’s error report is not very helpful: <code>Function is missing a type annotation for one or more arguments</code>.  The type hint for the <code>color</code> argument should be
+<code>color: str</code>.  Writing <code>color=str</code> is not an annotation: it sets the <em>default
+value</em> of <code>color</code> to <code>str</code>.  It’s a common mistake and easy to overlook,
+especially in complicated type hints.</p>
+</blockquote>
+<p>The following details are considered good style for type hints:</p>
+<ul>
+<li>no space between the parameter name and the <code>:</code>; one space after the <code>:</code>;</li>
+<li>spaces on both sides of the <code>=</code> that precedes a default parameter value.</li>
+</ul>
+<p>On the other hand, <a href="https://peps.python.org/pep-0008/"><strong>PEP 8</strong></a> says there should
+be no spaces around the <code>=</code> if there is no type hint for that particular parameter.
+Instead of memorizing such rules, use tools like <code>flake8</code> or <code>ruff</code>, which report on
+code style among many other issues, and a code formatter.</p>
+<h3 id="using-none-as-a-default"><a class="header" href="#using-none-as-a-default">Using <code>None</code> as a Default</a></h3>
+<p>Above, the parameter <code>plural</code> is annotated as <code>str</code>, and the default value is <code>''</code>,
+so there is no type conflict.  That’s a fine solution, but in other contexts <code>None</code>
+is a better default.  If the optional parameter expects a mutable type, then <code>None</code>
+is the only sensible default, as you saw in
+<a href="references.html#mutable-types-as-parameter-defaults-bad-idea">Mutable Types as Parameter Defaults: Bad Idea</a>.
+To have <code>None</code> as the default for <code>plural</code>, the signature would look like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def show_count(count: int, singular: str, plural: str | None = None) -&gt; str:
+</code></pre>
+<p>Let’s unpack that:</p>
+<ul>
+<li><code>str | None</code> means <code>plural</code> may be a <code>str</code> or <code>None</code>.</li>
+<li>You must explicitly provide the default value <code>= None</code>.</li>
+</ul>
+<p>If you don’t assign a default value to <code>plural</code>, the Python runtime will treat it as
+a required parameter.  Remember: at runtime, type hints are ignored.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Before Python 3.10, the same hint was written <code>Optional[str]</code>, after
+<code>from typing import Optional</code>.  <code>Optional</code> is not a great name, because that
+annotation does not make the parameter optional; what makes it optional is
+assigning a default value to it.  <code>Optional[str]</code> just means that the type of the
+parameter may be <code>str</code> or <code>NoneType</code>.  In the Haskell and Elm languages, a similar
+type is named <code>Maybe</code>.</p>
+</blockquote>
+<p>Now that we’ve had a first practical view of gradual typing, let’s consider what the
+concept of <em>type</em> means in practice.</p>
+<h2 id="types-are-defined-by-supported-operations"><a class="header" href="#types-are-defined-by-supported-operations">Types Are Defined by Supported Operations</a></h2>
+<p><a href="https://peps.python.org/pep-0483/"><strong>PEP 483</strong></a>, “The Theory of Type Hints”, notes
+that there are many definitions of the concept of type in the literature, and
+assumes that a type is a set of values and a set of functions that one can apply to
+those values.  In practice, it’s more useful to consider the set of supported
+operations as the defining characteristic of a type.  (Python doesn’t provide syntax
+to control the set of possible values for a type, except in <code>Enum</code> types.  You can’t
+use type hints to define <code>Quantity</code> as an integer between 1 and 1000.)</p>
+<p>For example, from the point of view of applicable operations, what are the valid
+types for <code>x</code> in the following function?</p>
+<pre><code class="language-python">def double(x):
+    return x * 2
+</code></pre>
+<p>The <code>x</code> parameter type may be numeric (<code>int</code>, <code>complex</code>, <code>Fraction</code>,
+<code>numpy.uint32</code>, etc.), but it may also be a sequence (<code>str</code>, <code>tuple</code>, <code>list</code>,
+<code>array</code>), an <em>N</em>-dimensional <code>numpy.array</code>, or any other type that implements or
+inherits a <code>__mul__()</code> method that accepts an <code>int</code> argument.</p>
+<p>However, consider this annotated <code>double</code> (ignore the missing return type for now,
+and focus on the parameter type):</p>
+<pre><code class="language-python">from collections import abc
+
+def double(x: abc.Sequence):
+    return x * 2
+</code></pre>
+<p>A type checker will reject that code.  If you tell Mypy that <code>x</code> is of type
+<code>abc.Sequence</code>, it will flag <code>x * 2</code> as an error, because the <code>Sequence</code> ABC does not
+implement or inherit <code>__mul__()</code>.  At runtime, that code works with concrete
+sequences such as <code>str</code>, <code>tuple</code>, <code>list</code> and <code>array</code>, as well as numbers, because at
+runtime the type hints are ignored.  But the type checker only cares about what is
+explicitly declared, and <code>abc.Sequence</code> has no <code>__mul__()</code>.</p>
+<p>That’s why the title of this section is “Types Are Defined by Supported
+Operations”.  The Python runtime accepts any object as the <code>x</code> argument for both
+versions of <code>double</code>.  The computation <code>x * 2</code> may work, or it may raise <code>TypeError</code>
+if the operation is not supported by <code>x</code>.  In contrast, Mypy declares <code>x * 2</code> wrong
+while analyzing the annotated source code, because it’s an unsupported operation for
+the declared type <code>x: abc.Sequence</code>.</p>
+<p>In a gradual type system, two different views of types interact:</p>
+<dl>
+<dt id="duck-typing"><a class="header" href="#duck-typing"><em>Duck typing</em></a></dt>
+<dd>The view adopted by Smalltalk, the pioneering object-oriented language, as well
+as Python, JavaScript and Ruby.  Objects have types, but variables (including
+parameters) are untyped.  In practice, it doesn’t matter what the declared type
+of the object is, only what operations it actually supports.  If I can invoke
+<code>birdie.quack()</code>, then <code>birdie</code> is a duck in this context.  By definition, duck
+typing is only enforced at runtime, when operations on objects are attempted.
+This is more flexible than nominal typing, at the cost of allowing more errors at
+runtime.  (Duck typing is an implicit form of <em>structural typing</em>, which Python
+also supports statically with <code>typing.Protocol</code>; see
+<a href="#static-protocols">Static Protocols</a>.)</dd>
+<dt id="nominal-typing"><a class="header" href="#nominal-typing"><em>Nominal typing</em></a></dt>
+<dd>The view adopted by C++, Java and C#, supported by annotated Python.  Objects and
+variables have types.  But objects only exist at runtime, and the type checker
+only cares about the source code where variables (including parameters) are
+annotated with type hints.  If <code>Duck</code> is a subclass of <code>Bird</code>, you can assign a
+<code>Duck</code> instance to a parameter annotated as <code>birdie: Bird</code>.  But in the body of the
+function, the type checker considers the call <code>birdie.quack()</code> illegal, because
+<code>birdie</code> is nominally a <code>Bird</code>, and that class does not provide the <code>.quack()</code>
+method.  It doesn’t matter if the actual argument at runtime is a <code>Duck</code>, because
+nominal typing is enforced statically.  The type checker doesn’t run any part of
+the program; it only reads the source code.  This is more rigid than duck typing,
+with the advantage of catching some bugs earlier in a build pipeline, or even as
+the code is typed in an IDE.</dd>
+</dl>
+<p>Here is a silly example that contrasts duck typing and nominal typing, as well as
+static type checking and runtime behavior:</p>
+<pre><code class="language-python">class Bird:
+    pass
+
+class Duck(Bird):
+    def quack(self):
+        print('Quack!')
+
+def alert(birdie):
+    birdie.quack()
+
+def alert_duck(birdie: Duck) -&gt; None:
+    birdie.quack()
+
+def alert_bird(birdie: Bird) -&gt; None:
+    birdie.quack()
+</code></pre>
+<p><code>Duck</code> is a subclass of <code>Bird</code>.  <code>alert</code> has no type hints, so the type checker
+ignores it.  <code>alert_duck</code> takes one argument of type <code>Duck</code>, and <code>alert_bird</code> takes
+one argument of type <code>Bird</code>.  Type checking <code>birds.py</code> with Mypy, we see a problem:</p>
+<pre><code class="language-console">…/birds/ $ mypy birds.py
+birds.py:16: error: "Bird" has no attribute "quack"
+Found 1 error in 1 file (checked 1 source file)
+</code></pre>
+<p>Just by analyzing the source code, Mypy sees that <code>alert_bird</code> is problematic: the
+type hint declares the <code>birdie</code> parameter with type <code>Bird</code>, but the body of the
+function calls <code>birdie.quack()</code>, and the <code>Bird</code> class has no such method.</p>
+<p>Now let’s use the <code>birds</code> module in <code>daffy.py</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from birds import *
+
+daffy = Duck()
+alert(daffy)       # valid call, because alert has no type hints
+alert_duck(daffy)  # valid call: alert_duck takes a Duck, and daffy is a Duck
+alert_bird(daffy)  # valid call: alert_bird takes a Bird, and daffy is also a Bird
+</code></pre>
+<p>Running Mypy on <code>daffy.py</code> raises the same error about the <code>quack</code> call in
+<code>alert_bird</code>, but Mypy sees no problem with <code>daffy.py</code> itself: the three function
+calls are OK.  And if you run <code>daffy.py</code>, everything works:</p>
+<pre><code class="language-console">…/birds/ $ python3 daffy.py
+Quack!
+Quack!
+Quack!
+</code></pre>
+<p>At runtime, Python doesn’t care about declared types; it uses duck typing only.
+Mypy flagged an error in <code>alert_bird</code>, but calling it with <code>daffy</code> works fine at
+runtime.  This may surprise many Pythonistas at first: a static type checker will
+sometimes find errors in programs that we know will execute.</p>
+<p>However, if months from now you are tasked with extending the silly bird example,
+you may be grateful for Mypy.  Consider this <code>woody.py</code> module, which also uses
+<code>birds</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from birds import *
+
+woody = Bird()
+alert(woody)
+alert_duck(woody)
+alert_bird(woody)
+</code></pre>
+<p>Mypy finds two errors while checking <code>woody.py</code>:</p>
+<pre><code class="language-console">…/birds/ $ mypy woody.py
+birds.py:16: error: "Bird" has no attribute "quack"
+woody.py:5: error: Argument 1 to "alert_duck" has incompatible type "Bird";
+expected "Duck"
+Found 2 errors in 2 files (checked 1 source file)
+</code></pre>
+<p>The first error is in <code>birds.py</code>: the <code>birdie.quack()</code> call in <code>alert_bird</code>, which
+we’ve seen before.  The second error is in <code>woody.py</code>: <code>woody</code> is an instance of
+<code>Bird</code>, so the call <code>alert_duck(woody)</code> is invalid, because that function requires a
+<code>Duck</code>.  Every <code>Duck</code> is a <code>Bird</code>, but not every <code>Bird</code> is a <code>Duck</code>.  At runtime, none
+of the calls in <code>woody.py</code> succeed:</p>
+<pre><code class="language-python">woody = Bird()
+alert(woody)  # Mypy could not detect this: alert has no type hints
+# Traceback (most recent call last):
+#   ...
+# AttributeError: 'Bird' object has no attribute 'quack'
+alert_duck(woody)  # Mypy reported this: incompatible type "Bird"; expected "Duck"
+# Traceback (most recent call last):
+#   ...
+# AttributeError: 'Bird' object has no attribute 'quack'
+alert_bird(woody)  # Mypy has been saying the body of alert_bird is wrong
+# Traceback (most recent call last):
+#   ...
+# AttributeError: 'Bird' object has no attribute 'quack'
+</code></pre>
+<p>This little experiment shows that duck typing is easier to get started with and is
+more flexible, but allows unsupported operations to cause errors at runtime.
+Nominal typing detects errors before runtime, but sometimes rejects code that
+actually runs, such as the call <code>alert_bird(daffy)</code>.  Even if it sometimes works, the
+<code>alert_bird</code> function is misnamed: its body does require an object that supports the
+<code>.quack()</code> method, which <code>Bird</code> doesn’t have.</p>
+<p>In this silly example the functions are one-liners.  But in real code they could be
+longer; they could pass the <code>birdie</code> argument to more functions, and the origin of
+the argument could be many function calls away, making it hard to pinpoint the cause
+of a runtime error.  The type checker prevents many such errors from ever happening
+at runtime.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The value of type hints is questionable in the tiny examples that fit in a book.
+The benefits grow with the size of the code base.  That’s why companies with
+millions of lines of Python code invested in teams and tools to support the
+company-wide adoption of type hints, and have significant and increasing portions
+of their code bases type checked in their CI pipelines.</p>
+</blockquote>
+<h2 id="types-usable-in-annotations"><a class="header" href="#types-usable-in-annotations">Types Usable in Annotations</a></h2>
+<p>Pretty much any Python type can be used in type hints, but there are restrictions
+and recommendations.  In addition, the <a href="https://docs.python.org/3/library/typing.html"><code>typing</code></a>
+module introduced special constructs with semantics that are sometimes surprising.
+This section covers the major types you can use in annotations:</p>
+<ul>
+<li><code>typing.Any</code>;</li>
+<li>simple types and classes;</li>
+<li>optional and union types;</li>
+<li>generic collections, including tuples and mappings;</li>
+<li>abstract base classes;</li>
+<li>generic iterables;</li>
+<li>parameterized generics and type variables;</li>
+<li><code>typing.Protocol</code>, the key to <em>static duck typing</em>;</li>
+<li><code>typing.Callable</code>;</li>
+<li><code>typing.NoReturn</code> and <code>typing.Never</code>, a good way to end the list.</li>
+</ul>
+<h3 id="the-any-type"><a class="header" href="#the-any-type">The <code>Any</code> Type</a></h3>
+<p>The keystone of any gradual type system is the <code>Any</code> type, also known as the
+<em>dynamic type</em>.  When a type checker sees an untyped function like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def double(x):
+    return x * 2
+</code></pre>
+<p>it assumes this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def double(x: Any) -&gt; Any:
+    return x * 2
+</code></pre>
+<p>That means the <code>x</code> argument and the return value can be of any type, including
+different types.  <code>Any</code> is assumed to support every possible operation.</p>
+<p>Contrast <code>Any</code> with <code>object</code>.  Consider this signature:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def double(x: object) -&gt; object:
+</code></pre>
+<p>This function also accepts arguments of every type, because every type is a
+<em>subtype-of</em> <code>object</code>.  However, a type checker will reject this function:</p>
+<pre><code class="language-python">def double(x: object) -&gt; object:
+    return x * 2
+</code></pre>
+<p>The problem is that <code>object</code> does not support the <code>__mul__</code> operation.  This is what
+Mypy reports:</p>
+<pre><code class="language-console">…/birds/ $ mypy double_object.py
+double_object.py:2: error: Unsupported operand types for * ("object" and "int")
+Found 1 error in 1 file (checked 1 source file)
+</code></pre>
+<p>More general types have narrower interfaces: they support fewer operations.  The
+<code>object</code> class implements fewer operations than <code>abc.Sequence</code>, which implements
+fewer operations than <code>abc.MutableSequence</code>, which implements fewer operations than
+<code>list</code>.</p>
+<p>But <code>Any</code> is a magic type that sits at the top <em>and</em> the bottom of the type
+hierarchy.  It’s simultaneously the most general type, so that an argument <code>n: Any</code>
+accepts values of every type, and the most specialized type, supporting every
+possible operation.  At least, that’s how the type checker understands <code>Any</code>.  Of
+course, no type can support every possible operation, so using <code>Any</code> prevents the
+type checker from fulfilling its core mission: detecting potentially illegal
+operations before your program crashes with a runtime exception.</p>
+<h4 id="subtype-of-versus-consistent-with"><a class="header" href="#subtype-of-versus-consistent-with">Subtype-of versus consistent-with</a></h4>
+<p>Traditional object-oriented nominal type systems rely on the <em>subtype-of</em>
+relationship.  Given a class <code>T1</code> and a subclass <code>T2</code>, then <code>T2</code> is subtype-of <code>T1</code>.
+Consider this code:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class T1:
+    ...
+
+class T2(T1):
+    ...
+
+def f1(p: T1) -&gt; None:
+    ...
+
+o2 = T2()
+
+f1(o2)  # OK
+</code></pre>
+<p>The call <code>f1(o2)</code> is an application of the <em>Liskov Substitution Principle</em> (LSP).
+Barbara Liskov actually defined <em>is subtype-of</em> in terms of supported operations: if
+an object of type <code>T2</code> substitutes an object of type <code>T1</code> and the program still
+behaves correctly, then <code>T2</code> is subtype-of <code>T1</code>.  Continuing from the previous code,
+this is a violation of the LSP:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def f2(p: T2) -&gt; None:
+    ...
+
+o1 = T1()
+
+f2(o1)  # type error
+</code></pre>
+<p>From the point of view of supported operations, this makes perfect sense: as a
+subclass, <code>T2</code> inherits and must support all operations that <code>T1</code> does, so an
+instance of <code>T2</code> can be used anywhere an instance of <code>T1</code> is expected.  But the
+reverse is not necessarily true: <code>T2</code> may implement additional methods, so an
+instance of <code>T1</code> may not be usable everywhere an instance of <code>T2</code> is expected.  This
+focus on supported operations is reflected in the name <em>behavioral subtyping</em>, also
+used to refer to the LSP.</p>
+<p>In a gradual type system, there is another relationship: <em>consistent-with</em>, which
+applies wherever subtype-of applies, with special provisions for type <code>Any</code>.  The
+rules for consistent-with are:</p>
+<ol>
+<li>Given <code>T1</code> and a subtype <code>T2</code>, then <code>T2</code> is consistent-with <code>T1</code> (Liskov
+substitution).</li>
+<li>Every type is consistent-with <code>Any</code>: you can pass objects of every type to an
+argument declared of type <code>Any</code>.</li>
+<li><code>Any</code> is consistent-with every type: you can always pass an object of type <code>Any</code>
+where an argument of another type is expected.</li>
+</ol>
+<p>Considering the previous definitions of the objects <code>o1</code> and <code>o2</code>, here are examples
+of valid code, illustrating rules 2 and 3:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def f3(p: Any) -&gt; None:
+    ...
+
+o0 = object()
+o1 = T1()
+o2 = T2()
+
+f3(o0)  #
+f3(o1)  #  all OK: rule #2
+f3(o2)  #
+
+def f4():  # implicit return type: `Any`
+    ...
+
+o4 = f4()  # inferred type: `Any`
+
+f1(o4)  #
+f2(o4)  #  all OK: rule #3
+f3(o4)  #
+</code></pre>
+<p>Every gradual type system needs a wildcard type like <code>Any</code>.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>The verb “to infer” is a fancy synonym for “to guess”, used in the context of type
+analysis.  Modern type checkers don’t require type annotations everywhere, because
+they can infer the type of many expressions.  For example, if you write
+<code>x = len(s) * 10</code>, the type checker doesn’t need an explicit local declaration to
+know that <code>x</code> is an <code>int</code>, as long as it can find type hints for the <code>len</code>
+built-in.</p>
+</blockquote>
+<h3 id="simple-types-and-classes"><a class="header" href="#simple-types-and-classes">Simple Types and Classes</a></h3>
+<p>Simple types like <code>int</code>, <code>float</code>, <code>str</code> and <code>bytes</code> may be used directly in type
+hints.  Concrete classes from the standard library, external packages or your own
+code (<code>FrenchDeck</code>, <code>Vector2d</code>, <code>Duck</code>) may also be used.  Abstract base classes are
+also useful in type hints; more on them below.  Among classes, consistent-with is
+defined like subtype-of: a subclass is consistent-with all its superclasses.</p>
+<p>However, “practicality beats purity”, so there is an important exception.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>There is no nominal subtype relationship between the built-in types <code>int</code>, <code>float</code>
+and <code>complex</code>: they are direct subclasses of <code>object</code>.  But PEP 484 declares that
+<code>int</code> is consistent-with <code>float</code>, and <code>float</code> is consistent-with <code>complex</code>.  It
+makes sense in practice: <code>int</code> implements all operations that <code>float</code> does, and
+<code>int</code> implements additional ones as well, like the bitwise operations <code>&amp;</code>, <code>|</code>,
+<code>&lt;&lt;</code>, etc.  The end result is that <code>int</code> is consistent-with <code>complex</code>.  For
+<code>i = 3</code>, <code>i.real</code> is <code>3</code>, and <code>i.imag</code> is <code>0</code>.</p>
+</blockquote>
+<h3 id="optional-and-union-types"><a class="header" href="#optional-and-union-types">Optional and Union Types</a></h3>
+<p>You saw <code>str | None</code> above.  It solves the problem of having <code>None</code> as a default.
+The <code>|</code> operator builds a <em>union</em> type: <code>str | bytes</code> means a value may be a <code>str</code>
+or a <code>bytes</code>.  Before Python 3.10, the same thing was written <code>Union[str, bytes]</code>
+with <code>Union</code> imported from <code>typing</code>; you will see that form in older code, and
+<code>Optional[str]</code> is a shortcut for <code>Union[str, None]</code>.  The <code>|</code> operator also works
+with <code>isinstance</code> and <code>issubclass</code> to build the second argument:
+<code>isinstance(x, int | str)</code>.  See <a href="https://peps.python.org/pep-0604/"><strong>PEP 604</strong></a>.</p>
+<p>The <code>ord</code> built-in’s signature is a simple example of a union: it accepts <code>str</code> or
+<code>bytes</code>, and returns an <code>int</code>.  (More precisely, it only accepts strings or bytes of
+length 1, but the type system can’t express that constraint.)</p>
+<!-- nocheck -->
+<pre><code class="language-python">def ord(c: str | bytes) -&gt; int: ...
+</code></pre>
+<p>Here is a function that takes a <code>str</code>, but may return a <code>str</code> or a <code>float</code>:</p>
+<pre><code class="language-python">def parse_token(token: str) -&gt; str | float:
+    try:
+        return float(token)
+    except ValueError:
+        return token
+
+parse_token('3.5'), parse_token('spam')
+# (3.5, 'spam')
+</code></pre>
+<p>If possible, avoid creating functions that return union types, as they put an extra
+burden on the user, forcing them to check the type of the returned value at runtime
+to know what to do with it.  But <code>parse_token</code> is a reasonable use case in the
+context of a simple expression evaluator.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>In <a href="unicode.html#dual-mode-str-and-bytes-apis">Dual-Mode <code>str</code> and <code>bytes</code> APIs</a> you
+saw functions that accept either <code>str</code> or <code>bytes</code> arguments, but return <code>str</code> if the
+argument was <code>str</code>, or <code>bytes</code> if the argument was <code>bytes</code>.  In those cases the
+return type is determined by the input type, so a union is not an accurate
+solution.  To properly annotate such functions, you need a type variable (see
+<a href="#parameterized-generics-and-type-variables">Parameterized Generics and Type Variables</a>)
+or overloading (see <a href="type-hints-more.html#overloaded-signatures">Overloaded Signatures</a>).</p>
+</blockquote>
+<p>A union requires at least two types.  Nested unions have the same effect as a
+flattened union, so <code>A | B | (C | D | E)</code> is the same as <code>A | B | C | D | E</code>.  Unions
+are more useful with types that are not consistent among themselves: <code>int | float</code>
+is redundant because <code>int</code> is consistent-with <code>float</code>.  If you just use <code>float</code> to
+annotate a parameter, it will accept <code>int</code> values as well.</p>
+<h3 id="generic-collections"><a class="header" href="#generic-collections">Generic Collections</a></h3>
+<p>Most Python collections are heterogeneous.  For example, you can put any mixture of
+different types in a <code>list</code>.  However, in practice that’s not very useful: if you put
+objects in a collection, you are likely to want to operate on them later, and usually
+this means they must share at least one common method.  (In ABC, the language that
+most influenced the initial design of Python, each list was constrained to accept
+values of a single type: the type of the first item you put into it.)</p>
+<p>Generic types can be declared with <em>type parameters</em> to specify the type of the
+items they can handle.  For example, a <code>list</code> can be parameterized to constrain the
+type of the elements in it:</p>
+<pre><code class="language-python">def tokenize(text: str) -&gt; list[str]:
+    return text.upper().split()
+
+tokenize('Where the sea meets the sky')
+# ['WHERE', 'THE', 'SEA', 'MEETS', 'THE', 'SKY']
+</code></pre>
+<p>This means that <code>tokenize</code> returns a list where every item is of type <code>str</code>.  The
+annotations <code>stuff: list</code> and <code>stuff: list[Any]</code> mean the same thing: <code>stuff</code> is a
+list of objects of any type.</p>
+<p><a href="https://peps.python.org/pep-0585/"><strong>PEP 585</strong></a> lists the collections from the
+standard library that accept generic type hints.  These use the simplest form,
+<code>container[item]</code>:</p>
+<pre><code class="language-text">list        collections.deque        abc.Sequence   abc.MutableSequence
+set         abc.Container            abc.Set        abc.MutableSet
+frozenset   abc.Collection
+</code></pre>
+<p>The tuple and mapping types support more complex type hints, as you’ll see in their
+respective sections.  There is no good way to annotate <code>array.array</code> taking into
+account the <code>typecode</code> constructor argument, which determines whether integers or
+floats are stored in the array.  An even harder problem is how to type check integer
+ranges to prevent <code>OverflowError</code> at runtime: an array with <code>typecode='B'</code> can only
+hold <code>int</code> values from 0 to 255.  Python’s static type system is not up to that
+challenge.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Before Python 3.9, the built-in collections did not support the <code>[]</code> notation in
+type hints.  As a temporary workaround, the <code>typing</code> module provided generic
+counterparts: <code>typing.List</code>, <code>typing.Set</code>, <code>typing.FrozenSet</code>, <code>typing.Deque</code>,
+<code>typing.Sequence</code>, <code>typing.MutableSequence</code>, <code>typing.AbstractSet</code>,
+<code>typing.MutableSet</code>, <code>typing.Dict</code>, <code>typing.Tuple</code> and so on.  On Python 3.7 and
+3.8 you could also use <code>from __future__ import annotations</code> to make
+<code>list[str]</code> work inside annotations.  Those <code>typing</code> aliases are now deprecated:
+type checkers flag them when the checked program targets Python 3.9 or newer.</p>
+</blockquote>
+<h3 id="tuple-types"><a class="header" href="#tuple-types">Tuple Types</a></h3>
+<p>There are three ways to annotate tuple types: tuples as records, tuples as records
+with named fields, and tuples as immutable sequences.</p>
+<h4 id="tuples-as-records"><a class="header" href="#tuples-as-records">Tuples as records</a></h4>
+<p>If you’re using a tuple as a record, use the <code>tuple</code> built-in and declare the types
+of the fields within <code>[]</code>.  For example, the type hint for a tuple with city name,
+population and country, like <code>('Shanghai', 24.28, 'China')</code>, would be
+<code>tuple[str, float, str]</code>.</p>
+<p>Consider a function that takes a pair of geographic coordinates and returns a
+<a href="https://en.wikipedia.org/wiki/Geohash">Geohash</a>, used like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">shanghai = 31.2304, 121.4737
+geohash(shanghai)
+# 'wtw3sjq6q'
+</code></pre>
+<p>Here is how <code>geohash</code> is defined, using the <code>geolib</code> package from PyPI:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from geolib import geohash as gh  # type: ignore
+
+PRECISION = 9
+
+def geohash(lat_lon: tuple[float, float]) -&gt; str:
+    return gh.encode(*lat_lon, PRECISION)
+</code></pre>
+<p>The <code># type: ignore</code> comment stops Mypy from reporting that the <code>geolib</code> package
+doesn’t have type hints.  The <code>lat_lon</code> parameter is annotated as a tuple with two
+<code>float</code> fields.</p>
+<h4 id="tuples-as-records-with-named-fields"><a class="header" href="#tuples-as-records-with-named-fields">Tuples as records with named fields</a></h4>
+<p>To annotate a tuple with many fields, or specific types of tuple your code uses in
+many places, use <code>typing.NamedTuple</code>, as seen in <a href="dataclasses.html">Data Class Builders</a>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from typing import NamedTuple
+
+from geolib import geohash as gh  # type: ignore
+
+PRECISION = 9
+
+class Coordinate(NamedTuple):
+    lat: float
+    lon: float
+
+def geohash(lat_lon: Coordinate) -&gt; str:
+    return gh.encode(*lat_lon, PRECISION)
+</code></pre>
+<p><code>typing.NamedTuple</code> is a factory for <code>tuple</code> subclasses, so <code>Coordinate</code> is
+consistent-with <code>tuple[float, float]</code>, but the reverse is not true: after all,
+<code>Coordinate</code> has extra methods added by <code>NamedTuple</code>, like <code>._asdict()</code>, and could
+also have user-defined methods.  In practice, this means it is type safe to pass a
+<code>Coordinate</code> instance to the <code>display</code> function defined here:</p>
+<pre><code class="language-python">def display(lat_lon: tuple[float, float]) -&gt; str:
+    lat, lon = lat_lon
+    ns = 'N' if lat &gt;= 0 else 'S'
+    ew = 'E' if lon &gt;= 0 else 'W'
+    return f'{abs(lat):0.1f}°{ns}, {abs(lon):0.1f}°{ew}'
+
+display((31.2304, 121.4737))
+# '31.2°N, 121.5°E'
+</code></pre>
+<h4 id="tuples-as-immutable-sequences"><a class="header" href="#tuples-as-immutable-sequences">Tuples as immutable sequences</a></h4>
+<p>To annotate tuples of unspecified length that are used as immutable lists, you must
+specify a single type, followed by a comma and <code>...</code> (that’s Python’s ellipsis token,
+made of three periods, not Unicode U+2026 <code>HORIZONTAL ELLIPSIS</code>).  For example,
+<code>tuple[int, ...]</code> is a tuple with <code>int</code> items.  The ellipsis indicates that any
+number of elements is acceptable.  There is no way to specify fields of different
+types for tuples of arbitrary length.  The annotations <code>stuff: tuple[Any, ...]</code> and
+<code>stuff: tuple</code> mean the same thing: <code>stuff</code> is a tuple of unspecified length with
+objects of any type.</p>
+<p>Here is a <code>columnize</code> function that transforms a sequence into a table of rows and
+cells in the form of a list of tuples with unspecified lengths.  This is useful to
+display items in columns.  Note the return type, <code>list[tuple[str, ...]]</code>:</p>
+<pre><code class="language-python">from collections.abc import Sequence
+
+def columnize(
+    sequence: Sequence[str], num_columns: int = 0
+) -&gt; list[tuple[str, ...]]:
+    if num_columns == 0:
+        num_columns = round(len(sequence) ** 0.5)
+    num_rows, reminder = divmod(len(sequence), num_columns)
+    num_rows += bool(reminder)
+    return [tuple(sequence[i::num_rows]) for i in range(num_rows)]
+
+animals = 'drake fawn heron ibex koala lynx tahr xerus yak zapus'.split()
+table = columnize(animals)
+table
+# [('drake', 'koala', 'yak'), ('fawn', 'lynx', 'zapus'), ('heron', 'tahr'),
+#  ('ibex', 'xerus')]
+for row in table:
+    print(''.join(f'{word:10}' for word in row))
+# drake     koala     yak
+# fawn      lynx      zapus
+# heron     tahr
+# ibex      xerus
+</code></pre>
+<h3 id="generic-mappings"><a class="header" href="#generic-mappings">Generic Mappings</a></h3>
+<p>Generic mapping types are annotated as <code>MappingType[KeyType, ValueType]</code>.  The
+built-in <code>dict</code> and the mapping types in <code>collections</code> and <code>collections.abc</code> accept
+that notation.</p>
+<p>The next example is a function returning an <em>inverted index</em> to search Unicode
+characters by name, a variation of the character finder from
+<a href="unicode.html#finding-characters-by-name">The Unicode Database</a> more suitable for
+server-side code.  Given starting and ending Unicode character codes, <code>name_index</code>
+returns a <code>dict[str, set[str]]</code>, mapping each word to the set of characters that
+have that word in their names:</p>
+<pre><code class="language-python">import sys
+import re
+import unicodedata
+from collections.abc import Iterator
+
+RE_WORD = re.compile(r'\w+')
+STOP_CODE = sys.maxunicode + 1
+
+def tokenize(text: str) -&gt; Iterator[str]:
+    """return iterable of uppercased words"""
+    for match in RE_WORD.finditer(text):
+        yield match.group().upper()
+
+def name_index(start: int = 32, end: int = STOP_CODE) -&gt; dict[str, set[str]]:
+    index: dict[str, set[str]] = {}
+    for char in (chr(i) for i in range(start, end)):
+        if name := unicodedata.name(char, ''):
+            for word in tokenize(name):
+                index.setdefault(word, set()).add(char)
+    return index
+</code></pre>
+<p>Besides a <code>dict[]</code> type hint, this example has three features worth noting.
+<code>tokenize</code> is a generator function, annotated as returning an <code>Iterator[str]</code>;
+generators are covered in <a href="iterators-generators.html">Iterators, Generators, and Classic Coroutines</a>.
+The local variable <code>index</code> is annotated; without the hint, Mypy says <code>Need type annotation for 'index' (hint: "index: dict[&lt;type&gt;, &lt;type&gt;] = ...")</code>.  And the walrus
+operator <code>:=</code> in the <code>if</code> condition assigns the result of the <code>unicodedata.name()</code>
+call to <code>name</code>, and the whole expression evaluates to that result; when the result
+is <code>''</code>, that’s falsy, and the index is not updated.  After indexing the ASCII
+characters from 32 to 64, here are the sets of characters mapped to the words
+<code>'SIGN'</code> and <code>'DIGIT'</code>, and how to find the character named <code>'DIGIT EIGHT'</code>:</p>
+<pre><code class="language-python">index = name_index(32, 65)
+index['SIGN']
+# {'$', '&gt;', '=', '+', '&lt;', '%', '#'}
+index['DIGIT']
+# {'8', '5', '6', '2', '3', '0', '1', '4', '7', '9'}
+index['DIGIT'] &amp; index['EIGHT']
+# {'8'}
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>When using a <code>dict</code> as a record, it is common to have all keys of the <code>str</code> type,
+with values of different types depending on the keys.  That is covered in
+<a href="type-hints-more.html#typeddict">TypedDict</a>.</p>
+</blockquote>
+<h3 id="abstract-base-classes"><a class="header" href="#abstract-base-classes">Abstract Base Classes</a></h3>
+<p><em>Be conservative in what you send, be liberal in what you accept</em>, says Postel’s
+law, also known as the Robustness Principle.  Ideally, a function should accept
+arguments of abstract types from <code>collections.abc</code>, not concrete types.  This gives
+more flexibility to the caller.  Consider this function signature:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from collections.abc import Mapping
+
+def name2hex(name: str, color_map: Mapping[str, int]) -&gt; str:
+</code></pre>
+<p>Using <code>abc.Mapping</code> allows the caller to provide an instance of <code>dict</code>,
+<code>defaultdict</code>, <code>ChainMap</code>, a <code>UserDict</code> subclass, or any other type that is a
+subtype-of <code>Mapping</code>.  In contrast, consider this signature:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def name2hex(name: str, color_map: dict[str, int]) -&gt; str:
+</code></pre>
+<p>Now <code>color_map</code> must be a <code>dict</code> or one of its subtypes, such as <code>defaultdict</code> or
+<code>OrderedDict</code>.  In particular, a subclass of <code>collections.UserDict</code> would not pass
+the type check for <code>color_map</code>, despite being the recommended way to create
+user-defined mappings, as you saw in
+<a href="dicts-sets.html#subclassing-userdict-instead-of-dict">Subclassing <code>UserDict</code> Instead of <code>dict</code></a>.
+Mypy would reject a <code>UserDict</code> or an instance of a class derived from it, because
+<code>UserDict</code> is not a subclass of <code>dict</code>; they are siblings.  Both are subclasses of
+<code>abc.MutableMapping</code>.  (Strictly speaking, <code>dict</code> is a <em>virtual</em> subclass of
+<code>abc.MutableMapping</code>; see <a href="protocols-abcs.html">Interfaces, Protocols, and ABCs</a>.)</p>
+<p>Therefore, in general it’s better to use <code>abc.Mapping</code> or <code>abc.MutableMapping</code> in
+parameter type hints, instead of <code>dict</code>.  If the <code>name2hex</code> function doesn’t need to
+mutate the given <code>color_map</code>, the most accurate type hint is <code>abc.Mapping</code>.  That
+way, the caller doesn’t need to provide an object that implements methods like
+<code>setdefault</code>, <code>pop</code> and <code>update</code>, which are part of the <code>MutableMapping</code> interface but
+not of <code>Mapping</code>.  This has to do with the second part of Postel’s law: “be liberal in
+what you accept”.</p>
+<p>Postel’s law also tells us to be conservative in what we send.  The return value of a
+function is always a concrete object, so the return type hint should be a concrete
+type, as in the <code>tokenize</code> example, which uses <code>list[str]</code>.  The <code>typing</code>
+documentation once said, under <code>typing.List</code>: “Useful for annotating return types.
+To annotate arguments it is preferred to use an abstract collection type such as
+<code>Sequence</code> or <code>Iterable</code>.”</p>
+<h4 id="the-fall-of-the-numeric-tower"><a class="header" href="#the-fall-of-the-numeric-tower">The fall of the numeric tower</a></h4>
+<p>The <a href="https://docs.python.org/3/library/numbers.html"><code>numbers</code></a> package defines the
+so-called <em>numeric tower</em> described in <a href="https://peps.python.org/pep-3141/"><strong>PEP 3141</strong></a>.
+The tower is a linear hierarchy of ABCs, with <code>Number</code> at the top:</p>
+<ul>
+<li><code>Number</code></li>
+<li><code>Complex</code></li>
+<li><code>Real</code></li>
+<li><code>Rational</code></li>
+<li><code>Integral</code></li>
+</ul>
+<p>Those ABCs work perfectly well for runtime type checking, but they are not supported
+for static type checking.  The “Numeric Tower” section of PEP 484 rejects the
+<code>numbers</code> ABCs and dictates that the built-in types <code>complex</code>, <code>float</code> and <code>int</code> be
+treated as special cases, as explained above.  We’ll come back to this in
+<a href="protocols-abcs.html#the-numbers-abcs-and-numeric-protocols">The <code>numbers</code> ABCs and Numeric Protocols</a>.
+In practice, if you want to annotate numeric arguments for static type checking, you
+have a few options:</p>
+<ol>
+<li>Use one of the concrete types <code>int</code>, <code>float</code> or <code>complex</code>, as recommended by
+PEP 484.</li>
+<li>Declare a union type like <code>float | Decimal | Fraction</code>.</li>
+<li>If you want to avoid hardcoding concrete types, use numeric protocols like
+<code>SupportsFloat</code>, covered in
+<a href="protocols-abcs.html#runtime-checkable-static-protocols">Runtime Checkable Static Protocols</a>.</li>
+</ol>
+<h3 id="iterable"><a class="header" href="#iterable"><code>Iterable</code></a></h3>
+<p>The <code>typing</code> documentation recommends <code>Sequence</code> and <code>Iterable</code> for function
+parameter type hints.  One example of an <code>Iterable</code> argument appears in the
+<code>math.fsum</code> function from the standard library:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def fsum(seq: Iterable[float], /) -&gt; float:
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The standard library has very few annotations of its own, but Mypy, Pyright and
+IDEs find the type hints they need in the <a href="https://github.com/python/typeshed">typeshed</a>
+project, in the form of <em>stub files</em>: special source files with a <code>.pyi</code> extension
+that have annotated function and method signatures, without the implementation,
+much like header files in C.</p>
+</blockquote>
+<p>Here is another example, using an <code>Iterable</code> parameter that produces items that are
+<code>tuple[str, str]</code>:</p>
+<pre><code class="language-python">from collections.abc import Iterable
+
+type FromTo = tuple[str, str]
+
+def zip_replace(text: str, changes: Iterable[FromTo]) -&gt; str:
+    for from_, to in changes:
+        text = text.replace(from_, to)
+    return text
+
+l33t = [('a', '4'), ('e', '3'), ('i', '1'), ('o', '0')]
+text = 'mad skilled noob powned leet'
+zip_replace(text, l33t)
+# 'm4d sk1ll3d n00b p0wn3d l33t'
+</code></pre>
+<p><code>FromTo</code> is a <em>type alias</em>, created with the <code>type</code> statement introduced in
+Python 3.12 (<a href="https://peps.python.org/pep-0695/"><strong>PEP 695</strong></a>), to make the
+signature of <code>zip_replace</code> more readable: <code>Iterable[FromTo]</code> is the same as
+<code>Iterable[tuple[str, str]]</code>, but shorter and easier to read.  (Before 3.12, you
+would write <code>FromTo: TypeAlias = tuple[str, str]</code>, with <code>TypeAlias</code> imported from
+<code>typing</code> (<a href="https://peps.python.org/pep-0613/"><strong>PEP 613</strong></a>), or just
+<code>FromTo = tuple[str, str]</code>.)</p>
+<h4 id="abciterable-versus-abcsequence"><a class="header" href="#abciterable-versus-abcsequence"><code>abc.Iterable</code> versus <code>abc.Sequence</code></a></h4>
+<p>Both <code>math.fsum</code> and <code>zip_replace</code> must iterate over the entire <code>Iterable</code> argument
+to return a result.  Given an endless iterable such as the <code>itertools.cycle</code>
+generator as input, these functions would consume all memory and crash the Python
+process.  Despite this potential danger, it is fairly common in modern Python to
+offer functions that accept an <code>Iterable</code> input even if they must process it
+completely to return a result.  That gives the caller the option of providing input
+data as a generator instead of a prebuilt sequence, potentially saving a lot of
+memory if the number of input items is large.</p>
+<p>On the other hand, the <code>columnize</code> function needs a <code>Sequence</code> parameter, and not an
+<code>Iterable</code>, because it must get the <code>len()</code> of the input to compute the number of
+rows up front.</p>
+<p>Like <code>Sequence</code>, <code>Iterable</code> is best used as a parameter type.  It’s too vague as a
+return type: a function should be more precise about the concrete type it returns.
+Closely related to <code>Iterable</code> is the <code>Iterator</code> type, used as a return type in
+<code>tokenize</code> above; more about it in
+<a href="iterators-generators.html">Iterators, Generators, and Classic Coroutines</a>.</p>
+<h3 id="parameterized-generics-and-type-variables"><a class="header" href="#parameterized-generics-and-type-variables">Parameterized Generics and Type Variables</a></h3>
+<p>A <em>parameterized generic</em> is a generic type, written as <code>list[T]</code>, where <code>T</code> is a
+<em>type variable</em> that will be bound to a specific type with each usage.  This allows a
+parameter type to be reflected in the result type.</p>
+<p>Here is <code>sample</code>, a function that takes two arguments: a <code>Sequence</code> of elements of
+type <code>T</code>, and an <code>int</code>.  It returns a <code>list</code> of elements of the same type <code>T</code>, picked
+at random from the first argument:</p>
+<pre><code class="language-python">from collections.abc import Sequence
+from random import shuffle
+
+def sample[T](population: Sequence[T], size: int) -&gt; list[T]:
+    if size &lt; 1:
+        raise ValueError('size must be &gt;= 1')
+    result = list(population)
+    shuffle(result)
+    return result[:size]
+</code></pre>
+<p>The <code>[T]</code> after the function name declares a type parameter named <code>T</code>.  Here are two
+examples of why <code>sample</code> uses a type variable:</p>
+<ul>
+<li>If called with a tuple of type <code>tuple[int, ...]</code>, which is consistent-with
+<code>Sequence[int]</code>, then the type parameter is <code>int</code>, so the return type is
+<code>list[int]</code>.</li>
+<li>If called with a <code>str</code>, which is consistent-with <code>Sequence[str]</code>, then the type
+parameter is <code>str</code>, so the return type is <code>list[str]</code>.</li>
+</ul>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The <code>def sample[T](...)</code> syntax was introduced in Python 3.12 by PEP 695.  Before
+that, type variables had to be created explicitly with the
+<a href="https://docs.python.org/3/library/typing.html#typing.TypeVar"><code>typing.TypeVar</code></a>
+constructor, and you will see this form in a lot of existing code:</p>
+<pre><code class="language-python">from typing import TypeVar
+
+T = TypeVar('T')
+
+def sample(population: Sequence[T], size: int) -&gt; list[T]:
+    ...
+</code></pre>
+<p>Why was <code>TypeVar</code> needed?  The authors of PEP 484 wanted to introduce type hints
+by adding the <code>typing</code> module and not changing anything else in the language.  With
+clever metaprogramming they could make the <code>[]</code> operator work on classes like
+<code>Sequence[T]</code>, but the name <code>T</code> inside the brackets had to be defined somewhere,
+otherwise the interpreter would have needed deep changes.  PEP 695 eventually made
+those changes, so type parameters can now be declared right where they are used.</p>
+</blockquote>
+<p>Another example is the <code>statistics.mode</code> function from the standard library, which
+returns the most common data point from a series:</p>
+<pre><code class="language-python">from statistics import mode
+mode([1, 1, 2, 3, 3, 3, 3, 4])
+# 3
+</code></pre>
+<p>Without a type variable, <code>mode</code> could have this signature (the implementation here is
+simpler than the one in the <code>statistics</code> module):</p>
+<pre><code class="language-python">from collections import Counter
+from collections.abc import Iterable
+
+def mode(data: Iterable[float]) -&gt; float:
+    pairs = Counter(data).most_common(1)
+    if len(pairs) == 0:
+        raise ValueError('no mode for empty data')
+    return pairs[0][0]
+</code></pre>
+<p>Many uses of <code>mode</code> involve <code>int</code> or <code>float</code> values, but Python has other numerical
+types, and it is desirable that the return type follows the element type of the given
+<code>Iterable</code>.  We can improve the signature with a type parameter.  Let’s start with a
+simple, but wrong, parameterized signature:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def mode[T](data: Iterable[T]) -&gt; T:
+</code></pre>
+<p>When it first appears in the signature, the type parameter <code>T</code> can be any type.  The
+second time it appears, it means the same type as the first.  Therefore, every
+iterable is consistent-with <code>Iterable[T]</code>, including iterables of unhashable types
+that <code>collections.Counter</code> cannot handle.  We need to restrict the possible types
+assigned to <code>T</code>.  There are two ways of doing that.</p>
+<h4 id="constrained-type-variables"><a class="header" href="#constrained-type-variables">Constrained type variables</a></h4>
+<p>A type variable can be <em>constrained</em> to a fixed set of types.  We can improve the
+signature of <code>mode</code> to accept specific number types, like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from collections.abc import Iterable
+from decimal import Decimal
+from fractions import Fraction
+
+def mode[NumberT: (float, Decimal, Fraction)](data: Iterable[NumberT]) -&gt; NumberT:
+</code></pre>
+<p>(With <code>TypeVar</code>, the same constraint is written
+<code>NumberT = TypeVar('NumberT', float, Decimal, Fraction)</code>.)  That’s better than
+before.  However, the <code>statistics.mode</code> documentation includes this example:</p>
+<pre><code class="language-python">mode(["red", "blue", "blue", "red", "green", "red", "red"])
+# 'red'
+</code></pre>
+<p>In a hurry, we could just add <code>str</code> to the <code>NumberT</code> constraints.  That certainly
+works, but <code>NumberT</code> is badly misnamed if it accepts <code>str</code>.  More importantly, we
+can’t keep listing types forever, as we realize <code>mode</code> can deal with them.  We can do
+better with an upper bound.</p>
+<h4 id="bounded-type-variables"><a class="header" href="#bounded-type-variables">Bounded type variables</a></h4>
+<p>Looking at the body of <code>mode</code>, we see that the <code>Counter</code> class is used for ranking.
+<code>Counter</code> is based on <code>dict</code>, therefore the element type of the <code>data</code> iterable must
+be hashable.  At first, this signature may seem to work:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from collections.abc import Iterable, Hashable
+
+def mode(data: Iterable[Hashable]) -&gt; Hashable:
+</code></pre>
+<p>Now the problem is that the type of the returned item is <code>Hashable</code>, an ABC that
+implements only the <code>__hash__()</code> method.  So the type checker will not let us do
+anything with the return value except call <code>hash()</code> on it.  Not very useful.</p>
+<p>The solution is an <em>upper bound</em> for the type parameter, written after a colon.
+<code>[HashableT: Hashable]</code> means the type parameter may be <code>Hashable</code> or any
+subtype-of it:</p>
+<pre><code class="language-python">from collections import Counter
+from collections.abc import Iterable, Hashable
+
+def mode[HashableT: Hashable](data: Iterable[HashableT]) -&gt; HashableT:
+    pairs = Counter(data).most_common(1)
+    if len(pairs) == 0:
+        raise ValueError('no mode for empty data')
+    return pairs[0][0]
+
+mode(["red", "blue", "blue", "red", "green", "red", "red"])
+# 'red'
+</code></pre>
+<p>(With <code>TypeVar</code>, the bound is given as a keyword argument:
+<code>HashableT = TypeVar('HashableT', bound=Hashable)</code>.  The name <code>bound=</code> is a bit
+unfortunate, because the verb “to bind” is commonly used to mean setting the value of
+a variable; <code>boundary=</code> would have been clearer.)</p>
+<p>To summarize:</p>
+<ul>
+<li>A <em>constrained</em> type variable will be set to one of the types named in its
+declaration.</li>
+<li>A <em>bounded</em> type variable will be set to the inferred type of the expression, as
+long as the inferred type is consistent-with the declared bound.</li>
+</ul>
+<p>Type variables have other options related to <em>variance</em>, covered in
+<a href="type-hints-more.html#variance">More About Type Hints</a>.</p>
+<h4 id="the-anystr-predefined-type-variable"><a class="header" href="#the-anystr-predefined-type-variable">The <code>AnyStr</code> predefined type variable</a></h4>
+<p>The <code>typing</code> module includes a predefined <code>TypeVar</code> named <code>AnyStr</code>, defined like
+this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">AnyStr = TypeVar('AnyStr', bytes, str)
+</code></pre>
+<p><code>AnyStr</code> is used in many functions that accept either <code>bytes</code> or <code>str</code>, and return
+values of the given type.</p>
+<h3 id="static-protocols"><a class="header" href="#static-protocols">Static Protocols</a></h3>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>In object-oriented programming, the concept of a “protocol” as an informal
+interface is as old as Smalltalk, and has been an essential part of Python from the
+beginning.  However, in the context of type hints, a protocol is a
+<code>typing.Protocol</code> subclass defining an interface that a type checker can verify.
+Both kinds of protocols are covered in
+<a href="protocols-abcs.html">Interfaces, Protocols, and ABCs</a>; this is just a brief
+introduction in the context of function annotations.</p>
+</blockquote>
+<p>The <code>Protocol</code> type, presented in <a href="https://peps.python.org/pep-0544/"><strong>PEP 544</strong></a>
+(“Protocols: Structural subtyping (static duck typing)”), is similar to interfaces in
+Go: a protocol type is defined by specifying one or more methods, and the type
+checker verifies that those methods are implemented where that protocol type is
+required.  In Python, a protocol definition is written as a <code>typing.Protocol</code>
+subclass.  However, classes that implement a protocol don’t need to inherit,
+register, or declare any relationship with the class that defines the protocol.  It’s
+up to the type checker to find the available protocol types and enforce their usage.</p>
+<p>Here is a problem that can be solved with the help of <code>Protocol</code> and a type variable.
+Suppose you want to create a function <code>top(it, n)</code> that returns the largest <code>n</code>
+elements of the iterable <code>it</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">top([4, 1, 5, 2, 6, 7, 3], 3)
+# [7, 6, 5]
+l = 'mango pear apple kiwi banana'.split()
+top(l, 3)
+# ['pear', 'mango', 'kiwi']
+l2 = [(len(s), s) for s in l]
+l2
+# [(5, 'mango'), (4, 'pear'), (5, 'apple'), (4, 'kiwi'), (6, 'banana')]
+top(l2, 3)
+# [(6, 'banana'), (5, 'mango'), (5, 'apple')]
+</code></pre>
+<p>A parameterized generic <code>top</code> would look like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def top[T](series: Iterable[T], length: int) -&gt; list[T]:
+    ordered = sorted(series, reverse=True)
+    return ordered[:length]
+</code></pre>
+<p>The problem is how to constrain <code>T</code>.  It cannot be <code>Any</code> or <code>object</code>, because the
+<code>series</code> must work with <code>sorted</code>.  The <code>sorted</code> built-in actually accepts
+<code>Iterable[Any]</code>, but that’s because its optional <code>key</code> parameter takes a function
+that computes an arbitrary sort key from each element.  What happens if you give
+<code>sorted</code> a list of plain objects but don’t provide a <code>key</code> argument?</p>
+<pre><code class="language-python">l = [object() for _ in range(4)]
+l
+# [&lt;object object at 0x10fc2fca0&gt;, &lt;object object at 0x10fc2fbb0&gt;,
+#  &lt;object object at 0x10fc2fbc0&gt;, &lt;object object at 0x10fc2fbd0&gt;]
+sorted(l)
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: '&lt;' not supported between instances of 'object' and 'object'
+</code></pre>
+<p>The error message shows that <code>sorted</code> uses the <code>&lt;</code> operator on the elements of the
+iterable.  Is that all it takes?  Let’s do another quick experiment; it’s wonderful to
+be able to rely on duck typing to explore language features this way:</p>
+<pre><code class="language-python">class Spam:
+    def __init__(self, n): self.n = n
+    def __lt__(self, other): return self.n &lt; other.n
+    def __repr__(self): return f'Spam({self.n})'
+
+l = [Spam(n) for n in range(5, 0, -1)]
+l
+# [Spam(5), Spam(4), Spam(3), Spam(2), Spam(1)]
+sorted(l)
+# [Spam(1), Spam(2), Spam(3), Spam(4), Spam(5)]
+</code></pre>
+<p>That confirms it: we can sort a list of <code>Spam</code> because <code>Spam</code> implements <code>__lt__()</code>,
+the special method that supports the <code>&lt;</code> operator.  So the <code>T</code> type parameter in
+<code>top</code> should be limited to types that implement <code>__lt__()</code>.  For <code>mode</code> we needed a
+type parameter that implemented <code>__hash__()</code>, so we could use <code>Hashable</code> as the upper
+bound.  But now there is no suitable type in <code>typing</code> or <code>abc</code> to use, so we need to
+create it:</p>
+<pre><code class="language-python">from typing import Protocol, Any
+
+class SupportsLessThan(Protocol):
+    def __lt__(self, other: Any) -&gt; bool: ...
+</code></pre>
+<p>A protocol is a subclass of <code>typing.Protocol</code>.  The body of the protocol has one or
+more method definitions, with <code>...</code> in their bodies.  A type <code>T</code> is consistent-with a
+protocol <code>P</code> if <code>T</code> implements all the methods defined in <code>P</code>, with matching type
+signatures.  Given <code>SupportsLessThan</code>, we can now define this working version of
+<code>top</code>:</p>
+<pre><code class="language-python">from collections.abc import Iterable
+
+def top[LT: SupportsLessThan](series: Iterable[LT], length: int) -&gt; list[LT]:
+    ordered = sorted(series, reverse=True)
+    return ordered[:length]
+
+top([4, 1, 5, 2, 6, 7, 3], 3)
+# [7, 6, 5]
+l = 'mango pear apple kiwi banana'.split()
+top([(len(s), s) for s in l], 3)
+# [(6, 'banana'), (5, 'mango'), (5, 'apple')]
+</code></pre>
+<p>Let’s test-drive <code>top</code> with the help of a type checker.  Here is part of a test suite
+for use with pytest.  It calls <code>top</code> first with a generator expression that yields
+<code>tuple[int, str]</code>, and then with a list of <code>object</code>; with the list of <code>object</code>, we
+expect to get a <code>TypeError</code> exception:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from collections.abc import Iterator
+from typing import TYPE_CHECKING
+
+import pytest
+
+from top import top
+
+# several lines omitted
+
+def test_top_tuples() -&gt; None:
+    fruit = 'mango pear apple kiwi banana'.split()
+    series: Iterator[tuple[int, str]] = (
+        (len(s), s) for s in fruit)
+    length = 3
+    expected = [(6, 'banana'), (5, 'mango'), (5, 'apple')]
+    result = top(series, length)
+    if TYPE_CHECKING:
+        reveal_type(series)
+        reveal_type(expected)
+        reveal_type(result)
+    assert result == expected
+
+# intentional type error
+def test_top_objects_error() -&gt; None:
+    series = [object() for _ in range(4)]
+    if TYPE_CHECKING:
+        reveal_type(series)
+    with pytest.raises(TypeError) as excinfo:
+        top(series, 3)
+    assert "'&lt;' not supported" in str(excinfo.value)
+</code></pre>
+<p>The <code>typing.TYPE_CHECKING</code> constant is always <code>False</code> at runtime, but type checkers
+pretend it is <code>True</code> when they are type checking, so the <code>if</code> prevents the
+<code>reveal_type()</code> lines from executing when the test runs.  <code>reveal_type()</code> is a
+debugging facility of type checkers: Mypy outputs one message for each
+<code>reveal_type()</code> call, showing the inferred type of the argument.  (Since Python 3.11
+there is also a <code>typing.reveal_type()</code> function that works at runtime.)  The explicit
+type declaration for the <code>series</code> variable makes the Mypy output easier to read.</p>
+<p>The tests pass, but they would pass anyway, with or without type hints in <code>top.py</code>.
+More to the point, if we check that test file with Mypy, we see that the type variable
+is working as intended:</p>
+<pre><code class="language-console">…/comparable/ $ mypy top_test.py
+top_test.py:32: note:
+    Revealed type is "typing.Iterator[Tuple[builtins.int, builtins.str]]"
+top_test.py:33: note:
+    Revealed type is "builtins.list[Tuple[builtins.int, builtins.str]]"
+top_test.py:34: note:
+    Revealed type is "builtins.list[Tuple[builtins.int, builtins.str]]"
+top_test.py:41: note:
+    Revealed type is "builtins.list[builtins.object*]"
+top_test.py:43: error:
+    Value of type variable "LT" of "top" cannot be "object"
+Found 1 error in 1 file (checked 1 source file)
+</code></pre>
+<p>In <code>test_top_tuples</code>, <code>reveal_type(series)</code> shows it is an
+<code>Iterator[tuple[int, str]]</code>, which we declared explicitly, and <code>reveal_type(result)</code>
+confirms that the type returned by <code>top</code> is what we wanted: given the type of
+<code>series</code>, the result is <code>list[tuple[int, str]]</code>.  In <code>test_top_objects_error</code>,
+<code>reveal_type(series)</code> shows <code>list[object*]</code>; Mypy puts a <code>*</code> after any type that was
+inferred.  Finally, Mypy flags the error that this test intentionally triggers: the
+element type of the iterable <code>series</code> cannot be <code>object</code>; it must be of type
+<code>SupportsLessThan</code>.</p>
+<p>A key advantage of a protocol type over ABCs is that a type doesn’t need any special
+declaration to be consistent-with a protocol type.  This allows a protocol to be
+created leveraging preexisting types, or types implemented in code that we do not
+control.  We don’t need to derive or register <code>str</code>, <code>tuple</code>, <code>float</code>, <code>set</code>, etc.
+with <code>SupportsLessThan</code> to use them where a <code>SupportsLessThan</code> parameter is expected.
+They only need to implement <code>__lt__()</code>.  And the type checker can still do its job,
+because <code>SupportsLessThan</code> is explicitly defined as a <code>Protocol</code>, in contrast with the
+implicit protocols that are common with duck typing, which are invisible to the type
+checker.</p>
+<p>This is why the feature is known as <em>static duck typing</em>: the solution to annotate the
+<code>series</code> parameter of <code>top</code> was to say “the nominal type of <code>series</code> doesn’t matter,
+as long as it implements the <code>__lt__()</code> method”.  Python’s duck typing always allowed
+us to say that implicitly, leaving static type checkers clueless.  A type checker
+can’t read CPython’s source code in C, or perform interactive experiments to find out
+that <code>sorted</code> only requires that the elements support <code>&lt;</code>.  Now we can make duck
+typing explicit for static type checkers.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p><code>typing.Protocol</code> makes it possible to annotate the <code>double</code> function from
+<a href="#types-are-defined-by-supported-operations">Types Are Defined by Supported Operations</a>
+without losing functionality.  The key is to define a protocol class with the
+<code>__mul__()</code> method.  Try it as an exercise; the solution appears in
+<a href="protocols-abcs.html#the-typed-double-function">The Typed <code>double</code> Function</a>.</p>
+</blockquote>
+<h3 id="callable"><a class="header" href="#callable"><code>Callable</code></a></h3>
+<p>To annotate callback parameters or callable objects returned by higher-order
+functions, the <code>collections.abc</code> module provides the <code>Callable</code> type (also available
+as <code>typing.Callable</code>).  A <code>Callable</code> type is parameterized like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">Callable[[ParamType1, ParamType2], ReturnType]
+</code></pre>
+<p>The parameter list, <code>[ParamType1, ParamType2]</code>, can have zero or more types.  Here is
+an example in the context of a <code>repl</code> function, part of a simple interactive
+interpreter you’ll see in <a href="pattern-matching.html#pattern-matching-sequences-in-an-interpreter">Pattern Matching in Depth</a>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def repl(input_fn: Callable[[Any], str] = input) -&gt; None:
+</code></pre>
+<p>During normal usage, the <code>repl</code> function uses Python’s <code>input</code> built-in to read
+expressions from the user.  However, for automated testing or for integration with
+other input sources, <code>repl</code> accepts an optional <code>input_fn</code> parameter: a <code>Callable</code>
+with the same parameter and return types as <code>input</code>.  The built-in <code>input</code> has this
+signature in typeshed:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def input(prompt: Any = ..., /) -&gt; str: ...
+</code></pre>
+<p>which is consistent-with the <code>Callable[[Any], str]</code> type hint.</p>
+<p>There is no syntax to annotate optional or keyword argument types in <code>Callable</code>.  If
+you need a type hint to match a function with a flexible signature, replace the whole
+parameter list with <code>...</code>, like this: <code>Callable[..., ReturnType]</code>.  (For precise
+callback signatures, you can define a <code>Protocol</code> with a <code>__call__()</code> method.)</p>
+<p>The interaction of generic type parameters with a type hierarchy introduces a new
+typing concept: variance.</p>
+<h4 id="variance-in-callable-types"><a class="header" href="#variance-in-callable-types">Variance in <code>Callable</code> types</a></h4>
+<p>Imagine a temperature control system with a simple <code>update</code> function.  The <code>update</code>
+function calls the <code>probe</code> function to get the current temperature, and calls
+<code>display</code> to show the temperature to the user.  Both <code>probe</code> and <code>display</code> are passed
+as arguments to <code>update</code> for didactic reasons.  The goal of the example is to contrast
+two <code>Callable</code> annotations: one with a return type, the other with a parameter type:</p>
+<pre><code class="language-python">from collections.abc import Callable
+
+def update(
+        probe: Callable[[], float],
+        display: Callable[[float], None]
+    ) -&gt; None:
+    temperature = probe()
+    # imagine lots of control code here
+    display(temperature)
+
+def probe_ok() -&gt; int:
+    return 42
+
+def display_wrong(temperature: int) -&gt; None:
+    print(hex(temperature))
+
+update(probe_ok, display_wrong)  # type error
+# 0x2a
+
+def display_ok(temperature: complex) -&gt; None:
+    print(temperature)
+
+update(probe_ok, display_ok)  # OK
+# 42
+</code></pre>
+<p><code>update</code> takes two callables as arguments: <code>probe</code> must be a callable that takes no
+arguments and returns a <code>float</code>, and <code>display</code> takes a <code>float</code> argument and returns
+<code>None</code>.</p>
+<ul>
+<li><code>probe_ok</code> is consistent-with <code>Callable[[], float]</code>, because returning an <code>int</code>
+does not break code that expects a <code>float</code>.</li>
+<li><code>display_wrong</code> is not consistent-with <code>Callable[[float], None]</code>, because there’s
+no guarantee that a function that expects an <code>int</code> can handle a <code>float</code>; for
+example, Python’s <code>hex</code> function accepts an <code>int</code> but rejects a <code>float</code>.  Mypy flags
+that line because <code>display_wrong</code> is incompatible with the type hint of the
+<code>display</code> parameter.  (It happens to run here only because <code>probe_ok</code> returns an
+<code>int</code>.)</li>
+<li><code>display_ok</code> is consistent-with <code>Callable[[float], None]</code>, because a function that
+accepts a <code>complex</code> can also handle a <code>float</code> argument.  Mypy is happy with that
+line.</li>
+</ul>
+<p>To summarize, it’s OK to provide a callback that returns an <code>int</code> when the code
+expects a callback that returns a <code>float</code>, because an <code>int</code> value can always be used
+where a <code>float</code> is expected.  Formally, we say that <code>Callable[[], int]</code> is subtype-of
+<code>Callable[[], float]</code>, as <code>int</code> is subtype-of <code>float</code>.  This means that <code>Callable</code> is
+<em>covariant</em> on the return type, because the subtype-of relationship of the types
+<code>int</code> and <code>float</code> is in the same direction as the relationship of the <code>Callable</code> types
+that use them as return types.</p>
+<p>On the other hand, it’s a type error to provide a callback that takes an <code>int</code>
+argument when a callback that handles a <code>float</code> is required.  Formally,
+<code>Callable[[int], None]</code> is not a subtype-of <code>Callable[[float], None]</code>.  Although <code>int</code>
+is subtype-of <code>float</code>, in the parameterized <code>Callable</code> type the relationship is
+reversed: <code>Callable[[float], None]</code> is subtype-of <code>Callable[[int], None]</code>.  Therefore
+we say that <code>Callable</code> is <em>contravariant</em> on the declared parameter types.</p>
+<p><a href="type-hints-more.html#variance">Variance</a> explains this in more detail, with examples of
+invariant, covariant and contravariant types.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>For now, rest assured that most parameterized generic types are <em>invariant</em>,
+therefore simpler.  For example, if you declare <code>scores: list[float]</code>, that tells
+you exactly what you can assign to <code>scores</code>.  You can’t assign objects declared as
+<code>list[int]</code> or <code>list[complex]</code>: a <code>list[int]</code> object is not acceptable because it
+cannot hold <code>float</code> values which your code may need to put into <code>scores</code>, and a
+<code>list[complex]</code> object is not acceptable because your code may need to sort <code>scores</code>
+to find the median, but <code>complex</code> does not provide <code>__lt__()</code>.</p>
+</blockquote>
+<h3 id="noreturn-and-never"><a class="header" href="#noreturn-and-never"><code>NoReturn</code> and <code>Never</code></a></h3>
+<p><code>NoReturn</code> is a special type used only to annotate the return type of functions that
+never return.  Usually, they exist to raise exceptions.  There are dozens of such
+functions in the standard library.  For example, <code>sys.exit()</code> raises <code>SystemExit</code> to
+terminate the Python process.  Its signature in typeshed is:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def exit(status: object = ..., /) -&gt; NoReturn: ...
+</code></pre>
+<p>The <code>status</code> parameter is positional-only, and it has a default value.  Stub files
+don’t spell out default values; they use <code>...</code> instead.  The type of <code>status</code> is
+<code>object</code>, which means it may also be <code>None</code>, so it would be redundant to mark it
+<code>object | None</code>.</p>
+<p>Since Python 3.11, <code>typing.Never</code> is an equivalent spelling that also makes sense in
+positions other than return types: it is the <em>bottom type</em>, a type with no values.
+<a href="class-metaprogramming.html">Class Metaprogramming</a> shows a method annotated with
+<code>NoReturn</code>, designed to produce a comprehensive error message and then raise
+<code>AttributeError</code>.</p>
+<h2 id="annotating-positional-only-and-variadic-parameters"><a class="header" href="#annotating-positional-only-and-variadic-parameters">Annotating Positional-Only and Variadic Parameters</a></h2>
+<p>Recall the <code>tag</code> function from <a href="first-class-functions.html">Functions as First-Class Objects</a>,
+with a positional-only <code>name</code> parameter:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def tag(name, /, *content, class_=None, **attrs):
+</code></pre>
+<p>Here is <code>tag</code>, fully annotated, written in several lines, a common convention for
+long signatures:</p>
+<pre><code class="language-python">def tag(
+    name: str,
+    /,
+    *content: str,
+    class_: str | None = None,
+    **attrs: str,
+) -&gt; str:
+    ...
+</code></pre>
+<p>Note the type hint <code>*content: str</code> for the arbitrary positional parameters: it means
+all those arguments must be of type <code>str</code>.  The type of the <code>content</code> local variable
+in the function body will be <code>tuple[str, ...]</code>.</p>
+<p>The type hint for the arbitrary keyword arguments is <code>**attrs: str</code> in this example,
+so the type of <code>attrs</code> inside the function will be <code>dict[str, str]</code>.  For a type hint
+like <code>**attrs: float</code>, the type of <code>attrs</code> in the function would be
+<code>dict[str, float]</code>.  If the <code>attrs</code> parameter must accept values of different types,
+you’ll need to use a union or <code>Any</code>: <code>**attrs: Any</code>.  (For precise types per keyword,
+see <code>Unpack</code> with a <code>TypedDict</code> in <a href="type-hints-more.html#typeddict">More About Type Hints</a>.)</p>
+<p>The <code>/</code> notation for positional-only parameters is only available since Python 3.8.
+Before that, the PEP 484 convention was to prefix each positional-only parameter name
+with two underscores, as in <code>def tag(__name: str, *content: str, ...)</code>, and you will
+still see that convention in stub files.  Type checkers understand and enforce both
+ways of declaring positional-only parameters.</p>
+<h2 id="imperfect-typing-and-strong-testing"><a class="header" href="#imperfect-typing-and-strong-testing">Imperfect Typing and Strong Testing</a></h2>
+<p>Maintainers of large corporate code bases report that many bugs are found by static
+type checkers and fixed more cheaply than if the bugs were discovered only after the
+code is running in production.  However, it’s essential to note that automated
+testing was standard practice and widely adopted long before static typing was
+introduced in those companies.</p>
+<p>Even in the contexts where it is most beneficial, static typing cannot be trusted as
+the ultimate arbiter of correctness.  It’s not hard to find:</p>
+<dl>
+<dt id="false-positives"><a class="header" href="#false-positives"><em>False positives</em></a></dt>
+<dd>tools report type errors on code that is correct.</dd>
+<dt id="false-negatives"><a class="header" href="#false-negatives"><em>False negatives</em></a></dt>
+<dd>tools don’t report type errors on code that is incorrect.</dd>
+</dl>
+<p>Also, if we are forced to type check everything, we lose some of the expressive power
+of Python:</p>
+<ul>
+<li>Some handy features can’t be statically checked; for example, argument unpacking
+like <code>config(**settings)</code>.</li>
+<li>Advanced features like properties, descriptors, metaclasses and metaprogramming in
+general are poorly supported or beyond comprehension for type checkers.</li>
+<li>Type checkers lag behind Python releases, rejecting or even crashing while
+analyzing code with new language features, sometimes for more than a year.</li>
+</ul>
+<p>Common data constraints cannot be expressed in the type system, even simple ones.
+For example, type hints are unable to ensure “quantity must be an integer &gt; 0” or
+“label must be a string with 6 to 12 ASCII letters”.  In general, type hints are not
+helpful to catch errors in business logic.</p>
+<p>Given those caveats, type hints cannot be the mainstay of software quality, and
+making them mandatory without exception would amplify the downsides.  Consider a
+static type checker as one of the tools in a modern CI pipeline, along with test
+runners, linters, etc.  The point of a CI pipeline is to reduce software failures,
+and automated tests catch many bugs that are beyond the reach of type hints.  Any
+code you can write in Python, you can test in Python, with or without type hints.
+As Bruce Eckel concluded in his article “Strong Typing vs. Strong Testing”, a Python
+program with adequate unit tests can be as robust as a C++, Java or C# program with
+adequate unit tests, and the tests in Python will be faster to write.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>We started with a brief introduction to the concept of gradual typing and then
+switched to a hands-on approach.  It’s hard to see how gradual typing works without a
+tool that actually reads the type hints, so we developed an annotated function
+guided by Mypy error reports.</p>
+<p>Back to the idea of gradual typing, we explored how it is a hybrid of Python’s
+traditional duck typing and the nominal typing more familiar to users of Java, C++
+and other statically typed languages.</p>
+<p>Most of the chapter was devoted to the major groups of types used in annotations.
+Many of them are related to familiar Python object types, such as collections,
+tuples and callables, extended to support generic notation like <code>Sequence[float]</code>.
+Some of the types are special entities: <code>Any</code>, unions and <code>NoReturn</code> have nothing to
+do with actual objects in memory, but exist only in the abstract domain of the type
+system.</p>
+<p>We studied parameterized generics and type variables, which bring more flexibility to
+type hints without sacrificing type safety.  Parameterized generics become even more
+expressive with the use of <code>Protocol</code>, which enables static duck typing: the
+essential bridge between Python’s duck-typed core and the nominal typing that allows
+static type checkers to catch bugs.  The final section covered how to annotate
+positional-only and variadic parameters.</p>
+<p>Type hints are a complex and evolving topic.  Fortunately, they are an optional
+feature.  Guido van Rossum, who led the push toward type hints in Python, said that
+he wouldn’t like a version of Python where he was morally obligated to add type hints
+all the time: type hints have their place, but there are also plenty of times when
+it’s not worth it, and it’s wonderful that you can choose to use them.</p>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li>The <a href="https://mypy.readthedocs.io/">Mypy documentation</a> is valuable regardless of
+the type checker you use, because it has tutorial and reference pages about
+Python typing in general, a handy cheat sheet, and a page about common issues and
+solutions.</li>
+<li>The <a href="https://docs.python.org/3/library/typing.html"><code>typing</code></a> module
+documentation and the <a href="https://typing.python.org/">typing specification</a> are the
+reference; the many typing PEPs assume a lot of prior knowledge.</li>
+<li><a href="https://peps.python.org/pep-0483/"><strong>PEP 483</strong></a>, “The Theory of Type Hints”,
+includes a deep explanation of variance, using <code>Callable</code> to illustrate
+contravariance.</li>
+<li>Bernát Gábor’s post “The state of type hints in Python” sums up a practical
+attitude: type hints should be used whenever unit tests are worth writing.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="first-class-functions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="decorators.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="first-class-functions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="decorators.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

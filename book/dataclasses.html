@@ -1,0 +1,1290 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Data Class Builders - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="data-class-builders"><a class="header" href="#data-class-builders">Data Class Builders</a></h1>
+<p>Python offers a few ways to build a simple class that is just a collection of
+fields, with little or no extra functionality.  That pattern is known as a
+<em>data class</em>, and <a href="https://docs.python.org/3/library/dataclasses.html"><code>dataclasses</code></a>
+is one of the packages that supports it.  This chapter covers three class
+builders you can use as shortcuts to write data classes:</p>
+<dl>
+<dt id="collectionsnamedtuple"><a class="header" href="#collectionsnamedtuple"><a href="https://docs.python.org/3/library/collections.html#collections.namedtuple"><code>collections.namedtuple</code></a></a></dt>
+<dd>the simplest way, available since Python 2.6.</dd>
+<dt id="typingnamedtuple"><a class="header" href="#typingnamedtuple"><a href="https://docs.python.org/3/library/typing.html#typing.NamedTuple"><code>typing.NamedTuple</code></a></a></dt>
+<dd>an alternative that requires type hints on the fields, with class syntax
+available since Python 3.6.</dd>
+<dt id="dataclassesdataclass"><a class="header" href="#dataclassesdataclass"><a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.dataclass"><code>@dataclasses.dataclass</code></a></a></dt>
+<dd>a class decorator that allows more customization than the previous
+alternatives, adding lots of options and potential complexity; available since
+Python 3.7.</dd>
+</dl>
+<p>After covering those builders, we discuss why “Data Class” is also the name of a
+<em>code smell</em>: a pattern that may be a symptom of poor object-oriented design.
+The chapter ends with pattern matching on class instances.  It assumes you have
+read <a href="classes.html">Classes</a>, especially <a href="classes.html#tut-firstclasses">A First Look at Classes</a>.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p><a href="https://docs.python.org/3/library/typing.html#typing.TypedDict"><code>typing.TypedDict</code></a>
+may look like another data class builder.  It uses similar syntax and is
+documented right after <code>typing.NamedTuple</code>.  However, <code>TypedDict</code> does not
+build concrete classes that you can instantiate.  It is just syntax to write
+type hints for function parameters and variables that accept mappings used as
+records, with keys as field names.  It is covered in
+<a href="type-hints-more.html#typeddict">More About Type Hints</a>.</p>
+</blockquote>
+<h2 id="overview-of-data-class-builders"><a class="header" href="#overview-of-data-class-builders">Overview of Data Class Builders</a></h2>
+<p>Consider a simple class to represent a geographic coordinate pair:</p>
+<pre><code class="language-python">class Coordinate:
+
+    def __init__(self, lat, lon):
+        self.lat = lat
+        self.lon = lon
+</code></pre>
+<p>That <code>Coordinate</code> class does the job of holding latitude and longitude
+attributes.  But writing the <code>__init__()</code> boilerplate gets old fast, especially
+if your class has more than a couple of attributes: each of them is mentioned
+three times!  And that boilerplate doesn’t buy you basic features you’d expect
+from a Python object:</p>
+<pre><code class="language-python">moscow = Coordinate(55.76, 37.62)
+moscow  # the __repr__ inherited from object is not very helpful
+# &lt;__main__.Coordinate object at 0x107142f10&gt;
+location = Coordinate(55.76, 37.62)
+location == moscow  # meaningless ==: object.__eq__ compares object ids
+# False
+(location.lat, location.lon) == (moscow.lat, moscow.lon)
+# True
+</code></pre>
+<p>Comparing two coordinates requires an explicit comparison of each attribute.
+The data class builders covered in this chapter provide the necessary
+<code>__init__()</code>, <code>__repr__()</code> and <code>__eq__()</code> methods automatically, as well as other
+useful features.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>None of these class builders depends on inheritance to do its work.  Both
+<code>collections.namedtuple</code> and <code>typing.NamedTuple</code> build classes that are <code>tuple</code>
+subclasses.  <code>@dataclass</code> is a class decorator that does not affect the class
+hierarchy in any way.  Each of them uses different metaprogramming techniques
+to inject methods and data attributes into the class under construction.</p>
+</blockquote>
+<p>Here is a <code>Coordinate</code> class built with <code>namedtuple</code>, a factory function that
+builds a subclass of <code>tuple</code> with the name and fields you specify:</p>
+<pre><code class="language-python">from collections import namedtuple
+Coordinate = namedtuple('Coordinate', 'lat lon')
+issubclass(Coordinate, tuple)
+# True
+moscow = Coordinate(55.756, 37.617)
+moscow  # useful __repr__
+# Coordinate(lat=55.756, lon=37.617)
+moscow == Coordinate(lat=55.756, lon=37.617)  # meaningful __eq__
+# True
+</code></pre>
+<p>The newer <code>typing.NamedTuple</code> provides the same functionality, adding a type
+annotation to each field:</p>
+<pre><code class="language-python">import typing
+Coordinate = typing.NamedTuple('Coordinate',
+    [('lat', float), ('lon', float)])
+issubclass(Coordinate, tuple)
+# True
+typing.get_type_hints(Coordinate)
+# {'lat': &lt;class 'float'&gt;, 'lon': &lt;class 'float'&gt;}
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>A typed named tuple can also be constructed with the fields given as keyword
+arguments, like this: <code>Coordinate = typing.NamedTuple('Coordinate', lat=float, lon=float)</code>.  This is more readable, and also lets you provide the mapping of
+fields and types as <code>**fields_and_types</code>.  (Recent versions of Python deprecate
+this keyword-argument form in favor of the class syntax below.)</p>
+</blockquote>
+<p><code>typing.NamedTuple</code> can also be used in a <code>class</code> statement, with type
+annotations written as described in <a href="https://peps.python.org/pep-0526/"><strong>PEP 526</strong></a>.
+This is much more readable, and makes it easy to override methods or add new
+ones.  Here is the same <code>Coordinate</code> class, with a pair of <code>float</code> attributes and a
+custom <code>__str__()</code> that displays a coordinate formatted like <code>55.8°N, 37.6°E</code>:</p>
+<pre><code class="language-python">from typing import NamedTuple
+
+class Coordinate(NamedTuple):
+    lat: float
+    lon: float
+
+    def __str__(self):
+        ns = 'N' if self.lat &gt;= 0 else 'S'
+        we = 'E' if self.lon &gt;= 0 else 'W'
+        return f'{abs(self.lat):.1f}°{ns}, {abs(self.lon):.1f}°{we}'
+
+print(Coordinate(55.756, 37.617))
+# 55.8°N, 37.6°E
+</code></pre>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Although <code>NamedTuple</code> appears in the <code>class</code> statement as a superclass, it
+actually is not one.  <code>typing.NamedTuple</code> uses the advanced functionality of a
+metaclass (see <a href="class-metaprogramming.html">Class Metaprogramming</a>) to customize
+the creation of the user’s class.  Check this out:</p>
+<pre><code class="language-python">issubclass(Coordinate, typing.NamedTuple)
+# False
+issubclass(Coordinate, tuple)
+# True
+</code></pre>
+</blockquote>
+<p>In the <code>__init__()</code> method generated by <code>typing.NamedTuple</code>, the fields appear as
+parameters in the same order they appear in the <code>class</code> statement.</p>
+<p>Like <code>typing.NamedTuple</code>, the <code>dataclass</code> decorator supports the PEP 526 syntax to
+declare instance attributes.  The decorator reads the variable annotations and
+automatically generates methods for your class.  For comparison, here is the
+equivalent <code>Coordinate</code> class written with the help of <code>@dataclass</code>:</p>
+<pre><code class="language-python">from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class Coordinate:
+    lat: float
+    lon: float
+
+    def __str__(self):
+        ns = 'N' if self.lat &gt;= 0 else 'S'
+        we = 'E' if self.lon &gt;= 0 else 'W'
+        return f'{abs(self.lat):.1f}°{ns}, {abs(self.lon):.1f}°{we}'
+</code></pre>
+<p>The bodies of the last two classes are identical; the difference is in the
+<code>class</code> statement itself.  The <code>@dataclass</code> decorator does not depend on
+inheritance or a metaclass, so it should not interfere with your own use of
+these mechanisms.  (Class decorators are covered in
+<a href="class-metaprogramming.html">Class Metaprogramming</a>.)  This <code>Coordinate</code> class is a
+subclass of <code>object</code>.</p>
+<h3 id="main-features"><a class="header" href="#main-features">Main Features</a></h3>
+<p>The different data class builders have a lot in common, as this table shows
+(<code>x</code> stands for an instance of a data class of that kind):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th><code>namedtuple</code></th><th><code>NamedTuple</code></th><th><code>dataclass</code></th></tr>
+</thead>
+<tbody>
+<tr><td>mutable instances</td><td>NO</td><td>NO</td><td>YES</td></tr>
+<tr><td><code>class</code> statement syntax</td><td>NO</td><td>YES</td><td>YES</td></tr>
+<tr><td>construct <code>dict</code></td><td><code>x._asdict()</code></td><td><code>x._asdict()</code></td><td><code>dataclasses.asdict(x)</code></td></tr>
+<tr><td>get field names</td><td><code>x._fields</code></td><td><code>x._fields</code></td><td><code>[f.name for f in dataclasses.fields(x)]</code></td></tr>
+<tr><td>get defaults</td><td><code>x._field_defaults</code></td><td><code>x._field_defaults</code></td><td><code>[f.default for f in dataclasses.fields(x)]</code></td></tr>
+<tr><td>get field types</td><td>N/A</td><td><code>x.__annotations__</code></td><td><code>x.__annotations__</code></td></tr>
+<tr><td>new instance with changes</td><td><code>x._replace(...)</code></td><td><code>x._replace(...)</code></td><td><code>dataclasses.replace(x, ...)</code></td></tr>
+<tr><td>new class at runtime</td><td><code>namedtuple(...)</code></td><td><code>NamedTuple(...)</code></td><td><code>dataclasses.make_dataclass(...)</code></td></tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>The classes built by <code>typing.NamedTuple</code> and <code>@dataclass</code> have an
+<code>__annotations__</code> attribute holding the type hints for the fields.  However,
+reading <code>__annotations__</code> directly is not recommended.  The best practice is to
+call <a href="https://docs.python.org/3/library/annotationlib.html"><code>annotationlib.get_annotations()</code></a>
+(Python 3.14+), <code>inspect.get_annotations()</code> (Python 3.10+), or
+<code>typing.get_type_hints()</code>, because those functions provide extra services, like
+resolving forward references in type hints.  More on this in
+<a href="type-hints-more.html#problems-with-annotations-at-runtime">Problems with Annotations at Runtime</a>.</p>
+</blockquote>
+<dl>
+<dt id="mutable-instances"><a class="header" href="#mutable-instances"><em>Mutable instances</em></a></dt>
+<dd>A key difference between these class builders is that <code>collections.namedtuple</code>
+and <code>typing.NamedTuple</code> build <code>tuple</code> subclasses, so their instances are
+immutable.  By default, <code>@dataclass</code> produces mutable classes.  But the
+decorator accepts a keyword argument <code>frozen</code>, as shown above.  With
+<code>frozen=True</code>, the class raises an exception if you try to assign a value to a
+field after the instance is initialized.</dd>
+<dt id="class-statement-syntax"><a class="header" href="#class-statement-syntax"><em>Class statement syntax</em></a></dt>
+<dd>Only <code>typing.NamedTuple</code> and <code>dataclass</code> support the regular <code>class</code> statement
+syntax, making it easier to add methods and docstrings to the class you are
+creating.</dd>
+<dt id="construct-dict"><a class="header" href="#construct-dict"><em>Construct dict</em></a></dt>
+<dd>Both named tuple variants provide an instance method (<code>._asdict</code>) to construct a
+<code>dict</code> object from the fields of an instance.  The <code>dataclasses</code> module provides
+a function to do it: <code>dataclasses.asdict</code>.</dd>
+<dt id="get-field-names-and-default-values"><a class="header" href="#get-field-names-and-default-values"><em>Get field names and default values</em></a></dt>
+<dd>All three class builders let you get the field names and any default values
+configured for them.  In named tuple classes, that metadata is in the
+<code>._fields</code> and <code>._field_defaults</code> class attributes.  You can get the same
+metadata from a <code>dataclass</code>-decorated class using the <code>fields</code> function from
+the <code>dataclasses</code> module.  It returns a tuple of <code>Field</code> objects that have
+several attributes, including <code>name</code> and <code>default</code>.</dd>
+<dt id="get-field-types"><a class="header" href="#get-field-types"><em>Get field types</em></a></dt>
+<dd>Classes defined with the help of <code>typing.NamedTuple</code> and <code>@dataclass</code> have a
+mapping of field names to types, as explained in the warning above.</dd>
+<dt id="new-instance-with-changes"><a class="header" href="#new-instance-with-changes"><em>New instance with changes</em></a></dt>
+<dd>Given a named tuple instance <code>x</code>, the call <code>x._replace(**kwargs)</code> returns a new
+instance with some attribute values replaced according to the keyword
+arguments given.  The module-level function <code>dataclasses.replace(x, **kwargs)</code>
+does the same for an instance of a <code>dataclass</code>-decorated class.  (Since
+Python 3.13, the generic <a href="https://docs.python.org/3/library/copy.html#copy.replace"><code>copy.replace()</code></a>
+function works with both.)</dd>
+<dt id="new-class-at-runtime"><a class="header" href="#new-class-at-runtime"><em>New class at runtime</em></a></dt>
+<dd>Although the <code>class</code> statement syntax is more readable, it is hardcoded.  A
+framework may need to build data classes on the fly, at runtime.  For that, you
+can use the function call syntax of <code>collections.namedtuple</code>, which is likewise
+supported by <code>typing.NamedTuple</code>.  The <code>dataclasses</code> module provides a
+<code>make_dataclass</code> function for the same purpose.</dd>
+</dl>
+<pre><code class="language-python">import dataclasses
+Point = dataclasses.make_dataclass('Point', [('x', float), ('y', float, 0.0)])
+p = Point(1.5)
+p
+# Point(x=1.5, y=0.0)
+dataclasses.asdict(p)
+# {'x': 1.5, 'y': 0.0}
+dataclasses.replace(p, y=2)
+# Point(x=1.5, y=2)
+</code></pre>
+<p>Now let’s focus on each builder in turn, starting with the simplest.</p>
+<h2 id="classic-named-tuples"><a class="header" href="#classic-named-tuples">Classic Named Tuples</a></h2>
+<p>The <code>collections.namedtuple</code> function is a factory that builds subclasses of
+<code>tuple</code> enhanced with field names, a class name and an informative
+<code>__repr__()</code>.  Classes built with <code>namedtuple</code> can be used anywhere tuples are
+needed, and in fact many functions of the standard library that used to return
+tuples now return named tuples for convenience, without affecting user code at
+all.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Each instance of a class built by <code>namedtuple</code> takes exactly the same amount of
+memory as a tuple, because the field names are stored in the class.</p>
+</blockquote>
+<p>Here is a named tuple to hold information about a city:</p>
+<pre><code class="language-python">from collections import namedtuple
+City = namedtuple('City', 'name country population coordinates')
+tokyo = City('Tokyo', 'JP', 36.933, (35.689722, 139.691667))
+tokyo
+# City(name='Tokyo', country='JP', population=36.933, coordinates=(35.689722,
+# 139.691667))
+tokyo.population
+# 36.933
+tokyo.coordinates
+# (35.689722, 139.691667)
+tokyo[1]
+# 'JP'
+</code></pre>
+<p>Two parameters are required to create a named tuple: a class name and a list of
+field names, which can be given as an iterable of strings or as a single
+space-delimited string.  Field values must be passed as separate positional
+arguments to the constructor (in contrast, the <code>tuple</code> constructor takes a single
+iterable).  You can access the fields by name or by position.</p>
+<p>As a <code>tuple</code> subclass, <code>City</code> inherits useful methods such as <code>__eq__()</code> and the
+special methods for comparison operators, including <code>__lt__()</code>, which allows
+sorting lists of <code>City</code> instances.</p>
+<p>A named tuple offers a few attributes and methods in addition to those inherited
+from <code>tuple</code>.  The most useful are the <code>_fields</code> class attribute, the class
+method <code>_make(iterable)</code>, and the <code>_asdict()</code> instance method:</p>
+<pre><code class="language-python">City = namedtuple('City', 'name country population location')
+City._fields  # a tuple with the field names of the class
+# ('name', 'country', 'population', 'location')
+Coordinate = namedtuple('Coordinate', 'lat lon')
+delhi_data = ('Delhi NCR', 'IN', 21.935, Coordinate(28.613889, 77.208889))
+delhi = City._make(delhi_data)  # City(*delhi_data) would do the same
+delhi._asdict()  # a dict built from the named tuple instance
+# {'name': 'Delhi NCR', 'country': 'IN', 'population': 21.935,
+#  'location': Coordinate(lat=28.613889, lon=77.208889)}
+import json
+json.dumps(delhi._asdict())  # useful to serialize the data in JSON format
+# '{"name": "Delhi NCR", "country": "IN", "population": 21.935, "location": [28.613889, 77.208889]}'
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The <code>_asdict</code> method returned an <code>OrderedDict</code> until Python 3.7.  Since Python
+3.8 it returns a simple <code>dict</code>, which is fine now that we can rely on key
+insertion order.  If you must have an <code>OrderedDict</code>, build one from the result:
+<code>OrderedDict(x._asdict())</code>.</p>
+</blockquote>
+<p><code>namedtuple</code> also accepts the <code>defaults</code> keyword-only argument, providing an
+iterable of <em>N</em> default values for each of the <em>N</em> rightmost fields of the class.
+Here is a <code>Coordinate</code> named tuple with a default value for a <code>reference</code> field:</p>
+<pre><code class="language-python">Coordinate = namedtuple('Coordinate', 'lat lon reference', defaults=['WGS84'])
+Coordinate(0, 0)
+# Coordinate(lat=0, lon=0, reference='WGS84')
+Coordinate._field_defaults
+# {'reference': 'WGS84'}
+</code></pre>
+<h3 id="hacking-a-namedtuple-to-inject-a-method"><a class="header" href="#hacking-a-namedtuple-to-inject-a-method">Hacking a <code>namedtuple</code> to Inject a Method</a></h3>
+<p>It is easier to write methods with the class syntax supported by
+<code>typing.NamedTuple</code> and <code>@dataclass</code>.  You can also add methods to a
+<code>namedtuple</code>, but it’s a hack.  Recall how the <code>Card</code> class was built in
+<a href="data-model.html">The Python Data Model</a>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">Card = collections.namedtuple('Card', ['rank', 'suit'])
+</code></pre>
+<p>Later in that chapter we wrote a <code>spades_high</code> function for sorting.  It would be
+nice if that logic were encapsulated in a method of <code>Card</code>, but adding it without
+a <code>class</code> statement requires a quick hack: define the function and then assign it
+to a class attribute:</p>
+<pre><code class="language-python">import collections
+Card = collections.namedtuple('Card', ['rank', 'suit'])
+ranks = [str(n) for n in range(2, 11)] + list('JQKA')
+
+Card.suit_values = dict(spades=3, hearts=2, diamonds=1, clubs=0)
+def spades_high(card):
+    rank_value = ranks.index(card.rank)
+    suit_value = card.suit_values[card.suit]
+    return rank_value * len(card.suit_values) + suit_value
+
+Card.overall_rank = spades_high
+lowest_card = Card('2', 'clubs')
+highest_card = Card('A', 'spades')
+lowest_card.overall_rank()
+# 0
+highest_card.overall_rank()
+# 51
+</code></pre>
+<p>We attach a class attribute with values for each suit, then attach the function
+to the <code>Card</code> class as a method named <code>overall_rank</code>.  <code>spades_high</code> will become a
+method; its first argument doesn’t need to be named <code>self</code>, but it will get the
+receiver anyway when called as a method.  It works!</p>
+<p>For readability and future maintenance, it is much better to write methods
+inside a <code>class</code> statement, but it is good to know this hack is possible.  It is
+also not common practice in Python, partly because it doesn’t work with any
+built-in type (<code>str</code>, <code>list</code> and so on), which many consider a blessing.</p>
+<h2 id="typed-named-tuples"><a class="header" href="#typed-named-tuples">Typed Named Tuples</a></h2>
+<p>The <code>Coordinate</code> class with a default field can be written using
+<code>typing.NamedTuple</code>:</p>
+<pre><code class="language-python">from typing import NamedTuple
+
+class Coordinate(NamedTuple):
+    lat: float
+    lon: float
+    reference: str = 'WGS84'
+</code></pre>
+<p>Every instance field must be annotated with a type, and the <code>reference</code> field is
+annotated with a type and a default value.  Classes built by <code>typing.NamedTuple</code>
+don’t have any methods beyond those that <code>collections.namedtuple</code> also generates,
+plus those inherited from <code>tuple</code>.  The only difference is the presence of the
+<code>__annotations__</code> class attribute, which Python ignores at runtime.</p>
+<p>Given that the main feature of <code>typing.NamedTuple</code> is type annotations, let’s
+take a brief look at them before continuing.</p>
+<h2 id="type-hints-101"><a class="header" href="#type-hints-101">Type Hints 101</a></h2>
+<p>Type hints, also known as type annotations, are ways to declare the expected type
+of function arguments, return values, variables and attributes.  The first thing
+you need to know about them is that they are not enforced at all by the Python
+bytecode compiler and interpreter.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>This is a very brief introduction to type hints, just enough to make sense of the
+syntax and meaning of the annotations used in <code>typing.NamedTuple</code> and
+<code>@dataclass</code> declarations.  Type hints for function signatures are covered in
+<a href="type-hints-functions.html">Type Hints in Functions</a>, and more advanced
+annotations in <a href="type-hints-more.html">More About Type Hints</a>.</p>
+</blockquote>
+<h3 id="no-runtime-effect"><a class="header" href="#no-runtime-effect">No Runtime Effect</a></h3>
+<p>Think of Python type hints as “documentation that can be verified by IDEs and
+type checkers”.  That’s because they have no impact on the runtime behavior of
+Python programs:</p>
+<pre><code class="language-python">import typing
+class Coordinate(typing.NamedTuple):
+    lat: float
+    lon: float
+
+trash = Coordinate('Ni!', None)
+print(trash)  # no type checking at runtime!
+# Coordinate(lat='Ni!', lon=None)
+</code></pre>
+<p>If you put that code in a module, it will run and display a meaningless
+<code>Coordinate</code>, with no error or warning:</p>
+<pre><code class="language-console">$ python3 nocheck_demo.py
+Coordinate(lat='Ni!', lon=None)
+</code></pre>
+<p>Type hints are intended primarily to support third-party type checkers, like
+<a href="https://mypy-lang.org/">Mypy</a> or the type checker built into an IDE.  These are
+<em>static analysis</em> tools: they check Python source code “at rest”, not running
+code.  To see the effect of type hints, you must run one of those tools on your
+code, like a linter.  For instance, here is what Mypy has to say about the
+previous example:</p>
+<pre><code class="language-console">$ mypy nocheck_demo.py
+nocheck_demo.py:8: error: Argument 1 to "Coordinate" has
+incompatible type "str"; expected "float"
+nocheck_demo.py:8: error: Argument 2 to "Coordinate" has
+incompatible type "None"; expected "float"
+</code></pre>
+<p>Given the definition of <code>Coordinate</code>, Mypy knows that both arguments to create an
+instance must be of type <code>float</code>, but the assignment to <code>trash</code> uses a <code>str</code> and
+<code>None</code>.  (In the context of type hints, <code>None</code> is not the <code>NoneType</code> singleton but
+an alias for <code>NoneType</code> itself.  That’s strange when you think about it, but it
+appeals to intuition and makes return annotations easier to read in the common
+case of functions that return <code>None</code>.)</p>
+<h3 id="variable-annotation-syntax"><a class="header" href="#variable-annotation-syntax">Variable Annotation Syntax</a></h3>
+<p>Both <code>typing.NamedTuple</code> and <code>@dataclass</code> use the syntax of variable annotations
+defined in PEP 526.  The basic syntax is:</p>
+<!-- nocheck -->
+<pre><code class="language-python">var_name: some_type
+</code></pre>
+<p>The “Acceptable type hints” section of <a href="https://peps.python.org/pep-0484/"><strong>PEP 484</strong></a>
+explains what types are acceptable, but in the context of defining a data class,
+these are the most useful:</p>
+<ul>
+<li>a concrete class, for example <code>str</code> or <code>FrenchDeck</code>;</li>
+<li>a parameterized collection type, like <code>list[int]</code>, <code>tuple[str, float]</code>, etc.;</li>
+<li>an optional type, like <code>str | None</code> (or <code>typing.Optional[str]</code>), to declare a
+field that can be a <code>str</code> or <code>None</code>.</li>
+</ul>
+<p>You can also initialize the variable with a value.  In a <code>typing.NamedTuple</code> or
+<code>@dataclass</code> declaration, that value becomes the default for the attribute if the
+corresponding argument is omitted in the constructor call:</p>
+<!-- nocheck -->
+<pre><code class="language-python">var_name: some_type = a_value
+</code></pre>
+<h3 id="the-meaning-of-variable-annotations"><a class="header" href="#the-meaning-of-variable-annotations">The Meaning of Variable Annotations</a></h3>
+<p>Type hints have no effect at runtime, but when a module is loaded Python does
+record them, so that <code>typing.NamedTuple</code> and <code>@dataclass</code> can use them to enhance
+the class.  Let’s start with a plain class, to see later what extra features are
+added by the class builders:</p>
+<pre><code class="language-python">class DemoPlainClass:
+    a: int
+    b: float = 1.1
+    c = 'spam'
+</code></pre>
+<p>Here <code>a</code> becomes an annotation, but is otherwise discarded: no attribute named <code>a</code>
+is created in the class.  <code>b</code> is saved as an annotation, and also becomes a class
+attribute with value <code>1.1</code>.  <code>c</code> is just a plain old class attribute, not an
+annotation.  We can verify that by reading the annotations of <code>DemoPlainClass</code> and
+then trying to get its attributes:</p>
+<pre><code class="language-python">import inspect
+inspect.get_annotations(DemoPlainClass)
+# {'a': &lt;class 'int'&gt;, 'b': &lt;class 'float'&gt;}
+DemoPlainClass.a
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# AttributeError: type object 'DemoPlainClass' has no attribute 'a'
+DemoPlainClass.b
+# 1.1
+DemoPlainClass.c
+# 'spam'
+</code></pre>
+<p>The annotations are recorded by the interpreter even in a plain class.  The <code>a</code>
+survives only as an annotation; it doesn’t become a class attribute because no
+value is bound to it.  (Python has no concept of “undefined”, unlike JavaScript.)
+The <code>b</code> and <code>c</code> are stored as class attributes because they are bound to values.</p>
+<p>None of those three attributes will be in a new instance of <code>DemoPlainClass</code>.  If
+you create an object <code>o = DemoPlainClass()</code>, <code>o.a</code> raises <code>AttributeError</code>, while
+<code>o.b</code> and <code>o.c</code> retrieve the class attributes with values <code>1.1</code> and <code>'spam'</code>;
+that’s just normal Python object behavior.</p>
+<h4 id="inspecting-a-typingnamedtuple"><a class="header" href="#inspecting-a-typingnamedtuple">Inspecting a <code>typing.NamedTuple</code></a></h4>
+<p>Now let’s examine a class built with <code>typing.NamedTuple</code>, using the same
+attributes and annotations:</p>
+<pre><code class="language-python">import typing
+
+class DemoNTClass(typing.NamedTuple):
+    a: int
+    b: float = 1.1
+    c = 'spam'
+</code></pre>
+<p>Here <code>a</code> becomes an annotation and also an instance attribute; <code>b</code> is another
+annotation, and also becomes an instance attribute with default value <code>1.1</code>; <code>c</code>
+is just a plain old class attribute, with no annotation referring to it.
+Inspecting the class:</p>
+<pre><code class="language-python">inspect.get_annotations(DemoNTClass)
+# {'a': &lt;class 'int'&gt;, 'b': &lt;class 'float'&gt;}
+DemoNTClass.a
+# _tuplegetter(0, 'Alias for field number 0')
+DemoNTClass.b
+# _tuplegetter(1, 'Alias for field number 1')
+DemoNTClass.c
+# 'spam'
+</code></pre>
+<p>We have the same annotations for <code>a</code> and <code>b</code>, but <code>typing.NamedTuple</code> creates <code>a</code>
+and <code>b</code> class attributes.  Those attributes are <em>descriptors</em>, an advanced feature
+covered in <a href="descriptors.html">Attribute Descriptors</a>.  For now, think of them as
+similar to property getters: methods that don’t require the explicit call
+operator <code>()</code> to retrieve an instance attribute.  In practice, this means <code>a</code> and
+<code>b</code> work as read-only instance attributes, which makes sense when you recall that
+<code>DemoNTClass</code> instances are just fancy tuples, and tuples are immutable.
+<code>DemoNTClass</code> also gets a custom docstring:</p>
+<pre><code class="language-python">DemoNTClass.__doc__
+# 'DemoNTClass(a, b)'
+</code></pre>
+<p>Let’s inspect an instance:</p>
+<pre><code class="language-python">nt = DemoNTClass(8)
+nt.a
+# 8
+nt.b
+# 1.1
+nt.c
+# 'spam'
+</code></pre>
+<p>To construct <code>nt</code>, we need to give at least the <code>a</code> argument; the constructor also
+takes a <code>b</code> argument, but it has a default value of <code>1.1</code>, so it’s optional.  The
+<code>nt</code> object has the <code>a</code> and <code>b</code> attributes as expected; it doesn’t have a <code>c</code>
+attribute, but Python retrieves it from the class, as usual.  If you try to assign
+values to <code>nt.a</code>, <code>nt.b</code>, <code>nt.c</code>, or even <code>nt.z</code>, you’ll get <code>AttributeError</code>
+exceptions with subtly different error messages.  Try that and reflect on the
+messages.</p>
+<h4 id="inspecting-a-class-decorated-with-dataclass"><a class="header" href="#inspecting-a-class-decorated-with-dataclass">Inspecting a Class Decorated with <code>dataclass</code></a></h4>
+<p>Now the same class decorated with <code>@dataclass</code>:</p>
+<pre><code class="language-python">from dataclasses import dataclass
+
+@dataclass
+class DemoDataClass:
+    a: int
+    b: float = 1.1
+    c = 'spam'
+</code></pre>
+<p><code>a</code> becomes an annotation and also an instance attribute; <code>b</code> is another
+annotation, and also becomes an instance attribute with a default value <code>1.1</code>;
+<code>c</code> is just a plain old class attribute.  Let’s check out the annotations, the
+docstring, and the <code>a</code>, <code>b</code>, <code>c</code> attributes on <code>DemoDataClass</code>:</p>
+<pre><code class="language-python">inspect.get_annotations(DemoDataClass)
+# {'a': &lt;class 'int'&gt;, 'b': &lt;class 'float'&gt;}
+DemoDataClass.__doc__
+# 'DemoDataClass(a: int, b: float = 1.1)'
+DemoDataClass.a
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# AttributeError: type object 'DemoDataClass' has no attribute 'a'
+DemoDataClass.b
+# 1.1
+DemoDataClass.c
+# 'spam'
+</code></pre>
+<p>The annotations and docstring are not surprising.  However, there is no attribute
+named <code>a</code> in <code>DemoDataClass</code>, in contrast with <code>DemoNTClass</code>, which has a
+descriptor to get <code>a</code> from the instances as a read-only attribute.  That’s because
+the <code>a</code> attribute will only exist in instances of <code>DemoDataClass</code>.  It will be a
+public attribute that you can get and set, unless the class is frozen.  But <code>b</code>
+and <code>c</code> exist as class attributes, with <code>b</code> holding the default value for the <code>b</code>
+instance attribute, while <code>c</code> is just a class attribute that will not be bound to
+the instances.  Now let’s see a <code>DemoDataClass</code> instance:</p>
+<pre><code class="language-python">dc = DemoDataClass(9)
+dc.a
+# 9
+dc.b
+# 1.1
+dc.c
+# 'spam'
+</code></pre>
+<p>Again, <code>a</code> and <code>b</code> are instance attributes, and <code>c</code> is a class attribute we get
+through the instance.  As mentioned, <code>DemoDataClass</code> instances are mutable, and no
+type checking is done at runtime:</p>
+<pre><code class="language-python">dc.a = 10
+dc.b = 'oops'
+</code></pre>
+<p>We can do even sillier assignments:</p>
+<pre><code class="language-python">dc.c = 'whatever'
+dc.z = 'secret stash'
+</code></pre>
+<p>Now the <code>dc</code> instance has a <code>c</code> attribute, but that does not change the <code>c</code> class
+attribute.  And we can add a new <code>z</code> attribute.  This is normal Python behavior:
+regular instances can have their own attributes that don’t appear in the class.
+(Setting attributes after <code>__init__()</code> does defeat the key-sharing memory
+optimization described in
+<a href="dicts-sets.html#practical-consequences-of-how-dict-works">Practical Consequences of How <code>dict</code> Works</a>.)</p>
+<h2 id="more-about-dataclass"><a class="header" href="#more-about-dataclass">More About <code>@dataclass</code></a></h2>
+<p>So far we’ve only seen simple uses of <code>@dataclass</code>.  The decorator accepts several
+keyword arguments.  These are the most commonly used, in the order of its
+signature, <code>@dataclass(*, init=True, repr=True, eq=True, order=False, unsafe_hash=False, frozen=False, ...)</code>:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Option</th><th>Meaning</th><th>Default</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td><code>init</code></td><td>generate <code>__init__</code></td><td><code>True</code></td><td>ignored if <code>__init__</code> is implemented by the user</td></tr>
+<tr><td><code>repr</code></td><td>generate <code>__repr__</code></td><td><code>True</code></td><td>ignored if <code>__repr__</code> is implemented by the user</td></tr>
+<tr><td><code>eq</code></td><td>generate <code>__eq__</code></td><td><code>True</code></td><td>ignored if <code>__eq__</code> is implemented by the user</td></tr>
+<tr><td><code>order</code></td><td>generate <code>__lt__</code>, <code>__le__</code>, <code>__gt__</code>, <code>__ge__</code></td><td><code>False</code></td><td>if <code>True</code>, raises exceptions if <code>eq=False</code>, or if any of the comparison methods that would be generated are defined or inherited</td></tr>
+<tr><td><code>unsafe_hash</code></td><td>generate <code>__hash__</code></td><td><code>False</code></td><td>complex semantics and several caveats; see the <code>dataclass</code> documentation</td></tr>
+<tr><td><code>frozen</code></td><td>make instances “immutable”</td><td><code>False</code></td><td>instances will be reasonably safe from accidental change, but not really immutable</td></tr>
+<tr><td><code>match_args</code></td><td>generate <code>__match_args__</code></td><td><code>True</code></td><td>used by positional class patterns (Python 3.10+)</td></tr>
+<tr><td><code>kw_only</code></td><td>make all fields keyword-only</td><td><code>False</code></td><td>Python 3.10+</td></tr>
+<tr><td><code>slots</code></td><td>generate <code>__slots__</code></td><td><code>False</code></td><td>Python 3.10+; see <a href="pythonic-object.html#saving-memory-with-__slots__">Saving Memory with <code>__slots__</code></a></td></tr>
+</tbody>
+</table>
+</div>
+<p>The <code>*</code> in the first position of the signature means the parameters are
+keyword-only.  <code>@dataclass</code> emulates immutability by generating <code>__setattr__()</code>
+and <code>__delattr__()</code> methods, which raise <code>dataclasses.FrozenInstanceError</code>, a
+subclass of <code>AttributeError</code>, when you attempt to set or delete a field.</p>
+<p>The defaults are the most useful settings for common use cases.  The options you
+are most likely to change from the defaults are:</p>
+<dl>
+<dt id="frozentrue"><a class="header" href="#frozentrue"><code>frozen=True</code></a></dt>
+<dd>protects against accidental changes to the class instances.</dd>
+<dt id="ordertrue"><a class="header" href="#ordertrue"><code>order=True</code></a></dt>
+<dd>allows sorting of instances of the data class.</dd>
+</dl>
+<p>Given the dynamic nature of Python objects, it’s not too hard for a nosy
+programmer to get around the protection afforded by <code>frozen=True</code>.  But the
+necessary tricks should be easy to spot in a code review.</p>
+<p>If the <code>eq</code> and <code>frozen</code> arguments are both <code>True</code>, <code>@dataclass</code> produces a suitable
+<code>__hash__()</code> method, so the instances are hashable.  The generated <code>__hash__()</code>
+uses data from all fields that are not individually excluded using a field option
+you’ll see shortly.  If <code>frozen=False</code> (the default), <code>@dataclass</code> sets <code>__hash__</code> to
+<code>None</code>, signaling that the instances are unhashable, and therefore overriding
+<code>__hash__()</code> from any superclass.</p>
+<p><a href="https://peps.python.org/pep-0557/"><strong>PEP 557</strong></a> says of <code>unsafe_hash</code> that, although
+not recommended, you can force data classes to create a <code>__hash__()</code> method with
+<code>unsafe_hash=True</code>.  This might be the case if your class is logically immutable
+but can nonetheless be mutated.  It is a specialized use case and should be
+considered carefully.</p>
+<p>Further customization of the generated data class can be done at the field level.</p>
+<h3 id="field-options"><a class="header" href="#field-options">Field Options</a></h3>
+<p>You’ve already seen the most basic field option: providing (or not) a default
+value with the type hint.  The instance fields you declare become parameters in
+the generated <code>__init__()</code>.  Python does not allow parameters without defaults
+after parameters with defaults, so after you declare a field with a default value,
+all remaining fields must also have default values.</p>
+<p>Mutable default values are a common source of bugs for beginners.  In function
+definitions, a mutable default value is easily corrupted when one invocation of
+the function mutates the default, changing the behavior of later invocations
+(the tutorial warns about this in <a href="controlflow.html#tut-defaultargs">Default Argument Values</a>,
+and <a href="references.html#mutable-types-as-parameter-defaults-bad-idea">Mutable Types as Parameter Defaults: Bad Idea</a>
+explores it further).  Class attributes are often used as default values for
+instance attributes, including in data classes, and <code>@dataclass</code> uses the default
+values in the type hints to generate parameters with defaults for <code>__init__()</code>.  To
+prevent bugs, <code>@dataclass</code> rejects this class definition:</p>
+<!-- nocheck -->
+<pre><code class="language-python">@dataclass
+class ClubMember:
+    name: str
+    guests: list = []
+</code></pre>
+<p>If you load a module with that <code>ClubMember</code> class, this is what you get:</p>
+<pre><code class="language-console">$ python3 club_wrong.py
+Traceback (most recent call last):
+  File "club_wrong.py", line 4, in &lt;module&gt;
+    class ClubMember:
+  ...several lines omitted...
+ValueError: mutable default &lt;class 'list'&gt; for field guests is not allowed:
+use default_factory
+</code></pre>
+<p>The <code>ValueError</code> message explains the problem and suggests a solution: use
+<code>default_factory</code>.  Here is how to correct <code>ClubMember</code>:</p>
+<pre><code class="language-python">from dataclasses import dataclass, field
+
+@dataclass
+class ClubMember:
+    name: str
+    guests: list = field(default_factory=list)
+</code></pre>
+<p>In the <code>guests</code> field, instead of a literal list, the default value is set by
+calling the <code>dataclasses.field</code> function with <code>default_factory=list</code>.  The
+<code>default_factory</code> parameter lets you provide a function, class, or any other
+callable, which is invoked with zero arguments to build a default value each time
+an instance of the data class is created.  This way, each instance of
+<code>ClubMember</code> has its own list, instead of all instances sharing the same list from
+the class, which is rarely what you want and is often a bug.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>It’s good that <code>@dataclass</code> rejects class definitions with a <code>list</code> default
+value in a field.  However, be aware that this is a partial solution: it only
+applies to unhashable defaults such as <code>list</code>, <code>dict</code> and <code>set</code>.  Other mutable
+values used as defaults will not be flagged by <code>@dataclass</code>.  It’s up to you to
+understand the problem and remember to use a default factory to set mutable
+default values.</p>
+</blockquote>
+<p>The <code>dataclasses</code> documentation defines a <code>list</code> field with more precise syntax:</p>
+<pre><code class="language-python">from dataclasses import dataclass, field
+
+@dataclass
+class ClubMember:
+    name: str
+    guests: list[str] = field(default_factory=list)
+</code></pre>
+<p><code>list[str]</code> means “a list of <code>str</code>”.  It is a <em>parameterized generic type</em>: since
+Python 3.9 the <code>list</code> built-in accepts that bracket notation to specify the type
+of the list items.  (Before that, you had to import <code>List</code> from <code>typing</code> and write
+<code>List[str]</code>.)  Generics are covered in <a href="type-hints-functions.html">Type Hints in Functions</a>.
+Both definitions are correct, and Mypy accepts both.  The difference is that
+<code>guests: list</code> means <code>guests</code> can be a list of objects of any kind, while
+<code>guests: list[str]</code> says that every item must be a <code>str</code>.  This lets the type
+checker find (some) bugs in code that puts invalid items in the list, or that
+reads items from it.</p>
+<p><code>default_factory</code> is probably the most common option of the <code>field</code> function,
+but there are several others:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Option</th><th>Meaning</th><th>Default</th></tr>
+</thead>
+<tbody>
+<tr><td><code>default</code></td><td>default value for the field</td><td><code>MISSING</code> (a sentinel indicating that the option was not provided, so that <code>None</code> can be an actual default)</td></tr>
+<tr><td><code>default_factory</code></td><td>0-parameter function used to produce a default</td><td><code>MISSING</code></td></tr>
+<tr><td><code>init</code></td><td>include the field in the parameters of <code>__init__</code></td><td><code>True</code></td></tr>
+<tr><td><code>repr</code></td><td>include the field in <code>__repr__</code></td><td><code>True</code></td></tr>
+<tr><td><code>compare</code></td><td>use the field in comparison methods <code>__eq__</code>, <code>__lt__</code>, etc.</td><td><code>True</code></td></tr>
+<tr><td><code>hash</code></td><td>include the field in the <code>__hash__</code> calculation</td><td><code>None</code> (the field is used in <code>__hash__</code> only if <code>compare=True</code>)</td></tr>
+<tr><td><code>metadata</code></td><td>mapping with user-defined data; ignored by <code>@dataclass</code></td><td><code>None</code></td></tr>
+<tr><td><code>kw_only</code></td><td>make the field keyword-only (Python 3.10+)</td><td><code>MISSING</code> (use the class-level setting)</td></tr>
+</tbody>
+</table>
+</div>
+<p>The <code>default</code> option exists because the <code>field</code> call takes the place of the
+default value in the field annotation.  If you want to create an <code>athlete</code> field
+with a default value of <code>False</code>, and also omit that field from <code>__repr__()</code>, you’d
+write this:</p>
+<pre><code class="language-python">@dataclass
+class ClubMember:
+    name: str
+    guests: list = field(default_factory=list)
+    athlete: bool = field(default=False, repr=False)
+
+ClubMember('Mary', athlete=True)
+# ClubMember(name='Mary', guests=[])
+</code></pre>
+<h3 id="post-init-processing"><a class="header" href="#post-init-processing">Post-init Processing</a></h3>
+<p>The <code>__init__()</code> generated by <code>@dataclass</code> only takes the arguments passed and
+assigns them, or their default values if missing, to the instance fields.  But you
+may need to do more than that to initialize the instance.  If that’s the case, you
+can provide a <code>__post_init__()</code> method.  When that method exists, <code>@dataclass</code>
+adds code to the generated <code>__init__()</code> to call <code>__post_init__()</code> as the last step.
+Common use cases for <code>__post_init__()</code> are validation and computing field values
+based on other fields.</p>
+<p>We’ll look at a simple example that does both.  First, the expected behavior of a
+<code>ClubMember</code> subclass named <code>HackerClubMember</code>.  <code>HackerClubMember</code> objects accept
+an optional <code>handle</code> argument; if <code>handle</code> is omitted, it is set to the first part
+of the member’s name; and members must have unique handles:</p>
+<!-- nocheck -->
+<pre><code class="language-python">anna = HackerClubMember('Anna Ravenscroft', handle='AnnaRaven')
+anna
+# HackerClubMember(name='Anna Ravenscroft', guests=[], handle='AnnaRaven')
+leo = HackerClubMember('Leo Rochael')
+leo
+# HackerClubMember(name='Leo Rochael', guests=[], handle='Leo')
+leo2 = HackerClubMember('Leo DaVinci')
+# Traceback (most recent call last):
+#   ...
+# ValueError: handle 'Leo' already exists.
+leo2 = HackerClubMember('Leo DaVinci', handle='Neo')
+leo2
+# HackerClubMember(name='Leo DaVinci', guests=[], handle='Neo')
+</code></pre>
+<p>Note that we must provide <code>handle</code> as a keyword argument, because
+<code>HackerClubMember</code> inherits <code>name</code> and <code>guests</code> from <code>ClubMember</code> and adds the
+<code>handle</code> field after them.  The generated docstring shows the order of the fields
+in the constructor call:</p>
+<!-- nocheck -->
+<pre><code class="language-python">HackerClubMember.__doc__
+# "HackerClubMember(name: str, guests: list = &lt;factory&gt;, handle: str = '')"
+</code></pre>
+<p>Here, <code>&lt;factory&gt;</code> is a short way of saying that some callable will produce the
+default value for <code>guests</code> (in our case, the factory is the <code>list</code> class).  The
+“Inheritance” section of the <code>dataclasses</code> documentation explains how the order of
+the fields is computed when there are several levels of inheritance.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p><a href="inheritance.html">Inheritance: For Better or for Worse</a> discusses misusing
+inheritance, particularly when the superclasses are not abstract.  Creating a
+hierarchy of data classes is usually a bad idea, but it serves well here to keep
+the example short, focusing on the <code>handle</code> field and the <code>__post_init__()</code>
+validation.</p>
+</blockquote>
+<p>Here is the implementation:</p>
+<pre><code class="language-python">from dataclasses import dataclass, field
+
+@dataclass
+class ClubMember:
+    name: str
+    guests: list = field(default_factory=list)
+
+@dataclass
+class HackerClubMember(ClubMember):
+    all_handles = set()
+    handle: str = ''
+
+    def __post_init__(self):
+        cls = self.__class__
+        if self.handle == '':
+            self.handle = self.name.split()[0]
+        if self.handle in cls.all_handles:
+            msg = f'handle {self.handle!r} already exists.'
+            raise ValueError(msg)
+        cls.all_handles.add(self.handle)
+
+leo = HackerClubMember('Leo Rochael')
+leo
+# HackerClubMember(name='Leo Rochael', guests=[], handle='Leo')
+leo2 = HackerClubMember('Leo DaVinci')
+# Traceback (most recent call last):
+#   ...
+# ValueError: handle 'Leo' already exists.
+</code></pre>
+<p><code>HackerClubMember</code> extends <code>ClubMember</code>.  <code>all_handles</code> is a class attribute.
+<code>handle</code> is an instance field of type <code>str</code> with an empty string as its default
+value, which makes it optional.  <code>__post_init__()</code> gets the class of the instance;
+if <code>self.handle</code> is the empty string, sets it to the first part of <code>name</code>; if
+<code>self.handle</code> is in <code>cls.all_handles</code>, raises <code>ValueError</code>; and otherwise adds the
+new handle to <code>cls.all_handles</code>.</p>
+<p>This works as intended, but it does not satisfy a static type checker.  Next,
+we’ll see why, and how to fix it.</p>
+<h3 id="typed-class-attributes"><a class="header" href="#typed-class-attributes">Typed Class Attributes</a></h3>
+<p>If we type check that code with Mypy, we are reprimanded:</p>
+<pre><code class="language-console">$ mypy hackerclub.py
+hackerclub.py:37: error: Need type annotation for "all_handles"
+(hint: "all_handles: Set[&lt;type&gt;] = ...")
+Found 1 error in 1 file (checked 1 source file)
+</code></pre>
+<p>The hint is not helpful in the context of <code>@dataclass</code>: if we add a type hint like
+<code>set[...]</code> to <code>all_handles</code>, <code>@dataclass</code> will find that annotation and make
+<code>all_handles</code> an <em>instance</em> field, as we saw in the <code>DemoDataClass</code> inspection.
+The workaround defined in PEP 526 is to use a pseudotype named
+<a href="https://docs.python.org/3/library/typing.html#typing.ClassVar"><code>typing.ClassVar</code></a>,
+which uses the generics <code>[]</code> notation to set the type of the variable and also
+declare it a class attribute.  To make the type checker and <code>@dataclass</code> happy,
+this is how <code>all_handles</code> should be declared:</p>
+<!-- nocheck -->
+<pre><code class="language-python">all_handles: ClassVar[set[str]] = set()
+</code></pre>
+<p>That type hint says: <code>all_handles</code> is a class attribute of type set-of-str, with an
+empty set as its default value.  To write it, you must import <code>ClassVar</code> from the
+<code>typing</code> module.</p>
+<p>The <code>@dataclass</code> decorator doesn’t care about the types in the annotations, except
+in two cases, and this is one of them: if the type is <code>ClassVar</code>, an instance field
+will not be generated for that attribute.  The other case is when declaring
+<em>init-only variables</em>.</p>
+<h3 id="initialization-variables-that-are-not-fields"><a class="header" href="#initialization-variables-that-are-not-fields">Initialization Variables That Are Not Fields</a></h3>
+<p>Sometimes you need to pass arguments to <code>__init__()</code> that are not instance fields.
+The <code>dataclasses</code> documentation calls them init-only variables.  To declare an
+argument like that, the <code>dataclasses</code> module provides the pseudotype <code>InitVar</code>,
+which uses the same syntax as <code>typing.ClassVar</code>.  The example in the documentation
+is a data class that has a field initialized from a database, where the database
+object must be passed to the constructor:</p>
+<!-- nocheck -->
+<pre><code class="language-python">@dataclass
+class C:
+    i: int
+    j: int | None = None
+    database: InitVar[DatabaseType | None] = None
+
+    def __post_init__(self, database):
+        if self.j is None and database is not None:
+            self.j = database.lookup('j')
+
+c = C(10, database=my_database)
+</code></pre>
+<p><code>InitVar</code> prevents <code>@dataclass</code> from treating <code>database</code> as a regular field.  It
+will not be set as an instance attribute, and <code>dataclasses.fields</code> will not list
+it.  However, <code>database</code> will be one of the arguments that the generated
+<code>__init__()</code> accepts, and it will also be passed to <code>__post_init__()</code>.  If you write
+that method, you must add a corresponding parameter to its signature, as shown
+above.</p>
+<h3 id="dataclass-example-dublin-core-resource-record"><a class="header" href="#dataclass-example-dublin-core-resource-record"><code>@dataclass</code> Example: Dublin Core Resource Record</a></h3>
+<p>Classes built with <code>@dataclass</code> often have more fields than the short examples so
+far.  The Dublin Core Schema is a small set of vocabulary terms that can be used to
+describe digital resources (video, images, web pages, etc.), as well as physical
+resources such as books or CDs, and objects like artworks.  The standard defines
+15 optional fields; the <code>Resource</code> class below uses 8 of them:</p>
+<pre><code class="language-python">from dataclasses import dataclass, field, fields
+from enum import Enum, auto
+import datetime
+
+class ResourceType(Enum):
+    BOOK = auto()
+    EBOOK = auto()
+    VIDEO = auto()
+
+@dataclass
+class Resource:
+    """Media resource description."""
+    identifier: str
+    title: str = '&lt;untitled&gt;'
+    creators: list[str] = field(default_factory=list)
+    date: datetime.date | None = None
+    type: ResourceType = ResourceType.BOOK
+    description: str = ''
+    language: str = ''
+    subjects: list[str] = field(default_factory=list)
+</code></pre>
+<p>The <a href="https://docs.python.org/3/library/enum.html"><code>Enum</code></a> provides type-safe values
+for the <code>Resource.type</code> field.  <code>identifier</code> is the only required field.  <code>title</code> is
+the first field with a default, which forces all the fields below it to provide
+defaults.  The value of <code>date</code> can be a <code>datetime.date</code> instance, or <code>None</code>.  The
+<code>type</code> field defaults to <code>ResourceType.BOOK</code>.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Note that we annotate the <code>date</code> field with <code>datetime.date</code>, after
+<code>import datetime</code>.  If we had written <code>from datetime import date</code> and then
+<code>date: date | None = None</code>, the annotation would be resolved in the class
+namespace, where the name <code>date</code> is bound to the default value <code>None</code>, so it
+would mean <code>None | None</code>, which raises <code>TypeError</code>.  When a field has the same name as
+a type, refer to the type through its module.</p>
+</blockquote>
+<p>Here is a <code>Resource</code> record:</p>
+<pre><code class="language-python">description = 'Improving the design of existing code'
+book = Resource('978-0-13-475759-9', 'Refactoring, 2nd Edition',
+    ['Martin Fowler', 'Kent Beck'], datetime.date(2018, 11, 19),
+    ResourceType.BOOK, description, 'EN',
+    ['computer programming', 'OOP'])
+book
+# Resource(identifier='978-0-13-475759-9', title='Refactoring, 2nd Edition',
+# creators=['Martin Fowler', 'Kent Beck'], date=datetime.date(2018, 11, 19),
+# type=&lt;ResourceType.BOOK: 1&gt;, description='Improving the design of existing code',
+# language='EN', subjects=['computer programming', 'OOP'])
+</code></pre>
+<p>The <code>__repr__()</code> generated by <code>@dataclass</code> is OK, but we can make it more readable,
+with one field per line.  This <code>__repr__()</code> uses <code>dataclasses.fields</code> to get the
+names of the data class fields:</p>
+<pre><code class="language-python">def __repr__(self):
+    cls = self.__class__
+    cls_name = cls.__name__
+    indent = ' ' * 4
+    res = [f'{cls_name}(']
+    for f in fields(cls):
+        value = getattr(self, f.name)
+        res.append(f'{indent}{f.name} = {value!r},')
+    res.append(')')
+    return '\n'.join(res)
+
+Resource.__repr__ = __repr__  # normally you'd define it inside the class
+print(repr(book))
+# Resource(
+#     identifier = '978-0-13-475759-9',
+#     title = 'Refactoring, 2nd Edition',
+#     creators = ['Martin Fowler', 'Kent Beck'],
+#     date = datetime.date(2018, 11, 19),
+#     type = &lt;ResourceType.BOOK: 1&gt;,
+#     description = 'Improving the design of existing code',
+#     language = 'EN',
+#     subjects = ['computer programming', 'OOP'],
+# )
+</code></pre>
+<p>It starts the <code>res</code> list with the class name and an open parenthesis; for each
+field <code>f</code> in the class, gets the named attribute from the instance and appends an
+indented line with the name of the field and <code>repr(value)</code> (that’s what <code>!r</code> does);
+then appends the closing parenthesis and builds a multiline string from <code>res</code>.</p>
+<h2 id="data-class-as-a-code-smell"><a class="header" href="#data-class-as-a-code-smell">Data Class as a Code Smell</a></h2>
+<p>Whether you implement a data class by writing all the code yourself or with one of
+the class builders described in this chapter, be aware that it may signal a problem
+in your design.</p>
+<p>In <em>Refactoring: Improving the Design of Existing Code</em>, Martin Fowler and Kent
+Beck present a catalog of “code smells”: patterns in code that may indicate the
+need for refactoring.  Their entry titled “Data Class” describes classes that have
+fields, getting and setting methods for fields, and nothing else: dumb data
+holders, often manipulated in far too much detail by other classes.</p>
+<p>A <em>code smell</em>, as Fowler explains it, is a surface indication that usually
+corresponds to a deeper problem in the system.  Two points are worth noting.
+First, a smell is quick to spot: you notice it just by looking at the code.
+Second, smells don’t always indicate a problem; they are prompts to look deeper.
+Data classes are a good example: when you see one, ask yourself what behavior
+should live in that class, and then start moving that behavior into it.</p>
+<p>The main idea of object-oriented programming is to place behavior and data
+together in the same code unit: a class.  If a class is widely used but has no
+significant behavior of its own, it’s possible that code dealing with its
+instances is scattered (and even duplicated) in methods and functions throughout
+the system, a recipe for maintenance headaches.  That’s why the refactorings for a
+data class involve bringing responsibilities back into it.</p>
+<p>Taking that into account, there are a couple of common scenarios where it does make
+sense to have a data class with little or no behavior.</p>
+<h3 id="data-class-as-scaffolding"><a class="header" href="#data-class-as-scaffolding">Data Class as Scaffolding</a></h3>
+<p>In this scenario, the data class is an initial, simplistic implementation of a
+class to jump-start a new project or module.  With time, the class should get its
+own methods, instead of relying on methods of other classes to operate on its
+instances.  Scaffolding is temporary; eventually your custom class may become fully
+independent from the builder you used to start it.  (Python is also used for quick
+problem solving and experimentation, and then it’s OK to leave the scaffolding in
+place.)</p>
+<h3 id="data-class-as-intermediate-representation"><a class="header" href="#data-class-as-intermediate-representation">Data Class as Intermediate Representation</a></h3>
+<p>A data class can be useful to build records about to be exported to JSON or some
+other interchange format, or to hold data that was just imported, crossing some
+system boundary.  Python’s data class builders all provide a method or function to
+convert an instance to a plain <code>dict</code>, and you can always invoke the constructor with
+a <code>dict</code> used as keyword arguments expanded with <code>**</code>.  Such a <code>dict</code> is very close
+to a JSON record.</p>
+<p>In this scenario, the data class instances should be handled as immutable objects:
+even if the fields are mutable, you should not change them while they are in this
+intermediate form.  If you do, you’re losing the key benefit of having data and
+behavior close together.  When importing or exporting requires changing values, you
+should implement your own builder methods instead of using the given “as dict”
+methods or standard constructors.</p>
+<h2 id="data-classes-and-pattern-matching"><a class="header" href="#data-classes-and-pattern-matching">Data Classes and Pattern Matching</a></h2>
+<p>Classes built with these three builders automatically get a <code>__match_args__</code> class
+attribute, which makes them work with <em>positional</em> class patterns in <code>match</code>
+statements:</p>
+<pre><code class="language-python">import typing
+
+class City(typing.NamedTuple):
+    continent: str
+    name: str
+    country: str
+
+City.__match_args__
+# ('continent', 'name', 'country')
+
+def describe(city):
+    match city:
+        case City('Asia', _, country):
+            return f'an Asian city in {country}'
+        case City(continent='North America', name=name):
+            return f'{name}, in North America'
+        case _:
+            return 'somewhere else'
+
+describe(City('Asia', 'Tokyo', 'JP'))
+# 'an Asian city in JP'
+describe(City('North America', 'Mexico City', 'MX'))
+# 'Mexico City, in North America'
+</code></pre>
+<p>Class patterns of all kinds are explained in
+<a href="pattern-matching.html#pattern-matching-class-instances">Pattern Matching in Depth</a>.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>The main topic of this chapter was the data class builders
+<code>collections.namedtuple</code>, <code>typing.NamedTuple</code> and <code>dataclasses.dataclass</code>.  Each
+generates data classes from descriptions provided as arguments to a factory
+function or, in the case of the latter two, from <code>class</code> statements with type
+hints.  Both named tuple variants produce <code>tuple</code> subclasses, adding only the
+ability to access fields by name and a <code>_fields</code> class attribute listing the field
+names as a tuple of strings.</p>
+<p>We compared the main features of the three builders side by side, including how to
+extract instance data as a <code>dict</code>, how to get the names and default values of
+fields, and how to make a new instance from an existing one.</p>
+<p>That prompted our first look at type hints, particularly those used to annotate
+attributes in a <code>class</code> statement.  Probably the most surprising aspect of type
+hints is that they have no effect at all at runtime: Python remains a dynamic
+language, and external tools like Mypy are needed to use typing information to
+detect errors via static analysis.  We studied the effect of annotations in a plain
+class and in classes built by <code>typing.NamedTuple</code> and <code>@dataclass</code>.</p>
+<p>Next we covered the most commonly used features of <code>@dataclass</code> and the
+<code>default_factory</code> option of <code>dataclasses.field</code>, along with the special pseudotype
+hints <code>typing.ClassVar</code> and <code>dataclasses.InitVar</code>.  An example based on the Dublin
+Core Schema showed how to use <code>dataclasses.fields</code> to iterate over the attributes of
+an instance in a custom <code>__repr__()</code>.</p>
+<p>Then we warned against abuse of data classes defeating a basic principle of
+object-oriented programming: data and the functions that touch it should be
+together in the same class.  Classes with no logic may be a sign of misplaced logic.</p>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li>The documentation of <a href="https://docs.python.org/3/library/dataclasses.html"><code>dataclasses</code></a>
+is very good and has quite a few small examples.  <a href="https://peps.python.org/pep-0557/"><strong>PEP 557</strong></a>
+has a few informative sections that were not copied into it, including “Why
+not just use namedtuple?” and the “Rationale” section, which notes that data
+classes are not appropriate when API compatibility with tuples or dicts is
+required, or when type or value validation or conversion is required.</li>
+<li>For more features, including validation, see the
+<a href="https://www.attrs.org/">attrs</a> project, which appeared years before
+<code>dataclasses</code> and influenced it, including the important design decision of
+using a class decorator instead of a base class or a metaclass.</li>
+<li>Martin Fowler’s <em>Refactoring</em>, 2nd ed., is the best source on data class as a
+code smell.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="data-model.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="pythonic-object.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="data-model.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="pythonic-object.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

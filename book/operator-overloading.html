@@ -1,0 +1,1377 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Operator Overloading - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="operator-overloading"><a class="header" href="#operator-overloading">Operator Overloading</a></h1>
+<blockquote>
+<p>There are some things that I kind of feel torn about, like operator overloading.  I
+left out operator overloading as a fairly personal choice because I had seen too many
+people abuse it in C++.</p>
+<p>— James Gosling, creator of Java</p>
+</blockquote>
+<p>In Python, you can compute compound interest using a formula written like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">interest = principal * ((1 + rate) ** periods - 1)
+</code></pre>
+<p>Operators that appear between operands, like <code>1 + rate</code>, are <em>infix operators</em>.  In
+Python, the infix operators can handle any arbitrary type.  Thus, if you are dealing with
+real money, you can make sure that <code>principal</code>, <code>rate</code> and <code>periods</code> are exact numbers —
+instances of the Python <code>decimal.Decimal</code> class — and that formula will work as written,
+producing an exact result.</p>
+<p>But in Java, if you switch from <code>float</code> to <code>BigDecimal</code> to get exact results, you can’t
+use infix operators anymore, because they only work with the primitive types.  This is
+the same formula coded to work with <code>BigDecimal</code> numbers in Java:</p>
+<pre><code class="language-text">BigDecimal interest = principal.multiply(BigDecimal.ONE.add(rate)
+                        .pow(periods).subtract(BigDecimal.ONE));
+</code></pre>
+<p>It’s clear that infix operators make formulas more readable.  Operator overloading is
+necessary to support infix operator notation with user-defined or extension types, such
+as NumPy arrays.  Having operator overloading in a high-level, easy-to-use language was
+probably a key reason for the huge success of Python in data science, including
+financial and scientific applications.</p>
+<p>In <a href="data-model.html">The Python Data Model</a> we saw some trivial implementations of
+operators in a bare-bones <code>Vector</code> class.  The <code>__add__()</code> and <code>__mul__()</code> methods there
+were written to show how special methods support operator overloading, but there are
+subtle problems in their implementations that we overlooked.  Also, in
+<a href="sequence-protocol.html">Special Methods for Sequences</a> we noted that <code>Vector.__eq__</code>
+considers <code>Vector([1, 2]) == (1, 2)</code> to be <code>True</code> — which may or may not make sense.  We
+will address these matters in this chapter, as well as:</p>
+<ul>
+<li>how an infix operator method should signal it cannot handle an operand;</li>
+<li>using duck typing or goose typing to deal with operands of various types;</li>
+<li>the special behavior of the rich comparison operators (e.g., <code>==</code>, <code>&gt;</code>, <code>&lt;=</code>);</li>
+<li>the default handling of augmented assignment operators such as <code>+=</code>, and how to
+overload them.</li>
+</ul>
+<h2 id="operator-overloading-101"><a class="header" href="#operator-overloading-101">Operator Overloading 101</a></h2>
+<p>Operator overloading allows user-defined objects to interoperate with infix operators
+such as <code>+</code> and <code>|</code>, or unary operators like <code>-</code> and <code>~</code>.  More generally, function
+invocation (<code>()</code>), attribute access (<code>.</code>) and item access/slicing (<code>[]</code>) are also
+operators in Python, but this chapter covers unary and infix operators.</p>
+<p>Operator overloading has a bad name in some circles.  It is a language feature that can
+be (and has been) abused, resulting in programmer confusion, bugs and unexpected
+performance bottlenecks.  But if used well, it leads to pleasurable APIs and readable
+code.  Python strikes a good balance among flexibility, usability and safety by imposing
+some limitations:</p>
+<ul>
+<li>We cannot change the meaning of the operators for the built-in types.</li>
+<li>We cannot create new operators, only overload existing ones.</li>
+<li>A few operators can’t be overloaded: <code>is</code>, <code>and</code>, <code>or</code>, <code>not</code> (but the bitwise <code>&amp;</code>,
+<code>|</code>, <code>~</code> can).</li>
+</ul>
+<p>In <a href="sequence-protocol.html">Special Methods for Sequences</a>, we already had one infix
+operator in <code>Vector</code>: <code>==</code>, supported by the <code>__eq__()</code> method.  In this chapter, we’ll
+improve the implementation of <code>__eq__()</code> to better handle operands of types other than
+<code>Vector</code>.  However, the rich comparison operators (<code>==</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>) are
+special cases in operator overloading, so we’ll start by overloading four arithmetic
+operators in <code>Vector</code>: the unary <code>-</code> and <code>+</code>, followed by the infix <code>+</code> and <code>*</code>.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The snippets in this chapter show only the methods being discussed.  They are all
+collected in the complete <code>vector_v8.py</code> listing in
+<a href="#the-complete-listing">The Complete Listing</a>, followed by the tests that produced the
+outputs shown along the way.</p>
+</blockquote>
+<p>Let’s start with the easiest topic: unary operators.</p>
+<h2 id="unary-operators"><a class="header" href="#unary-operators">Unary Operators</a></h2>
+<p>The Language Reference section
+<a href="https://docs.python.org/3/reference/expressions.html#unary-arithmetic-and-bitwise-operations">Unary arithmetic and bitwise operations</a>
+lists three unary operators, shown here with their associated special methods:</p>
+<dl>
+<dt id="--implemented-by-__neg__"><a class="header" href="#--implemented-by-__neg__"><code>-</code>, implemented by <code>__neg__</code></a></dt>
+<dd>Arithmetic unary negation.  If <code>x</code> is <code>-2</code> then <code>-x == 2</code>.</dd>
+<dt id="-implemented-by-__pos__"><a class="header" href="#-implemented-by-__pos__"><code>+</code>, implemented by <code>__pos__</code></a></dt>
+<dd>Arithmetic unary plus.  Usually <code>x == +x</code>, but there are a few cases when that’s not
+true.  See <a href="#when-x-and-x-are-not-equal">When <code>x</code> and <code>+x</code> Are Not Equal</a> if you’re
+curious.</dd>
+<dt id="-implemented-by-__invert__"><a class="header" href="#-implemented-by-__invert__"><code>~</code>, implemented by <code>__invert__</code></a></dt>
+<dd>Bitwise not, or bitwise inverse of an integer, defined as <code>~x == -(x+1)</code>.  If <code>x</code> is
+<code>2</code> then <code>~x == -3</code>.</dd>
+</dl>
+<p>The <a href="https://docs.python.org/3/reference/datamodel.html#emulating-numeric-types">Data model</a>
+chapter of the Language Reference also lists the <code>abs()</code> built-in function as a unary
+operator.  The associated special method is <code>__abs__()</code>, as we’ve seen before.</p>
+<p>It’s easy to support the unary operators.  Simply implement the appropriate special
+method, which will take just one argument: <code>self</code>.  Use whatever logic makes sense in
+your class, but stick to the general rule of operators: always return a new object.  In
+other words, do not modify the receiver (<code>self</code>), but create and return a new instance of
+a suitable type.</p>
+<p>In the case of <code>-</code> and <code>+</code>, the result will probably be an instance of the same class as
+<code>self</code>.  For unary <code>+</code>, if the receiver is immutable you should return <code>self</code>; otherwise,
+return a copy of <code>self</code>.  For <code>abs()</code>, the result should be a scalar number.</p>
+<p>As for <code>~</code>, it’s difficult to say what would be a sensible result if you’re not dealing
+with bits in an integer.  In the pandas data analysis package, the tilde negates boolean
+filtering conditions.</p>
+<p>Here is the <code>__abs__()</code> method we already had, and the newly added <code>__neg__()</code> and
+<code>__pos__()</code> unary operator methods:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __abs__(self):
+    return math.hypot(*self)
+
+def __neg__(self):
+    return Vector(-x for x in self)  # build a new Vector with every component negated
+
+def __pos__(self):
+    return Vector(self)  # build a new Vector with every component of self
+</code></pre>
+<p>Recall that <code>Vector</code> instances are iterable, and <code>Vector.__init__</code> takes an iterable
+argument, so the implementations of <code>__neg__()</code> and <code>__pos__()</code> are short and sweet.</p>
+<p>We’ll not implement <code>__invert__()</code>, so if the user tries <code>~v</code> on a <code>Vector</code> instance,
+Python will raise <code>TypeError</code> with a clear message: <code>bad operand type for unary ~: 'Vector'</code>.</p>
+<h3 id="when-x-and-x-are-not-equal"><a class="header" href="#when-x-and-x-are-not-equal">When <code>x</code> and <code>+x</code> Are Not Equal</a></h3>
+<p>Everybody expects that <code>x == +x</code>, and that is true almost all the time in Python, but
+there are two cases in the standard library where <code>x != +x</code>.</p>
+<p>The first case involves the <code>decimal.Decimal</code> class.  You can have <code>x != +x</code> if <code>x</code> is a
+<code>Decimal</code> instance created in an arithmetic context and <code>+x</code> is then evaluated in a
+context with different settings.  For example, <code>x</code> is calculated in a context with a
+certain precision, but the precision of the context is changed and then <code>+x</code> is
+evaluated:</p>
+<pre><code class="language-python">import decimal
+ctx = decimal.getcontext()  # get a reference to the current global arithmetic context
+ctx.prec = 40  # set the precision of the arithmetic context to 40
+one_third = decimal.Decimal('1') / decimal.Decimal('3')  # compute 1/3 with that precision
+one_third  # there are 40 digits after the decimal point
+# Decimal('0.3333333333333333333333333333333333333333')
+one_third == +one_third
+# True
+ctx.prec = 28  # lower precision to 28, the default for Decimal arithmetic
+one_third == +one_third
+# False
++one_third  # there are 28 digits after the '.' here
+# Decimal('0.3333333333333333333333333333')
+</code></pre>
+<p>Each occurrence of the expression <code>+one_third</code> produces a new <code>Decimal</code> instance from the
+value of <code>one_third</code>, but using the precision of the current arithmetic context.</p>
+<p>You can find the second case where <code>x != +x</code> in the
+<a href="https://docs.python.org/3/library/collections.html#collections.Counter"><code>collections.Counter</code></a>
+documentation.  The <code>Counter</code> class implements several arithmetic operators, including
+infix <code>+</code> to add the tallies from two <code>Counter</code> instances.  However, for practical
+reasons, <code>Counter</code> addition discards from the result any item with a negative or zero
+count.  And the prefix <code>+</code> is a shortcut for adding an empty <code>Counter</code>, therefore it
+produces a new <code>Counter</code>, preserving only the tallies that are greater than zero:</p>
+<pre><code class="language-python">from collections import Counter
+ct = Counter('abracadabra')
+ct
+# Counter({'a': 5, 'b': 2, 'r': 2, 'c': 1, 'd': 1})
+ct['r'] = -3
+ct['d'] = 0
+ct
+# Counter({'a': 5, 'b': 2, 'c': 1, 'd': 0, 'r': -3})
++ct
+# Counter({'a': 5, 'b': 2, 'c': 1})
+</code></pre>
+<p>Now, back to our regularly scheduled programming.</p>
+<h2 id="overloading--for-vector-addition"><a class="header" href="#overloading--for-vector-addition">Overloading <code>+</code> for Vector Addition</a></h2>
+<p>The <code>Vector</code> class is a sequence type, and the section
+<a href="https://docs.python.org/3/reference/datamodel.html#emulating-container-types">Emulating container types</a>
+of the Data Model says that sequences should support the <code>+</code> operator for concatenation
+and <code>*</code> for repetition.  However, here we will implement <code>+</code> and <code>*</code> as mathematical
+vector operations, which are a bit harder but more meaningful for a <code>Vector</code> type.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>If users want to concatenate or repeat <code>Vector</code> instances, they can convert them to
+tuples or lists, apply the operator, and convert back — thanks to the fact that
+<code>Vector</code> is iterable and can be constructed from an iterable:</p>
+<pre><code class="language-python">v_concatenated = Vector(list(v1) + list(v2))
+v_repeated = Vector(tuple(v1) * 5)
+</code></pre>
+</blockquote>
+<p>Adding two Euclidean vectors results in a new vector in which the components are the
+pairwise additions of the components of the operands.  To illustrate:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v1 = Vector([3, 4, 5])
+v2 = Vector([6, 7, 8])
+v1 + v2
+# Vector([9.0, 11.0, 13.0])
+v1 + v2 == Vector([3 + 6, 4 + 7, 5 + 8])
+# True
+</code></pre>
+<p>What happens if we try to add two <code>Vector</code> instances of different lengths?  We could
+raise an error, but considering practical applications (such as information retrieval),
+it’s better to fill out the shortest <code>Vector</code> with zeros.  This is the result we want:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v1 = Vector([3, 4, 5, 6])
+v3 = Vector([1, 2])
+v1 + v3
+# Vector([4.0, 6.0, 5.0, 6.0])
+</code></pre>
+<p>Given these basic requirements, we can implement <code>__add__()</code> like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python"># inside the Vector class
+
+def __add__(self, other):
+    pairs = itertools.zip_longest(self, other, fillvalue=0.0)
+    return Vector(a + b for a, b in pairs)
+</code></pre>
+<p><code>pairs</code> is a generator that produces tuples <code>(a, b)</code>, where <code>a</code> is from <code>self</code>, and <code>b</code>
+is from <code>other</code>.  If <code>self</code> and <code>other</code> have different lengths, <code>fillvalue</code> supplies the
+missing values for the shortest iterable (see <a href="sequence-protocol.html#the-awesome-zip">The Awesome <code>zip</code></a>).
+A new <code>Vector</code> is built from a generator expression, producing one addition for each
+<code>(a, b)</code> from <code>pairs</code>.  Note how <code>__add__()</code> returns a new <code>Vector</code> instance, and does not
+change <code>self</code> or <code>other</code>.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Special methods implementing unary or infix operators should never change the value of
+the operands.  Expressions with such operators are expected to produce results by
+creating new objects.  Only augmented assignment operators may change the first operand
+(<code>self</code>), as discussed in <a href="#augmented-assignment-operators">Augmented Assignment Operators</a>.</p>
+</blockquote>
+<p>This allows adding <code>Vector</code> to a <code>Vector2d</code>, and <code>Vector</code> to a tuple or to any iterable
+that produces numbers:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v1 = Vector([3, 4, 5])
+v1 + (10, 20, 30)
+# Vector([13.0, 24.0, 35.0])
+v2d = Vector2d(1, 2)
+v1 + v2d
+# Vector([4.0, 6.0, 5.0])
+</code></pre>
+<p>Both uses of <code>+</code> work because <code>__add__()</code> uses <code>zip_longest(...)</code>, which can consume any
+iterable, and the generator expression to build the new <code>Vector</code> merely performs <code>a + b</code>
+with the pairs produced by <code>zip_longest(...)</code>, so an iterable producing any number items
+will do.  However, if we swap the operands, the mixed-type additions fail:</p>
+<!-- nocheck -->
+<pre><code class="language-python">(10, 20, 30) + v1
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: can only concatenate tuple (not "Vector") to tuple
+v2d + v1
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: unsupported operand type(s) for +: 'Vector2d' and 'Vector'
+</code></pre>
+<p>To support operations involving objects of different types, Python implements a special
+dispatching mechanism for the infix operator special methods.  Given an expression
+<code>a + b</code>, the interpreter will perform these steps:</p>
+<ol>
+<li>If <code>a</code> has <code>__add__</code>, call <code>a.__add__(b)</code> and return the result unless it’s
+<code>NotImplemented</code>.</li>
+<li>If <code>a</code> doesn’t have <code>__add__</code>, or calling it returns <code>NotImplemented</code>, check if <code>b</code> has
+<code>__radd__</code>, then call <code>b.__radd__(a)</code> and return the result unless it’s
+<code>NotImplemented</code>.</li>
+<li>If <code>b</code> doesn’t have <code>__radd__</code>, or calling it returns <code>NotImplemented</code>, raise
+<code>TypeError</code> with an <em>unsupported operand types</em> message.</li>
+</ol>
+<pre><code class="language-text">               a + b
+                 │
+      does a have __add__? ──no──┐
+                 │ yes           │
+     result = a.__add__(b)       │
+                 │               │
+   result is NotImplemented? ─no─┼──► return result
+                 │ yes           │
+                 ▼               ▼
+            does b have __radd__? ──no──► raise TypeError
+                 │ yes
+     result = b.__radd__(a)
+                 │
+   result is NotImplemented? ──yes──► raise TypeError
+                 │ no
+                 ▼
+           return result
+</code></pre>
+<p>(There is one refinement: if the type of <code>b</code> is a subclass of the type of <code>a</code>, and it
+overrides the reflected method, then <code>b.__radd__(a)</code> is tried <em>first</em>.  That lets
+subclasses take control of mixed operations with their base class.)</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The <code>__radd__()</code> method is called the “reflected” or “reversed” version of
+<code>__add__()</code>.  The Data Model chapter uses “reflected”, but the
+<a href="https://docs.python.org/3/library/numbers.html#implementing-the-arithmetic-operations"><code>numbers</code></a>
+module docs mention “forward” and “reverse” methods, and that terminology is clearer,
+because “forward” and “reverse” name each of the directions, while “reflected”
+doesn’t have an obvious opposite.</p>
+</blockquote>
+<p>Therefore, to make the mixed-type additions work, we need to implement the
+<code>Vector.__radd__</code> method, which Python will invoke as a fallback if the left operand
+does not implement <code>__add__()</code>, or if it does but returns <code>NotImplemented</code> to signal that
+it doesn’t know how to handle the right operand.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Do not confuse <code>NotImplemented</code> with <code>NotImplementedError</code>.  The first,
+<code>NotImplemented</code>, is a special singleton value that an infix operator special method
+should <em>return</em> to tell the interpreter it cannot handle a given operand.  In contrast,
+<code>NotImplementedError</code> is an exception that stub methods in abstract classes may <em>raise</em>
+to warn that subclasses must implement them.</p>
+</blockquote>
+<p>The simplest implementation of <code>__radd__()</code> that works is this:</p>
+<!-- nocheck -->
+<pre><code class="language-python"># inside the Vector class
+
+def __add__(self, other):  # no changes to __add__
+    pairs = itertools.zip_longest(self, other, fillvalue=0.0)
+    return Vector(a + b for a, b in pairs)
+
+def __radd__(self, other):  # __radd__ just delegates to __add__
+    return self + other
+</code></pre>
+<p>Often, <code>__radd__()</code> can be as simple as that: just invoke the proper operator, therefore
+delegating to <code>__add__()</code> in this case.  This applies to any commutative operator; <code>+</code> is
+commutative when dealing with numbers or our vectors, but it’s not commutative when
+concatenating sequences in Python.  If <code>__radd__()</code> simply calls <code>__add__()</code>, here is
+another way to achieve the same effect:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __add__(self, other):
+    pairs = itertools.zip_longest(self, other, fillvalue=0.0)
+    return Vector(a + b for a, b in pairs)
+
+__radd__ = __add__
+</code></pre>
+<p>These methods work with <code>Vector</code> objects, or any iterable with numeric items, such as a
+<code>Vector2d</code>, a <code>tuple</code> of integers, or an <code>array</code> of floats.  But if provided with a
+noniterable object, <code>__add__()</code> raises an exception with a message that is not very
+helpful:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v1 + 1
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+#   File "vector_v6.py", line 328, in __add__
+#     pairs = itertools.zip_longest(self, other, fillvalue=0.0)
+# TypeError: 'int' object is not iterable
+</code></pre>
+<p>Even worse, we get a misleading message if an operand is iterable but its items cannot be
+added to the <code>float</code> items in the <code>Vector</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v1 + 'ABC'
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+#   File "vector_v6.py", line 329, in __add__
+#     return Vector(a + b for a, b in pairs)
+#   File "vector_v6.py", line 243, in __init__
+#     self._components = array(self.typecode, components)
+#   File "vector_v6.py", line 329, in &lt;genexpr&gt;
+#     return Vector(a + b for a, b in pairs)
+# TypeError: unsupported operand type(s) for +: 'float' and 'str'
+</code></pre>
+<p>We tried to add <code>Vector</code> and a <code>str</code>, but the message complains about <code>float</code> and <code>str</code>.</p>
+<p>The problems actually go deeper than obscure error messages: if an operator special
+method cannot return a valid result because of type incompatibility, it should return
+<code>NotImplemented</code> and not raise <code>TypeError</code>.  By returning <code>NotImplemented</code>, you leave the
+door open for the implementer of the other operand type to perform the operation when
+Python tries the reversed method call.</p>
+<p>In the spirit of duck typing, we will refrain from testing the type of the <code>other</code>
+operand, or the type of its elements.  We’ll catch the exceptions and return
+<code>NotImplemented</code>.  If the interpreter has not yet reversed the operands, it will try that.
+If the reverse method call returns <code>NotImplemented</code>, then Python will raise <code>TypeError</code>
+with a standard error message like “unsupported operand type(s) for +: ‘Vector’ and
+‘str’”.  Here is the final implementation of the special methods for <code>Vector</code> addition:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __add__(self, other):
+    try:
+        pairs = itertools.zip_longest(self, other, fillvalue=0.0)
+        return Vector(a + b for a, b in pairs)
+    except TypeError:
+        return NotImplemented
+
+def __radd__(self, other):
+    return self + other
+</code></pre>
+<p>Note that <code>__add__()</code> now catches a <code>TypeError</code> and returns <code>NotImplemented</code>.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>If an infix operator method raises an exception, it aborts the operator dispatch
+algorithm.  In the particular case of <code>TypeError</code>, it is often better to catch it and
+return <code>NotImplemented</code>.  This allows the interpreter to try calling the reversed
+operator method, which may correctly handle the computation with the swapped operands,
+if they are of different types.</p>
+</blockquote>
+<p>At this point, we have safely overloaded the <code>+</code> operator by writing <code>__add__()</code> and
+<code>__radd__()</code>.  We will now tackle another infix operator: <code>*</code>.</p>
+<h2 id="overloading--for-scalar-multiplication"><a class="header" href="#overloading--for-scalar-multiplication">Overloading <code>*</code> for Scalar Multiplication</a></h2>
+<p>What does <code>Vector([1, 2, 3]) * x</code> mean?  If <code>x</code> is a number, that would be a scalar
+product, and the result would be a new <code>Vector</code> with each component multiplied by <code>x</code> —
+also known as an elementwise multiplication:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v1 = Vector([1, 2, 3])
+v1 * 10
+# Vector([10.0, 20.0, 30.0])
+11 * v1
+# Vector([11.0, 22.0, 33.0])
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Another kind of product involving <code>Vector</code> operands would be the dot product of two
+vectors — or matrix multiplication, if you take one vector as a 1 × N matrix and the
+other as an N × 1 matrix.  We will implement that operator in our <code>Vector</code> class in
+<a href="#using--as-an-infix-operator">Using <code>@</code> as an Infix Operator</a>.</p>
+</blockquote>
+<p>Back to our scalar product, again we start with the simplest <code>__mul__()</code> and
+<code>__rmul__()</code> methods that could possibly work:</p>
+<!-- nocheck -->
+<pre><code class="language-python"># inside the Vector class
+
+def __mul__(self, scalar):
+    return Vector(n * scalar for n in self)
+
+def __rmul__(self, scalar):
+    return self * scalar
+</code></pre>
+<p>Those methods do work, except when provided with incompatible operands.  The <code>scalar</code>
+argument has to be a number that when multiplied by a <code>float</code> produces another <code>float</code>
+(because our <code>Vector</code> class uses an array of floats internally).  So a <code>complex</code> number
+will not do, but the scalar can be an <code>int</code>, a <code>bool</code> (because <code>bool</code> is a subclass of
+<code>int</code>), or even a <code>fractions.Fraction</code> instance.  The next version of <code>__mul__()</code> does not
+make an explicit type check on <code>scalar</code>, but instead converts it into a <code>float</code>, and
+returns <code>NotImplemented</code> if that fails.  That’s a clear example of duck typing:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __mul__(self, scalar):
+    try:
+        factor = float(scalar)
+    except (TypeError, ValueError):  # if scalar cannot be converted to float...
+        return NotImplemented  # ...we don't know how to handle it
+    return Vector(n * factor for n in self)
+
+def __rmul__(self, scalar):
+    return self * scalar
+</code></pre>
+<p>If <code>scalar</code> cannot be converted to <code>float</code>, we don’t know how to handle it, so we return
+<code>NotImplemented</code> to let Python try <code>__rmul__()</code> on the <code>scalar</code> operand.  <code>float()</code> raises
+<code>TypeError</code> for most unsuitable objects, but <code>ValueError</code> for strings that don’t look like
+numbers, such as <code>'x'</code>, so we catch both.  <code>__rmul__()</code> works fine by just performing
+<code>self * scalar</code>, delegating to the <code>__mul__()</code> method.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Duck typing has a price here: <code>float('1.5')</code> works, so <code>Vector([1, 2]) * '1.5'</code> would
+return <code>Vector([1.5, 3.0])</code>.  If that’s unacceptable in your application, reject <code>str</code>
+explicitly, or check against a protocol like <code>typing.SupportsFloat</code>
+(<a href="protocols-abcs.html#runtime-checkable-static-protocols">Runtime Checkable Static Protocols</a>),
+which <code>str</code> does not implement.</p>
+</blockquote>
+<p>With that, we can multiply <code>Vector</code>s by scalar values of the usual, and not so usual,
+numeric types:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v1 = Vector([1.0, 2.0, 3.0])
+14 * v1
+# Vector([14.0, 28.0, 42.0])
+v1 * True
+# Vector([1.0, 2.0, 3.0])
+from fractions import Fraction
+v1 * Fraction(1, 3)
+# Vector([0.3333333333333333, 0.6666666666666666, 1.0])
+</code></pre>
+<p>Now that we can multiply <code>Vector</code> by scalars, let’s see how to implement <code>Vector</code> by
+<code>Vector</code> products.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>An earlier edition of <em>Fluent Python</em> used goose typing in <code>__mul__()</code>: it checked the
+<code>scalar</code> argument with <code>isinstance(scalar, numbers.Real)</code>.  The <code>numbers</code> ABCs are not
+supported by static type checkers (see
+<a href="protocols-abcs.html#the-numbers-abcs-and-numeric-protocols">The <code>numbers</code> ABCs and Numeric Protocols</a>),
+so duck typing is preferable there.  On the other hand, <code>__matmul__()</code> in the next
+section is a good example of goose typing.</p>
+</blockquote>
+<h2 id="using--as-an-infix-operator"><a class="header" href="#using--as-an-infix-operator">Using <code>@</code> as an Infix Operator</a></h2>
+<p>The <code>@</code> sign is well-known as the prefix of function decorators, but since Python 3.5 it
+can also be used as an infix operator.  For years, the dot product was written as
+<code>numpy.dot(a, b)</code> in NumPy.  The function call notation makes longer formulas harder to
+translate from mathematical notation to Python, so the numerical computing community
+lobbied for <a href="https://peps.python.org/pep-0465/"><strong>PEP 465</strong></a> — A dedicated infix operator
+for matrix multiplication.  Today, you can write <code>a @ b</code> to compute the dot product of two
+NumPy arrays.</p>
+<p>The <code>@</code> operator is supported by the special methods <code>__matmul__()</code>, <code>__rmatmul__()</code> and
+<code>__imatmul__()</code>, named for “matrix multiplication”.  These methods are not used anywhere
+in the standard library, but are recognized by the interpreter, so the NumPy team — and
+the rest of us — can support the <code>@</code> operator in user-defined types.</p>
+<p>These simple tests show how <code>@</code> should work with <code>Vector</code> instances:</p>
+<!-- nocheck -->
+<pre><code class="language-python">va = Vector([1, 2, 3])
+vz = Vector([5, 6, 7])
+va @ vz == 38.0  # 1*5 + 2*6 + 3*7
+# True
+[10, 20, 30] @ vz
+# 380.0
+va @ 3
+# Traceback (most recent call last):
+#   ...
+# TypeError: unsupported operand type(s) for @: 'Vector' and 'int'
+</code></pre>
+<p>Here is the code of the relevant special methods:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class Vector:
+    # many methods omitted
+
+    def __matmul__(self, other):
+        if (isinstance(other, abc.Sized) and  # both operands must implement __len__ and __iter__...
+            isinstance(other, abc.Iterable)):
+            if len(self) == len(other):  # ...and have the same length to allow...
+                return sum(a * b for a, b in zip(self, other))  # ...a beautiful use of sum and zip
+            else:
+                raise ValueError('@ requires vectors of equal length.')
+        else:
+            return NotImplemented
+
+    def __rmatmul__(self, other):
+        return self @ other
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>With <code>zip(self, other, strict=True)</code> (Python 3.10+), you could replace the inner <code>if</code>
+with a <code>try</code>/<code>except ValueError</code>, since <code>zip</code> itself raises <code>ValueError</code> when the
+iterables have different lengths.  That is in line with Python’s fail-fast philosophy.</p>
+</blockquote>
+<p>This is a good example of goose typing in practice.  If we tested the <code>other</code> operand
+against <code>Vector</code>, we’d deny users the flexibility of using lists or arrays as operands to
+<code>@</code>.  As long as one operand is a <code>Vector</code>, our <code>@</code> implementation supports other operands
+that are instances of <code>abc.Sized</code> and <code>abc.Iterable</code>.  Both of these ABCs implement the
+<code>__subclasshook__()</code>, therefore any object providing <code>__len__()</code> and <code>__iter__()</code> satisfies
+our test — no need to actually subclass those ABCs or even register with them, as
+explained in <a href="protocols-abcs.html#structural-typing-with-abcs">Structural Typing with ABCs</a>.
+In particular, our <code>Vector</code> class does not subclass either <code>abc.Sized</code> or <code>abc.Iterable</code>,
+but it does pass the <code>isinstance</code> checks against those ABCs because it has the necessary
+methods.</p>
+<p>Let’s review the arithmetic operators supported by Python, before diving into the special
+category of <a href="#rich-comparison-operators">Rich Comparison Operators</a>.</p>
+<h2 id="wrapping-up-arithmetic-operators"><a class="header" href="#wrapping-up-arithmetic-operators">Wrapping-Up Arithmetic Operators</a></h2>
+<p>Implementing <code>+</code>, <code>*</code> and <code>@</code>, we saw the most common patterns for coding infix
+operators.  The techniques we described are applicable to all operators listed in this
+table (the in-place operators will be covered in
+<a href="#augmented-assignment-operators">Augmented Assignment Operators</a>):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Operator</th><th>Forward</th><th>Reverse</th><th>In-place</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>+</code></td><td><code>__add__</code></td><td><code>__radd__</code></td><td><code>__iadd__</code></td><td>Addition or concatenation</td></tr>
+<tr><td><code>-</code></td><td><code>__sub__</code></td><td><code>__rsub__</code></td><td><code>__isub__</code></td><td>Subtraction</td></tr>
+<tr><td><code>*</code></td><td><code>__mul__</code></td><td><code>__rmul__</code></td><td><code>__imul__</code></td><td>Multiplication or repetition</td></tr>
+<tr><td><code>/</code></td><td><code>__truediv__</code></td><td><code>__rtruediv__</code></td><td><code>__itruediv__</code></td><td>True division</td></tr>
+<tr><td><code>//</code></td><td><code>__floordiv__</code></td><td><code>__rfloordiv__</code></td><td><code>__ifloordiv__</code></td><td>Floor division</td></tr>
+<tr><td><code>%</code></td><td><code>__mod__</code></td><td><code>__rmod__</code></td><td><code>__imod__</code></td><td>Modulo</td></tr>
+<tr><td><code>divmod()</code></td><td><code>__divmod__</code></td><td><code>__rdivmod__</code></td><td></td><td>Returns tuple of floor division quotient and modulo</td></tr>
+<tr><td><code>**</code>, <code>pow()</code></td><td><code>__pow__</code></td><td><code>__rpow__</code></td><td><code>__ipow__</code></td><td>Exponentiation (<code>pow(a, b, modulo)</code> calls <code>a.__pow__(b, modulo)</code>)</td></tr>
+<tr><td><code>@</code></td><td><code>__matmul__</code></td><td><code>__rmatmul__</code></td><td><code>__imatmul__</code></td><td>Matrix multiplication</td></tr>
+<tr><td><code>&amp;</code></td><td><code>__and__</code></td><td><code>__rand__</code></td><td><code>__iand__</code></td><td>Bitwise and</td></tr>
+<tr><td><code>|</code></td><td><code>__or__</code></td><td><code>__ror__</code></td><td><code>__ior__</code></td><td>Bitwise or</td></tr>
+<tr><td><code>^</code></td><td><code>__xor__</code></td><td><code>__rxor__</code></td><td><code>__ixor__</code></td><td>Bitwise xor</td></tr>
+<tr><td><code>&lt;&lt;</code></td><td><code>__lshift__</code></td><td><code>__rlshift__</code></td><td><code>__ilshift__</code></td><td>Bitwise shift left</td></tr>
+<tr><td><code>&gt;&gt;</code></td><td><code>__rshift__</code></td><td><code>__rrshift__</code></td><td><code>__irshift__</code></td><td>Bitwise shift right</td></tr>
+</tbody>
+</table>
+</div>
+<p>The rich comparison operators use a different set of rules.</p>
+<h2 id="rich-comparison-operators"><a class="header" href="#rich-comparison-operators">Rich Comparison Operators</a></h2>
+<p>The handling of the rich comparison operators <code>==</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code> and <code>&lt;=</code> by the
+Python interpreter is similar to what we just saw, but differs in two important aspects:</p>
+<ul>
+<li>The same set of methods is used in forward and reverse operator calls.  The rules are
+summarized in the table below.  For example, in the case of <code>==</code>, both the forward and
+reverse calls invoke <code>__eq__()</code>, only swapping arguments; and a forward call to
+<code>__gt__()</code> is followed by a reverse call to <code>__lt__()</code> with the arguments swapped.</li>
+<li>In the case of <code>==</code> and <code>!=</code>, if the reverse method is missing, or returns
+<code>NotImplemented</code>, Python compares the object IDs instead of raising <code>TypeError</code>.</li>
+</ul>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Group</th><th>Infix operator</th><th>Forward method call</th><th>Reverse method call</th><th>Fallback</th></tr>
+</thead>
+<tbody>
+<tr><td>Equality</td><td><code>a == b</code></td><td><code>a.__eq__(b)</code></td><td><code>b.__eq__(a)</code></td><td>Return <code>id(a) == id(b)</code></td></tr>
+<tr><td></td><td><code>a != b</code></td><td><code>a.__ne__(b)</code></td><td><code>b.__ne__(a)</code></td><td>Return <code>not (a == b)</code></td></tr>
+<tr><td>Ordering</td><td><code>a &gt; b</code></td><td><code>a.__gt__(b)</code></td><td><code>b.__lt__(a)</code></td><td>Raise <code>TypeError</code></td></tr>
+<tr><td></td><td><code>a &lt; b</code></td><td><code>a.__lt__(b)</code></td><td><code>b.__gt__(a)</code></td><td>Raise <code>TypeError</code></td></tr>
+<tr><td></td><td><code>a &gt;= b</code></td><td><code>a.__ge__(b)</code></td><td><code>b.__le__(a)</code></td><td>Raise <code>TypeError</code></td></tr>
+<tr><td></td><td><code>a &lt;= b</code></td><td><code>a.__le__(b)</code></td><td><code>b.__ge__(a)</code></td><td>Raise <code>TypeError</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>Given these rules, let’s review and improve the behavior of the <code>Vector.__eq__</code> method,
+which was coded as follows in <a href="sequence-protocol.html">Special Methods for Sequences</a>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class Vector:
+    # many lines omitted
+
+    def __eq__(self, other):
+        return (len(self) == len(other) and
+                all(a == b for a, b in zip(self, other)))
+</code></pre>
+<p>That method produces these results:</p>
+<!-- nocheck -->
+<pre><code class="language-python">va = Vector([1.0, 2.0, 3.0])
+vb = Vector(range(1, 4))
+va == vb  # two Vector instances with equal numeric components compare equal
+# True
+vc = Vector([1, 2])
+v2d = Vector2d(1, 2)
+vc == v2d  # a Vector and a Vector2d are also equal if their components are equal
+# True
+t3 = (1, 2, 3)
+va == t3  # a Vector is also equal to a tuple or any iterable with equal numeric items
+# True
+</code></pre>
+<p>The last result is probably not desirable.  Do we really want a <code>Vector</code> to be considered
+equal to a <code>tuple</code> containing the same numbers?  There’s no hard rule about this; it
+depends on the application context.  The Zen of Python says: “In the face of ambiguity,
+refuse the temptation to guess.”  Excessive liberality in the evaluation of operands may
+lead to surprising results, and programmers hate surprises.</p>
+<p>Taking a clue from Python itself, we can see that <code>[1,2] == (1, 2)</code> is <code>False</code>.
+Therefore, let’s be conservative and do some type checking.  If the second operand is a
+<code>Vector</code> instance (or an instance of a <code>Vector</code> subclass), then use the same logic as the
+current <code>__eq__()</code>.  Otherwise, return <code>NotImplemented</code> and let Python handle that:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __eq__(self, other):
+    if isinstance(other, Vector):  # if other is a Vector, compare as before
+        return (len(self) == len(other) and
+                all(a == b for a, b in zip(self, other)))
+    else:
+        return NotImplemented  # otherwise, return NotImplemented
+</code></pre>
+<p>If you run the same comparisons with the new <code>Vector.__eq__</code>, this is what you get:</p>
+<!-- nocheck -->
+<pre><code class="language-python">va = Vector([1.0, 2.0, 3.0])
+vb = Vector(range(1, 4))
+va == vb  # same result as before, as expected
+# True
+vc = Vector([1, 2])
+v2d = Vector2d(1, 2)
+vc == v2d  # same result as before, but why? Explanation coming up
+# True
+t3 = (1, 2, 3)
+va == t3  # different result; this is what we wanted. But why does it work?
+# False
+</code></pre>
+<p>The first result is no news, but the last two were caused by <code>__eq__()</code> returning
+<code>NotImplemented</code>.  Here is what happens in the example with a <code>Vector</code> and a <code>Vector2d</code>,
+<code>vc == v2d</code>, step by step:</p>
+<ol>
+<li>To evaluate <code>vc == v2d</code>, Python calls <code>Vector.__eq__(vc, v2d)</code>.</li>
+<li><code>Vector.__eq__(vc, v2d)</code> verifies that <code>v2d</code> is not a <code>Vector</code> and returns
+<code>NotImplemented</code>.</li>
+<li>Python gets the <code>NotImplemented</code> result, so it tries <code>Vector2d.__eq__(v2d, vc)</code>.</li>
+<li><code>Vector2d.__eq__(v2d, vc)</code> turns both operands into tuples and compares them: the
+result is <code>True</code> (see <code>Vector2d.__eq__</code> in <a href="pythonic-object.html">A Pythonic Object</a>).</li>
+</ol>
+<p>As for the comparison <code>va == t3</code>, between <code>Vector</code> and <code>tuple</code>, the actual steps are:</p>
+<ol>
+<li>To evaluate <code>va == t3</code>, Python calls <code>Vector.__eq__(va, t3)</code>.</li>
+<li><code>Vector.__eq__(va, t3)</code> verifies that <code>t3</code> is not a <code>Vector</code> and returns
+<code>NotImplemented</code>.</li>
+<li>Python gets the <code>NotImplemented</code> result, so it tries <code>tuple.__eq__(t3, va)</code>.</li>
+<li><code>tuple.__eq__(t3, va)</code> has no idea what a <code>Vector</code> is, so it returns <code>NotImplemented</code>.</li>
+<li>In the special case of <code>==</code>, if the reversed call returns <code>NotImplemented</code>, Python
+compares object IDs as a last resort.</li>
+</ol>
+<p>We don’t need to implement <code>__ne__()</code> for <code>!=</code> because the fallback behavior of
+<code>__ne__()</code> inherited from <code>object</code> suits us: when <code>__eq__()</code> is defined and does not
+return <code>NotImplemented</code>, <code>__ne__()</code> returns that result negated.  In other words, given
+the same objects, the results for <code>!=</code> are consistent:</p>
+<!-- nocheck -->
+<pre><code class="language-python">va != vb
+# False
+vc != v2d
+# False
+va != (1, 2, 3)
+# True
+</code></pre>
+<p>The <code>__ne__()</code> inherited from <code>object</code> works like the following code — except that the
+original is written in C:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __ne__(self, other):
+    eq_result = self == other
+    if eq_result is NotImplemented:
+        return NotImplemented
+    else:
+        return not eq_result
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>If you need ordering comparisons too, implement <code>__eq__()</code> and one of <code>__lt__()</code>,
+<code>__le__()</code>, <code>__gt__()</code> or <code>__ge__()</code>, and decorate the class with
+<a href="https://docs.python.org/3/library/functools.html#functools.total_ordering"><code>functools.total_ordering</code></a>:
+it fills in the remaining comparison methods.  Data classes can generate all of them
+with <code>@dataclass(order=True)</code> (see <a href="dataclasses.html">Data Class Builders</a>).</p>
+</blockquote>
+<pre><code class="language-python">from functools import total_ordering
+
+@total_ordering
+class Version:
+    def __init__(self, *parts):
+        self.parts = parts
+
+    def __eq__(self, other):
+        if not isinstance(other, Version):
+            return NotImplemented
+        return self.parts == other.parts
+
+    def __lt__(self, other):
+        if not isinstance(other, Version):
+            return NotImplemented
+        return self.parts &lt; other.parts
+
+Version(3, 12) &lt;= Version(3, 15), Version(3, 15) &gt; Version(3, 9, 1)
+# (True, True)
+</code></pre>
+<p>After covering the essentials of infix operator overloading, let’s turn to a different
+class of operators: the augmented assignment operators.</p>
+<h2 id="augmented-assignment-operators"><a class="header" href="#augmented-assignment-operators">Augmented Assignment Operators</a></h2>
+<p>Our <code>Vector</code> class already supports the augmented assignment operators <code>+=</code> and <code>*=</code>.
+That’s because augmented assignment works with immutable receivers by creating new
+instances and rebinding the lefthand variable:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v1 = Vector([1, 2, 3])
+v1_alias = v1  # create an alias so we can inspect the Vector([1, 2, 3]) object later
+id(v1)  # remember the ID of the initial Vector bound to v1
+# 4302860128
+v1 += Vector([4, 5, 6])  # perform augmented addition
+v1  # the expected result...
+# Vector([5.0, 7.0, 9.0])
+id(v1)  # ...but a new Vector was created
+# 4302859904
+v1_alias  # inspect v1_alias to confirm the original Vector was not altered
+# Vector([1.0, 2.0, 3.0])
+v1 *= 11  # perform augmented multiplication
+v1  # again, the expected result, but a new Vector was created
+# Vector([55.0, 77.0, 99.0])
+id(v1)
+# 4302858336
+</code></pre>
+<p>If a class does not implement the in-place operators listed in the table above, the
+augmented assignment operators work as syntactic sugar: <code>a += b</code> is evaluated exactly as
+<code>a = a + b</code>.  That’s the expected behavior for immutable types, and if you have
+<code>__add__()</code>, then <code>+=</code> will work with no additional code.</p>
+<p>However, if you do implement an in-place operator method such as <code>__iadd__()</code>, that
+method is called to compute the result of <code>a += b</code>.  As the name says, those operators are
+expected to change the lefthand operand in place, and not create a new object as the
+result.  (This is the same mechanism behind the <code>list</code> behavior discussed in
+<a href="sequences.html#a--assignment-puzzler">A <code>+=</code> Assignment Puzzler</a>.)</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>The in-place special methods should never be implemented for immutable types like our
+<code>Vector</code> class.  This is fairly obvious, but worth stating anyway.</p>
+</blockquote>
+<p>To show the code of an in-place operator, we will extend the <code>BingoCage</code> class from
+<a href="protocols-abcs.html#subclassing-the-tombola-abc">Interfaces, Protocols, and ABCs</a> to
+implement <code>__add__()</code> and <code>__iadd__()</code>.  We’ll call the subclass <code>AddableBingoCage</code>.  This
+is the behavior we want for the <code>+</code> operator:</p>
+<!-- nocheck -->
+<pre><code class="language-python">vowels = 'AEIOU'
+globe = AddableBingoCage(vowels)  # create a globe instance with five items
+globe.inspect()
+# ('A', 'E', 'I', 'O', 'U')
+globe.pick() in vowels  # pop one of the items, and verify it is one of the vowels
+# True
+len(globe.inspect())  # confirm that the globe is down to four items
+# 4
+globe2 = AddableBingoCage('XYZ')  # create a second instance, with three items
+globe3 = globe + globe2  # create a third instance by adding the previous two
+len(globe3.inspect())
+# 7
+void = globe + [10, 20]  # adding an AddableBingoCage to a list fails
+# Traceback (most recent call last):
+#   ...
+# TypeError: unsupported operand type(s) for +: 'AddableBingoCage' and 'list'
+</code></pre>
+<p>Attempting to add an <code>AddableBingoCage</code> to a <code>list</code> fails with <code>TypeError</code>.  That error
+message is produced by the Python interpreter when our <code>__add__()</code> method returns
+<code>NotImplemented</code>.  Because an <code>AddableBingoCage</code> is mutable, this is how it will work when
+we implement <code>__iadd__()</code> (continuing from the previous example):</p>
+<!-- nocheck -->
+<pre><code class="language-python">globe_orig = globe  # create an alias so we can check the identity of the object later
+len(globe.inspect())  # globe has four items here
+# 4
+globe += globe2  # an AddableBingoCage can receive items from another instance...
+len(globe.inspect())
+# 7
+globe += ['M', 'N']  # ...or from any iterable
+len(globe.inspect())
+# 9
+globe is globe_orig  # throughout this example, globe has always been the same object
+# True
+globe += 1  # adding a noniterable fails with a proper error message
+# Traceback (most recent call last):
+#   ...
+# TypeError: right operand in += must be 'Tombola' or an iterable
+</code></pre>
+<p>Note that the <code>+=</code> operator is more liberal than <code>+</code> with regard to the second operand.
+With <code>+</code>, we want both operands to be of the same type (<code>AddableBingoCage</code>, in this case),
+because if we accepted different types, this might cause confusion as to the type of the
+result.  With the <code>+=</code>, the situation is clearer: the lefthand object is updated in place,
+so there’s no doubt about the type of the result.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>This contrasting behavior of <code>+</code> and <code>+=</code> mirrors the <code>list</code> built-in type.  Writing
+<code>my_list + x</code>, you can only concatenate one <code>list</code> to another <code>list</code>, but if you write
+<code>my_list += x</code>, you can extend the lefthand <code>list</code> with items from any iterable <code>x</code> on
+the righthand side.  This is how the <code>list.extend()</code> method works: it accepts any
+iterable argument.</p>
+</blockquote>
+<p>Now that we are clear on the desired behavior for <code>AddableBingoCage</code>, we can look at its
+implementation.  Recall that <code>BingoCage</code> is a concrete subclass of the <code>Tombola</code> ABC:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from tombola import Tombola
+from bingo import BingoCage
+
+class AddableBingoCage(BingoCage):  # AddableBingoCage extends BingoCage
+
+    def __add__(self, other):
+        if isinstance(other, Tombola):  # __add__ only works with a Tombola as the second operand
+            return AddableBingoCage(self.inspect() + other.inspect())
+        else:
+            return NotImplemented
+
+    def __iadd__(self, other):
+        if isinstance(other, Tombola):
+            other_iterable = other.inspect()  # retrieve items from other, if it's a Tombola
+        else:
+            try:
+                other_iterable = iter(other)  # otherwise, try to obtain an iterator over other
+            except TypeError:  # if that fails, explain what the user should do
+                msg = ('right operand in += must be '
+                       "'Tombola' or an iterable")
+                raise TypeError(msg)
+        self.load(other_iterable)  # if we got this far, load other_iterable into self
+        return self  # very important: augmented assignment methods must return self
+</code></pre>
+<p>In <code>__iadd__()</code>, we retrieve items from <code>other</code>, if it is an instance of <code>Tombola</code>.
+Otherwise, we try to obtain an iterator over <code>other</code> (the <code>iter</code> built-in function is
+covered in <a href="iterators-generators.html">Iterators, Generators, and Classic Coroutines</a>; here
+we could have used <code>tuple(other)</code>, at the cost of building a new tuple when all <code>.load()</code>
+needs is to iterate over its argument).  If that fails, we raise an exception explaining
+what the user should do.  When possible, error messages should explicitly guide the user
+to the solution.  If we got this far, we load the <code>other_iterable</code> into <code>self</code>.</p>
+<p>Very important: augmented assignment special methods of mutable objects must return
+<code>self</code>.  That’s what users expect.  We can summarize the whole idea of in-place operators
+by contrasting the <code>return</code> statements that produce results in <code>__add__()</code> and
+<code>__iadd__()</code>:</p>
+<dl>
+<dt id="__add__"><a class="header" href="#__add__"><code>__add__</code></a></dt>
+<dd>The result is produced by calling the constructor <code>AddableBingoCage</code> to build a new
+instance.</dd>
+<dt id="__iadd__"><a class="header" href="#__iadd__"><code>__iadd__</code></a></dt>
+<dd>The result is produced by returning <code>self</code>, after it has been modified.</dd>
+</dl>
+<p>To wrap up this example, a final observation: by design, no <code>__radd__()</code> was coded in
+<code>AddableBingoCage</code>, because there is no need for it.  The forward method <code>__add__()</code> will
+only deal with righthand operands of the same type, so if Python is trying to compute
+<code>a + b</code>, where <code>a</code> is an <code>AddableBingoCage</code> and <code>b</code> is not, we return <code>NotImplemented</code> —
+maybe the class of <code>b</code> can make it work.  But if the expression is <code>b + a</code> and <code>b</code> is not
+an <code>AddableBingoCage</code>, and it returns <code>NotImplemented</code>, then it’s better to let Python
+give up and raise <code>TypeError</code> because we cannot handle <code>b</code>.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>In general, if a forward infix operator method (e.g., <code>__mul__()</code>) is designed to work
+only with operands of the same type as <code>self</code>, it’s useless to implement the
+corresponding reverse method (e.g., <code>__rmul__()</code>) because that, by definition, will only
+be invoked when dealing with an operand of a different type.</p>
+</blockquote>
+<h2 id="the-complete-listing"><a class="header" href="#the-complete-listing">The Complete Listing</a></h2>
+<p>Here is <code>vector_v8.py</code>, consolidating everything implemented since
+<a href="sequence-protocol.html#formatting">Special Methods for Sequences</a> and in this chapter
+(the dynamic attribute <code>__setattr__()</code> is omitted for brevity):</p>
+<pre><code class="language-python">"""
+A multidimensional ``Vector`` class, take 8: operator overloading
+"""
+
+from array import array
+import reprlib
+import math
+import functools
+import operator
+import itertools
+from collections import abc
+
+class Vector:
+    typecode = 'd'
+
+    def __init__(self, components):
+        self._components = array(self.typecode, components)
+
+    def __iter__(self):
+        return iter(self._components)
+
+    def __repr__(self):
+        components = reprlib.repr(self._components)
+        components = components[components.find('['):-1]
+        return f'Vector({components})'
+
+    def __str__(self):
+        return str(tuple(self))
+
+    def __bytes__(self):
+        return (bytes([ord(self.typecode)]) +
+                bytes(self._components))
+
+    def __eq__(self, other):
+        if isinstance(other, Vector):
+            return (len(self) == len(other) and
+                    all(a == b for a, b in zip(self, other)))
+        else:
+            return NotImplemented
+
+    def __hash__(self):
+        hashes = (hash(x) for x in self)
+        return functools.reduce(operator.xor, hashes, 0)
+
+    def __abs__(self):
+        return math.hypot(*self)
+
+    def __neg__(self):
+        return Vector(-x for x in self)
+
+    def __pos__(self):
+        return Vector(self)
+
+    def __bool__(self):
+        return bool(abs(self))
+
+    def __len__(self):
+        return len(self._components)
+
+    def __getitem__(self, key):
+        if isinstance(key, slice):
+            cls = type(self)
+            return cls(self._components[key])
+        index = operator.index(key)
+        return self._components[index]
+
+    __match_args__ = ('x', 'y', 'z', 't')
+
+    def __getattr__(self, name):
+        cls = type(self)
+        try:
+            pos = cls.__match_args__.index(name)
+        except ValueError:
+            pos = -1
+        if 0 &lt;= pos &lt; len(self._components):
+            return self._components[pos]
+        msg = f'{cls.__name__!r} object has no attribute {name!r}'
+        raise AttributeError(msg)
+
+    def angle(self, n):
+        r = math.hypot(*self[n:])
+        a = math.atan2(r, self[n-1])
+        if (n == len(self) - 1) and (self[-1] &lt; 0):
+            return math.pi * 2 - a
+        else:
+            return a
+
+    def angles(self):
+        return (self.angle(n) for n in range(1, len(self)))
+
+    def __format__(self, fmt_spec=''):
+        if fmt_spec.endswith('h'):  # hyperspherical coordinates
+            fmt_spec = fmt_spec[:-1]
+            coords = itertools.chain([abs(self)], self.angles())
+            outer_fmt = '&lt;{}&gt;'
+        else:
+            coords = self
+            outer_fmt = '({})'
+        components = (format(c, fmt_spec) for c in coords)
+        return outer_fmt.format(', '.join(components))
+
+    @classmethod
+    def frombytes(cls, octets):
+        typecode = chr(octets[0])
+        memv = memoryview(octets[1:]).cast(typecode)
+        return cls(memv)
+
+    def __add__(self, other):
+        try:
+            pairs = itertools.zip_longest(self, other, fillvalue=0.0)
+            return Vector(a + b for a, b in pairs)
+        except TypeError:
+            return NotImplemented
+
+    def __radd__(self, other):
+        return self + other
+
+    def __mul__(self, scalar):
+        try:
+            factor = float(scalar)
+        except (TypeError, ValueError):
+            return NotImplemented
+        return Vector(n * factor for n in self)
+
+    def __rmul__(self, scalar):
+        return self * scalar
+
+    def __matmul__(self, other):
+        if (isinstance(other, abc.Sized) and
+            isinstance(other, abc.Iterable)):
+            if len(self) == len(other):
+                return sum(a * b for a, b in zip(self, other))
+            else:
+                raise ValueError('@ requires vectors of equal length.')
+        else:
+            return NotImplemented
+
+    def __rmatmul__(self, other):
+        return self @ other
+</code></pre>
+<p>And here are tests for the operators covered in this chapter:</p>
+<pre><code class="language-python">v1 = Vector([3, 4, 5])  # unary operators
+-v1
+# Vector([-3.0, -4.0, -5.0])
++v1
+# Vector([3.0, 4.0, 5.0])
+~v1
+# Traceback (most recent call last):
+#   ...
+# TypeError: bad operand type for unary ~: 'Vector'
+v2 = Vector([6, 7, 8])  # addition
+v1 + v2
+# Vector([9.0, 11.0, 13.0])
+v1 + v2 == Vector([3 + 6, 4 + 7, 5 + 8])
+# True
+Vector([3, 4, 5, 6]) + Vector([1, 2])  # addition with different lengths
+# Vector([4.0, 6.0, 5.0, 6.0])
+v1 + (10, 20, 30)  # addition with other iterables, in either order
+# Vector([13.0, 24.0, 35.0])
+(10, 20, 30) + v1
+# Vector([13.0, 24.0, 35.0])
+v1 + 1  # addition with incompatible types: standard error messages
+# Traceback (most recent call last):
+#   ...
+# TypeError: unsupported operand type(s) for +: 'Vector' and 'int'
+v1 + 'ABC'
+# Traceback (most recent call last):
+#   ...
+# TypeError: unsupported operand type(s) for +: 'Vector' and 'str'
+v1 = Vector([1.0, 2.0, 3.0])  # scalar multiplication
+14 * v1
+# Vector([14.0, 28.0, 42.0])
+v1 * True
+# Vector([1.0, 2.0, 3.0])
+from fractions import Fraction
+v1 * Fraction(1, 3)
+# Vector([0.3333333333333333, 0.6666666666666666, 1.0])
+v1 * 'x'
+# Traceback (most recent call last):
+#   ...
+# TypeError: can't multiply sequence by non-int of type 'Vector'
+va = Vector([1, 2, 3])  # dot product with @
+vz = Vector([5, 6, 7])
+va @ vz == 38.0
+# True
+[10, 20, 30] @ vz
+# 380.0
+va @ 3
+# Traceback (most recent call last):
+#   ...
+# TypeError: unsupported operand type(s) for @: 'Vector' and 'int'
+vb = Vector(range(1, 4))  # equality
+va == vb
+# True
+va == (1, 2, 3)
+# False
+va != (1, 2, 3)
+# True
+v1 = Vector([1, 2, 3])  # augmented assignment creates new objects
+v1_alias = v1
+v1 += Vector([4, 5, 6])
+v1
+# Vector([5.0, 7.0, 9.0])
+v1_alias
+# Vector([1.0, 2.0, 3.0])
+v1 *= 11
+v1
+# Vector([55.0, 77.0, 99.0])
+</code></pre>
+<p>Note the error message for <code>v1 * 'x'</code>: <code>Vector.__mul__</code> returned <code>NotImplemented</code>, so
+Python tried <code>str.__rmul__</code>, and that method’s own error message is what we see.</p>
+<p>This concludes our exploration of operator overloading in Python.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>We started this chapter by reviewing some restrictions Python imposes on operator
+overloading: no redefining of operators in the built-in types themselves, overloading
+limited to existing operators, with a few operators left out (<code>is</code>, <code>and</code>, <code>or</code>, <code>not</code>).</p>
+<p>We got down to business with the unary operators, implementing <code>__neg__()</code> and
+<code>__pos__()</code>.  Next came the infix operators, starting with <code>+</code>, supported by the
+<code>__add__()</code> method.  We saw that unary and infix operators are supposed to produce results
+by creating new objects, and should never change their operands.  To support operations
+with other types, we return the <code>NotImplemented</code> special value — not an exception —
+allowing the interpreter to try again by swapping the operands and calling the reverse
+special method for that operator (e.g., <code>__radd__()</code>).</p>
+<p>Mixing operand types requires detecting operands we can’t handle.  In this chapter, we did
+this in two ways: in the duck typing way, we just went ahead and tried the operation,
+catching a <code>TypeError</code> exception if it happened; later, in <code>__matmul__()</code>, we did it with
+an explicit <code>isinstance</code> test.  There are pros and cons to these approaches: duck typing is
+more flexible, but explicit type checking is more predictable.</p>
+<p>In general, libraries should leverage duck typing — opening the door for objects
+regardless of their types, as long as they support the necessary operations.  However,
+Python’s operator dispatch algorithm may produce misleading error messages or unexpected
+results when combined with duck typing.  For this reason, the discipline of type checking
+using <code>isinstance</code> calls against ABCs is often useful when writing special methods for
+operator overloading.  That’s goose typing, which we saw in
+<a href="protocols-abcs.html#goose-typing">Goose Typing</a>.  Goose typing is a good compromise between
+flexibility and safety, because existing or future user-defined types can be declared as
+actual or virtual subclasses of an ABC.  In addition, if an ABC implements the
+<code>__subclasshook__()</code>, then objects pass <code>isinstance</code> checks against that ABC by providing
+the required methods — no subclassing or registration required.</p>
+<p>The next topic we covered was the rich comparison operators.  We implemented <code>==</code> with
+<code>__eq__()</code> and discovered that Python provides a handy implementation of <code>!=</code> in the
+<code>__ne__()</code> inherited from the <code>object</code> base class.  The way Python evaluates these
+operators along with <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code> and <code>&lt;=</code> is slightly different, with special logic for
+choosing the reverse method, and fallback handling for <code>==</code> and <code>!=</code>, which never generate
+errors because Python compares the object IDs as a last resort.</p>
+<p>In the last section, we focused on augmented assignment operators.  We saw that Python
+handles them by default as a combination of plain operator followed by assignment, that
+is: <code>a += b</code> is evaluated exactly as <code>a = a + b</code>.  That always creates a new object, so it
+works for mutable or immutable types.  For mutable objects, we can implement in-place
+special methods such as <code>__iadd__()</code> for <code>+=</code>, and alter the value of the lefthand
+operand.  To show this at work, we left behind the immutable <code>Vector</code> class and worked on
+implementing a <code>BingoCage</code> subclass to support <code>+=</code> for adding items to the random pool,
+similar to the way the <code>list</code> built-in supports <code>+=</code> as a shortcut for the
+<code>list.extend()</code> method.  While doing this, we discussed how <code>+</code> tends to be stricter than
+<code>+=</code> regarding the types it accepts.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>If you look closely at the <code>v1 + 'ABC'</code> traceback in the first version of <code>__add__()</code>,
+you’ll see evidence of the lazy evaluation of generator expressions.  The <code>Vector</code> call
+gets a generator expression as its <code>components</code> argument — no problem at that stage.
+The genexp is passed to the <code>array</code> constructor, which tries to iterate over it, causing
+the evaluation of the first item <code>a + b</code>.  That’s when the <code>TypeError</code> occurs, and the
+exception propagates up through the <code>Vector</code> constructor call.  If the constructor were
+invoked as <code>Vector([a + b for a, b in pairs])</code>, the exception would happen right there,
+because the list comprehension builds a list before the call; the body of
+<code>Vector.__init__</code> would not be reached at all.</p>
+</blockquote>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li>Guido van Rossum, <a href="https://neopythonic.blogspot.com/2019/03/why-operators-are-useful.html">“Why operators are useful”</a>,
+a good defense of operator overloading.</li>
+<li>Trey Hunner, <a href="https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/">“Tuple ordering and deep comparisons in Python”</a>.</li>
+<li>The <a href="https://docs.python.org/3/reference/datamodel.html#emulating-numeric-types">Data model</a>
+chapter of the Language Reference, and
+<a href="https://docs.python.org/3/library/numbers.html#implementing-the-arithmetic-operations">“Implementing the arithmetic operations”</a>
+in the <code>numbers</code> module docs.</li>
+<li>A clever nonarithmetic example of operator overloading is in <code>pathlib</code>: <code>Path</code>
+overloads <code>/</code> to build filesystem paths, as in <code>Path('/etc') / 'init.d' / 'reboot'</code>.
+The Scapy library uses <code>/</code> to stack network protocol layers in packets.</li>
+<li>Dan Ingalls, “A Simple Technique for Handling Multiple Polymorphism”, and Kurt J.
+Hebel and Ralph Johnson, “Arithmetic and Double Dispatching in Smalltalk-80”, for the
+double-dispatch alternative that Python’s forward/reverse algorithm replaces.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="type-hints-more.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="iterators-generators.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="type-hints-more.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="iterators-generators.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

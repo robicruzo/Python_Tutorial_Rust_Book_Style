@@ -1,0 +1,1518 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Unicode Text Versus Bytes - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="unicode-text-versus-bytes"><a class="header" href="#unicode-text-versus-bytes">Unicode Text Versus Bytes</a></h1>
+<p>Humans use text; computers speak bytes.  Python 3 draws a sharp line between
+strings of human text and sequences of raw bytes, and implicit conversion of
+byte sequences to Unicode text is a thing of the past.  This chapter deals with
+Unicode strings, binary sequences, and the encodings used to convert between
+them.  It expands on the <a href="introduction.html#tut-strings">Text</a> section of the
+informal introduction and on <a href="inputoutput.html#tut-files">Reading and Writing Files</a>.</p>
+<p>Depending on the kind of work you do, you may think that understanding Unicode
+is not important.  That is unlikely, and in any case there is no escaping the
+<code>str</code> versus <code>bytes</code> divide.  As a bonus, you’ll find that the specialized binary
+sequence types have features that the “all-purpose” <code>str</code> of Python 2 lacked.
+This chapter covers:</p>
+<ul>
+<li>characters, code points and byte representations;</li>
+<li>the unique features of binary sequences: <code>bytes</code>, <code>bytearray</code> and <code>memoryview</code>;</li>
+<li>encodings for full Unicode and legacy character sets;</li>
+<li>avoiding and dealing with encoding errors;</li>
+<li>best practices when handling text files;</li>
+<li>the default encoding trap and standard I/O issues;</li>
+<li>safe Unicode text comparisons with normalization;</li>
+<li>utility functions for normalization, case folding and brute-force diacritic
+removal;</li>
+<li>proper sorting of Unicode text;</li>
+<li>character metadata in the Unicode database;</li>
+<li>dual-mode interfaces that handle <code>str</code> and <code>bytes</code>.</li>
+</ul>
+<h2 id="character-issues"><a class="header" href="#character-issues">Character Issues</a></h2>
+<p>The concept of a “string” is simple enough: a string is a sequence of
+characters.  The problem lies in the definition of “character”.  Today the best
+definition we have is a <em>Unicode character</em>.  Accordingly, the items you get out
+of a Python 3 <code>str</code> are Unicode characters, not raw bytes.</p>
+<p>The Unicode standard explicitly separates the identity of characters from
+specific byte representations:</p>
+<ul>
+<li>The identity of a character, its <em>code point</em>, is a number from 0 to
+1,114,111 (base 10), shown in the Unicode standard as 4 to 6 hex digits with a
+“U+” prefix, from U+0000 to U+10FFFF.  For example, the code point for the
+letter A is U+0041, the Euro sign is U+20AC, and the musical symbol G clef is
+assigned to code point U+1D11E.  Only a fraction of the valid code points have
+characters assigned to them so far.</li>
+<li>The actual bytes that represent a character depend on the <em>encoding</em> in use.
+An encoding is an algorithm that converts code points to byte sequences and
+vice versa.  The code point for the letter A (U+0041) is encoded as the single
+byte <code>\x41</code> in UTF-8, or as the bytes <code>\x41\x00</code> in UTF-16LE.  As another
+example, UTF-8 requires three bytes, <code>\xe2\x82\xac</code>, to encode the Euro sign
+(U+20AC), but in UTF-16LE it is encoded as two bytes: <code>\xac\x20</code>.</li>
+</ul>
+<p>Converting from code points to bytes is <em>encoding</em>; converting from bytes to
+code points is <em>decoding</em>:</p>
+<pre><code class="language-python">s = 'café'
+len(s)  # the str 'café' has four Unicode characters
+# 4
+b = s.encode('utf8')  # encode str to bytes using UTF-8
+b  # bytes literals have a b prefix
+# b'caf\xc3\xa9'
+len(b)  # "é" is encoded as two bytes in UTF-8
+# 5
+b.decode('utf8')  # decode bytes to str using UTF-8
+# 'café'
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>If you need a memory aid to tell <code>.decode()</code> from <code>.encode()</code>, convince
+yourself that byte sequences can be cryptic machine core dumps, while Unicode
+<code>str</code> objects are “human” text.  It then makes sense that you <em>decode</em> bytes to
+<code>str</code> to get human-readable text, and you <em>encode</em> <code>str</code> to bytes for storage or
+transmission.</p>
+</blockquote>
+<p>Although the Python 3 <code>str</code> is pretty much the Python 2 <code>unicode</code> type with a new
+name, the Python 3 <code>bytes</code> is not simply the old <code>str</code> renamed, and there is also
+the closely related <code>bytearray</code> type.  So let’s look at the binary sequence types
+before going further into encoding and decoding.</p>
+<h2 id="byte-essentials"><a class="header" href="#byte-essentials">Byte Essentials</a></h2>
+<p>There are two basic built-in types for binary sequences: the immutable <code>bytes</code>
+and the mutable <code>bytearray</code>.  (The Python documentation sometimes uses the
+generic term “byte string” for both; this book avoids that confusing term.)</p>
+<p>Each item in a <code>bytes</code> or <code>bytearray</code> is an integer from 0 to 255, not a
+one-character string as in the Python 2 <code>str</code>.  However, a slice of a binary
+sequence always produces a binary sequence of the same type, including slices
+of length 1:</p>
+<pre><code class="language-python">cafe = bytes('café', encoding='utf_8')  # bytes can be built from a str, given an encoding
+cafe
+# b'caf\xc3\xa9'
+cafe[0]  # each item is an integer in range(256)
+# 99
+cafe[:1]  # slices of bytes are also bytes, even slices of a single byte
+# b'c'
+cafe_arr = bytearray(cafe)
+cafe_arr  # bytearray has no literal syntax; it shows as bytearray() with a bytes literal
+# bytearray(b'caf\xc3\xa9')
+cafe_arr[-1:]  # a slice of bytearray is also a bytearray
+# bytearray(b'\xa9')
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The fact that <code>my_bytes[0]</code> retrieves an <code>int</code> but <code>my_bytes[:1]</code> returns a
+<code>bytes</code> sequence of length 1 is only surprising because we are used to
+Python’s <code>str</code> type, where <code>s[0] == s[:1]</code>.  For all other sequence types in
+Python, one item is not the same as a slice of length 1.</p>
+</blockquote>
+<p>Although binary sequences are really sequences of integers, their literal
+notation reflects the fact that ASCII text is often embedded in them.
+Therefore, four different displays are used, depending on each byte value:</p>
+<ul>
+<li>for bytes with decimal codes 32 to 126, from space to <code>~</code> (tilde), the ASCII
+character itself is used;</li>
+<li>for bytes corresponding to tab, newline, carriage return and <code>\</code>, the escape
+sequences <code>\t</code>, <code>\n</code>, <code>\r</code> and <code>\\</code> are used;</li>
+<li>if both string delimiters <code>'</code> and <code>"</code> appear in the byte sequence, the whole
+sequence is delimited by <code>'</code>, and any <code>'</code> inside is escaped as <code>\'</code>;</li>
+<li>for other byte values, a hexadecimal escape sequence is used (for example,
+<code>\x00</code> is the null byte).</li>
+</ul>
+<p>That is why you see <code>b'caf\xc3\xa9'</code> above: the first three bytes <code>b'caf'</code> are in
+the printable ASCII range, and the last two are not.</p>
+<p>Both <code>bytes</code> and <code>bytearray</code> support every <code>str</code> method except those that do
+formatting (<code>format</code>, <code>format_map</code>) and those that depend on Unicode data,
+including <code>casefold</code>, <code>isdecimal</code>, <code>isidentifier</code>, <code>isnumeric</code>, <code>isprintable</code> and
+<code>encode</code>.  This means you can use familiar string methods like <code>endswith</code>,
+<code>replace</code>, <code>strip</code>, <code>translate</code>, <code>upper</code> and dozens of others with binary
+sequences, only with <code>bytes</code> and not <code>str</code> arguments.  The regular expression
+functions in the <code>re</code> module also work on binary sequences, if the regex is
+compiled from a binary sequence instead of a <code>str</code>.  And the <code>%</code> operator works
+with binary sequences too (<a href="https://peps.python.org/pep-0461/"><strong>PEP 461</strong></a>).</p>
+<p>Binary sequences have a class method that <code>str</code> doesn’t have, called <code>fromhex</code>,
+which builds a binary sequence by parsing pairs of hex digits optionally
+separated by spaces; and the inverse instance method, <code>hex</code>:</p>
+<pre><code class="language-python">bytes.fromhex('31 4B CE A9')
+# b'1K\xce\xa9'
+b'1K\xce\xa9'.hex(' ')
+# '31 4b ce a9'
+</code></pre>
+<p>The other ways of building <code>bytes</code> or <code>bytearray</code> instances are calling their
+constructors with:</p>
+<ul>
+<li>a <code>str</code> and an <code>encoding</code> keyword argument;</li>
+<li>an iterable providing items with values from 0 to 255;</li>
+<li>an object that implements the <em>buffer protocol</em> (for example <code>bytes</code>,
+<code>bytearray</code>, <code>memoryview</code> or <code>array.array</code>), which copies the bytes from the
+source object to the newly created binary sequence.</li>
+</ul>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Older versions of Python let you call <code>bytes</code> or <code>bytearray</code> with a single
+integer to create a binary sequence of that size filled with null bytes.  That
+signature was deprecated and then removed from <code>bytes</code> (it still works for
+<code>bytearray</code>).  Use <code>bytes(n)</code> only if you know what you are doing; see
+<a href="https://peps.python.org/pep-0467/"><strong>PEP 467</strong></a>.</p>
+</blockquote>
+<p>Building a binary sequence from a buffer-like object is a low-level operation
+that may involve type casting:</p>
+<pre><code class="language-python">import array
+numbers = array.array('h', [-2, -1, 0, 1, 2])  # typecode 'h': short integers (16 bits)
+octets = bytes(numbers)  # a copy of the bytes that make up numbers
+octets  # the 10 bytes that represent the 5 short integers
+# b'\xfe\xff\xff\xff\x00\x00\x01\x00\x02\x00'
+</code></pre>
+<p>Creating a <code>bytes</code> or <code>bytearray</code> object from any buffer-like source always
+copies the bytes.  In contrast, <code>memoryview</code> objects let you share memory
+between binary data structures, as you saw in
+<a href="sequences.html#memory-views">Memory Views</a>.</p>
+<h3 id="structs-and-memory-views"><a class="header" href="#structs-and-memory-views">Structs and Memory Views</a></h3>
+<p>The <a href="https://docs.python.org/3/library/struct.html"><code>struct</code></a> module provides
+functions to parse packed bytes into a tuple of fields of different types and to
+perform the opposite conversion, from a tuple into packed bytes.  <code>struct</code> is
+used with <code>bytes</code>, <code>bytearray</code> and <code>memoryview</code> objects.</p>
+<p>Suppose you need to read the header of a GIF image.  The first ten bytes of a GIF
+file contain a 3-byte signature (<code>b'GIF'</code>), a 3-byte version (<code>b'87a'</code> or
+<code>b'89a'</code>), and then the image width and height as two 16-bit little-endian
+unsigned integers.  The format string <code>'&lt;3s3sHH'</code> describes that layout: <code>&lt;</code>
+means little-endian, <code>3s3s</code> means two sequences of 3 bytes, and <code>HH</code> means two
+16-bit unsigned integers:</p>
+<pre><code class="language-python">import struct
+fmt = '&lt;3s3sHH'
+header = b'GIF89a+\x02\xe6\x00' + bytes(20)  # pretend these are the first bytes of a file
+img = memoryview(header)
+header_view = img[:10]  # slicing a memoryview creates a new memoryview, without copying bytes
+bytes(header_view)
+# b'GIF89a+\x02\xe6\x00'
+struct.unpack(fmt, header_view)  # signature, version, width, height
+# (b'GIF', b'89a', 555, 230)
+del header_view
+del img
+</code></pre>
+<p>With a real file you would read the data with
+<code>with open('filter.gif', 'rb') as fp: img = memoryview(fp.read())</code>.  Note that
+slicing a <code>memoryview</code> returns a new <code>memoryview</code> sharing the same memory, without
+copying.  Deleting the views at the end releases the memory associated with them.</p>
+<h2 id="basic-encodersdecoders"><a class="header" href="#basic-encodersdecoders">Basic Encoders/Decoders</a></h2>
+<p>The Python distribution bundles more than 100 <em>codecs</em> (encoder/decoders) for
+text-to-byte conversion and vice versa.  Each codec has a name, like <code>'utf_8'</code>,
+and often aliases, such as <code>'utf8'</code>, <code>'utf-8'</code> and <code>'U8'</code>, which you can use as the
+<code>encoding</code> argument of functions like <code>open()</code>, <code>str.encode()</code>, <code>bytes.decode()</code>
+and so on.  Here is the same text encoded as three different byte sequences:</p>
+<pre><code class="language-python">for codec in ['latin_1', 'utf_8', 'utf_16']:
+    print(codec, 'El Niño'.encode(codec), sep='\t')
+# latin_1	b'El Ni\xf1o'
+# utf_8	b'El Ni\xc3\xb1o'
+# utf_16	b'\xff\xfeE\x00l\x00 \x00N\x00i\x00\xf1\x00o\x00'
+</code></pre>
+<p>Some encodings, like ASCII and even the multibyte GB2312, cannot represent every
+Unicode character.  The UTF encodings, however, are designed to handle every
+Unicode code point.  A representative sample of encodings:</p>
+<dl>
+<dt id="latin1-aka-iso8859_1"><a class="header" href="#latin1-aka-iso8859_1"><code>latin1</code>, a.k.a. <code>iso8859_1</code></a></dt>
+<dd>important because it is the basis for other encodings, such as <code>cp1252</code>, and
+for Unicode itself: the <code>latin1</code> byte values are the first 256 code points.</dd>
+<dt id="cp1252"><a class="header" href="#cp1252"><code>cp1252</code></a></dt>
+<dd>a useful <code>latin1</code> superset created by Microsoft, adding symbols like curly
+quotes and € (euro); some Windows apps call it “ANSI”, but it was never a real
+ANSI standard.</dd>
+<dt id="cp437"><a class="header" href="#cp437"><code>cp437</code></a></dt>
+<dd>the original character set of the IBM PC, with box-drawing characters.
+Incompatible with <code>latin1</code>, which appeared later.</dd>
+<dt id="gb2312"><a class="header" href="#gb2312"><code>gb2312</code></a></dt>
+<dd>legacy standard to encode the simplified Chinese ideographs used in mainland
+China; one of several widely deployed multibyte encodings for Asian
+languages.</dd>
+<dt id="utf-8"><a class="header" href="#utf-8"><code>utf-8</code></a></dt>
+<dd>the most common 8-bit encoding on the web, by far: well over 95% of websites
+use it.</dd>
+<dt id="utf-16le"><a class="header" href="#utf-16le"><code>utf-16le</code></a></dt>
+<dd>one form of the UTF 16-bit encoding scheme; all UTF-16 encodings support code
+points beyond U+FFFF through escape sequences called <em>surrogate pairs</em>.</dd>
+</dl>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>UTF-16 superseded the original 16-bit Unicode 1.0 encoding, UCS-2, back in
+1996.  UCS-2 is still used in some systems despite being deprecated since the
+last century, but it only supports code points up to U+FFFF, and more than half
+of the allocated code points are now above U+FFFF, including the all-important
+emojis.</p>
+</blockquote>
+<pre><code class="language-python">for char in 'A¿Ã€':
+    print(char, f'U+{ord(char):04X}',
+          char.encode('latin_1', errors='replace'),
+          char.encode('cp1252', errors='replace'),
+          char.encode('utf_8'), char.encode('utf_16le'), sep='\t')
+# A	U+0041	b'A'	b'A'	b'A'	b'A\x00'
+# ¿	U+00BF	b'\xbf'	b'\xbf'	b'\xc2\xbf'	b'\xbf\x00'
+# Ã	U+00C3	b'\xc3'	b'\xc3'	b'\xc3\x83'	b'\xc3\x00'
+# €	U+20AC	b'?'	b'\x80'	b'\xe2\x82\xac'	b'\xac '
+</code></pre>
+<h2 id="understanding-encodedecode-problems"><a class="header" href="#understanding-encodedecode-problems">Understanding Encode/Decode Problems</a></h2>
+<p>Although there is a generic <code>UnicodeError</code> exception, the error reported by
+Python is usually more specific: either a <code>UnicodeEncodeError</code> (when converting
+<code>str</code> to binary sequences) or a <code>UnicodeDecodeError</code> (when reading binary
+sequences into <code>str</code>).  Loading Python modules may also raise <code>SyntaxError</code> when
+the source encoding is unexpected.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>The first thing to note when you get a Unicode error is the exact type of the
+exception.  Is it a <code>UnicodeEncodeError</code>, a <code>UnicodeDecodeError</code>, or some other
+error (e.g., <code>SyntaxError</code>) that mentions an encoding problem?  To solve the
+problem, you have to understand it first.</p>
+</blockquote>
+<h3 id="coping-with-unicodeencodeerror"><a class="header" href="#coping-with-unicodeencodeerror">Coping with <code>UnicodeEncodeError</code></a></h3>
+<p>Most non-UTF codecs handle only a small subset of the Unicode characters.  When
+converting text to bytes, if a character is not defined in the target encoding,
+<code>UnicodeEncodeError</code> is raised, unless special handling is requested by passing
+an <code>errors</code> argument to the encoding method or function:</p>
+<pre><code class="language-python">city = 'São Paulo'
+city.encode('utf_8')  # the UTF encodings handle any str
+# b'S\xc3\xa3o Paulo'
+city.encode('utf_16')
+# b'\xff\xfeS\x00\xe3\x00o\x00 \x00P\x00a\x00u\x00l\x00o\x00'
+city.encode('iso8859_1')  # iso8859_1 also works for this string
+# b'S\xe3o Paulo'
+city.encode('cp437')  # cp437 can't encode the 'ã'
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+#   File "/.../lib/python3/encodings/cp437.py", line 12, in encode
+#     return codecs.charmap_encode(input,errors,encoding_map)
+# UnicodeEncodeError: 'charmap' codec can't encode character '\xe3' in
+# position 1: character maps to &lt;undefined&gt;
+city.encode('cp437', errors='ignore')
+# b'So Paulo'
+city.encode('cp437', errors='replace')
+# b'S?o Paulo'
+city.encode('cp437', errors='xmlcharrefreplace')
+# b'S&amp;#227;o Paulo'
+</code></pre>
+<p>The default error handler, <code>'strict'</code>, raises <code>UnicodeEncodeError</code>.  The
+<code>errors='ignore'</code> handler skips characters that cannot be encoded; this is
+usually a very bad idea, leading to silent data loss.  When encoding,
+<code>errors='replace'</code> substitutes unencodable characters with <code>'?'</code>; data is also
+lost, but users get a clue that something is amiss.  <code>'xmlcharrefreplace'</code>
+replaces unencodable characters with an XML entity.  If you can’t use UTF and
+you can’t afford to lose data, that is the only option.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The codecs error handling is extensible.  You may register extra strings for
+the <code>errors</code> argument by passing a name and an error-handling function to
+<a href="https://docs.python.org/3/library/codecs.html#codecs.register_error"><code>codecs.register_error()</code></a>.</p>
+</blockquote>
+<p>ASCII is a common subset of all the encodings you are likely to meet, so encoding
+should always work if the text is made exclusively of ASCII characters.  The
+<code>str.isascii()</code> method checks whether a string is 100% pure ASCII.  If it is, you
+should be able to encode it to bytes in any encoding without raising
+<code>UnicodeEncodeError</code>.</p>
+<h3 id="coping-with-unicodedecodeerror"><a class="header" href="#coping-with-unicodedecodeerror">Coping with <code>UnicodeDecodeError</code></a></h3>
+<p>Not every byte holds a valid ASCII character, and not every byte sequence is
+valid UTF-8 or UTF-16.  So when you assume one of these encodings while
+converting a binary sequence to text, you get a <code>UnicodeDecodeError</code> if
+unexpected bytes are found.  On the other hand, many legacy 8-bit encodings like
+<code>'cp1252'</code>, <code>'iso8859_1'</code> and <code>'koi8_r'</code> are able to decode any stream of bytes,
+including random noise, without reporting errors.  If your program assumes the
+wrong 8-bit encoding, it will silently decode garbage.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Garbled characters are known as <em>gremlins</em> or <em>mojibake</em> (文字化け, Japanese for
+“transformed text”).</p>
+</blockquote>
+<pre><code class="language-python">octets = b'Montr\xe9al'  # "Montréal" encoded as latin1; '\xe9' is the byte for "é"
+octets.decode('cp1252')  # Windows 1252 works because it is a superset of latin1
+# 'Montréal'
+octets.decode('iso8859_7')  # ISO-8859-7 is for Greek: '\xe9' is misinterpreted, no error
+# 'Montrιal'
+octets.decode('koi8_r')  # KOI8-R is for Russian: '\xe9' is the Cyrillic letter "И"
+# 'MontrИal'
+octets.decode('utf_8')  # the UTF-8 codec detects that octets is not valid UTF-8
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# UnicodeDecodeError: 'utf-8' codec can't decode byte 0xe9 in position 5:
+# invalid continuation byte
+octets.decode('utf_8', errors='replace')
+# 'Montr�al'
+</code></pre>
+<p>With <code>'replace'</code> error handling, the <code>\xe9</code> is replaced by “�” (code point
+U+FFFD), the official Unicode <code>REPLACEMENT CHARACTER</code>, intended to represent
+unknown characters.</p>
+<h3 id="syntaxerror-when-loading-modules-with-unexpected-encoding"><a class="header" href="#syntaxerror-when-loading-modules-with-unexpected-encoding"><code>SyntaxError</code> When Loading Modules with Unexpected Encoding</a></h3>
+<p>UTF-8 is the default source encoding for Python 3 (see
+<a href="interpreter.html#tut-source-encoding">Source Code Encoding</a>).  If you load a <code>.py</code>
+module containing non-UTF-8 data and no encoding declaration, you get a message
+like this:</p>
+<pre><code class="language-text">SyntaxError: Non-UTF-8 code starting with '\xe1' in file ola.py on line
+  1, but no encoding declared; see https://peps.python.org/pep-0263/
+  for details
+</code></pre>
+<p>A likely scenario is opening a <code>.py</code> file created on Windows with <code>cp1252</code>.  The
+error happens even on Windows, because the default encoding for Python source is
+UTF-8 on all platforms.  To fix it, add a magic <code>coding</code> comment at the top of
+the file:</p>
+<!-- nocheck -->
+<pre><code class="language-python"># coding: cp1252
+
+print('Olá, Mundo!')
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Now that Python source code is no longer limited to ASCII and defaults to the
+excellent UTF-8 encoding, the best “fix” for source code in legacy encodings
+like <code>'cp1252'</code> is to convert it to UTF-8 and not bother with <code>coding</code> comments.
+If your editor does not support UTF-8, it’s time to switch.</p>
+</blockquote>
+<h3 id="how-to-discover-the-encoding-of-a-byte-sequence"><a class="header" href="#how-to-discover-the-encoding-of-a-byte-sequence">How to Discover the Encoding of a Byte Sequence</a></h3>
+<p>How do you find the encoding of a byte sequence?  Short answer: you can’t.  You
+must be told.</p>
+<p>Some communication protocols and file formats, like HTTP and XML, contain
+headers that explicitly say how the content is encoded.  You can be sure that
+some byte streams are not ASCII because they contain byte values over 127, and
+the way UTF-8 and UTF-16 are built also limits the possible byte sequences.</p>
+<p>In fact, the way UTF-8 was designed makes it almost impossible for a random
+sequence of bytes, or even a nonrandom sequence from a non-UTF-8 encoding, to be
+decoded accidentally as garbage in UTF-8 instead of raising <code>UnicodeDecodeError</code>.
+UTF-8 escape sequences never use ASCII characters, and they have bit patterns
+that make it very hard for random data to be valid UTF-8 by accident.  So if you
+can decode some bytes containing codes above 127 as UTF-8, they are probably
+UTF-8.  A pragmatic decoding strategy for data from legacy systems is to try UTF-8
+first and, on <code>UnicodeDecodeError</code>, fall back to <code>cp1252</code>.  It is ugly but
+effective.</p>
+<p>Beyond that, considering that human languages also have their rules and
+restrictions, once you assume that a stream of bytes is plain human text it may
+be possible to sniff out its encoding using heuristics and statistics.  For
+example, if <code>b'\x00'</code> bytes are common, it is probably a 16- or 32-bit encoding,
+not an 8-bit scheme, because null characters in plain text are bugs.  When the
+byte sequence <code>b'\x20\x00'</code> appears often, it is more likely to be the space
+character (U+0020) in UTF-16LE than the obscure U+2000 <code>EN QUAD</code> character.</p>
+<p>That is how the <a href="https://pypi.org/project/chardet/">Chardet</a> package works to
+guess one of more than 30 supported encodings.  Chardet is a library you can use
+in your programs, and it also includes a command-line utility, <code>chardetect</code>:</p>
+<pre><code class="language-console">$ chardetect 04-text-byte.asciidoc
+04-text-byte.asciidoc: utf-8 with confidence 0.99
+</code></pre>
+<p>Although binary sequences of encoded text usually don’t carry explicit hints of
+their encoding, the UTF formats may prepend a byte-order mark to the textual
+content.</p>
+<h3 id="bom-a-useful-gremlin"><a class="header" href="#bom-a-useful-gremlin">BOM: A Useful Gremlin</a></h3>
+<p>You may have noticed a couple of extra bytes at the beginning of the UTF-16
+encoded sequence earlier.  Here they are again:</p>
+<pre><code class="language-python">u16 = 'El Niño'.encode('utf_16')
+u16
+# b'\xff\xfeE\x00l\x00 \x00N\x00i\x00\xf1\x00o\x00'
+</code></pre>
+<p>The bytes are <code>b'\xff\xfe'</code>.  That is a BOM, a <em>byte-order mark</em>, denoting the
+“little-endian” byte ordering of the Intel CPU where the encoding was
+performed.  On a little-endian machine, the least significant byte of each code
+point comes first: the letter <code>'E'</code>, code point U+0045 (decimal 69), is encoded at
+byte offsets 2 and 3 as 69 and 0:</p>
+<pre><code class="language-python">list(u16)
+# [255, 254, 69, 0, 108, 0, 32, 0, 78, 0, 105, 0, 241, 0, 111, 0]
+</code></pre>
+<p>On a big-endian CPU the encoding would be reversed: <code>'E'</code> would be encoded as 0
+and 69.  To avoid confusion, the UTF-16 encoding prepends the text with the
+special invisible character <code>ZERO WIDTH NO-BREAK SPACE</code> (U+FEFF).  On a
+little-endian system it is encoded as <code>b'\xff\xfe'</code> (decimal 255, 254).  Because,
+by design, there is no U+FFFE character in Unicode, the byte sequence
+<code>b'\xff\xfe'</code> must mean the <code>ZERO WIDTH NO-BREAK SPACE</code> in a little-endian
+encoding, so the codec knows which byte ordering to use.</p>
+<p>There is a variant of UTF-16, UTF-16LE, that is explicitly little-endian, and
+another that is explicitly big-endian, UTF-16BE.  If you use them, no BOM is
+generated:</p>
+<pre><code class="language-python">u16le = 'El Niño'.encode('utf_16le')
+list(u16le)
+# [69, 0, 108, 0, 32, 0, 78, 0, 105, 0, 241, 0, 111, 0]
+u16be = 'El Niño'.encode('utf_16be')
+list(u16be)
+# [0, 69, 0, 108, 0, 32, 0, 78, 0, 105, 0, 241, 0, 111]
+</code></pre>
+<p>If present, the BOM is supposed to be filtered out by the UTF-16 codec, so that
+you get only the actual text contents of the file, without the leading <code>ZERO WIDTH NO-BREAK SPACE</code>.  The Unicode standard says that a UTF-16 file with no BOM
+should be assumed to be UTF-16BE, but since the Intel x86 architecture is
+little-endian, there is plenty of little-endian UTF-16 with no BOM in the wild.</p>
+<p>The whole issue of endianness only affects encodings that use words of more than
+one byte, like UTF-16 and UTF-32.  One big advantage of UTF-8 is that it produces
+the same byte sequence regardless of machine endianness, so no BOM is needed.
+Nevertheless, some Windows applications (notably Notepad) add a BOM to UTF-8
+files anyway, and Excel depends on the BOM to detect a UTF-8 file; otherwise it
+assumes the content is encoded with a Windows code page.  This UTF-8 encoding
+with BOM is called UTF-8-SIG in Python’s codec registry.  The character U+FEFF
+encoded in UTF-8-SIG is the three-byte sequence <code>b'\xef\xbb\xbf'</code>, so if a file
+starts with those three bytes, it is probably a UTF-8 file with a BOM.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Using the UTF-8-SIG codec when <em>reading</em> UTF-8 files is harmless, because it
+reads files with or without a BOM correctly and does not return the BOM itself.
+When <em>writing</em>, use plain UTF-8 for general interoperability.  For example,
+Python scripts can be made executable on Unix systems if they start with the
+comment <code>#!/usr/bin/env python3</code>; the first two bytes of the file must be
+<code>b'#!'</code> for that to work, and a BOM breaks that convention.  If you have a
+specific requirement to export data to applications that need the BOM, use
+UTF-8-SIG, but be aware that the <code>codecs</code> documentation says: “In UTF-8, the
+use of the BOM is discouraged and should generally be avoided.”</p>
+</blockquote>
+<h2 id="handling-text-files"><a class="header" href="#handling-text-files">Handling Text Files</a></h2>
+<p>The best practice for handling text I/O is the “Unicode sandwich”.  Bytes
+should be decoded to <code>str</code> as early as possible on input (for example, when
+opening a file for reading).  The “filling” of the sandwich is the business logic
+of your program, where text handling is done exclusively on <code>str</code> objects.  You
+should never be encoding or decoding in the middle of other processing.  On
+output, <code>str</code> is encoded to bytes as late as possible.  Most web frameworks work
+like that, and you rarely touch bytes when using them.  In Django, for example,
+your views should output Unicode <code>str</code>; Django itself takes care of encoding the
+response to bytes, using UTF-8 by default.</p>
+<p>Python 3 makes it easy to follow this advice, because the <code>open()</code> built-in does
+the necessary decoding when reading and encoding when writing files in text
+mode, so all you get from <code>my_file.read()</code> and pass to <code>my_file.write(text)</code> are
+<code>str</code> objects.  Using text files is therefore apparently simple.  But if you rely
+on default encodings, you will get bitten.</p>
+<p>Consider this session.  Can you spot the bug?</p>
+<!-- nocheck -->
+<pre><code class="language-python">open('cafe.txt', 'w', encoding='utf_8').write('café')
+# 4
+open('cafe.txt').read()
+# 'cafÃ©'
+</code></pre>
+<p>The bug: UTF-8 was specified when writing the file but not when reading it, so
+Python assumed the system default file encoding, which on this Windows machine
+was code page 1252, and the trailing bytes of the file were decoded as the
+characters <code>'Ã©'</code> instead of <code>'é'</code>.  The same statements on a recent GNU/Linux or
+macOS machine work perfectly, because there the default encoding is UTF-8,
+giving the false impression that everything is fine.  And if the <code>encoding</code>
+argument were omitted when writing as well, the file would be read back correctly,
+but the program would generate files with different byte contents depending on
+the platform, or even on locale settings within the same platform, creating
+compatibility problems.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Code that has to run on multiple machines or on multiple occasions should
+never depend on encoding defaults.  Always pass an explicit <code>encoding=</code>
+argument when opening text files, because the default may change from one
+machine to the next, or from one day to the next.</p>
+</blockquote>
+<p>A curious detail in that session is that <code>write</code> reports that four characters
+were written, but the next line reads five.  Here is a closer inspection, again
+as run on Windows:</p>
+<!-- nocheck -->
+<pre><code class="language-python">fp = open('cafe.txt', 'w', encoding='utf_8')
+fp  # by default, open uses text mode and returns a TextIOWrapper
+# &lt;_io.TextIOWrapper name='cafe.txt' mode='w' encoding='utf_8'&gt;
+fp.write('café')  # write on a TextIOWrapper returns the number of characters written
+# 4
+fp.close()
+import os
+os.stat('cafe.txt').st_size  # UTF-8 encodes 'é' as 2 bytes, 0xc3 and 0xa9
+# 5
+fp2 = open('cafe.txt')  # no explicit encoding: the default comes from the locale
+fp2
+# &lt;_io.TextIOWrapper name='cafe.txt' mode='r' encoding='cp1252'&gt;
+fp2.encoding
+# 'cp1252'
+fp2.read()  # in cp1252, 0xc3 is "Ã" and 0xa9 is the copyright sign
+# 'cafÃ©'
+fp3 = open('cafe.txt', encoding='utf_8')  # opening the file with the correct encoding
+fp3
+# &lt;_io.TextIOWrapper name='cafe.txt' mode='r' encoding='utf_8'&gt;
+fp3.read()
+# 'café'
+fp4 = open('cafe.txt', 'rb')  # 'rb' opens the file for reading in binary mode
+fp4  # the result is a BufferedReader, not a TextIOWrapper
+# &lt;_io.BufferedReader name='cafe.txt'&gt;
+fp4.read()  # reading it returns bytes, as expected
+# b'caf\xc3\xa9'
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Do not open text files in binary mode unless you need to analyze the file
+contents to determine the encoding, and even then, you should be using
+Chardet instead of reinventing the wheel.  Ordinary code should only use binary
+mode to open binary files, like raster images.</p>
+</blockquote>
+<h3 id="beware-of-encoding-defaults"><a class="header" href="#beware-of-encoding-defaults">Beware of Encoding Defaults</a></h3>
+<p>Several settings affect the encoding defaults for I/O in Python.  This script
+explores them:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import locale
+import sys
+
+expressions = """
+        locale.getpreferredencoding()
+        type(my_file)
+        my_file.encoding
+        sys.stdout.isatty()
+        sys.stdout.encoding
+        sys.stdin.isatty()
+        sys.stdin.encoding
+        sys.stderr.isatty()
+        sys.stderr.encoding
+        sys.getdefaultencoding()
+        sys.getfilesystemencoding()
+    """
+
+my_file = open('dummy', 'w')
+
+for expression in expressions.split():
+    value = eval(expression)
+    print(f'{expression:&gt;30} -&gt; {value!r}')
+</code></pre>
+<p>On GNU/Linux and macOS the output shows that UTF-8 is used everywhere:</p>
+<pre><code class="language-console">$ python3 default_encodings.py
+ locale.getpreferredencoding() -&gt; 'UTF-8'
+                 type(my_file) -&gt; &lt;class '_io.TextIOWrapper'&gt;
+              my_file.encoding -&gt; 'UTF-8'
+           sys.stdout.isatty() -&gt; True
+           sys.stdout.encoding -&gt; 'utf-8'
+            sys.stdin.isatty() -&gt; True
+            sys.stdin.encoding -&gt; 'utf-8'
+           sys.stderr.isatty() -&gt; True
+           sys.stderr.encoding -&gt; 'utf-8'
+      sys.getdefaultencoding() -&gt; 'utf-8'
+   sys.getfilesystemencoding() -&gt; 'utf-8'
+</code></pre>
+<p>Before Python 3.15, on Windows the output could look like this instead:</p>
+<pre><code class="language-console">&gt; chcp
+Active code page: 437
+&gt; python default_encodings.py
+ locale.getpreferredencoding() -&gt; 'cp1252'
+                 type(my_file) -&gt; &lt;class '_io.TextIOWrapper'&gt;
+              my_file.encoding -&gt; 'cp1252'
+           sys.stdout.isatty() -&gt; True
+           sys.stdout.encoding -&gt; 'utf-8'
+            sys.stdin.isatty() -&gt; True
+            sys.stdin.encoding -&gt; 'utf-8'
+           sys.stderr.isatty() -&gt; True
+           sys.stderr.encoding -&gt; 'utf-8'
+      sys.getdefaultencoding() -&gt; 'utf-8'
+   sys.getfilesystemencoding() -&gt; 'utf-8'
+</code></pre>
+<p><code>chcp</code> shows the active code page for the console: 437.  The most important
+setting is <code>locale.getpreferredencoding()</code>, <code>'cp1252'</code> here, because text files
+use it by default.  The output was going to the console, so
+<code>sys.stdout.isatty()</code> is <code>True</code>, and the console encoding is UTF-8, not the code
+page reported by <code>chcp</code>: that has been the case since
+<a href="https://peps.python.org/pep-0528/"><strong>PEP 528</strong></a>, implemented in Python 3.6.  The
+same release implemented <a href="https://peps.python.org/pep-0529/"><strong>PEP 529</strong></a>, which
+changed the Windows filesystem encoding (used for names of directories and
+files) from Microsoft’s proprietary MBCS to UTF-8.  However, if the output of the
+script were redirected to a file, <code>sys.stdout.isatty()</code> would become <code>False</code> and
+<code>sys.stdout.encoding</code> would be set by <code>locale.getpreferredencoding()</code>, while
+<code>sys.stdin.encoding</code> and <code>sys.stderr.encoding</code> remained <code>utf-8</code>.</p>
+<p>That means a script like the following works when printing to a Windows console,
+but could break when its output was redirected to a file:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import sys
+from unicodedata import name
+
+print(sys.version)
+print()
+print('sys.stdout.isatty():', sys.stdout.isatty())
+print('sys.stdout.encoding:', sys.stdout.encoding)
+print()
+
+test_chars = [
+    '\N{HORIZONTAL ELLIPSIS}',       # exists in cp1252, not in cp437
+    '\N{INFINITY}',                  # exists in cp437, not in cp1252
+    '\N{CIRCLED NUMBER FORTY TWO}',  # not in cp437 or in cp1252
+]
+
+for char in test_chars:
+    print(f'Trying to output {name(char)}:')
+    print(char)
+</code></pre>
+<p>The script uses the <code>'\N{}'</code> escape for Unicode literals, where you write the
+official name of the character inside the braces.  It is rather verbose, but
+explicit and safe: Python raises <code>SyntaxError</code> if the name doesn’t exist, which is
+much better than writing a hex number that could be wrong.  When redirected to a
+file encoded as <code>cp1252</code>, printing <code>'∞'</code> raised <code>UnicodeEncodeError</code>, because
+<code>cp1252</code> has no INFINITY character.</p>
+<p>To summarize the different encoding settings:</p>
+<ul>
+<li>If you omit the <code>encoding</code> argument when opening a file, the default is given by
+<code>locale.getpreferredencoding()</code>, unless <em>UTF-8 mode</em> is enabled.</li>
+<li>The encoding of <code>sys.stdout</code>, <code>sys.stdin</code> and <code>sys.stderr</code> is UTF-8 for
+interactive I/O, or defined by <code>locale.getpreferredencoding()</code> if the
+output/input is redirected to/from a file (again, unless UTF-8 mode is on).
+The <code>PYTHONIOENCODING</code> environment variable can override it.</li>
+<li><code>sys.getdefaultencoding()</code> is used internally by Python in implicit conversions
+of binary data to/from <code>str</code>.  Changing this setting is not supported.</li>
+<li><code>sys.getfilesystemencoding()</code> is used to encode/decode filenames (not file
+contents).  It is used when <code>open()</code> gets a <code>str</code> argument for the filename; if
+the filename is given as a <code>bytes</code> argument, it is passed unchanged to the OS.</li>
+</ul>
+<blockquote>
+<p><strong>Note</strong></p>
+<p><em>UTF-8 mode</em> (<a href="https://peps.python.org/pep-0540/"><strong>PEP 540</strong></a>) makes Python
+ignore the locale encoding and use UTF-8 for files, standard streams and
+filenames.  It can be enabled with <code>python -X utf8</code> or the <code>PYTHONUTF8=1</code>
+environment variable, and as of Python 3.15 it is enabled by default on every
+platform (<a href="https://peps.python.org/pep-0686/"><strong>PEP 686</strong></a>).  You can check it
+with <code>sys.flags.utf8_mode</code>, and <code>locale.getencoding()</code> still tells you the
+locale encoding the operating system would have used.  This removes most of
+the traps described above, but the advice stands: be explicit about encodings,
+because your code may run on older versions, or with UTF-8 mode disabled, or
+read files produced by programs that don’t use UTF-8.</p>
+</blockquote>
+<p>The documentation of <code>locale.getpreferredencoding()</code> says that it “only returns a
+guess”.  Therefore, the best advice about encoding defaults is: do not rely on
+them.  You will avoid a lot of pain if you follow the advice of the Unicode
+sandwich and are always explicit about the encodings in your programs.</p>
+<p>Unfortunately, Unicode is painful even if you get your bytes correctly converted
+to <code>str</code>.  The next two sections cover subjects that are simple in ASCII-land but
+get quite complex on planet Unicode: text normalization (converting text to a
+uniform representation for comparisons) and sorting.</p>
+<h2 id="normalizing-unicode-for-reliable-comparisons"><a class="header" href="#normalizing-unicode-for-reliable-comparisons">Normalizing Unicode for Reliable Comparisons</a></h2>
+<p>String comparisons are complicated by the fact that Unicode has <em>combining
+characters</em>: diacritics and other marks that attach to the preceding character,
+appearing as one when printed.  For example, the word “café” may be composed in
+two ways, using four or five code points, but the result looks exactly the same:</p>
+<pre><code class="language-python">s1 = 'café'
+s2 = 'cafe\N{COMBINING ACUTE ACCENT}'
+s1, s2
+# ('café', 'café')
+len(s1), len(s2)
+# (4, 5)
+s1 == s2
+# False
+</code></pre>
+<p>Placing <code>COMBINING ACUTE ACCENT</code> (U+0301) after “e” renders “é”.  In the Unicode
+standard, sequences like <code>'é'</code> and <code>'e\u0301'</code> are called <em>canonical equivalents</em>,
+and applications are supposed to treat them as the same.  But Python sees two
+different sequences of code points and considers them not equal.</p>
+<p>The solution is <a href="https://docs.python.org/3/library/unicodedata.html#unicodedata.normalize"><code>unicodedata.normalize()</code></a>.
+Its first argument is one of four strings: <code>'NFC'</code>, <code>'NFD'</code>, <code>'NFKC'</code> and <code>'NFKD'</code>.
+<em>Normalization Form C</em> (NFC) composes the code points to produce the shortest
+equivalent string, while NFD decomposes, expanding composed characters into base
+characters and separate combining characters.  Both make comparisons work as
+expected:</p>
+<pre><code class="language-python">from unicodedata import normalize
+s1 = 'café'
+s2 = 'cafe\N{COMBINING ACUTE ACCENT}'
+len(s1), len(s2)
+# (4, 5)
+len(normalize('NFC', s1)), len(normalize('NFC', s2))
+# (4, 4)
+len(normalize('NFD', s1)), len(normalize('NFD', s2))
+# (5, 5)
+normalize('NFC', s1) == normalize('NFC', s2)
+# True
+normalize('NFD', s1) == normalize('NFD', s2)
+# True
+</code></pre>
+<p>Keyboard drivers usually generate composed characters, so text typed by users is
+in NFC by default.  However, to be safe, it may be good to normalize strings with
+<code>normalize('NFC', user_text)</code> before saving them.  NFC is also the normalization
+form recommended by the W3C.</p>
+<p>Some single characters are normalized by NFC into another single character.  The
+symbol for the ohm (Ω), the unit of electrical resistance, is normalized to the
+Greek uppercase omega.  They are visually identical, but they compare as unequal,
+so it is essential to normalize to avoid surprises:</p>
+<pre><code class="language-python">from unicodedata import normalize, name
+ohm = '\u2126'
+name(ohm)
+# 'OHM SIGN'
+ohm_c = normalize('NFC', ohm)
+name(ohm_c)
+# 'GREEK CAPITAL LETTER OMEGA'
+ohm == ohm_c
+# False
+normalize('NFC', ohm) == normalize('NFC', ohm_c)
+# True
+</code></pre>
+<p>The other two normalization forms are NFKC and NFKD, where the letter K stands for
+“compatibility”.  These are stronger forms of normalization, affecting the
+so-called <em>compatibility characters</em>.  Although one goal of Unicode is to have a
+single “canonical” code point for each character, some characters appear more
+than once for compatibility with preexisting standards.  For example, the <code>MICRO SIGN</code>, <code>µ</code> (U+00B5), was added to Unicode to support round-trip conversion to
+<code>latin1</code>, which includes it, even though the same character is part of the Greek
+alphabet with code point U+03BC (<code>GREEK SMALL LETTER MU</code>).  So the micro sign is
+considered a compatibility character.</p>
+<p>In the NFKC and NFKD forms, each compatibility character is replaced by a
+<em>compatibility decomposition</em> of one or more characters that are considered a
+“preferred” representation, even if there is some formatting loss (ideally,
+formatting should be the job of external markup, not of Unicode).  For example,
+the compatibility decomposition of the one-half fraction <code>'½'</code> (U+00BD) is the
+sequence of three characters <code>'1/2'</code>, and the compatibility decomposition of the
+micro sign <code>'µ'</code> (U+00B5) is the lowercase mu <code>'μ'</code> (U+03BC).  Here is NFKC in
+practice:</p>
+<pre><code class="language-python">from unicodedata import normalize, name
+half = '\N{VULGAR FRACTION ONE HALF}'
+print(half)
+# ½
+normalize('NFKC', half)
+# '1⁄2'
+for char in normalize('NFKC', half):
+    print(char, name(char), sep='\t')
+# 1	DIGIT ONE
+# ⁄	FRACTION SLASH
+# 2	DIGIT TWO
+four_squared = '4²'
+normalize('NFKC', four_squared)
+# '42'
+micro = 'µ'
+micro_kc = normalize('NFKC', micro)
+micro, micro_kc
+# ('µ', 'μ')
+ord(micro), ord(micro_kc)
+# (181, 956)
+name(micro), name(micro_kc)
+# ('MICRO SIGN', 'GREEK SMALL LETTER MU')
+</code></pre>
+<p>Although <code>'1⁄2'</code> is a reasonable substitute for <code>'½'</code>, and the micro sign really is
+a lowercase Greek mu, converting <code>'4²'</code> to <code>'42'</code> changes the meaning.  An
+application could store <code>'4²'</code> as <code>'4&lt;sup&gt;2&lt;/sup&gt;'</code>, but <code>normalize</code> knows nothing
+about formatting.  Therefore NFKC or NFKD may lose or distort information, but
+they can produce convenient intermediate representations for searching and
+indexing.</p>
+<p>Unfortunately, with Unicode everything is always more complicated than it first
+seems.  For the <code>VULGAR FRACTION ONE HALF</code>, NFKC produced 1 and 2 joined by
+<code>FRACTION SLASH</code>, instead of <code>SOLIDUS</code>, the familiar slash with ASCII code 47.  So
+searching for the three-character ASCII sequence <code>'1/2'</code> would not find the
+normalized Unicode sequence.  (Curiously, the micro sign is considered a
+compatibility character but the ohm symbol is not.  As a result, NFC doesn’t touch
+the micro sign but changes the ohm symbol to capital omega, while NFKC and NFKD
+change both into Greek characters.)</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>NFKC and NFKD normalization cause data loss and should be applied only in
+special cases like search and indexing, not for permanent storage of text.</p>
+</blockquote>
+<h3 id="case-folding"><a class="header" href="#case-folding">Case Folding</a></h3>
+<p><em>Case folding</em> is essentially converting all text to lowercase, with some
+additional transformations.  It is supported by the
+<a href="https://docs.python.org/3/library/stdtypes.html#str.casefold"><code>str.casefold()</code></a>
+method.  For any string <code>s</code> containing only <code>latin1</code> characters, <code>s.casefold()</code>
+produces the same result as <code>s.lower()</code>, with only two exceptions: the micro sign
+<code>'µ'</code> is changed to the Greek lowercase mu (which looks the same in most fonts),
+and the German Eszett or “sharp s” (<code>ß</code>) becomes “ss”:</p>
+<pre><code class="language-python">micro = 'µ'
+name(micro)
+# 'MICRO SIGN'
+micro_cf = micro.casefold()
+name(micro_cf)
+# 'GREEK SMALL LETTER MU'
+micro, micro_cf
+# ('µ', 'μ')
+eszett = 'ß'
+name(eszett)
+# 'LATIN SMALL LETTER SHARP S'
+eszett_cf = eszett.casefold()
+eszett, eszett_cf
+# ('ß', 'ss')
+</code></pre>
+<p>There are nearly 300 code points for which <code>str.casefold()</code> and <code>str.lower()</code> return
+different results.  As usual with anything related to Unicode, case folding is a
+hard issue with plenty of linguistic special cases, but the Python core team made
+an effort to provide a solution that hopefully works for most users.</p>
+<h3 id="utility-functions-for-normalized-text-matching"><a class="header" href="#utility-functions-for-normalized-text-matching">Utility Functions for Normalized Text Matching</a></h3>
+<p>As you’ve seen, NFC and NFD are safe to use and allow sensible comparisons
+between Unicode strings.  NFC is the best normalized form for most applications,
+and <code>str.casefold()</code> is the way to go for case-insensitive comparisons.  If you
+work with text in many languages, a pair of functions like <code>nfc_equal</code> and
+<code>fold_equal</code> are useful additions to your toolbox:</p>
+<pre><code class="language-python">from unicodedata import normalize
+
+def nfc_equal(str1, str2):
+    return normalize('NFC', str1) == normalize('NFC', str2)
+
+def fold_equal(str1, str2):
+    return (normalize('NFC', str1).casefold() ==
+            normalize('NFC', str2).casefold())
+
+s1 = 'café'
+s2 = 'cafe\u0301'
+s1 == s2
+# False
+nfc_equal(s1, s2)
+# True
+nfc_equal('A', 'a')
+# False
+s3 = 'Straße'
+s4 = 'strasse'
+s3 == s4
+# False
+nfc_equal(s3, s4)
+# False
+fold_equal(s3, s4)
+# True
+fold_equal(s1, s2)
+# True
+fold_equal('A', 'a')
+# True
+</code></pre>
+<p>Beyond Unicode normalization and case folding, which are both part of the
+Unicode standard, sometimes it makes sense to apply deeper transformations, like
+changing <code>'café'</code> into <code>'cafe'</code>.</p>
+<h3 id="extreme-normalization-taking-out-diacritics"><a class="header" href="#extreme-normalization-taking-out-diacritics">Extreme “Normalization”: Taking Out Diacritics</a></h3>
+<p>Search engines ignore diacritics (accents, cedillas and so on), at least in some
+contexts.  Removing diacritics is not a proper form of normalization, because it
+often changes the meaning of words and may produce false positives when
+searching.  But it helps cope with some facts of life: people are sometimes lazy
+or unsure about the correct use of diacritics, and spelling rules change over
+time, meaning that accents come and go in living languages.</p>
+<p>Outside of searching, getting rid of diacritics also makes for more readable
+URLs, at least in Latin-based languages.  The URL for the Wikipedia article about
+São Paulo is <code>https://en.wikipedia.org/wiki/S%C3%A3o_Paulo</code>, where <code>%C3%A3</code> is the
+URL-escaped UTF-8 rendering of the single letter “ã”.  The form
+<code>https://en.wikipedia.org/wiki/Sao_Paulo</code> is much easier to recognize, even if it is
+not the right spelling.</p>
+<p>To remove all diacritics from a <code>str</code>, you can use a function like this:</p>
+<pre><code class="language-python">import unicodedata
+import string
+
+def shave_marks(txt):
+    """Remove all diacritic marks"""
+    norm_txt = unicodedata.normalize('NFD', txt)
+    shaved = ''.join(c for c in norm_txt
+                     if not unicodedata.combining(c))
+    return unicodedata.normalize('NFC', shaved)
+</code></pre>
+<p>It decomposes all characters into base characters and combining marks, filters
+out all combining marks, and recomposes the remaining characters.  Here it is in
+use:</p>
+<pre><code class="language-python">order = '“Herr Voß: • ½ cup of Œtker™ caffè latte • bowl of açaí.”'
+shave_marks(order)  # only the letters "è", "ç" and "í" were replaced
+# '“Herr Voß: • ½ cup of Œtker™ caffe latte • bowl of acai.”'
+Greek = 'Ζέφυρος, Zéfiro'
+shave_marks(Greek)  # both "έ" and "é" were replaced
+# 'Ζεφυρος, Zefiro'
+</code></pre>
+<p><code>shave_marks</code> works, but maybe it goes too far.  Often the reason to remove
+diacritics is to change Latin text to pure ASCII, but <code>shave_marks</code> also changes
+non-Latin characters, like Greek letters, which will never become ASCII just by
+losing their accents.  So it makes sense to analyze each base character and to
+remove attached marks only if the base character is a letter of the Latin
+alphabet:</p>
+<pre><code class="language-python">def shave_marks_latin(txt):
+    """Remove all diacritic marks from Latin base characters"""
+    norm_txt = unicodedata.normalize('NFD', txt)
+    latin_base = False
+    preserve = []
+    for c in norm_txt:
+        if unicodedata.combining(c) and latin_base:
+            continue  # ignore diacritic on Latin base char
+        preserve.append(c)
+        # if it isn't a combining char, it's a new base char
+        if not unicodedata.combining(c):
+            latin_base = c in string.ascii_letters
+    shaved = ''.join(preserve)
+    return unicodedata.normalize('NFC', shaved)
+
+shave_marks_latin(Greek)
+# 'Ζέφυρος, Zefiro'
+</code></pre>
+<p>The function skips combining marks when the base character is Latin, keeps every
+other character, and each time it sees a character that is not a combining mark,
+it records whether that new base character is Latin.</p>
+<p>An even more radical step is to replace common symbols in Western texts (curly
+quotes, em dashes, bullets and so on) with ASCII equivalents:</p>
+<pre><code class="language-python">single_map = str.maketrans("""‚ƒ„ˆ‹‘’“”•–—˜›""",
+                           """'f"^&lt;''""---~&gt;""")
+
+multi_map = str.maketrans({
+    '€': 'EUR',
+    '…': '...',
+    'Æ': 'AE',
+    'æ': 'ae',
+    'Œ': 'OE',
+    'œ': 'oe',
+    '™': '(TM)',
+    '‰': '&lt;per mille&gt;',
+    '†': '**',
+    '‡': '***',
+})
+
+multi_map.update(single_map)
+
+def dewinize(txt):
+    """Replace Win1252 symbols with ASCII chars or sequences"""
+    return txt.translate(multi_map)
+
+def asciize(txt):
+    no_marks = shave_marks_latin(dewinize(txt))
+    no_marks = no_marks.replace('ß', 'ss')
+    return unicodedata.normalize('NFKC', no_marks)
+</code></pre>
+<p><a href="https://docs.python.org/3/library/stdtypes.html#str.maketrans"><code>str.maketrans()</code></a>
+builds a mapping table for <code>str.translate()</code>: <code>single_map</code> maps characters to
+characters, and <code>multi_map</code> maps characters to strings; the two tables are then
+merged.  <code>dewinize</code> does not affect ASCII or <code>latin1</code> text, only the Microsoft
+additions to <code>latin1</code> in <code>cp1252</code>.  <code>asciize</code> applies <code>dewinize</code>, removes diacritical
+marks, replaces the Eszett with “ss” (not using case folding, because we want to
+preserve case), and finally applies NFKC normalization to replace characters with
+their compatibility equivalents:</p>
+<pre><code class="language-python">order = '“Herr Voß: • ½ cup of Œtker™ caffè latte • bowl of açaí.”'
+dewinize(order)  # curly quotes, bullets and ™ were replaced
+# '"Herr Voß: - ½ cup of OEtker(TM) caffè latte - bowl of açaí."'
+asciize(order)  # dewinize, drop diacritics, replace 'ß'
+# '"Herr Voss: - 1⁄2 cup of OEtker(TM) caffe latte - bowl of acai."'
+</code></pre>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Different languages have their own rules for removing diacritics.  For
+example, Germans change <code>'ü'</code> into <code>'ue'</code>.  Our <code>asciize</code> function is not that
+refined, so it may or may not be suitable for your language.</p>
+</blockquote>
+<p>To summarize, these functions go far beyond standard normalization and perform
+deep surgery on the text, with a good chance of changing its meaning.  Only you
+can decide whether to go so far, knowing the target language, your users, and how
+the transformed text will be used.</p>
+<h2 id="sorting-unicode-text"><a class="header" href="#sorting-unicode-text">Sorting Unicode Text</a></h2>
+<p>Python sorts sequences of any type by comparing the items in each sequence one
+by one.  For strings, this means comparing the code points.  Unfortunately, this
+produces unacceptable results for anyone who uses non-ASCII characters.
+Consider sorting a list of fruits grown in Brazil:</p>
+<pre><code class="language-python">fruits = ['caju', 'atemoia', 'cajá', 'açaí', 'acerola']
+sorted(fruits)
+# ['acerola', 'atemoia', 'açaí', 'caju', 'cajá']
+</code></pre>
+<p>Sorting rules vary between locales, but in Portuguese and many other languages
+that use the Latin alphabet, accents and cedillas rarely make a difference when
+sorting (they matter only when they are the only difference between two words, in
+which case the word with a diacritic comes after the plain one).  So “cajá” is
+sorted as “caja” and must come before “caju”.  The sorted list should be:</p>
+<pre><code class="language-python">['açaí', 'acerola', 'atemoia', 'cajá', 'caju']
+</code></pre>
+<p>The standard way to sort non-ASCII text in Python is the
+<a href="https://docs.python.org/3/library/locale.html#locale.strxfrm"><code>locale.strxfrm()</code></a>
+function which, according to the <code>locale</code> documentation, “transforms a string to
+one that can be used in locale-aware comparisons”.  To enable it, you must first
+set a suitable locale for your application, and hope that the OS supports it:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import locale
+my_locale = locale.setlocale(locale.LC_COLLATE, 'pt_BR.UTF-8')
+print(my_locale)
+fruits = ['caju', 'atemoia', 'cajá', 'açaí', 'acerola']
+sorted_fruits = sorted(fruits, key=locale.strxfrm)
+print(sorted_fruits)
+</code></pre>
+<p>On GNU/Linux with the <code>pt_BR.UTF-8</code> locale installed, this prints the correct
+result:</p>
+<pre><code class="language-text">pt_BR.UTF-8
+['açaí', 'acerola', 'atemoia', 'cajá', 'caju']
+</code></pre>
+<p>So you need to call <code>setlocale(LC_COLLATE, «your_locale»)</code> before using
+<code>locale.strxfrm</code> as the sort key.  There are some caveats, though:</p>
+<ul>
+<li>Because locale settings are global, calling <code>setlocale</code> in a library is not
+recommended.  Your application or framework should set the locale when the
+process starts, and should not change it afterward.</li>
+<li>The locale must be installed on the OS, otherwise <code>setlocale</code> raises a
+<code>locale.Error: unsupported locale setting</code> exception.</li>
+<li>You must know how to spell the locale name.</li>
+<li>The locale must be correctly implemented by the makers of the OS.  On macOS,
+for example, <code>setlocale(LC_COLLATE, 'pt_BR.UTF-8')</code> may succeed without
+complaints while <code>sorted(fruits, key=locale.strxfrm)</code> still produces the same
+incorrect result as <code>sorted(fruits)</code>.</li>
+</ul>
+<p>So the standard library solution to internationalized sorting works, but seems
+to be well supported only on GNU/Linux, and even there it depends on locale
+settings, creating deployment headaches.  Fortunately, there is a simpler
+solution.</p>
+<h3 id="sorting-with-the-unicode-collation-algorithm"><a class="header" href="#sorting-with-the-unicode-collation-algorithm">Sorting with the Unicode Collation Algorithm</a></h3>
+<p>James Tauber created <a href="https://pypi.org/project/pyuca/">pyuca</a>, a pure-Python
+implementation of the Unicode Collation Algorithm (UCA).  It is easy to use:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import pyuca
+coll = pyuca.Collator()
+fruits = ['caju', 'atemoia', 'cajá', 'açaí', 'acerola']
+sorted_fruits = sorted(fruits, key=coll.sort_key)
+sorted_fruits
+# ['açaí', 'acerola', 'atemoia', 'cajá', 'caju']
+</code></pre>
+<p>This is simple and works on GNU/Linux, macOS and Windows.  pyuca does not take the
+locale into account.  If you need to customize the sorting, you can provide the
+path to a custom collation table to the <code>Collator()</code> constructor; out of the box it
+uses <code>allkeys.txt</code>, a copy of the Default Unicode Collation Element Table bundled
+with the project.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>pyuca has a single sorting algorithm that does not respect the sorting order of
+individual languages.  For instance, Ä in German sorts between A and B, while in
+Swedish it comes after Z.  <a href="https://pypi.org/project/PyICU/">PyICU</a> works like
+<code>locale</code> without changing the locale of the process, and it is also needed if you
+want to change the case of iİ/ıI in Turkish.  PyICU includes an extension that
+must be compiled, so it may be harder to install than pyuca, which is pure Python.</p>
+</blockquote>
+<p>That collation table is one of the many data files that make up the Unicode
+database, our next subject.</p>
+<h2 id="the-unicode-database"><a class="header" href="#the-unicode-database">The Unicode Database</a></h2>
+<p>The Unicode standard provides an entire database, in the form of several
+structured text files, that includes not only the table mapping code points to
+character names, but also metadata about the individual characters and how they
+are related.  For example, the Unicode database records whether a character is
+printable, is a letter, is a decimal digit, or is some other numeric symbol.
+That’s how the <code>str</code> methods <code>isalpha</code>, <code>isprintable</code>, <code>isdecimal</code> and <code>isnumeric</code>
+work.  <code>str.casefold</code> also uses information from a Unicode table.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The <code>unicodedata.category(char)</code> function returns the two-letter category of
+<code>char</code> from the Unicode database.  The higher-level <code>str</code> methods are easier to
+use.  For example, <code>label.isalpha()</code> returns <code>True</code> if every character in
+<code>label</code> belongs to one of these categories: <code>Lm</code>, <code>Lt</code>, <code>Lu</code>, <code>Ll</code> or <code>Lo</code>.  To
+learn what those codes mean, look up “General Category” in the Unicode
+character property documentation.</p>
+</blockquote>
+<h3 id="finding-characters-by-name"><a class="header" href="#finding-characters-by-name">Finding Characters by Name</a></h3>
+<p>The <a href="https://docs.python.org/3/library/unicodedata.html"><code>unicodedata</code></a> module has
+functions to retrieve character metadata, including <code>unicodedata.name()</code>, which
+returns a character’s official name in the standard:</p>
+<pre><code class="language-python">from unicodedata import name
+name('A')
+# 'LATIN CAPITAL LETTER A'
+name('ã')
+# 'LATIN SMALL LETTER A WITH TILDE'
+name('♛')
+# 'BLACK CHESS QUEEN'
+name('😸')
+# 'GRINNING CAT FACE WITH SMILING EYES'
+</code></pre>
+<p>You can use <code>name()</code> to build applications that let users search for characters by
+name.  The following command-line script, <code>cf.py</code>, takes one or more words as
+arguments and lists the characters that have those words in their official Unicode
+names.  Note the <code>if</code> statement in the <code>find</code> function: it uses the <code>.issubset()</code>
+method to quickly test whether all the words in the query set appear in the list of
+words built from the character’s name.  Thanks to Python’s rich set interface, we
+don’t need a nested <code>for</code> loop and another <code>if</code> to implement this check:</p>
+<pre><code class="language-python">#!/usr/bin/env python3
+import sys
+import unicodedata
+
+START, END = ord(' '), sys.maxunicode + 1
+
+def find(*query_words, start=START, end=END):
+    query = {w.upper() for w in query_words}
+    for code in range(start, end):
+        char = chr(code)
+        name = unicodedata.name(char, None)
+        if name and query.issubset(name.split()):
+            print(f'U+{code:04X}\t{char}\t{name}')
+
+def main(words):
+    if words:
+        find(*words)
+    else:
+        print('Please provide words to find.')
+
+if __name__ == '__main__':
+    main(sys.argv[1:])
+</code></pre>
+<p>The script sets defaults for the range of code points to search.  <code>find</code> accepts
+<code>query_words</code> and optional keyword-only arguments to limit the range of the
+search, to make testing easier.  It converts <code>query_words</code> into a set of
+uppercased strings, gets the Unicode character for each code, and gets the name of
+the character, or <code>None</code> if the code point is unassigned.  If there is a name, it
+splits it into a list of words and checks that the query set is a subset of that
+list; if so, it prints a line with the code point in <code>U+9999</code> format, the
+character, and its name.  Here it finds smiling cats:</p>
+<pre><code class="language-console">$ ./cf.py cat smiling
+U+1F638	😸	GRINNING CAT FACE WITH SMILING EYES
+U+1F63A	😺	SMILING CAT FACE WITH OPEN MOUTH
+U+1F63B	😻	SMILING CAT FACE WITH HEART-SHAPED EYES
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Emoji support varies widely across operating systems and applications, and
+whether a character displays at all depends on the fonts available to your
+terminal.</p>
+</blockquote>
+<h3 id="numeric-meaning-of-characters"><a class="header" href="#numeric-meaning-of-characters">Numeric Meaning of Characters</a></h3>
+<p>The <code>unicodedata</code> module includes functions to check whether a Unicode character
+represents a number and, if so, its numeric value for humans, as opposed to its
+code point number.  This script shows <code>unicodedata.name()</code> and
+<code>unicodedata.numeric()</code>, along with the <code>.isdigit()</code> and <code>.isnumeric()</code> methods of
+<code>str</code>:</p>
+<pre><code class="language-python">import unicodedata
+import re
+
+re_digit = re.compile(r'\d')
+
+sample = '1\xbc\xb2\u0969\u136b\u216b\u2466\u2480\u3285'
+
+for char in sample:
+    print(f'U+{ord(char):04x}',
+          char.center(6),
+          're_dig' if re_digit.match(char) else '-',
+          'isdig' if char.isdigit() else '-',
+          'isnum' if char.isnumeric() else '-',
+          f'{unicodedata.numeric(char):5.2f}',
+          unicodedata.name(char),
+          sep='\t')
+# U+0031	  1   	re_dig	isdig	isnum	 1.00	DIGIT ONE
+# U+00bc	  ¼   	-	-	isnum	 0.25	VULGAR FRACTION ONE QUARTER
+# U+00b2	  ²   	-	isdig	isnum	 2.00	SUPERSCRIPT TWO
+# U+0969	  ३   	re_dig	isdig	isnum	 3.00	DEVANAGARI DIGIT THREE
+# U+136b	  ፫   	-	isdig	isnum	 3.00	ETHIOPIC DIGIT THREE
+# U+216b	  Ⅻ   	-	-	isnum	12.00	ROMAN NUMERAL TWELVE
+# U+2466	  ⑦   	-	isdig	isnum	 7.00	CIRCLED DIGIT SEVEN
+# U+2480	  ⒀   	-	-	isnum	13.00	PARENTHESIZED NUMBER THIRTEEN
+# U+3285	  ㊅   	-	-	isnum	 6.00	CIRCLED IDEOGRAPH SIX
+</code></pre>
+<p>Each line shows the code point in <code>U+0000</code> format, the character centered in a
+<code>str</code> of length 6, <code>re_dig</code> if the character matches the regular expression
+<code>r'\d'</code>, <code>isdig</code> if <code>char.isdigit()</code> is <code>True</code>, <code>isnum</code> if <code>char.isnumeric()</code> is
+<code>True</code>, the numeric value formatted with width 5 and 2 decimal places, and the
+Unicode character name.</p>
+<p>The sixth column, the result of <code>unicodedata.numeric(char)</code>, shows that Unicode
+knows the numeric value of symbols that represent numbers.  So if you want to
+create a spreadsheet application that supports Tamil digits or Roman numerals, go
+for it!  The output also shows that the regular expression <code>r'\d'</code> matches the
+digit “1” and the Devanagari digit 3, but not some other characters that
+<code>isdigit</code> considers digits.  The <code>re</code> module is not as savvy about Unicode as it
+could be; the <a href="https://pypi.org/project/regex/"><code>regex</code></a> module on PyPI was designed
+to eventually replace <code>re</code> and provides better Unicode support.</p>
+<h2 id="dual-mode-str-and-bytes-apis"><a class="header" href="#dual-mode-str-and-bytes-apis">Dual-Mode <code>str</code> and <code>bytes</code> APIs</a></h2>
+<p>The standard library has functions that accept <code>str</code> or <code>bytes</code> arguments and
+behave differently depending on the type.  Some examples can be found in the <code>re</code>
+and <code>os</code> modules.</p>
+<h3 id="str-versus-bytes-in-regular-expressions"><a class="header" href="#str-versus-bytes-in-regular-expressions"><code>str</code> Versus <code>bytes</code> in Regular Expressions</a></h3>
+<p>If you build a regular expression with <code>bytes</code>, patterns such as <code>\d</code> and <code>\w</code> only
+match ASCII characters; if these patterns are given as <code>str</code>, they match Unicode
+digits or letters beyond ASCII.  This script compares how letters, ASCII digits,
+superscripts and Tamil digits are matched by <code>str</code> and <code>bytes</code> patterns:</p>
+<pre><code class="language-python">import re
+
+re_numbers_str = re.compile(r'\d+')
+re_words_str = re.compile(r'\w+')
+re_numbers_bytes = re.compile(rb'\d+')
+re_words_bytes = re.compile(rb'\w+')
+
+text_str = ("Ramanujan saw \u0be7\u0bed\u0be8\u0bef"
+            " as 1729 = 1³ + 12³ = 9³ + 10³.")
+
+text_bytes = text_str.encode('utf_8')
+
+print(f'Text\n  {text_str!r}')
+print('Numbers')
+print('  str  :', re_numbers_str.findall(text_str))
+print('  bytes:', re_numbers_bytes.findall(text_bytes))
+print('Words')
+print('  str  :', re_words_str.findall(text_str))
+print('  bytes:', re_words_bytes.findall(text_bytes))
+# Text
+#   'Ramanujan saw ௧௭௨௯ as 1729 = 1³ + 12³ = 9³ + 10³.'
+# Numbers
+#   str  : ['௧௭௨௯', '1729', '1', '12', '9', '10']
+#   bytes: [b'1729', b'1', b'12', b'9', b'10']
+# Words
+#   str  : ['Ramanujan', 'saw', '௧௭௨௯', 'as', '1729', '1³', '12³', '9³', '10³']
+#   bytes: [b'Ramanujan', b'saw', b'as', b'1729', b'1', b'12', b'9', b'10']
+</code></pre>
+<p>The first two regular expressions are of the <code>str</code> type, the last two of the <code>bytes</code>
+type.  The text to search contains the Tamil digits for 1729; its logical line
+continues until the right parenthesis, and the two string literals are joined at
+compile time (see <a href="https://docs.python.org/3/reference/lexical_analysis.html#string-concatenation">String literal concatenation</a>).
+A <code>bytes</code> string is needed to search with the <code>bytes</code> regular expressions.  The
+<code>str</code> pattern <code>r'\d+'</code> matches the Tamil and ASCII digits; the <code>bytes</code> pattern
+<code>rb'\d+'</code> matches only the ASCII bytes for digits.  The <code>str</code> pattern <code>r'\w+'</code> matches
+letters, superscripts, Tamil and ASCII digits; the <code>bytes</code> pattern <code>rb'\w+'</code> matches
+only the ASCII bytes for letters and digits.</p>
+<p>This trivial example makes one point: you can use regular expressions on <code>str</code> and
+<code>bytes</code>, but in the second case, bytes outside the ASCII range are treated as
+nondigits and nonword characters.  For <code>str</code> regular expressions, there is a
+<code>re.ASCII</code> flag that makes <code>\w</code>, <code>\W</code>, <code>\b</code>, <code>\B</code>, <code>\d</code>, <code>\D</code>, <code>\s</code> and <code>\S</code> perform
+ASCII-only matching.</p>
+<h3 id="str-versus-bytes-in-os-functions"><a class="header" href="#str-versus-bytes-in-os-functions"><code>str</code> Versus <code>bytes</code> in <code>os</code> Functions</a></h3>
+<p>The GNU/Linux kernel is not Unicode savvy, so in the real world you may find
+filenames made of byte sequences that are not valid in any sensible encoding
+scheme and cannot be decoded to <code>str</code>.  File servers with clients using a variety
+of operating systems are particularly prone to this problem.</p>
+<p>To work around it, all <code>os</code> module functions that accept filenames or pathnames
+take arguments as <code>str</code> or <code>bytes</code>.  If such a function is called with a <code>str</code>
+argument, the argument is automatically converted using the codec named by
+<code>sys.getfilesystemencoding()</code>, and the OS response is decoded with the same codec.
+This is almost always what you want, in keeping with the Unicode sandwich.  But if
+you must deal with (and perhaps fix) filenames that cannot be handled that way,
+you can pass <code>bytes</code> arguments to the <code>os</code> functions to get <code>bytes</code> return values.
+This lets you deal with any file or pathname, no matter how many gremlins you
+find:</p>
+<!-- nocheck -->
+<pre><code class="language-python">os.listdir('.')
+# ['abc.txt', 'digits-of-π.txt']
+os.listdir(b'.')
+# [b'abc.txt', b'digits-of-\xcf\x80.txt']
+</code></pre>
+<p>The second filename is “digits-of-π.txt” (with the Greek letter pi).  Given a
+<code>bytes</code> argument, <code>listdir</code> returns filenames as bytes: <code>b'\xcf\x80'</code> is the UTF-8
+encoding of the Greek letter pi.</p>
+<p>To help with manual handling of <code>str</code> or <code>bytes</code> sequences that are filenames or
+pathnames, the <code>os</code> module provides the special encoding and decoding functions
+<code>os.fsencode(name_or_path)</code> and <code>os.fsdecode(name_or_path)</code>.  Both accept an
+argument of type <code>str</code>, <code>bytes</code>, or an object implementing the <code>os.PathLike</code>
+interface.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>We started by dismissing the notion that 1 character == 1 byte.  As the world
+adopts Unicode, we need to keep the concept of text strings separate from the
+binary sequences that represent them in files, and Python 3 enforces this
+separation.</p>
+<p>After a brief overview of the binary sequence types (<code>bytes</code>, <code>bytearray</code> and
+<code>memoryview</code>), we looked at encoding and decoding, with a sampling of important
+codecs, followed by ways to prevent or deal with the infamous <code>UnicodeEncodeError</code>,
+<code>UnicodeDecodeError</code>, and the <code>SyntaxError</code> caused by the wrong encoding in Python
+source files.</p>
+<p>In theory, the encoding of a byte sequence cannot be detected without metadata,
+but in practice Chardet pulls it off pretty well for a number of popular
+encodings.  Byte-order marks are the only encoding hint commonly found in UTF-16
+and UTF-32 files, and sometimes in UTF-8 files as well.</p>
+<p>Opening text files is easy except for one pitfall: the <code>encoding=</code> keyword
+argument is not mandatory, but it should be.  If you fail to specify the encoding,
+you end up with a program that generates “plain text” that is incompatible across
+platforms, due to conflicting default encodings.  UTF-8 mode, now the default,
+removes much of that pain, but explicit is still better than implicit.</p>
+<p>Unicode provides multiple ways of representing some characters, so normalizing is a
+prerequisite for text matching.  Besides normalization and case folding, we wrote
+utility functions you can adapt to your needs, including drastic transformations
+like removing all accents.  We sorted Unicode text correctly with the standard
+<code>locale</code> module (with some caveats) and with the external pyuca package.  Finally,
+we used the Unicode database to write a character finder in a couple dozen lines of
+code, glanced at other Unicode metadata, and looked at dual-mode interfaces where
+some functions can be called with <code>str</code> or <code>bytes</code> arguments, producing different
+results.</p>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li>The <a href="https://docs.python.org/3/howto/unicode.html">Unicode HOWTO</a> in the Python
+documentation approaches the subject from several angles, from a historical
+introduction to syntax details, codecs, regular expressions, filenames and
+best practices for Unicode-aware I/O.</li>
+<li>Ned Batchelder’s PyCon US 2012 talk “Pragmatic Unicode, or, How Do I Stop the
+Pain?” popularized the Unicode sandwich, and he provides a full transcript
+along with the slides and video.</li>
+<li><a href="https://docs.python.org/3/library/codecs.html#standard-encodings">Standard Encodings</a>
+in the <code>codecs</code> documentation lists the encodings Python supports.</li>
+<li>Victor Stinner’s free book <em>Programming with Unicode</em> covers Unicode in general,
+as well as tools and APIs in the main operating systems and several languages,
+including Python.</li>
+<li>Since Python 3.3, the interpreter stores each <code>str</code> using the most economical
+fixed-width layout for its contents: one byte per code point if all characters
+are in the <code>latin1</code> range, otherwise two or four
+(<a href="https://peps.python.org/pep-0393/"><strong>PEP 393</strong></a>).  One consequence is that a
+single emoji can quadruple the memory used by an otherwise ASCII string.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="introduction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="controlflow.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="introduction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="controlflow.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

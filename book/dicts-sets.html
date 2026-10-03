@@ -1,0 +1,1449 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Dictionaries and Sets - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="dictionaries-and-sets"><a class="header" href="#dictionaries-and-sets">Dictionaries and Sets</a></h1>
+<p>You use dictionaries in every Python program.  If not directly in your code,
+then indirectly, because the <code>dict</code> type is a fundamental part of Python’s
+implementation.  Class and instance attributes, module namespaces and function
+keyword arguments are some of the core constructs represented by dictionaries
+in memory, and <code>__builtins__.__dict__</code> stores all the built-in types, objects
+and functions.  It has been said, only half jokingly, that Python is basically
+dicts wrapped in loads of syntactic sugar.</p>
+<p>Because of their crucial role, Python dicts are highly optimized, and they keep
+getting improvements.  Hash tables are the engines behind their performance.
+Other built-in types based on hash tables are <code>set</code> and <code>frozenset</code>.  These offer
+richer interfaces and operators than the sets you may have met in other
+popular languages.  In particular, Python sets implement all the fundamental
+operations of set theory, like union, intersection and subset tests, which lets
+you express algorithms declaratively, without lots of nested loops and
+conditionals.</p>
+<p>This chapter builds on <a href="datastructures.html#tut-dictionaries">Dictionaries</a> and
+<a href="datastructures.html#tut-sets">Sets</a> from the Data Structures chapter.  It covers:</p>
+<ul>
+<li>modern syntax to build and handle dicts and mappings, including enhanced
+unpacking and pattern matching;</li>
+<li>the common methods of mapping types;</li>
+<li>special handling for missing keys;</li>
+<li>the variations of <code>dict</code> in the standard library;</li>
+<li>the <code>set</code> and <code>frozenset</code> types;</li>
+<li>the practical implications of hash tables for the behavior of sets and
+dictionaries.</li>
+</ul>
+<h2 id="modern-dict-syntax"><a class="header" href="#modern-dict-syntax">Modern <code>dict</code> Syntax</a></h2>
+<p>The next sections describe syntax features to build, unpack and process
+mappings.  Some are old, but may be new to you; others require Python 3.9 (the
+<code>|</code> operator) or 3.10 (<code>match</code>/<code>case</code>).</p>
+<h3 id="dict-comprehensions"><a class="header" href="#dict-comprehensions"><code>dict</code> Comprehensions</a></h3>
+<p>The syntax of listcomps and genexps was adapted long ago to <em>dict
+comprehensions</em> (and set comprehensions, which you’ll see later).  A <em>dictcomp</em>
+builds a <code>dict</code> instance by taking <code>key: value</code> pairs from any iterable.  Here
+are two dictionaries built from the same list of tuples:</p>
+<pre><code class="language-python">dial_codes = [
+    (880, 'Bangladesh'),
+    (55,  'Brazil'),
+    (86,  'China'),
+    (91,  'India'),
+    (62,  'Indonesia'),
+    (81,  'Japan'),
+    (234, 'Nigeria'),
+    (92,  'Pakistan'),
+    (7,   'Russia'),
+    (1,   'United States'),
+]
+country_dial = {country: code for code, country in dial_codes}
+country_dial
+# {'Bangladesh': 880, 'Brazil': 55, 'China': 86, 'India': 91, 'Indonesia': 62,
+#  'Japan': 81, 'Nigeria': 234, 'Pakistan': 92, 'Russia': 7, 'United States': 1}
+{code: country.upper()
+    for country, code in sorted(country_dial.items())
+    if code &lt; 70}
+# {55: 'BRAZIL', 62: 'INDONESIA', 7: 'RUSSIA', 1: 'UNITED STATES'}
+</code></pre>
+<p>An iterable of key-value pairs like <code>dial_codes</code> could be passed directly to
+the <code>dict</code> constructor, but in the first dictcomp we swap the pairs, so that
+<code>country</code> is the key and <code>code</code> is the value.  The second dictcomp sorts
+<code>country_dial</code> by name, swaps the pairs back, uppercases the values, and keeps
+only the items with <code>code &lt; 70</code>.</p>
+<p>If you are used to listcomps, dictcomps are a natural next step.  If you are
+not, the spread of the comprehension syntax makes it more profitable than ever
+to become fluent in it.</p>
+<h3 id="unpacking-mappings"><a class="header" href="#unpacking-mappings">Unpacking Mappings</a></h3>
+<p><a href="https://peps.python.org/pep-0448/"><strong>PEP 448</strong></a> improved support for mapping
+unpacking in two ways.  First, you can apply <code>**</code> to more than one argument in a
+function call.  This works when the keys are all strings and unique across all
+arguments, because duplicate keyword arguments are forbidden:</p>
+<pre><code class="language-python">def dump(**kwargs):
+    return kwargs
+
+dump(**{'x': 1}, y=2, **{'z': 3})
+# {'x': 1, 'y': 2, 'z': 3}
+</code></pre>
+<p>Second, <code>**</code> can be used inside a <code>dict</code> literal, also multiple times:</p>
+<pre><code class="language-python">{'a': 0, **{'x': 1}, 'y': 2, **{'z': 3, 'x': 4}}
+# {'a': 0, 'x': 4, 'y': 2, 'z': 3}
+</code></pre>
+<p>In this case duplicate keys are allowed: later occurrences overwrite earlier
+ones, as you can see from the value mapped to <code>x</code>.  This syntax can be used to
+merge mappings, but there is a more direct way.</p>
+<h3 id="merging-mappings-with-"><a class="header" href="#merging-mappings-with-">Merging Mappings with <code>|</code></a></h3>
+<p>Since Python 3.9, you can use <code>|</code> and <code>|=</code> to merge mappings.  This makes sense,
+since these are also the set union operators.  The <code>|</code> operator creates a new
+mapping:</p>
+<pre><code class="language-python">d1 = {'a': 1, 'b': 3}
+d2 = {'a': 2, 'b': 4, 'c': 6}
+d1 | d2
+# {'a': 2, 'b': 4, 'c': 6}
+</code></pre>
+<p>Usually the new mapping has the same type as the left operand, <code>d1</code> here, but
+it can have the type of the right operand when user-defined types are involved,
+according to the operator overloading rules explained in
+<a href="operator-overloading.html">Operator Overloading</a>.  To update an existing mapping
+in place, use <code>|=</code>.  Continuing the example, <code>d1</code> was not changed by <code>|</code>, but now
+it is:</p>
+<pre><code class="language-python">d1
+# {'a': 1, 'b': 3}
+d1 |= d2
+d1
+# {'a': 2, 'b': 4, 'c': 6}
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>If you need to support Python 3.8 or earlier, the “Motivation” section of
+<a href="https://peps.python.org/pep-0584/"><strong>PEP 584</strong></a> gives a good summary of other
+ways to merge mappings.</p>
+</blockquote>
+<h3 id="pattern-matching-with-mappings"><a class="header" href="#pattern-matching-with-mappings">Pattern Matching with Mappings</a></h3>
+<p>The <code>match</code>/<code>case</code> statement supports subjects that are mappings.  Mapping
+patterns look like <code>dict</code> literals, but they match instances of any actual or
+virtual subclass of <code>collections.abc.Mapping</code>.  Different kinds of patterns can
+be combined and nested, which makes pattern matching a powerful tool for
+processing records structured as nested mappings and sequences, like those you
+often read from JSON APIs and from databases with semi-structured schemas.  The
+following function extracts the names of creators from media records:</p>
+<pre><code class="language-python">def get_creators(record: dict) -&gt; list:
+    match record:
+        case {'type': 'book', 'api': 2, 'authors': [*names]}:
+            return names
+        case {'type': 'book', 'api': 1, 'author': name}:
+            return [name]
+        case {'type': 'book'}:
+            raise ValueError(f"Invalid 'book' record: {record!r}")
+        case {'type': 'movie', 'director': name}:
+            return [name]
+        case _:
+            raise ValueError(f'Invalid record: {record!r}')
+</code></pre>
+<p>The first case matches any mapping with <code>'type': 'book'</code>, <code>'api': 2</code>, and an
+<code>'authors'</code> key mapped to a sequence, and returns the items of the sequence as a
+new list.  The second matches a mapping with <code>'type': 'book'</code>, <code>'api': 1</code> and an
+<code>'author'</code> key mapped to any object, and returns that object inside a list.  Any
+other mapping with <code>'type': 'book'</code> is invalid.  The fourth case handles movies,
+and anything else raises <code>ValueError</code>.</p>
+<p>This function shows some useful practices for handling semi-structured data
+such as JSON records: include a field describing the kind of record (for
+example, <code>'type': 'movie'</code>); include a field identifying the schema version (for
+example, <code>'api': 2</code>), to allow for future evolution of public APIs; and have
+<code>case</code> clauses to handle invalid records of a specific type (for example,
+<code>'book'</code>) as well as a catch-all.  Here is how it behaves:</p>
+<pre><code class="language-python">b1 = dict(api=1, author='Douglas Hofstadter',
+        type='book', title='Gödel, Escher, Bach')
+get_creators(b1)
+# ['Douglas Hofstadter']
+from collections import OrderedDict
+b2 = OrderedDict(api=2, type='book',
+        title='Python in a Nutshell',
+        authors='Martelli Ravenscroft Holden'.split())
+get_creators(b2)
+# ['Martelli', 'Ravenscroft', 'Holden']
+get_creators({'type': 'book', 'pages': 770})
+# Traceback (most recent call last):
+#     ...
+# ValueError: Invalid 'book' record: {'type': 'book', 'pages': 770}
+get_creators('Spam, spam, spam')
+# Traceback (most recent call last):
+#     ...
+# ValueError: Invalid record: 'Spam, spam, spam'
+</code></pre>
+<p>Note that the order of the keys in the patterns is irrelevant, even when the
+subject is an <code>OrderedDict</code> like <code>b2</code>.</p>
+<p>Unlike sequence patterns, mapping patterns succeed on partial matches: <code>b1</code> and
+<code>b2</code> include a <code>'title'</code> key that does not appear in any <code>'book'</code> pattern, yet
+they match.  There is no need to use <code>**extra</code> to match extra key-value pairs,
+but if you want to capture them as a <code>dict</code>, you can prefix one variable with
+<code>**</code>.  It must be the last one in the pattern, and <code>**_</code> is forbidden because it
+would be redundant:</p>
+<pre><code class="language-python">food = dict(category='ice cream', flavor='vanilla', cost=199)
+match food:
+    case {'category': 'ice cream', **details}:
+        print(f'Ice cream details: {details}')
+# Ice cream details: {'flavor': 'vanilla', 'cost': 199}
+</code></pre>
+<p>Later in this chapter you’ll meet <code>defaultdict</code> and other mappings where
+<code>d[key]</code> lookups succeed because missing items are created on the fly.  In the
+context of pattern matching, however, a match succeeds only if the subject
+already has the required keys at the top of the <code>match</code> statement.  The
+automatic handling of missing keys is not triggered, because pattern matching
+always uses the <code>d.get(key, sentinel)</code> method, where <code>sentinel</code> is a special
+marker value that cannot occur in user data.</p>
+<p><a href="pattern-matching.html">Pattern Matching in Depth</a> covers all the kinds of
+patterns together.</p>
+<h2 id="standard-api-of-mapping-types"><a class="header" href="#standard-api-of-mapping-types">Standard API of Mapping Types</a></h2>
+<p>The <a href="https://docs.python.org/3/library/collections.abc.html"><code>collections.abc</code></a>
+module provides the <code>Mapping</code> and <code>MutableMapping</code> ABCs describing the
+interfaces of <code>dict</code> and similar types.  <code>Mapping</code> inherits from <code>Collection</code>
+(and therefore from <code>Sized</code>, <code>Iterable</code> and <code>Container</code>) and adds the concrete
+methods <code>__getitem__()</code>, <code>__contains__()</code>, <code>__eq__()</code>, <code>__ne__()</code>, <code>get()</code>,
+<code>items()</code>, <code>keys()</code> and <code>values()</code>; <code>MutableMapping</code> adds <code>__setitem__()</code>,
+<code>__delitem__()</code>, <code>clear()</code>, <code>pop()</code>, <code>popitem()</code>, <code>setdefault()</code> and <code>update()</code>.</p>
+<p>The main value of the ABCs is documenting and formalizing the standard
+interfaces for mappings, and serving as criteria for <code>isinstance</code> tests in code
+that needs to support mappings in a broad sense:</p>
+<pre><code class="language-python">from collections import abc
+my_dict = {}
+isinstance(my_dict, abc.Mapping)
+# True
+isinstance(my_dict, abc.MutableMapping)
+# True
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Using <code>isinstance</code> with an ABC is often better than checking whether a
+function argument is of the concrete <code>dict</code> type, because then alternative
+mapping types can be used.  <a href="protocols-abcs.html">Interfaces, Protocols, and ABCs</a>
+discusses this in detail.</p>
+</blockquote>
+<p>To implement a custom mapping, it is easier to extend <code>collections.UserDict</code>, or
+to wrap a <code>dict</code> by composition, than to subclass these ABCs.  The <code>UserDict</code>
+class and all the concrete mapping classes in the standard library encapsulate
+the basic <code>dict</code> in their implementation, which in turn is built on a hash
+table.  Therefore they all share the limitation that the keys must be
+<em>hashable</em> (the values need not be, only the keys).</p>
+<h3 id="what-is-hashable"><a class="header" href="#what-is-hashable">What Is Hashable</a></h3>
+<p>Here is part of the definition of
+<a href="https://docs.python.org/3/glossary.html#term-hashable">hashable</a> adapted from
+the Python glossary:</p>
+<blockquote>
+<p>An object is hashable if it has a hash code which never changes during its
+lifetime (it needs a <code>__hash__()</code> method), and can be compared to other
+objects (it needs an <code>__eq__()</code> method).  Hashable objects which compare equal
+must have the same hash code.</p>
+</blockquote>
+<p>Numeric types and the flat immutable types <code>str</code> and <code>bytes</code> are all hashable.
+Container types are hashable if they are immutable and all the objects they
+contain are also hashable.  A <code>frozenset</code> is always hashable, because every
+element it contains must be hashable by definition.  A <code>tuple</code> is hashable only
+if all its items are hashable:</p>
+<pre><code class="language-python">tt = (1, 2, (30, 40))
+hash(tt)
+# 8027212646858338501
+tl = (1, 2, [30, 40])
+hash(tl)
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: unhashable type: 'list'
+tf = (1, 2, frozenset([30, 40]))
+hash(tf)
+# -4118419923444501110
+</code></pre>
+<p>The hash code of an object may differ depending on the version of Python, the
+machine architecture, and a <em>salt</em> added to the hash computation of strings
+and bytes for security reasons (see <a href="https://peps.python.org/pep-0456/"><strong>PEP 456</strong></a>).
+The hash code of a correctly implemented object is guaranteed to be constant
+only within one Python process.</p>
+<p>User-defined types are hashable by default, because their hash code is derived
+from their <code>id()</code>, and the <code>__eq__()</code> method inherited from <code>object</code> simply
+compares object ids.  If an object implements a custom <code>__eq__()</code> that takes its
+internal state into account, it is hashable only if its <code>__hash__()</code> always
+returns the same hash code.  In practice, this requires that <code>__eq__()</code> and
+<code>__hash__()</code> only use instance attributes that never change during the life of
+the object.  <a href="pythonic-object.html#a-hashable-vector2d">A Pythonic Object</a>
+shows how to do that.</p>
+<h3 id="overview-of-common-mapping-methods"><a class="header" href="#overview-of-common-mapping-methods">Overview of Common Mapping Methods</a></h3>
+<p>The basic interface of mappings is quite rich.  The following table shows the
+methods implemented by <code>dict</code> and two popular variations defined in the
+<code>collections</code> module, <code>defaultdict</code> and <code>OrderedDict</code> (optional arguments are
+enclosed in <code>[...]</code>):</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Method</th><th style="text-align: center"><code>dict</code></th><th style="text-align: center"><code>defaultdict</code></th><th style="text-align: center"><code>OrderedDict</code></th><th>Meaning</th></tr>
+</thead>
+<tbody>
+<tr><td><code>d.clear()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>remove all items</td></tr>
+<tr><td><code>d.__contains__(k)</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td><code>k in d</code></td></tr>
+<tr><td><code>d.copy()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>shallow copy</td></tr>
+<tr><td><code>d.__copy__()</code></td><td style="text-align: center"></td><td style="text-align: center">●</td><td style="text-align: center"></td><td>support for <code>copy.copy(d)</code></td></tr>
+<tr><td><code>d.default_factory</code></td><td style="text-align: center"></td><td style="text-align: center">●</td><td style="text-align: center"></td><td>callable invoked by <code>__missing__</code> to set missing values (an attribute set by the user, not a method)</td></tr>
+<tr><td><code>d.__delitem__(k)</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td><code>del d[k]</code>: remove the item with key <code>k</code></td></tr>
+<tr><td><code>d.fromkeys(it, [initial])</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>new mapping from the keys in an iterable, with an optional initial value (defaults to <code>None</code>)</td></tr>
+<tr><td><code>d.get(k, [default])</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>get the item with key <code>k</code>; return <code>default</code> or <code>None</code> if missing</td></tr>
+<tr><td><code>d.__getitem__(k)</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td><code>d[k]</code>: get the item with key <code>k</code></td></tr>
+<tr><td><code>d.items()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>get a view over the items: <code>(key, value)</code> pairs</td></tr>
+<tr><td><code>d.__iter__()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>get an iterator over the keys</td></tr>
+<tr><td><code>d.keys()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>get a view over the keys</td></tr>
+<tr><td><code>d.__len__()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td><code>len(d)</code>: number of items</td></tr>
+<tr><td><code>d.__missing__(k)</code></td><td style="text-align: center"></td><td style="text-align: center">●</td><td style="text-align: center"></td><td>called when <code>__getitem__</code> cannot find the key</td></tr>
+<tr><td><code>d.move_to_end(k, [last])</code></td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: center">●</td><td>move <code>k</code> to the first or last position (<code>last</code> is <code>True</code> by default)</td></tr>
+<tr><td><code>d.__or__(other)</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td><code>d1 | d2</code>: new mapping merging <code>d1</code> and <code>d2</code> (Python 3.9+)</td></tr>
+<tr><td><code>d.__ior__(other)</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td><code>d1 |= d2</code>: update <code>d1</code> with <code>d2</code> (Python 3.9+)</td></tr>
+<tr><td><code>d.pop(k, [default])</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>remove and return the value at <code>k</code>, or <code>default</code> or <code>None</code> if missing</td></tr>
+<tr><td><code>d.popitem()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>remove and return the last inserted item as <code>(key, value)</code></td></tr>
+<tr><td><code>d.__reversed__()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td><code>reversed(d)</code>: iterator over the keys from last to first inserted</td></tr>
+<tr><td><code>d.__ror__(other)</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td><code>other | d</code>: reversed union operator (Python 3.9+)</td></tr>
+<tr><td><code>d.setdefault(k, [default])</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>if <code>k in d</code>, return <code>d[k]</code>; else set <code>d[k] = default</code> and return it</td></tr>
+<tr><td><code>d.__setitem__(k, v)</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td><code>d[k] = v</code>: put <code>v</code> at <code>k</code></td></tr>
+<tr><td><code>d.update(m, [**kwargs])</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>update <code>d</code> with items from a mapping or an iterable of <code>(key, value)</code> pairs</td></tr>
+<tr><td><code>d.values()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>get a view over the values</td></tr>
+</tbody>
+</table>
+</div>
+<p>(<code>OrderedDict.popitem(last=False)</code> removes the first item inserted instead, FIFO
+style; plain <code>dict</code> and <code>defaultdict</code> don’t take that argument.)</p>
+<p>The way <code>d.update(m)</code> handles its first argument <code>m</code> is a prime example of <em>duck
+typing</em>: it first checks whether <code>m</code> has a <code>keys</code> method and, if it does,
+assumes it is a mapping.  Otherwise, <code>update()</code> falls back to iterating over
+<code>m</code>, assuming its items are <code>(key, value)</code> pairs.  The constructors of most
+Python mappings use the logic of <code>update()</code> internally, which means they can be
+initialized from other mappings or from any iterable producing <code>(key, value)</code>
+pairs.</p>
+<p>A subtle mapping method is <code>setdefault()</code>.  It avoids redundant key lookups when
+you need to update the value of an item in place, as the next section shows.</p>
+<h3 id="inserting-or-updating-mutable-values"><a class="header" href="#inserting-or-updating-mutable-values">Inserting or Updating Mutable Values</a></h3>
+<p>In line with Python’s fail-fast philosophy, <code>d[k]</code> raises an error when <code>k</code> is
+not an existing key.  Pythonistas know that <code>d.get(k, default)</code> is an
+alternative to <code>d[k]</code> whenever a default value is more convenient than handling
+<code>KeyError</code>.  However, when you retrieve a mutable value in order to update it,
+there is a better way.</p>
+<p>Consider a script to index text, producing a mapping where each key is a word
+and the value is a list of the positions where that word occurs, as pairs of
+<code>(line_number, column_number)</code>.  Run on a file containing the Zen of Python, it
+would print something like this:</p>
+<pre><code class="language-console">$ python3 index0.py zen.txt
+a [(19, 48), (20, 53)]
+Although [(11, 1), (16, 1), (18, 1)]
+ambiguity [(14, 16)]
+and [(15, 23)]
+are [(21, 12)]
+aren [(10, 15)]
+at [(16, 38)]
+bad [(19, 50)]
+be [(15, 14), (16, 27), (20, 50)]
+beats [(11, 23)]
+Beautiful [(3, 1)]
+better [(3, 14), (4, 13), (5, 11), (6, 12), (7, 9), (8, 11), (17, 8), (18, 25)]
+...
+</code></pre>
+<p>Here is a suboptimal version of that script, written to show one case where
+<code>dict.get</code> is not the best way to handle a missing key:</p>
+<!-- nocheck -->
+<pre><code class="language-python">"""Build an index mapping word -&gt; list of occurrences"""
+
+import re
+import sys
+
+WORD_RE = re.compile(r'\w+')
+
+index = {}
+with open(sys.argv[1], encoding='utf-8') as fp:
+    for line_no, line in enumerate(fp, 1):
+        for match in WORD_RE.finditer(line):
+            word = match.group()
+            column_no = match.start() + 1
+            location = (line_no, column_no)
+            # this is ugly; coded like this to make a point
+            occurrences = index.get(word, [])
+            occurrences.append(location)
+            index[word] = occurrences
+
+# display in alphabetical order
+for word in sorted(index, key=str.upper):
+    print(word, index[word])
+</code></pre>
+<p>The three lines dealing with <code>occurrences</code> get the list of occurrences for
+<code>word</code>, or <code>[]</code> if it is not found; append the new location; and put the
+changed list back into <code>index</code>, which requires a second search through the
+dictionary.  (In the <code>key=</code> argument of <code>sorted</code>, we are not calling
+<code>str.upper</code>, just passing a reference to that method so that <code>sorted</code> can use it
+to normalize the words for sorting.  That is an example of using a method as a
+first-class function, the subject of
+<a href="first-class-functions.html">Functions as First-Class Objects</a>.)</p>
+<p>Those three lines can be replaced by a single line using <code>dict.setdefault</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">"""Build an index mapping word -&gt; list of occurrences"""
+
+import re
+import sys
+
+WORD_RE = re.compile(r'\w+')
+
+index = {}
+with open(sys.argv[1], encoding='utf-8') as fp:
+    for line_no, line in enumerate(fp, 1):
+        for match in WORD_RE.finditer(line):
+            word = match.group()
+            column_no = match.start() + 1
+            location = (line_no, column_no)
+            index.setdefault(word, []).append(location)
+
+# display in alphabetical order
+for word in sorted(index, key=str.upper):
+    print(word, index[word])
+</code></pre>
+<p><code>setdefault</code> gets the list of occurrences for <code>word</code>, or sets it to <code>[]</code> if it is
+not found; and since it returns the value, the list can be updated without a
+second search.  In other words, the end result of this line:</p>
+<!-- nocheck -->
+<pre><code class="language-python">my_dict.setdefault(key, []).append(new_value)
+</code></pre>
+<p>is the same as running:</p>
+<!-- nocheck -->
+<pre><code class="language-python">if key not in my_dict:
+    my_dict[key] = []
+my_dict[key].append(new_value)
+</code></pre>
+<p>except that the latter code performs at least two searches for <code>key</code> (three if
+it is not found), while <code>setdefault</code> does it all with a single lookup.</p>
+<p>A related issue, handling missing keys on any lookup and not only when
+inserting, is the subject of the next section.</p>
+<h2 id="automatic-handling-of-missing-keys"><a class="header" href="#automatic-handling-of-missing-keys">Automatic Handling of Missing Keys</a></h2>
+<p>Sometimes it is convenient to have mappings that return some made-up value when
+a missing key is searched.  There are two main approaches: use a <code>defaultdict</code>
+instead of a plain <code>dict</code>, or subclass <code>dict</code> (or any other mapping type) and add
+a <code>__missing__()</code> method.</p>
+<h3 id="defaultdict-another-take-on-missing-keys"><a class="header" href="#defaultdict-another-take-on-missing-keys"><code>defaultdict</code>: Another Take on Missing Keys</a></h3>
+<p>A <a href="https://docs.python.org/3/library/collections.html#collections.defaultdict"><code>collections.defaultdict</code></a>
+creates items with a default value on demand whenever a missing key is searched
+with <code>d[k]</code> syntax.  When you create a <code>defaultdict</code>, you provide a callable that
+produces a default value whenever <code>__getitem__()</code> is passed a nonexistent key.
+For example, given <code>dd = defaultdict(list)</code>, if <code>'new-key'</code> is not in <code>dd</code>, the
+expression <code>dd['new-key']</code> does the following:</p>
+<ol>
+<li>calls <code>list()</code> to create a new list;</li>
+<li>inserts the list into <code>dd</code> using <code>'new-key'</code> as the key;</li>
+<li>returns a reference to that list.</li>
+</ol>
+<p>The callable that produces the default values is held in an instance attribute
+named <code>default_factory</code>.  Here is yet another version of the word index script:</p>
+<!-- nocheck -->
+<pre><code class="language-python">"""Build an index mapping word -&gt; list of occurrences"""
+
+import collections
+import re
+import sys
+
+WORD_RE = re.compile(r'\w+')
+
+index = collections.defaultdict(list)
+with open(sys.argv[1], encoding='utf-8') as fp:
+    for line_no, line in enumerate(fp, 1):
+        for match in WORD_RE.finditer(line):
+            word = match.group()
+            column_no = match.start() + 1
+            location = (line_no, column_no)
+            index[word].append(location)
+
+# display in alphabetical order
+for word in sorted(index, key=str.upper):
+    print(word, index[word])
+</code></pre>
+<p>We create a <code>defaultdict</code> with the <code>list</code> constructor as <code>default_factory</code>.  If
+<code>word</code> is not yet in the index, <code>default_factory</code> is called to produce the
+missing value, an empty list, which is assigned to <code>index[word]</code> and returned,
+so the <code>.append(location)</code> operation always succeeds.</p>
+<p>If no <code>default_factory</code> is provided, the usual <code>KeyError</code> is raised for missing
+keys.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>The <code>default_factory</code> of a <code>defaultdict</code> is only invoked to provide default
+values for <code>__getitem__()</code> calls, not for the other methods.  If <code>dd</code> is a
+<code>defaultdict</code> and <code>k</code> is a missing key, <code>dd[k]</code> calls <code>default_factory</code> to
+create a default value, but <code>dd.get(k)</code> still returns <code>None</code>, and <code>k in dd</code> is
+<code>False</code>.</p>
+</blockquote>
+<p>The mechanism that makes <code>defaultdict</code> work by calling <code>default_factory</code> is the
+<code>__missing__()</code> special method.</p>
+<h3 id="the-__missing__-method"><a class="header" href="#the-__missing__-method">The <code>__missing__</code> Method</a></h3>
+<p>Underlying the way mappings deal with missing keys is the aptly named
+<code>__missing__()</code> method.  It is not defined in the base <code>dict</code> class, but <code>dict</code> is
+aware of it: if you subclass <code>dict</code> and provide a <code>__missing__()</code> method, the
+standard <code>dict.__getitem__()</code> calls it whenever a key is not found, instead of
+raising <code>KeyError</code>.</p>
+<p>Suppose you’d like a mapping where keys are converted to <code>str</code> when looked up.
+A concrete use case is a device library for the Internet of Things, where a
+programmable board with general-purpose I/O pins (a Raspberry Pi or an Arduino,
+say) is represented by a <code>Board</code> class with a <code>pins</code> attribute mapping physical
+pin identifiers to pin software objects.  The physical identifier may be just a
+number or a string like <code>"A0"</code> or <code>"P9_12"</code>.  For consistency all keys in
+<code>board.pins</code> should be strings, but it is also convenient to look up a pin by
+number, as in <code>my_arduino.pins[13]</code>, so that beginners are not tripped up when
+they want to blink the LED on pin 13.  Here is how such a mapping should behave:</p>
+<!-- nocheck -->
+<pre><code class="language-python">d = StrKeyDict0([('2', 'two'), ('4', 'four')])
+d['2']
+# 'two'
+d[4]
+# 'four'
+d[1]
+# Traceback (most recent call last):
+#   ...
+# KeyError: '1'
+d.get('2')
+# 'two'
+d.get(4)
+# 'four'
+d.get(1, 'N/A')
+# 'N/A'
+2 in d
+# True
+1 in d
+# False
+</code></pre>
+<p>And here is a class <code>StrKeyDict0</code> that implements that behavior:</p>
+<pre><code class="language-python">class StrKeyDict0(dict):
+
+    def __missing__(self, key):
+        if isinstance(key, str):
+            raise KeyError(key)
+        return self[str(key)]
+
+    def get(self, key, default=None):
+        try:
+            return self[key]
+        except KeyError:
+            return default
+
+    def __contains__(self, key):
+        return key in self.keys() or str(key) in self.keys()
+
+d = StrKeyDict0([('2', 'two'), ('4', 'four')])
+d[4]
+# 'four'
+d.get(1, 'N/A')
+# 'N/A'
+2 in d
+# True
+</code></pre>
+<p><code>StrKeyDict0</code> inherits from <code>dict</code>.  (A better way to create a user-defined
+mapping type is to subclass <code>collections.UserDict</code>, as you’ll see shortly; here
+we subclass <code>dict</code> just to show that <code>__missing__()</code> is supported by the built-in
+<code>dict.__getitem__()</code>.)  <code>__missing__()</code> checks whether the key is already a
+<code>str</code>: if it is, and it is missing, it raises <code>KeyError</code>; otherwise it builds a
+<code>str</code> from the key and looks it up.  The <code>get</code> method delegates to
+<code>__getitem__()</code> by using the <code>self[key]</code> notation, which gives <code>__missing__()</code> the
+opportunity to act; if <code>KeyError</code> is raised, <code>__missing__()</code> already failed, so
+<code>get</code> returns the default.  Finally, <code>__contains__()</code> searches for the unmodified
+key (the instance may contain non-<code>str</code> keys), and then for a <code>str</code> built from
+it.</p>
+<p>Take a moment to consider why the <code>isinstance(key, str)</code> test is necessary in
+<code>__missing__()</code>.  Without it, the method would work for any key <code>k</code>, <code>str</code> or not,
+whenever <code>str(k)</code> produced an existing key.  But if <code>str(k)</code> is not an existing
+key, you’d have an infinite recursion: the last line, <code>self[str(key)]</code>, would
+call <code>__getitem__()</code> with that <code>str</code> key, which in turn would call
+<code>__missing__()</code> again.</p>
+<p><code>__contains__()</code> is also needed for consistent behavior, because <code>k in d</code> calls
+it, and the method inherited from <code>dict</code> does not fall back on
+<code>__missing__()</code>.  There is a subtle detail in the implementation: it does not
+check for the key in the usual Pythonic way, <code>k in my_dict</code>, because <code>str(key) in self</code> would call <code>__contains__()</code> recursively.  We avoid that by looking up the
+key explicitly in <code>self.keys()</code>.  A search like <code>k in my_dict.keys()</code> is
+efficient even for very large mappings, because <code>dict.keys()</code> returns a view,
+which is similar to a set, as you’ll see in
+<a href="#set-operations-on-dict-views">Set Operations on <code>dict</code> Views</a>.  (Do remember,
+though, that in ordinary code <code>k in my_dict</code> does the same job and is faster,
+because it avoids the attribute lookup to find <code>.keys</code>.)  The check for the
+unmodified key, <code>key in self.keys()</code>, is necessary for correctness because
+<code>StrKeyDict0</code> does not force all keys to be <code>str</code>; its only goal is to make
+searching friendlier.</p>
+<h3 id="inconsistent-usage-of-__missing__-in-the-standard-library"><a class="header" href="#inconsistent-usage-of-__missing__-in-the-standard-library">Inconsistent Usage of <code>__missing__</code> in the Standard Library</a></h3>
+<p>User-defined classes derived from standard library mappings may or may not use
+<code>__missing__()</code> as a fallback in their implementations of <code>__getitem__()</code>, <code>get</code>
+or <code>__contains__()</code>.  Consider these minimal scenarios:</p>
+<dl>
+<dt id="a-dict-subclass"><a class="header" href="#a-dict-subclass"><em>A <code>dict</code> subclass</em></a></dt>
+<dd>implementing only <code>__missing__()</code> and no other method.  <code>__missing__()</code> may be
+called only on <code>d[k]</code>, which uses the <code>__getitem__()</code> inherited from <code>dict</code>.</dd>
+<dt id="a-collectionsuserdict-subclass"><a class="header" href="#a-collectionsuserdict-subclass"><em>A <code>collections.UserDict</code> subclass</em></a></dt>
+<dd>likewise implementing only <code>__missing__()</code>.  The <code>get</code> method inherited from
+<code>UserDict</code> calls <code>__getitem__()</code>, so <code>__missing__()</code> may be called to handle
+lookups with <code>d[k]</code> and <code>d.get(k)</code>.</dd>
+<dt id="an-abcmapping-subclass-with-the-simplest-possible-__getitem__"><a class="header" href="#an-abcmapping-subclass-with-the-simplest-possible-__getitem__"><em>An <code>abc.Mapping</code> subclass with the simplest possible <code>__getitem__()</code></em></a></dt>
+<dd>implementing <code>__missing__()</code> and the required abstract methods, with a
+<code>__getitem__()</code> that does not call <code>__missing__()</code>.  <code>__missing__()</code> is never
+triggered.</dd>
+<dt id="an-abcmapping-subclass-with-__getitem__-calling-__missing__"><a class="header" href="#an-abcmapping-subclass-with-__getitem__-calling-__missing__"><em>An <code>abc.Mapping</code> subclass with <code>__getitem__()</code> calling <code>__missing__()</code></em></a></dt>
+<dd><code>__missing__()</code> is triggered for missing key lookups made with <code>d[k]</code>,
+<code>d.get(k)</code> and <code>k in d</code>.</dd>
+</dl>
+<p>If your subclass implements <code>__getitem__()</code>, <code>get</code> and <code>__contains__()</code>, you can
+make those methods use <code>__missing__()</code> or not, depending on your needs.  The point
+is that you must be careful when subclassing standard library mappings to use
+<code>__missing__()</code>, because the base classes behave differently by default.  Don’t
+forget that <code>setdefault</code> and <code>update</code> are also affected by key lookup.  And
+depending on the logic of your <code>__missing__()</code>, you may need special logic in
+<code>__setitem__()</code> too, to avoid inconsistent or surprising behavior, as the
+<a href="#subclassing-userdict-instead-of-dict"><code>UserDict</code> example</a> below shows.</p>
+<h2 id="variations-of-dict"><a class="header" href="#variations-of-dict">Variations of <code>dict</code></a></h2>
+<p>This section is an overview of the mapping types in the standard library
+besides <code>defaultdict</code>, which was covered above.</p>
+<h3 id="collectionsordereddict"><a class="header" href="#collectionsordereddict"><code>collections.OrderedDict</code></a></h3>
+<p>Now that the built-in <code>dict</code> keeps keys ordered (since Python 3.6, officially
+since 3.7), the most common reason to use
+<a href="https://docs.python.org/3/library/collections.html#collections.OrderedDict"><code>OrderedDict</code></a>
+is writing code that is backward compatible with earlier versions.  Still, the
+documentation lists some remaining differences between <code>dict</code> and
+<code>OrderedDict</code>, here reordered by their relevance in daily use:</p>
+<ul>
+<li>The equality operation for <code>OrderedDict</code> checks for matching order.</li>
+<li>The <code>popitem()</code> method of <code>OrderedDict</code> has a different signature: it accepts
+an optional argument to specify which item is popped.</li>
+<li><code>OrderedDict</code> has a <code>move_to_end()</code> method to efficiently reposition an
+element to an endpoint.</li>
+<li>The regular <code>dict</code> was designed to be very good at mapping operations;
+tracking insertion order was secondary.</li>
+<li><code>OrderedDict</code> was designed to be good at reordering operations; space
+efficiency, iteration speed and the performance of update operations were
+secondary.</li>
+<li>Algorithmically, <code>OrderedDict</code> handles frequent reordering operations better
+than <code>dict</code>, which makes it suitable for tracking recent accesses, for example
+in an LRU cache.</li>
+</ul>
+<pre><code class="language-python">from collections import OrderedDict
+dict(a=1, b=2) == dict(b=2, a=1)
+# True
+OrderedDict(a=1, b=2) == OrderedDict(b=2, a=1)
+# False
+od = OrderedDict.fromkeys('abcde')
+od.move_to_end('b')
+''.join(od)
+# 'acdeb'
+od.popitem(last=False)
+# ('a', None)
+</code></pre>
+<h3 id="collectionschainmap"><a class="header" href="#collectionschainmap"><code>collections.ChainMap</code></a></h3>
+<p>A <a href="https://docs.python.org/3/library/collections.html#collections.ChainMap"><code>ChainMap</code></a>
+instance holds a list of mappings that can be searched as one.  The lookup is
+performed on each input mapping in the order it appears in the constructor call,
+and succeeds as soon as the key is found in one of them:</p>
+<pre><code class="language-python">d1 = dict(a=1, b=3)
+d2 = dict(a=2, b=4, c=6)
+from collections import ChainMap
+chain = ChainMap(d1, d2)
+chain['a']
+# 1
+chain['c']
+# 6
+</code></pre>
+<p>A <code>ChainMap</code> does not copy the input mappings, but holds references to them.
+Updates and insertions affect only the first input mapping:</p>
+<pre><code class="language-python">chain['c'] = -1
+d1
+# {'a': 1, 'b': 3, 'c': -1}
+d2
+# {'a': 2, 'b': 4, 'c': 6}
+</code></pre>
+<p><code>ChainMap</code> is useful for implementing interpreters for languages with nested
+scopes, where each mapping represents a scope context, from the innermost
+enclosing scope to the outermost.  The documentation has several examples,
+including this snippet inspired by the basic rules of variable lookup in Python:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import builtins
+pylookup = ChainMap(locals(), globals(), vars(builtins))
+</code></pre>
+<p><a href="pattern-matching.html#environment-with-chainmap">Pattern Matching in Depth</a> shows a
+<code>ChainMap</code> subclass used in an interpreter for a subset of the Scheme language.</p>
+<h3 id="collectionscounter"><a class="header" href="#collectionscounter"><code>collections.Counter</code></a></h3>
+<p>A <a href="https://docs.python.org/3/library/collections.html#collections.Counter"><code>Counter</code></a>
+is a mapping that holds an integer count for each key.  Updating an existing key
+adds to its count.  It can be used to count instances of hashable objects, or as
+a <em>multiset</em>: pretend each key is an element of the set, and the count is the
+number of occurrences of that element.  <code>Counter</code> implements the <code>+</code> and <code>-</code>
+operators to combine tallies, and other useful methods such as
+<code>most_common([n])</code>, which returns an ordered list of tuples with the <em>n</em> most
+common items and their counts.  Here is <code>Counter</code> counting letters in words:</p>
+<pre><code class="language-python">import collections
+ct = collections.Counter('abracadabra')
+ct
+# Counter({'a': 5, 'b': 2, 'r': 2, 'c': 1, 'd': 1})
+ct.update('aaaaazzz')
+ct
+# Counter({'a': 10, 'z': 3, 'b': 2, 'r': 2, 'c': 1, 'd': 1})
+ct.most_common(3)
+# [('a', 10), ('z', 3), ('b', 2)]
+</code></pre>
+<p>Note that <code>'b'</code> and <code>'r'</code> are tied in third place, but <code>ct.most_common(3)</code> shows
+only three counts.</p>
+<h3 id="shelveshelf"><a class="header" href="#shelveshelf"><code>shelve.Shelf</code></a></h3>
+<p>The <a href="https://docs.python.org/3/library/shelve.html"><code>shelve</code></a> module provides
+persistent storage for a mapping of string keys to Python objects serialized in
+the <code>pickle</code> binary format.  The curious name makes sense when you realize that
+pickle jars are stored on shelves.  The <code>shelve.open()</code> function returns a
+<code>shelve.Shelf</code> instance, a simple key-value DBM database backed by the <code>dbm</code>
+module, with these characteristics:</p>
+<ul>
+<li><code>shelve.Shelf</code> subclasses <code>abc.MutableMapping</code>, so it provides the essential
+methods you expect of a mapping type.</li>
+<li>In addition, it provides a few I/O management methods, like <code>sync</code> and
+<code>close</code>.</li>
+<li>A <code>Shelf</code> instance is a context manager, so you can use a <code>with</code> block to make
+sure it is closed after use.</li>
+<li>Keys and values are saved whenever a new value is assigned to a key.</li>
+<li>The keys must be strings.</li>
+<li>The values must be objects that the <code>pickle</code> module can serialize.</li>
+</ul>
+<pre><code class="language-python">import shelve
+with shelve.open('spam_db') as db:
+    db['eggs'] = {'count': 3, 'colors': ['white', 'brown']}
+
+with shelve.open('spam_db') as db:
+    print(db['eggs'])
+# {'count': 3, 'colors': ['white', 'brown']}
+</code></pre>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p><code>pickle</code> is easy to use in the simplest cases, but it has several drawbacks,
+including security: never unpickle data from an untrusted source.  Read the
+documentation of the <code>shelve</code>, <code>dbm</code> and <code>pickle</code> modules for details and
+caveats, and consider other serialization formats such as JSON
+(see <a href="inputoutput.html#tut-json">Saving structured data with json</a>).</p>
+</blockquote>
+<p><code>OrderedDict</code>, <code>ChainMap</code>, <code>Counter</code> and <code>Shelf</code> are ready to use but can also be
+customized by subclassing.  In contrast, <code>UserDict</code> is intended only as a base
+class to be extended.</p>
+<h3 id="subclassing-userdict-instead-of-dict"><a class="header" href="#subclassing-userdict-instead-of-dict">Subclassing <code>UserDict</code> Instead of <code>dict</code></a></h3>
+<p>It is better to create a new mapping type by extending
+<a href="https://docs.python.org/3/library/collections.html#collections.UserDict"><code>collections.UserDict</code></a>
+than <code>dict</code>.  You can see why when you try to extend <code>StrKeyDict0</code> to make sure
+that any keys added to the mapping are stored as <code>str</code>.</p>
+<p>The main reason is that the built-in has some implementation shortcuts that end
+up forcing you to override methods that you can just inherit from <code>UserDict</code>
+with no problems.  (The exact problem with subclassing <code>dict</code> and other
+built-ins is covered in
+<a href="inheritance.html#subclassing-built-in-types-is-tricky">Subclassing Built-In Types Is Tricky</a>.)
+Note that <code>UserDict</code> does not inherit from <code>dict</code>, but uses composition: it has
+an internal <code>dict</code> instance, called <code>data</code>, which holds the actual items.  This
+avoids undesired recursion when coding special methods like <code>__setitem__()</code>, and
+simplifies the coding of <code>__contains__()</code>.</p>
+<p>Thanks to <code>UserDict</code>, <code>StrKeyDict</code> is more concise than <code>StrKeyDict0</code>, yet it
+does more: it stores all keys as <code>str</code>, avoiding unpleasant surprises if the
+instance is built or updated with data containing nonstring keys:</p>
+<pre><code class="language-python">import collections
+
+class StrKeyDict(collections.UserDict):
+
+    def __missing__(self, key):
+        if isinstance(key, str):
+            raise KeyError(key)
+        return self[str(key)]
+
+    def __contains__(self, key):
+        return str(key) in self.data
+
+    def __setitem__(self, key, item):
+        self.data[str(key)] = item
+
+d = StrKeyDict([(2, 'two'), ('4', 'four')])
+sorted(d.keys())
+# ['2', '4']
+d.update({6: 'six'})
+d[6], d.get(6), 6 in d
+# ('six', 'six', True)
+</code></pre>
+<p><code>__missing__()</code> is exactly as before.  <code>__contains__()</code> is simpler: we can assume
+all stored keys are <code>str</code>, and we can check <code>self.data</code> instead of invoking
+<code>self.keys()</code>.  <code>__setitem__()</code> converts any key to a <code>str</code>; this method is easy to
+override when we can delegate to the <code>self.data</code> attribute.</p>
+<p>Because <code>UserDict</code> extends <code>abc.MutableMapping</code>, the remaining methods that make
+<code>StrKeyDict</code> a full-fledged mapping are inherited from <code>UserDict</code>,
+<code>MutableMapping</code> or <code>Mapping</code>.  The latter have several useful concrete methods,
+despite being ABCs.  Two are worth noting:</p>
+<dl>
+<dt id="mutablemappingupdate"><a class="header" href="#mutablemappingupdate"><code>MutableMapping.update</code></a></dt>
+<dd>This powerful method can be called directly, but it is also used by
+<code>__init__()</code> to load the instance from other mappings, from iterables of
+<code>(key, value)</code> pairs, and from keyword arguments.  Because it uses
+<code>self[key] = value</code> to add items, it ends up calling our <code>__setitem__()</code>.</dd>
+<dt id="mappingget"><a class="header" href="#mappingget"><code>Mapping.get</code></a></dt>
+<dd>In <code>StrKeyDict0</code> we had to code our own <code>get</code> to return the same results as
+<code>__getitem__()</code>, but here we inherit <code>Mapping.get</code>, which is implemented exactly
+like <code>StrKeyDict0.get</code>.</dd>
+</dl>
+<blockquote>
+<p><strong>Note</strong></p>
+<p><a href="https://peps.python.org/pep-0455/"><strong>PEP 455</strong></a> proposed adding a
+<code>TransformDict</code> to <code>collections</code>, more general than <code>StrKeyDict</code> and
+preserving the keys as provided, before the transformation is applied.  The
+PEP was rejected in 2015, but its idea is a nice exercise.</p>
+</blockquote>
+<h2 id="immutable-mappings"><a class="header" href="#immutable-mappings">Immutable Mappings</a></h2>
+<p>The mapping types provided by the standard library are all mutable, but you may
+need to prevent users from changing a mapping by accident.  A concrete use case
+is, again, the hardware library mentioned above: the <code>board.pins</code> mapping
+represents the physical GPIO pins on the device, which can’t be changed by
+software, so any change to the mapping would make it inconsistent with the
+physical reality.</p>
+<p>The <a href="https://docs.python.org/3/library/types.html#types.MappingProxyType"><code>types</code></a>
+module provides a wrapper class called <code>MappingProxyType</code> which, given a mapping,
+returns a <code>mappingproxy</code> instance that is a read-only but <em>dynamic</em> proxy for the
+original mapping.  Updates to the original can be seen through the proxy, but
+changes cannot be made through it:</p>
+<pre><code class="language-python">from types import MappingProxyType
+d = {1: 'A'}
+d_proxy = MappingProxyType(d)
+d_proxy
+# mappingproxy({1: 'A'})
+d_proxy[1]  # items in d can be seen through d_proxy
+# 'A'
+d_proxy[2] = 'x'  # changes cannot be made through d_proxy
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: 'mappingproxy' object does not support item assignment
+d[2] = 'B'
+d_proxy  # d_proxy is dynamic: any change in d is reflected
+# mappingproxy({1: 'A', 2: 'B'})
+d_proxy[2]
+# 'B'
+</code></pre>
+<p>In the hardware scenario, the constructor of a concrete <code>Board</code> subclass would
+fill a private mapping with the pin objects and expose it to clients through a
+public <code>.pins</code> attribute implemented as a <code>mappingproxy</code>.  That way clients could
+not add, remove or change pins by accident.</p>
+<h2 id="dictionary-views"><a class="header" href="#dictionary-views">Dictionary Views</a></h2>
+<p>The <code>dict</code> methods <code>.keys()</code>, <code>.values()</code> and <code>.items()</code> return instances of
+classes called <code>dict_keys</code>, <code>dict_values</code> and <code>dict_items</code>.  These <em>dictionary
+views</em> are read-only projections of the internal data structures of the <code>dict</code>.
+They avoid the memory overhead of the equivalent Python 2 methods, which
+returned lists duplicating data already in the dictionary.  Here are some basic
+operations supported by all dictionary views:</p>
+<pre><code class="language-python">d = dict(a=10, b=20, c=30)
+values = d.values()
+values  # the repr of a view shows its content
+# dict_values([10, 20, 30])
+len(values)
+# 3
+list(values)  # views are iterable
+# [10, 20, 30]
+reversed(values)  # views implement __reversed__
+# &lt;dict_reversevalueiterator object at 0x10e9e7310&gt;
+values[0]  # but you can't use [] to get individual items
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: 'dict_values' object is not subscriptable
+</code></pre>
+<p>A view object is a dynamic proxy.  If the source <code>dict</code> is updated, you
+immediately see the changes through an existing view:</p>
+<pre><code class="language-python">d['z'] = 99
+d
+# {'a': 10, 'b': 20, 'c': 30, 'z': 99}
+values
+# dict_values([10, 20, 30, 99])
+</code></pre>
+<p>The classes <code>dict_keys</code>, <code>dict_values</code> and <code>dict_items</code> are internal: they are not
+available via <code>__builtins__</code> or any standard library module, and even if you get
+a reference to one of them, you can’t use it to create a view from scratch in
+Python code:</p>
+<pre><code class="language-python">values_class = type({}.values())
+v = values_class()
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: cannot create 'dict_values' instances
+</code></pre>
+<p>The <code>dict_values</code> class is the simplest view: it implements only <code>__len__()</code>,
+<code>__iter__()</code> and <code>__reversed__()</code>.  In addition, <code>dict_keys</code> and <code>dict_items</code>
+implement several set methods, almost as many as <code>frozenset</code>; more on that in
+<a href="#set-operations-on-dict-views">Set Operations on <code>dict</code> Views</a>.</p>
+<h2 id="practical-consequences-of-how-dict-works"><a class="header" href="#practical-consequences-of-how-dict-works">Practical Consequences of How <code>dict</code> Works</a></h2>
+<p>The hash table implementation of <code>dict</code> is very efficient, but it is important to
+understand the practical effects of the design:</p>
+<ul>
+<li>Keys must be hashable objects, implementing proper <code>__hash__()</code> and <code>__eq__()</code>
+methods as described in <a href="#what-is-hashable">What Is Hashable</a>.</li>
+<li>Item access by key is very fast.  A <code>dict</code> may have millions of keys, but
+Python can locate a key directly by computing its hash code and deriving an
+index offset into the hash table, with the possible overhead of a small number
+of tries to find a matching entry.</li>
+<li>Key ordering is preserved as a side effect of a more compact memory layout
+for <code>dict</code> introduced in CPython 3.6, which became an official language
+feature in 3.7.</li>
+<li>Despite the compact layout, dicts inevitably have a significant memory
+overhead.  The most compact internal data structure for a container would be
+an array of pointers to the items (that’s how tuples are stored).  A hash table
+needs to store more data per entry, and Python needs to keep at least a third
+of the hash table rows empty to remain efficient.</li>
+<li>To save memory, avoid creating instance attributes outside of the <code>__init__()</code>
+method.</li>
+</ul>
+<p>That last tip comes from the fact that, by default, Python stores instance
+attributes in a special <code>__dict__</code> attribute, which is a <code>dict</code> attached to each
+instance (unless the class defines <code>__slots__</code>, as explained in
+<a href="pythonic-object.html#saving-memory-with-__slots__">Saving Memory with <code>__slots__</code></a>).
+Since <a href="https://peps.python.org/pep-0412/"><strong>PEP 412</strong></a> (key-sharing dictionaries)
+was implemented in Python 3.3, instances of a class can share a common hash
+table, stored with the class.  That common table is shared by the <code>__dict__</code> of
+each new instance that has the same attribute names as the first instance of the
+class when <code>__init__()</code> returns.  Each instance <code>__dict__</code> can then hold only its
+own attribute values, as a simple array of pointers.  Adding an instance
+attribute after <code>__init__()</code> forces Python to create a new hash table just for the
+<code>__dict__</code> of that one instance.  According to PEP 412, this optimization reduces
+memory use by 10% to 20% in object-oriented programs.</p>
+<h2 id="set-theory"><a class="header" href="#set-theory">Set Theory</a></h2>
+<p>Sets are not new in Python, but they are still somewhat underused.  The <code>set</code>
+type and its immutable sibling <code>frozenset</code> first appeared as modules in Python
+2.3 and were promoted to built-ins in Python 2.6.  (In this chapter, “set” means
+both <code>set</code> and <code>frozenset</code>.)</p>
+<p>A set is a collection of unique objects.  A basic use case is removing
+duplicates:</p>
+<pre><code class="language-python">l = ['spam', 'spam', 'eggs', 'spam', 'bacon', 'eggs']
+set(l)
+# {'eggs', 'spam', 'bacon'}
+list(set(l))
+# ['eggs', 'spam', 'bacon']
+</code></pre>
+<p>(The order of the elements may differ on your machine.)</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>If you want to remove duplicates but also preserve the order of the first
+occurrence of each item, you can use a plain <code>dict</code>:</p>
+<pre><code class="language-python">dict.fromkeys(l).keys()
+# dict_keys(['spam', 'eggs', 'bacon'])
+list(dict.fromkeys(l).keys())
+# ['spam', 'eggs', 'bacon']
+</code></pre>
+</blockquote>
+<p>Set elements must be hashable.  The <code>set</code> type is not hashable, so you can’t
+build a set with nested <code>set</code> instances.  But <code>frozenset</code> is hashable, so you can
+have <code>frozenset</code> elements inside a <code>set</code>.</p>
+<p>In addition to enforcing uniqueness, the set types implement many set
+operations as infix operators: given two sets <code>a</code> and <code>b</code>, <code>a | b</code> returns their
+union, <code>a &amp; b</code> their intersection, <code>a - b</code> the difference, and <code>a ^ b</code> the
+symmetric difference.  Smart use of set operations can reduce both the line
+count and the execution time of programs, and make code easier to read and
+reason about, by removing loops and conditional logic.</p>
+<p>For example, imagine you have a large set of email addresses (the <code>haystack</code>)
+and a smaller set of addresses (the <code>needles</code>), and you need to count how many
+needles occur in the haystack.  Thanks to set intersection, that is one line:</p>
+<!-- nocheck -->
+<pre><code class="language-python">found = len(needles &amp; haystack)
+</code></pre>
+<p>Without the intersection operator, you’d have to write:</p>
+<!-- nocheck -->
+<pre><code class="language-python">found = 0
+for n in needles:
+    if n in haystack:
+        found += 1
+</code></pre>
+<p>The first version runs slightly faster.  The second works for any iterable
+<code>needles</code> and <code>haystack</code>, while the first requires both to be sets.  But if you
+don’t have sets on hand, you can always build them on the fly:</p>
+<!-- nocheck -->
+<pre><code class="language-python">found = len(set(needles) &amp; set(haystack))
+
+# another way:
+found = len(set(needles).intersection(haystack))
+</code></pre>
+<p>There is an extra cost involved in building the sets, of course, but if either
+the needles or the haystack is already a set, these alternatives may be cheaper
+than the loop.  Any of them can search for 1,000 elements in a haystack of
+10,000,000 items in a fraction of a millisecond, a fraction of a microsecond per
+element.</p>
+<p>Besides the extremely fast membership test (thanks to the underlying hash
+table), the <code>set</code> and <code>frozenset</code> types provide a rich interface to create new
+sets or, in the case of <code>set</code>, to change existing ones.  First, a note about
+syntax.</p>
+<h3 id="set-literals"><a class="header" href="#set-literals">Set Literals</a></h3>
+<p>The syntax of set literals, <code>{1}</code>, <code>{1, 2}</code> and so on, looks exactly like the math
+notation, with one important exception: there is no literal notation for the
+empty <code>set</code>, so you must write <code>set()</code>.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Don’t forget that to create an empty <code>set</code> you must use the constructor
+without an argument: <code>set()</code>.  If you write <code>{}</code>, you’re creating an empty
+<code>dict</code>.</p>
+</blockquote>
+<p>The standard string representation of sets always uses the <code>{...}</code> notation,
+except for the empty set:</p>
+<pre><code class="language-python">s = {1}
+type(s)
+# &lt;class 'set'&gt;
+s
+# {1}
+s.pop()
+# 1
+s
+# set()
+</code></pre>
+<p>Literal set syntax like <code>{1, 2, 3}</code> is both faster and more readable than calling
+the constructor (<code>set([1, 2, 3])</code>).  The latter is slower because Python has to
+look up the <code>set</code> name to fetch the constructor, then build a list, and finally
+pass it to the constructor, while a literal like <code>{1, 2, 3}</code> is handled by a
+specialized <code>BUILD_SET</code> bytecode.  (Try <code>dis.dis('{1}')</code> and
+<code>dis.dis('set([1])')</code> to compare.)</p>
+<p>There is no special syntax for <code>frozenset</code> literals; they must be created by
+calling the constructor.  Their standard representation looks like a
+constructor call:</p>
+<pre><code class="language-python">frozenset(range(10))
+# frozenset({0, 1, 2, 3, 4, 5, 6, 7, 8, 9})
+</code></pre>
+<h3 id="set-comprehensions"><a class="header" href="#set-comprehensions">Set Comprehensions</a></h3>
+<p>Set comprehensions (<em>setcomps</em>) were added together with dictcomps.  Here is a
+set of the Latin-1 characters that have the word “SIGN” in their Unicode names:</p>
+<pre><code class="language-python">from unicodedata import name
+{chr(i) for i in range(32, 256) if 'SIGN' in name(chr(i),'')}
+# {'§', '=', '¢', '#', '¤', '&lt;', '¥', 'µ', '×', '$', '¶', '£', '©',
+#  '°', '+', '÷', '±', '&gt;', '¬', '®', '%'}
+</code></pre>
+<p>The <a href="https://docs.python.org/3/library/unicodedata.html#unicodedata.name"><code>unicodedata.name()</code></a>
+function returns the name of a character.  The order of the output changes from
+one Python process to the next, because of the salted hash mentioned in
+<a href="#what-is-hashable">What Is Hashable</a>.</p>
+<h2 id="practical-consequences-of-how-sets-work"><a class="header" href="#practical-consequences-of-how-sets-work">Practical Consequences of How Sets Work</a></h2>
+<p>The <code>set</code> and <code>frozenset</code> types are both implemented with a hash table, which
+has these effects:</p>
+<ul>
+<li>Set elements must be hashable objects, implementing proper <code>__hash__()</code> and
+<code>__eq__()</code> methods.</li>
+<li>Membership testing is very efficient.  A set may have millions of elements,
+but an element can be located directly by computing its hash code and deriving
+an index offset, with the possible overhead of a few tries to find a matching
+element or exhaust the search.</li>
+<li>Sets have a significant memory overhead compared to a low-level array of
+pointers to their elements, which would be more compact but also much slower
+to search beyond a handful of elements.</li>
+<li>Element ordering depends on insertion order, but not in a useful or reliable
+way.  If two elements are different but have the same hash code, their
+position depends on which one is added first.</li>
+<li>Adding elements to a set may change the order of existing elements.  The
+algorithm becomes less efficient if the hash table is more than two-thirds
+full, so Python may need to move and resize the table as it grows.  When that
+happens, elements are reinserted and their relative order may change.</li>
+</ul>
+<h3 id="set-operations"><a class="header" href="#set-operations">Set Operations</a></h3>
+<p>Many set methods are special methods that overload operators, such as <code>&amp;</code> and
+<code>&gt;=</code>.  Some operators and methods change the target set in place (<code>&amp;=</code>,
+<code>difference_update()</code> and so on).  Such operations make no sense in the ideal
+world of mathematical sets, and are not implemented in <code>frozenset</code>.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>The infix operators require both operands to be sets, but all the other
+methods take one or more iterable arguments.  For example, to produce the union
+of four collections <code>a</code>, <code>b</code>, <code>c</code> and <code>d</code>, you can call <code>a.union(b, c, d)</code>, where
+<code>a</code> must be a set, but <code>b</code>, <code>c</code> and <code>d</code> can be iterables of any type that produce
+hashable items.  To create a new set with the union of four iterables, instead
+of updating an existing set, you can write <code>{*a, *b, *c, *d}</code>.</p>
+</blockquote>
+<p>Mathematical set operations either produce a new set or update the target set in
+place, if it is mutable:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Math</th><th>Python operator</th><th>Method</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>S ∩ Z</td><td><code>s &amp; z</code></td><td><code>s.__and__(z)</code></td><td>intersection of <code>s</code> and <code>z</code></td></tr>
+<tr><td></td><td><code>z &amp; s</code></td><td><code>s.__rand__(z)</code></td><td>reversed <code>&amp;</code> operator</td></tr>
+<tr><td></td><td></td><td><code>s.intersection(it, ...)</code></td><td>intersection of <code>s</code> and all sets built from iterables <code>it</code>, etc.</td></tr>
+<tr><td></td><td><code>s &amp;= z</code></td><td><code>s.__iand__(z)</code></td><td><code>s</code> updated with the intersection of <code>s</code> and <code>z</code></td></tr>
+<tr><td></td><td></td><td><code>s.intersection_update(it, ...)</code></td><td><code>s</code> updated with the intersection of <code>s</code> and all sets built from iterables <code>it</code>, etc.</td></tr>
+<tr><td>S ∪ Z</td><td><code>s | z</code></td><td><code>s.__or__(z)</code></td><td>union of <code>s</code> and <code>z</code></td></tr>
+<tr><td></td><td><code>z | s</code></td><td><code>s.__ror__(z)</code></td><td>reversed <code>|</code></td></tr>
+<tr><td></td><td></td><td><code>s.union(it, ...)</code></td><td>union of <code>s</code> and all sets built from iterables <code>it</code>, etc.</td></tr>
+<tr><td></td><td><code>s |= z</code></td><td><code>s.__ior__(z)</code></td><td><code>s</code> updated with the union of <code>s</code> and <code>z</code></td></tr>
+<tr><td></td><td></td><td><code>s.update(it, ...)</code></td><td><code>s</code> updated with the union of <code>s</code> and all sets built from iterables <code>it</code>, etc.</td></tr>
+<tr><td>S \ Z</td><td><code>s - z</code></td><td><code>s.__sub__(z)</code></td><td>relative complement, or difference, between <code>s</code> and <code>z</code></td></tr>
+<tr><td></td><td><code>z - s</code></td><td><code>s.__rsub__(z)</code></td><td>reversed <code>-</code> operator</td></tr>
+<tr><td></td><td></td><td><code>s.difference(it, ...)</code></td><td>difference between <code>s</code> and all sets built from iterables <code>it</code>, etc.</td></tr>
+<tr><td></td><td><code>s -= z</code></td><td><code>s.__isub__(z)</code></td><td><code>s</code> updated with the difference between <code>s</code> and <code>z</code></td></tr>
+<tr><td></td><td></td><td><code>s.difference_update(it, ...)</code></td><td><code>s</code> updated with the difference between <code>s</code> and all sets built from iterables <code>it</code>, etc.</td></tr>
+<tr><td>S ∆ Z</td><td><code>s ^ z</code></td><td><code>s.__xor__(z)</code></td><td>symmetric difference (the complement of the intersection <code>s &amp; z</code>)</td></tr>
+<tr><td></td><td><code>z ^ s</code></td><td><code>s.__rxor__(z)</code></td><td>reversed <code>^</code> operator</td></tr>
+<tr><td></td><td></td><td><code>s.symmetric_difference(it)</code></td><td>complement of <code>s &amp; set(it)</code></td></tr>
+<tr><td></td><td><code>s ^= z</code></td><td><code>s.__ixor__(z)</code></td><td><code>s</code> updated with the symmetric difference of <code>s</code> and <code>z</code></td></tr>
+<tr><td></td><td></td><td><code>s.symmetric_difference_update(it, ...)</code></td><td><code>s</code> updated with the symmetric difference of <code>s</code> and all sets built from iterables <code>it</code>, etc.</td></tr>
+</tbody>
+</table>
+</div>
+<p>These are the set predicates, operators and methods that return <code>True</code> or
+<code>False</code>:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Math</th><th>Python operator</th><th>Method</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>S ∩ Z = ∅</td><td></td><td><code>s.isdisjoint(z)</code></td><td><code>s</code> and <code>z</code> are disjoint (no elements in common)</td></tr>
+<tr><td>e ∈ S</td><td><code>e in s</code></td><td><code>s.__contains__(e)</code></td><td>element <code>e</code> is a member of <code>s</code></td></tr>
+<tr><td>S ⊆ Z</td><td><code>s &lt;= z</code></td><td><code>s.__le__(z)</code></td><td><code>s</code> is a subset of the <code>z</code> set</td></tr>
+<tr><td></td><td></td><td><code>s.issubset(it)</code></td><td><code>s</code> is a subset of the set built from the iterable <code>it</code></td></tr>
+<tr><td>S ⊂ Z</td><td><code>s &lt; z</code></td><td><code>s.__lt__(z)</code></td><td><code>s</code> is a proper subset of the <code>z</code> set</td></tr>
+<tr><td>S ⊇ Z</td><td><code>s &gt;= z</code></td><td><code>s.__ge__(z)</code></td><td><code>s</code> is a superset of the <code>z</code> set</td></tr>
+<tr><td></td><td></td><td><code>s.issuperset(it)</code></td><td><code>s</code> is a superset of the set built from the iterable <code>it</code></td></tr>
+<tr><td>S ⊃ Z</td><td><code>s &gt; z</code></td><td><code>s.__gt__(z)</code></td><td><code>s</code> is a proper superset of the <code>z</code> set</td></tr>
+</tbody>
+</table>
+</div>
+<p>In addition to the operators and methods derived from set theory, the set types
+implement other methods of practical use:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Method</th><th style="text-align: center"><code>set</code></th><th style="text-align: center"><code>frozenset</code></th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>s.add(e)</code></td><td style="text-align: center">●</td><td style="text-align: center"></td><td>add element <code>e</code> to <code>s</code></td></tr>
+<tr><td><code>s.clear()</code></td><td style="text-align: center">●</td><td style="text-align: center"></td><td>remove all elements of <code>s</code></td></tr>
+<tr><td><code>s.copy()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>shallow copy of <code>s</code></td></tr>
+<tr><td><code>s.discard(e)</code></td><td style="text-align: center">●</td><td style="text-align: center"></td><td>remove element <code>e</code> from <code>s</code> if it is present</td></tr>
+<tr><td><code>s.__iter__()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>get an iterator over <code>s</code></td></tr>
+<tr><td><code>s.__len__()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td><code>len(s)</code></td></tr>
+<tr><td><code>s.pop()</code></td><td style="text-align: center">●</td><td style="text-align: center"></td><td>remove and return an element from <code>s</code>, raising <code>KeyError</code> if <code>s</code> is empty</td></tr>
+<tr><td><code>s.remove(e)</code></td><td style="text-align: center">●</td><td style="text-align: center"></td><td>remove element <code>e</code> from <code>s</code>, raising <code>KeyError</code> if <code>e not in s</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>A few examples:</p>
+<pre><code class="language-python">a = {1, 2, 3, 4}
+b = {3, 4, 5}
+a &amp; b, a | b, a - b, a ^ b
+# ({3, 4}, {1, 2, 3, 4, 5}, {1, 2}, {1, 2, 5})
+{3, 4} &lt;= a, {3, 4} &lt; a, a.isdisjoint({7, 8})
+# (True, True, True)
+a.union([10, 20], range(3))
+# {0, 1, 2, 3, 4, 10, 20}
+a |= b
+a
+# {1, 2, 3, 4, 5}
+</code></pre>
+<h2 id="set-operations-on-dict-views"><a class="header" href="#set-operations-on-dict-views">Set Operations on <code>dict</code> Views</a></h2>
+<p>The view objects returned by <code>.keys()</code> and <code>.items()</code> are remarkably similar to
+<code>frozenset</code>:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Method</th><th style="text-align: center"><code>frozenset</code></th><th style="text-align: center"><code>dict_keys</code></th><th style="text-align: center"><code>dict_items</code></th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>s.__and__(z)</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td><code>s &amp; z</code> (intersection of <code>s</code> and <code>z</code>)</td></tr>
+<tr><td><code>s.__rand__(z)</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>reversed <code>&amp;</code> operator</td></tr>
+<tr><td><code>s.__contains__()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td><code>e in s</code></td></tr>
+<tr><td><code>s.copy()</code></td><td style="text-align: center">●</td><td style="text-align: center"></td><td style="text-align: center"></td><td>shallow copy of <code>s</code></td></tr>
+<tr><td><code>s.difference(it, ...)</code></td><td style="text-align: center">●</td><td style="text-align: center"></td><td style="text-align: center"></td><td>difference between <code>s</code> and iterables <code>it</code>, etc.</td></tr>
+<tr><td><code>s.intersection(it, ...)</code></td><td style="text-align: center">●</td><td style="text-align: center"></td><td style="text-align: center"></td><td>intersection of <code>s</code> and iterables <code>it</code>, etc.</td></tr>
+<tr><td><code>s.isdisjoint(z)</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td><code>s</code> and <code>z</code> are disjoint (no elements in common)</td></tr>
+<tr><td><code>s.issubset(it)</code></td><td style="text-align: center">●</td><td style="text-align: center"></td><td style="text-align: center"></td><td><code>s</code> is a subset of iterable <code>it</code></td></tr>
+<tr><td><code>s.issuperset(it)</code></td><td style="text-align: center">●</td><td style="text-align: center"></td><td style="text-align: center"></td><td><code>s</code> is a superset of iterable <code>it</code></td></tr>
+<tr><td><code>s.__iter__()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>get an iterator over <code>s</code></td></tr>
+<tr><td><code>s.__len__()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td><code>len(s)</code></td></tr>
+<tr><td><code>s.__or__(z)</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td><code>s | z</code> (union of <code>s</code> and <code>z</code>)</td></tr>
+<tr><td><code>s.__ror__()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>reversed <code>|</code> operator</td></tr>
+<tr><td><code>s.__reversed__()</code></td><td style="text-align: center"></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>get an iterator over <code>s</code> in reverse order</td></tr>
+<tr><td><code>s.__rsub__(z)</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>reversed <code>-</code> operator</td></tr>
+<tr><td><code>s.__sub__(z)</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td><code>s - z</code> (difference between <code>s</code> and <code>z</code>)</td></tr>
+<tr><td><code>s.symmetric_difference(it)</code></td><td style="text-align: center">●</td><td style="text-align: center"></td><td style="text-align: center"></td><td>complement of <code>s &amp; set(it)</code></td></tr>
+<tr><td><code>s.union(it, ...)</code></td><td style="text-align: center">●</td><td style="text-align: center"></td><td style="text-align: center"></td><td>union of <code>s</code> and iterables <code>it</code>, etc.</td></tr>
+<tr><td><code>s.__xor__()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td><code>s ^ z</code> (symmetric difference of <code>s</code> and <code>z</code>)</td></tr>
+<tr><td><code>s.__rxor__()</code></td><td style="text-align: center">●</td><td style="text-align: center">●</td><td style="text-align: center">●</td><td>reversed <code>^</code> operator</td></tr>
+</tbody>
+</table>
+</div>
+<p>In particular, <code>dict_keys</code> and <code>dict_items</code> implement the special methods that
+support the powerful set operators <code>&amp;</code> (intersection), <code>|</code> (union), <code>-</code>
+(difference) and <code>^</code> (symmetric difference).  For example, with <code>&amp;</code> it is easy to
+get the keys that appear in two dictionaries:</p>
+<pre><code class="language-python">d1 = dict(a=1, b=2, c=3, d=4)
+d2 = dict(b=20, d=40, e=50)
+d1.keys() &amp; d2.keys()
+# {'b', 'd'}
+</code></pre>
+<p>Note that the result of <code>&amp;</code> is a <code>set</code>.  Even better, the set operators of
+dictionary views are compatible with <code>set</code> instances:</p>
+<pre><code class="language-python">s = {'a', 'e', 'i'}
+d1.keys() &amp; s
+# {'a'}
+d1.keys() | s
+# {'a', 'c', 'b', 'd', 'i', 'e'}
+</code></pre>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>A <code>dict_items</code> view only works as a set if all the values in the <code>dict</code> are
+hashable.  Attempting set operations on a <code>dict_items</code> view with an unhashable
+value raises <code>TypeError: unhashable type 'T'</code>, with <code>T</code> as the type of the
+offending value.  A <code>dict_keys</code> view, on the other hand, can always be used as a
+set, because every key is hashable by definition.</p>
+</blockquote>
+<p>Using set operators with views will save you many loops and <code>if</code> statements when
+inspecting the contents of dictionaries.  Let Python’s efficient implementation
+in C work for you!</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>Dictionaries are a keystone of Python.  Over the years, the familiar
+<code>{k1: v1, k2: v2}</code> literal syntax was enhanced to support unpacking with <code>**</code>,
+pattern matching, and dict comprehensions.</p>
+<p>Beyond the basic <code>dict</code>, the standard library offers handy, ready-to-use
+specialized mappings like <code>defaultdict</code>, <code>ChainMap</code> and <code>Counter</code>, all defined in
+the <code>collections</code> module.  With the new <code>dict</code> implementation, <code>OrderedDict</code> is not
+as useful as before, but it remains for backward compatibility and has specific
+characteristics that <code>dict</code> lacks, such as taking key order into account in <code>==</code>
+comparisons.  Also in <code>collections</code> is <code>UserDict</code>, an easy-to-use base class for
+custom mappings.</p>
+<p>Two powerful methods available in most mappings are <code>setdefault</code> and <code>update</code>.
+<code>setdefault</code> can update items holding mutable values, for example in a <code>dict</code> of
+lists, without a second search for the same key.  <code>update</code> allows bulk insertion
+or overwriting of items from any other mapping, from iterables of <code>(key, value)</code>
+pairs, and from keyword arguments; mapping constructors use it internally.  You
+can also use <code>|=</code> to update a mapping, and <code>|</code> to create a new one from the union
+of two mappings.</p>
+<p>A clever hook in the mapping interface is <code>__missing__()</code>, which lets you
+customize what happens when a key is not found by <code>d[k]</code>.</p>
+<p>The <code>collections.abc</code> module provides the <code>Mapping</code> and <code>MutableMapping</code> ABCs as
+standard interfaces, useful for runtime type checking, and there are also ABCs
+for <code>Set</code> and <code>MutableSet</code>.  <code>MappingProxyType</code> from the <code>types</code> module creates an
+immutable façade for a mapping you want to protect from accidental change.</p>
+<p>Dictionary views eliminated the memory overhead of methods that built lists
+duplicating data in the target <code>dict</code>, and <code>dict_keys</code> and <code>dict_items</code> support the
+most useful operators and methods of <code>frozenset</code>.</p>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li><a href="https://docs.python.org/3/library/collections.html">collections — Container datatypes</a>
+includes examples and practical recipes with several mapping types, and the
+source code of <code>Lib/collections/__init__.py</code> is a great reference for anyone
+who wants to create a new mapping type.</li>
+<li><a href="https://peps.python.org/pep-3106/"><strong>PEP 3106</strong></a> is where Guido van Rossum
+introduced dictionary views for Python 3.</li>
+<li>Raymond Hettinger’s talk “Modern Dictionaries” (PyCon 2017) and Brandon
+Rhodes’s “The Dictionary Even Mightier” explain the compact, ordered dict
+implementation; the CPython files <code>Objects/dictobject.c</code> and
+<code>Objects/dictnotes.txt</code> have all the details.</li>
+<li><a href="https://peps.python.org/pep-0218/"><strong>PEP 218</strong></a> documents the rationale for
+adding sets to Python.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="sequences.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="references.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="sequences.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="references.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

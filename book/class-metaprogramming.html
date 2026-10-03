@@ -1,0 +1,1835 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Class Metaprogramming - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="class-metaprogramming"><a class="header" href="#class-metaprogramming">Class Metaprogramming</a></h1>
+<blockquote>
+<p>Everyone knows that debugging is twice as hard as writing a program in the first place.
+So if you’re as clever as you can be when you write it, how will you ever debug it?</p>
+<p>— Brian W. Kernighan and P. J. Plauger, <em>The Elements of Programming Style</em></p>
+</blockquote>
+<p>Class metaprogramming is the art of creating or customizing classes at runtime.  Classes are
+first-class objects in Python, so a function can be used to create a new class at any time,
+without using the <code>class</code> keyword.  Class decorators are also functions, but designed to
+inspect, change, and even replace the decorated class with another class.  Finally,
+metaclasses are the most advanced tool for class metaprogramming: they let you create whole
+new categories of classes with special traits, such as the abstract base classes we’ve
+already seen.</p>
+<p>Metaclasses are powerful, but hard to justify and even harder to get right.  Class decorators
+solve many of the same problems and are easier to understand.  Furthermore, Python 3.6
+implemented <a href="https://peps.python.org/pep-0487/"><strong>PEP 487</strong></a> — Simpler customization of class
+creation, providing special methods supporting tasks that previously required metaclasses or
+class decorators.</p>
+<p>This chapter presents the class metaprogramming techniques in ascending order of complexity.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>This is an exciting topic, and it’s easy to get carried away.  For the sake of readability
+and maintainability, you should probably avoid the techniques described in this chapter in
+application code.  On the other hand, these are the tools of the trade if you want to write
+the next great Python framework.</p>
+</blockquote>
+<p>We’ll get started by reviewing attributes and methods defined in the Python Data Model for all
+classes.</p>
+<h2 id="classes-as-objects"><a class="header" href="#classes-as-objects">Classes as Objects</a></h2>
+<p>Like most program entities in Python, classes are also objects.  Every class has a number of
+attributes defined in the Python Data Model, documented in
+<a href="https://docs.python.org/3/reference/datamodel.html#special-attributes">Special Attributes</a>.
+Three of those attributes appeared several times already: <code>__class__</code>, <code>__name__</code> and
+<code>__mro__</code>.  Other class standard attributes are:</p>
+<dl>
+<dt id="cls__bases__"><a class="header" href="#cls__bases__"><code>cls.__bases__</code></a></dt>
+<dd>The tuple of base classes of the class.</dd>
+<dt id="cls__qualname__"><a class="header" href="#cls__qualname__"><code>cls.__qualname__</code></a></dt>
+<dd>The qualified name of a class or function, which is a dotted path from the global scope of
+the module to the class definition.  This is relevant when the class is defined inside
+another class.  For example, in a Django model class such as <code>Ox</code>, there is an inner class
+called <code>Meta</code>.  The <code>__qualname__</code> of <code>Meta</code> is <code>Ox.Meta</code>, but its <code>__name__</code> is just
+<code>Meta</code>.  The specification for this attribute is
+<a href="https://peps.python.org/pep-3155/"><strong>PEP 3155</strong></a>.</dd>
+<dt id="cls__subclasses__"><a class="header" href="#cls__subclasses__"><code>cls.__subclasses__()</code></a></dt>
+<dd>This method returns a list of the immediate subclasses of the class.  The implementation
+uses weak references to avoid circular references between the superclass and its
+subclasses — which hold a strong reference to the superclasses in their <code>__bases__</code>
+attribute.  The method lists subclasses currently in memory.  Subclasses in modules not yet
+imported will not appear in the result.</dd>
+<dt id="clsmro"><a class="header" href="#clsmro"><code>cls.mro()</code></a></dt>
+<dd>The interpreter calls this method when building a class to obtain the tuple of superclasses
+stored in the <code>__mro__</code> attribute of the class.  A metaclass can override this method to
+customize the method resolution order of the class under construction.</dd>
+</dl>
+<pre><code class="language-python">class Ox:
+    class Meta:
+        pass
+
+Ox.Meta.__name__, Ox.Meta.__qualname__
+# ('Meta', 'Ox.Meta')
+class Bovine(Ox): pass
+class Bison(Bovine): pass
+Ox.__subclasses__()  # only the immediate subclasses
+# [&lt;class '__main__.Bovine'&gt;]
+Bison.__bases__
+# (&lt;class '__main__.Bovine'&gt;,)
+Bison.mro()
+# [&lt;class '__main__.Bison'&gt;, &lt;class '__main__.Bovine'&gt;, &lt;class '__main__.Ox'&gt;, &lt;class 'object'&gt;]
+'__mro__' in dir(Bison)  # none of these attributes are listed by dir()
+# False
+</code></pre>
+<p>Now, if a class is an object, what is the class of a class?</p>
+<h2 id="type-the-built-in-class-factory"><a class="header" href="#type-the-built-in-class-factory"><code>type</code>: The Built-In Class Factory</a></h2>
+<p>We usually think of <code>type</code> as a function that returns the class of an object, because that’s
+what <code>type(my_object)</code> does: it returns <code>my_object.__class__</code>.  However, <code>type</code> is a class that
+creates a new class when invoked with three arguments.  Consider this simple class:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class MyClass(MySuperClass, MyMixin):
+    x = 42
+
+    def x2(self):
+        return self.x * 2
+</code></pre>
+<p>Using the <code>type</code> constructor, you can create <code>MyClass</code> at runtime with this code:</p>
+<!-- nocheck -->
+<pre><code class="language-python">MyClass = type('MyClass',
+               (MySuperClass, MyMixin),
+               {'x': 42, 'x2': lambda self: self.x * 2},
+          )
+</code></pre>
+<p>That <code>type</code> call is functionally equivalent to the previous <code>class MyClass…</code> block statement.
+When Python reads a <code>class</code> statement, it calls <code>type</code> to build the class object with these
+parameters:</p>
+<dl>
+<dt id="name"><a class="header" href="#name"><code>name</code></a></dt>
+<dd>The identifier that appears after the <code>class</code> keyword, e.g., <code>MyClass</code>.</dd>
+<dt id="bases"><a class="header" href="#bases"><code>bases</code></a></dt>
+<dd>The tuple of superclasses given in parentheses after the class identifier, or <code>(object,)</code>
+if superclasses are not mentioned in the <code>class</code> statement.</dd>
+<dt id="dict"><a class="header" href="#dict"><code>dict</code></a></dt>
+<dd>A mapping of attribute names to values.  Callables become methods, as we saw in
+<a href="descriptors.html#methods-are-descriptors">Methods Are Descriptors</a>.  Other values become
+class attributes.</dd>
+</dl>
+<pre><code class="language-python">MyClass = type('MyClass', (), {'x': 42, 'x2': lambda self: self.x * 2})
+MyClass().x2()
+# 84
+MyClass.__mro__
+# (&lt;class '__main__.MyClass'&gt;, &lt;class 'object'&gt;)
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The <code>type</code> constructor accepts optional keyword arguments, which are ignored by <code>type</code>
+itself, but are passed untouched into <code>__init_subclass__</code>, which must consume them.  We’ll
+study that special method — including those keyword arguments — in
+<a href="#introducing-__init_subclass__">Introducing <code>__init_subclass__</code></a>.</p>
+</blockquote>
+<p>The <code>type</code> class is a <em>metaclass</em>: a class that builds classes.  In other words, instances of
+the <code>type</code> class are classes.  The standard library provides a few other metaclasses, but
+<code>type</code> is the default:</p>
+<pre><code class="language-python">type(7)
+# &lt;class 'int'&gt;
+type(int)
+# &lt;class 'type'&gt;
+type(OSError)
+# &lt;class 'type'&gt;
+class Whatever:
+    pass
+
+type(Whatever)
+# &lt;class 'type'&gt;
+</code></pre>
+<p>We’ll build custom metaclasses in <a href="#metaclasses-101">Metaclasses 101</a>.  Next, we’ll use the
+<code>type</code> built-in to make a function that builds classes.</p>
+<h2 id="a-class-factory-function"><a class="header" href="#a-class-factory-function">A Class Factory Function</a></h2>
+<p>The standard library has a class factory function that appears several times in this book:
+<code>collections.namedtuple</code>.  In <a href="dataclasses.html">Data Class Builders</a> we also saw
+<code>typing.NamedTuple</code> and <code>@dataclass</code>.  All of these class builders leverage techniques covered
+in this chapter.</p>
+<p>We’ll start with a super simple factory for classes of mutable objects — the simplest possible
+replacement for <code>@dataclass</code>.  Suppose we’re writing a pet shop application and we want to
+store data for dogs as simple records.  But we don’t want to write boilerplate like this:</p>
+<pre><code class="language-python">class Dog:
+    def __init__(self, name, weight, owner):
+        self.name = name
+        self.weight = weight
+        self.owner = owner
+</code></pre>
+<p>Boring… each field name appears three times, and that boilerplate doesn’t even buy us a nice
+<code>repr</code>:</p>
+<pre><code class="language-python">rex = Dog('Rex', 30, 'Bob')
+rex
+# &lt;__main__.Dog object at 0x...&gt;
+</code></pre>
+<p>Taking a hint from <code>collections.namedtuple</code>, let’s create a <code>record_factory</code> that creates
+simple classes like <code>Dog</code> on the fly.  Here is the code (<code>record_factory.py</code>):</p>
+<pre><code class="language-python">from typing import Any
+from collections.abc import Iterable, Iterator
+
+type FieldNames = str | Iterable[str]  # names as a single string or an iterable of strings
+
+def record_factory(cls_name: str, field_names: FieldNames) -&gt; type[tuple]:
+
+    slots = parse_identifiers(field_names)  # this will be the __slots__ of the new class
+
+    def __init__(self, *args, **kwargs) -&gt; None:  # will become __init__ in the new class
+        attrs = dict(zip(self.__slots__, args))
+        attrs.update(kwargs)
+        for name, value in attrs.items():
+            setattr(self, name, value)
+
+    def __iter__(self) -&gt; Iterator[Any]:  # yield the values in the order of __slots__
+        for name in self.__slots__:
+            yield getattr(self, name)
+
+    def __repr__(self):  # the nice repr, iterating over __slots__ and self
+        values = ', '.join(f'{name}={value!r}'
+            for name, value in zip(self.__slots__, self))
+        cls_name = self.__class__.__name__
+        return f'{cls_name}({values})'
+
+    cls_attrs = dict(  # assemble a dictionary of class attributes
+        __slots__=slots,
+        __init__=__init__,
+        __iter__=__iter__,
+        __repr__=__repr__,
+    )
+
+    return type(cls_name, (object,), cls_attrs)  # build and return the new class
+
+def parse_identifiers(names: FieldNames) -&gt; tuple[str, ...]:
+    if isinstance(names, str):
+        names = names.replace(',', ' ').split()  # names separated by spaces or commas
+    if not all(s.isidentifier() for s in names):
+        raise ValueError('names must all be valid identifiers')
+    return tuple(names)
+</code></pre>
+<p>And here it is in use:</p>
+<pre><code class="language-python">Dog = record_factory('Dog', 'name weight owner')  # called like namedtuple
+rex = Dog('Rex', 30, 'Bob')
+rex  # nice repr
+# Dog(name='Rex', weight=30, owner='Bob')
+name, weight, _ = rex  # instances are iterable, so they can be unpacked...
+name, weight
+# ('Rex', 30)
+"{2}'s dog weighs {1}kg".format(*rex)  # ...or passed to functions like format
+# "Bob's dog weighs 30kg"
+rex.weight = 32  # a record instance is mutable
+rex
+# Dog(name='Rex', weight=32, owner='Bob')
+Dog.__mro__  # the new class inherits from object: no relationship to the factory
+# (&lt;class '__main__.Dog'&gt;, &lt;class 'object'&gt;)
+</code></pre>
+<p>This is the first time we’ve seen <code>type</code> in a type hint.  If the annotation was just
+<code>-&gt; type</code>, that would mean that <code>record_factory</code> returns a class — and it would be correct.
+But the annotation <code>-&gt; type[tuple]</code> is more precise: it says the returned class will be a
+subclass of <code>tuple</code>.  (Strictly speaking, our records are not tuples, they just behave like
+them by being iterable; the hint expresses the intent, and a type checker can’t verify a class
+built by <code>type()</code> anyway.)  The <code>type FieldNames = ...</code> line uses the type alias statement of
+Python 3.12 (<a href="https://peps.python.org/pep-0695/"><strong>PEP 695</strong></a>).</p>
+<p>The last line of <code>record_factory</code> builds a class named by the value of <code>cls_name</code>, with
+<code>object</code> as its single immediate base class, and with a namespace loaded with <code>__slots__</code>,
+<code>__init__</code>, <code>__iter__</code> and <code>__repr__</code>, of which the last three are instance methods.</p>
+<p>We could have named the <code>__slots__</code> class attribute anything else, but then we’d have to
+implement <code>__setattr__</code> to validate the names of attributes being assigned, because for our
+record-like classes we want the set of attributes to be always the same and in the same
+order.  However, recall that the main feature of <code>__slots__</code> is saving memory when you are
+dealing with millions of instances, and using <code>__slots__</code> has some drawbacks, discussed in
+<a href="pythonic-object.html#saving-memory-with-__slots__">Saving Memory with <code>__slots__</code></a>.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Instances of classes created by <code>record_factory</code> are not serializable — that is, they can’t
+be exported with the <code>dump</code> function from the <code>pickle</code> module, because <code>pickle</code> can’t find
+the class by its name in a module.  Solving this problem is beyond the scope of this
+example, which aims to show the <code>type</code> class in action in a simple use case.  For the full
+solution, study the source code for <code>collections.namedtuple</code>; search for the word
+“pickling” (hint: it sets <code>__module__</code> on the new class).</p>
+</blockquote>
+<p>Now let’s see how to emulate more modern class builders like <code>typing.NamedTuple</code>, which takes
+a user-defined class written as a <code>class</code> statement, and automatically enhances it with more
+functionality.</p>
+<h2 id="introducing-__init_subclass__"><a class="header" href="#introducing-__init_subclass__">Introducing <code>__init_subclass__</code></a></h2>
+<p>Both <code>__init_subclass__</code> and <code>__set_name__</code> were proposed in PEP 487.  We saw the
+<code>__set_name__</code> special method for descriptors for the first time in
+<a href="descriptors.html#lineitem-take-4-automatic-naming-of-storage-attributes">LineItem Take #4</a>.
+Now let’s study <code>__init_subclass__</code>.</p>
+<p><code>__init_subclass__</code> is called on a class whenever a subclass of it is defined.  The simplest
+classic use is a registry of subclasses — handy for plugins.  Note how keyword arguments in
+the <code>class</code> statement are passed to <code>__init_subclass__</code>:</p>
+<pre><code class="language-python">class Plugin:
+    registry: dict[str, type] = {}
+
+    def __init_subclass__(cls, /, name=None, **kwargs):
+        super().__init_subclass__(**kwargs)  # play nice with cooperative multiple inheritance
+        cls.registry[name or cls.__name__.lower()] = cls
+
+class CsvExporter(Plugin, name='csv'):  # keyword argument for __init_subclass__
+    pass
+
+class JsonExporter(Plugin):
+    pass
+
+Plugin.registry
+# {'csv': &lt;class '__main__.CsvExporter'&gt;, 'jsonexporter': &lt;class '__main__.JsonExporter'&gt;}
+</code></pre>
+<p>In <a href="dataclasses.html">Data Class Builders</a>, we saw that <code>typing.NamedTuple</code> and <code>@dataclass</code> let
+programmers use the <code>class</code> statement to specify attributes for a new class, which is then
+enhanced by the class builder with the automatic addition of essential methods like
+<code>__init__</code>, <code>__repr__</code>, <code>__eq__</code>, etc.  Both of these class builders read type hints in the
+user’s <code>class</code> statement to enhance the class.  Those type hints also allow static type
+checkers to validate code that sets or gets those attributes.  However, <code>NamedTuple</code> and
+<code>@dataclass</code> do not take advantage of the type hints for attribute validation at runtime.  The
+<code>Checked</code> class in the next example does.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>It is not possible to support every conceivable static type hint for runtime type checking,
+which is probably why <code>typing.NamedTuple</code> and <code>@dataclass</code> don’t even try it.  However, some
+types that are also concrete classes can be used with <code>Checked</code>.  This includes simple types
+often used for field contents, such as <code>str</code>, <code>int</code>, <code>float</code> and <code>bool</code>, as well as lists of
+those types.</p>
+</blockquote>
+<p>Here is how we’ll use <code>Checked</code> to build a <code>Movie</code> class:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class Movie(Checked):  # Movie inherits from Checked, defined later
+    title: str  # each attribute is annotated with a constructor
+    year: int
+    box_office: float
+
+movie = Movie(title='The Godfather', year=1972, box_office=137)  # keyword arguments only
+movie.title
+# 'The Godfather'
+movie  # in return, you get a nice __repr__
+# Movie(title='The Godfather', year=1972, box_office=137.0)
+</code></pre>
+<p>The constructors used as the attribute type hints may be any callable that takes zero or one
+argument and returns a value suitable for the intended field type, or rejects the argument by
+raising <code>TypeError</code> or <code>ValueError</code>.  Using built-in types for the annotations means the values
+must be acceptable by the constructor of the type.  For <code>int</code>, this means any <code>x</code> such that
+<code>int(x)</code> returns an <code>int</code>.  For <code>str</code>, anything goes at runtime, because <code>str(x)</code> works with
+any <code>x</code> in Python.</p>
+<p>When called with no arguments, the constructor should return a default value of its type.
+This is standard behavior for Python’s built-in constructors:</p>
+<pre><code class="language-python">int(), float(), bool(), str(), list(), dict(), set()
+# (0, 0.0, False, '', [], {}, set())
+</code></pre>
+<p>In a <code>Checked</code> subclass like <code>Movie</code>, missing parameters create instances with default values
+returned by the field constructors.  The constructors are also used for validation during
+instantiation and when an attribute is set directly on an instance.  (This solution avoids
+using <code>None</code> as a default.  Avoiding null values is a good idea where it’s easy: in Go,
+variables and struct fields are initialized with a “zero value” of their type, much like
+this.)</p>
+<p>Now let’s look at the implementation of <code>checkedlib.py</code>.  The first class is the <code>Field</code>
+descriptor:</p>
+<pre><code class="language-python">from collections.abc import Callable
+from typing import Any, NoReturn, get_type_hints
+
+class Field:
+    def __init__(self, name: str, constructor: Callable) -&gt; None:  # minimal Callable hint
+        if not callable(constructor) or constructor is type(None):  # runtime check
+            raise TypeError(f'{name!r} type hint must be callable')
+        self.name = name
+        self.constructor = constructor
+
+    def __set__(self, instance: Any, value: Any) -&gt; None:
+        if value is ...:  # Checked.__init__ uses ... to mean "no value given"
+            value = self.constructor()
+        else:
+            try:
+                value = self.constructor(value)  # call the constructor with the value
+            except (TypeError, ValueError) as e:  # rephrase errors helpfully
+                type_name = self.constructor.__name__
+                msg = f'{value!r} is not compatible with {self.name}:{type_name}'
+                raise TypeError(msg) from e
+        instance.__dict__[self.name] = value
+</code></pre>
+<p>Since Python 3.9, the <code>Callable</code> type for annotations is the ABC in <code>collections.abc</code>, and not
+the deprecated <code>typing.Callable</code>.  For runtime checking, we use the <code>callable</code> built-in.  The
+test against <code>type(None)</code> is necessary because Python reads <code>None</code> in a type as <code>NoneType</code>,
+the class of <code>None</code> (therefore callable), but a useless constructor that only returns <code>None</code>.</p>
+<p>If <code>Checked.__init__</code> sets the value as <code>...</code> (the <code>Ellipsis</code> built-in object), we call the
+constructor with no arguments.  Otherwise, we call the constructor with the given value.  We
+need to catch <code>TypeError</code> and <code>ValueError</code> because built-in constructors may raise either of
+them, depending on the argument.  For example, <code>float(None)</code> raises <code>TypeError</code>, but
+<code>float('A')</code> raises <code>ValueError</code>.  On the other hand, <code>float('8')</code> raises no error and returns
+<code>8.0</code> — a feature, not a bug, of this toy example.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>We saw the handy <code>__set_name__</code> special method for descriptors in the previous chapter.  We
+don’t need it in the <code>Field</code> class because the descriptors are not instantiated in client
+source code; the user declares types that are constructors.  Instead, the <code>Field</code>
+descriptor instances are created at runtime by the <code>Checked.__init_subclass__</code> method, which
+passes the name explicitly.  Note that <code>__set_name__</code> is called only by <code>type.__new__</code>, so
+it is <em>not</em> called for descriptors assigned with <code>setattr</code> after the class is built.</p>
+</blockquote>
+<p>Now let’s focus on the <code>Checked</code> class.  Here are its most important methods:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class Checked:
+    @classmethod
+    def _fields(cls) -&gt; dict[str, type]:  # hides the call to typing.get_type_hints
+        return get_type_hints(cls)
+
+    def __init_subclass__(subclass) -&gt; None:  # gets the new subclass as first argument
+        super().__init_subclass__()  # not strictly necessary, but plays nice
+        for name, constructor in subclass._fields().items():  # for each field and constructor...
+            setattr(subclass, name, Field(name, constructor))  # ...install a Field descriptor
+
+    def __init__(self, **kwargs: Any) -&gt; None:
+        for name in self._fields():  # for each name in the class fields...
+            value = kwargs.pop(name, ...)  # ...get the value or ... (the Ellipsis sentinel)
+            setattr(self, name, value)  # this triggers Checked.__setattr__
+        if kwargs:  # remaining items don't match any declared field
+            self.__flag_unknown_attrs(*kwargs)
+</code></pre>
+<p><code>_fields</code> hides the call to
+<a href="https://docs.python.org/3/library/typing.html#typing.get_type_hints"><code>typing.get_type_hints</code></a>
+from the rest of the class; review <a href="type-hints-more.html">Reading Type Hints at Runtime</a> for the
+subtleties of reading annotations, including the lazy annotations of Python 3.14.  Using
+<code>...</code> as the default of <code>kwargs.pop</code> allows us to distinguish between arguments given the value
+<code>None</code> from arguments that were not given.  The <code>*kwargs</code> with a single asterisk passes the
+keys of <code>kwargs</code> as a sequence of arguments.</p>
+<h4 id="__init_subclass__-is-not-a-typical-class-method"><a class="header" href="#__init_subclass__-is-not-a-typical-class-method"><code>__init_subclass__</code> is not a typical class method</a></h4>
+<p>The <code>@classmethod</code> decorator is never used with <code>__init_subclass__</code>, but that doesn’t mean
+much, because the <code>__new__</code> special method behaves as a class method even without
+<code>@classmethod</code>.  The first argument that Python passes to <code>__init_subclass__</code> is a class.
+However, it is never the class where <code>__init_subclass__</code> is implemented: it is a newly defined
+subclass of that class.  That’s unlike <code>__new__</code> and every other class method.  Therefore,
+<code>__init_subclass__</code> is not a class method in the usual sense, and it can be misleading to name
+the first argument <code>cls</code> — that’s why it’s named <code>subclass</code> above.  The documentation names
+the argument <code>cls</code> but explains: “…called whenever the containing class is subclassed.  <code>cls</code>
+is then the new subclass.”</p>
+<p>Now let’s see the remaining methods of the <code>Checked</code> class.  Note that <code>_fields</code> and <code>_asdict</code>
+are prefixed with <code>_</code> for the same reason the <code>collections.namedtuple</code> API does: to reduce the
+chance of name clashes with user-defined field names.  Here is the complete class:</p>
+<pre><code class="language-python">class Checked:
+    @classmethod
+    def _fields(cls) -&gt; dict[str, type]:
+        return get_type_hints(cls)
+
+    def __init_subclass__(subclass) -&gt; None:
+        super().__init_subclass__()
+        for name, constructor in subclass._fields().items():
+            setattr(subclass, name, Field(name, constructor))
+
+    def __init__(self, **kwargs: Any) -&gt; None:
+        for name in self._fields():
+            value = kwargs.pop(name, ...)
+            setattr(self, name, value)
+        if kwargs:
+            self.__flag_unknown_attrs(*kwargs)
+
+    def __setattr__(self, name: str, value: Any) -&gt; None:  # intercept all attribute setting
+        if name in self._fields():  # known name: fetch the descriptor...
+            cls = self.__class__
+            descriptor = getattr(cls, name)
+            descriptor.__set__(self, value)  # ...and call its __set__ explicitly
+        else:  # unknown name: raise
+            self.__flag_unknown_attrs(name)
+
+    def __flag_unknown_attrs(self, *names: str) -&gt; NoReturn:  # a rare use of NoReturn
+        plural = 's' if len(names) &gt; 1 else ''
+        extra = ', '.join(f'{name!r}' for name in names)
+        cls_name = repr(self.__class__.__name__)
+        raise AttributeError(f'{cls_name} object has no attribute{plural} {extra}')
+
+    def _asdict(self) -&gt; dict[str, Any]:  # follows the namedtuple._asdict convention
+        return {
+            name: getattr(self, name)
+            for name, attr in self.__class__.__dict__.items()
+            if isinstance(attr, Field)
+        }
+
+    def __repr__(self) -&gt; str:  # the main reason for having _asdict
+        kwargs = ', '.join(
+            f'{key}={value!r}' for key, value in self._asdict().items()
+        )
+        return f'{self.__class__.__name__}({kwargs})'
+</code></pre>
+<p>Usually we don’t need to call the descriptor <code>__set__</code> explicitly.  It was necessary in this
+case because <code>__setattr__</code> intercepts all attempts to set an attribute on the instance,
+including in the presence of an overriding descriptor such as <code>Field</code>.  Let’s try it:</p>
+<pre><code class="language-python">class Movie(Checked):
+    title: str
+    year: int
+    box_office: float
+
+movie = Movie(title='The Godfather', year=1972, box_office=137)
+movie.title
+# 'The Godfather'
+movie
+# Movie(title='The Godfather', year=1972, box_office=137.0)
+Movie(title='Life of Brian')  # missing fields get default values from the constructors
+# Movie(title='Life of Brian', year=0, box_office=0.0)
+blockbuster = Movie(title='Avatar', year=2009, box_office='billions')
+# Traceback (most recent call last):
+#   ...
+# TypeError: 'billions' is not compatible with box_office:float
+movie.year = 'MCMLXXII'
+# Traceback (most recent call last):
+#   ...
+# TypeError: 'MCMLXXII' is not compatible with year:int
+movie.director = 'Francis Ford Coppola'
+# Traceback (most recent call last):
+#   ...
+# AttributeError: 'Movie' object has no attribute 'director'
+movie._asdict()
+# {'title': 'The Godfather', 'year': 1972, 'box_office': 137.0}
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p><strong><code>Checked</code> subclasses and static type checking.</strong>  In a <em>.py</em> source file with a <code>movie</code>
+instance of <code>Movie</code>, a type checker flags <code>movie.year = 'MCMLXXII'</code> as a type error.
+However, it can’t detect type errors in a constructor call like
+<code>Movie(title='Avatar', year='MMIX')</code>, because <code>Movie</code> inherits <code>Checked.__init__</code>, and the
+signature of that method must accept any keyword arguments to support arbitrary
+user-defined classes.  The fix is
+<a href="https://docs.python.org/3/library/typing.html#typing.dataclass_transform"><code>typing.dataclass_transform</code></a>
+(<a href="https://peps.python.org/pep-0681/"><strong>PEP 681</strong></a>, Python 3.11): decorating <code>Checked</code> with
+<code>@dataclass_transform(kw_only_default=True)</code> tells type checkers that subclasses get a
+synthesized, dataclass-like <code>__init__</code> based on their annotations.  The same decorator works
+on class decorators and metaclasses.  On the other hand, if you declare a <code>Checked</code> subclass
+field with the type hint <code>list[float]</code>, a type checker can flag assignments of lists with
+incompatible contents, but <code>Checked</code> will ignore the type parameter and treat that the same
+as <code>list</code>.</p>
+</blockquote>
+<p>The <code>Checked</code> example illustrates how to handle overriding descriptors when implementing
+<code>__setattr__</code> to block arbitrary attribute setting after instantiation.  It is debatable
+whether implementing <code>__setattr__</code> is worthwhile in this example.  Without it, setting
+<code>movie.director = 'Greta Gerwig'</code> would succeed, but the <code>director</code> attribute would not be
+checked in any way, and would not appear in the <code>__repr__</code> nor would it be included in the
+<code>dict</code> returned by <code>_asdict</code>.</p>
+<p>In <code>record_factory.py</code> we solved this issue using the <code>__slots__</code> class attribute.  However,
+this simpler solution is not viable in this case, as explained next.</p>
+<h3 id="why-__init_subclass__-cannot-configure-__slots__"><a class="header" href="#why-__init_subclass__-cannot-configure-__slots__">Why <code>__init_subclass__</code> Cannot Configure <code>__slots__</code></a></h3>
+<p>The <code>__slots__</code> attribute is only effective if it is one of the entries in the class namespace
+passed to <code>type.__new__</code>.  Adding <code>__slots__</code> to an existing class has no effect.  Python
+invokes <code>__init_subclass__</code> only after the class is built — by then it’s too late to configure
+<code>__slots__</code>.  A class decorator can’t configure <code>__slots__</code> either, because it is applied even
+later than <code>__init_subclass__</code>.  We’ll explore these timing issues in
+<a href="#what-happens-when-import-time-versus-runtime">What Happens When: Import Time Versus Runtime</a>.</p>
+<pre><code class="language-python">class Late:
+    pass
+
+Late.__slots__ = ('x',)  # too late: the class already has instance dicts
+obj = Late()
+obj.anything = 1  # no error: __slots__ was ignored
+vars(obj)
+# {'anything': 1}
+</code></pre>
+<p>To configure <code>__slots__</code> at runtime, your own code must build the class namespace passed as
+the last argument of <code>type.__new__</code>.  To do that, you can write a class factory function, like
+<code>record_factory.py</code>, or you can take the nuclear option and implement a metaclass.  We will see
+how to dynamically configure <code>__slots__</code> in <a href="#metaclasses-101">Metaclasses 101</a>.  (The
+<code>@dataclass(slots=True)</code> option of Python 3.10 works around the limitation in a third way: the
+decorator builds and returns a <em>new</em> class with <code>__slots__</code>, instead of the decorated one.)</p>
+<p>Before PEP 487 simplified the customization of class creation with <code>__init_subclass__</code> in
+Python 3.6, similar functionality had to be implemented using a class decorator.  That’s the
+focus of the next section.</p>
+<h2 id="enhancing-classes-with-a-class-decorator"><a class="header" href="#enhancing-classes-with-a-class-decorator">Enhancing Classes with a Class Decorator</a></h2>
+<p>A class decorator is a callable that behaves similarly to a function decorator: it gets the
+decorated class as an argument, and should return a class to replace the decorated class.
+Class decorators often return the decorated class itself, after injecting more methods in it
+via attribute assignment.</p>
+<p>Probably the most common reason to choose a class decorator over the simpler
+<code>__init_subclass__</code> is to avoid interfering with other class features, such as inheritance and
+metaclasses.  (This rationale appears in the abstract of
+<a href="https://peps.python.org/pep-0557/"><strong>PEP 557</strong></a> — Data Classes, to explain why it was
+implemented as a class decorator.)</p>
+<p>In this section, we’ll study <code>checkeddeco.py</code>, which provides the same service as
+<code>checkedlib.py</code>, but using a class decorator.  The only difference in usage is the way the
+<code>Movie</code> class is declared: it is decorated with <code>@checked</code> instead of subclassing <code>Checked</code>.
+Otherwise, the external behavior is the same, including the type validation and default value
+assignments.</p>
+<p>The imports and <code>Field</code> class are the same as in <code>checkedlib.py</code>.  There is no other class,
+only functions in <code>checkeddeco.py</code>.  The logic previously implemented in <code>__init_subclass__</code>
+is now part of the <code>checked</code> function — the class decorator:</p>
+<pre><code class="language-python">def checked(cls: type) -&gt; type:  # takes a class and returns a class
+    for name, constructor in _fields(cls).items():  # _fields is defined below
+        setattr(cls, name, Field(name, constructor))  # what __init_subclass__ did
+
+    cls._fields = classmethod(_fields)  # type: ignore
+
+    instance_methods = (  # module-level functions that will become instance methods
+        __init__,
+        __repr__,
+        __setattr__,
+        _asdict,
+        __flag_unknown_attrs,
+    )
+    for method in instance_methods:  # add each of them to cls
+        setattr(cls, method.__name__, method)
+
+    return cls  # fulfill the essential contract of a class decorator
+</code></pre>
+<p>The <code># type: ignore</code> comment is needed because type checkers complain that <code>type</code> has no
+<code>_fields</code> attribute.  Every top-level function in <code>checkeddeco.py</code> is prefixed with an
+underscore, except the <code>checked</code> decorator.  This naming convention makes sense for a couple of
+reasons:</p>
+<ul>
+<li><code>checked</code> is part of the public interface of the <code>checkeddeco.py</code> module, but the other
+functions are not.</li>
+<li>The functions will be injected in the decorated class, and the leading <code>_</code> reduces the
+chance of naming conflicts with user-defined attributes and methods of the decorated class.</li>
+</ul>
+<p>The rest of <code>checkeddeco.py</code> follows.  Those module-level functions have the same code as the
+corresponding methods of the <code>Checked</code> class.  Note that the <code>_fields</code> function does double
+duty: it is used as a regular function in the first line of the <code>checked</code> decorator, and it
+will also be injected as a class method of the decorated class.</p>
+<pre><code class="language-python">def _fields(cls: type) -&gt; dict[str, type]:
+    return get_type_hints(cls)
+
+def __init__(self: Any, **kwargs: Any) -&gt; None:
+    for name in self._fields():
+        value = kwargs.pop(name, ...)
+        setattr(self, name, value)
+    if kwargs:
+        self.__flag_unknown_attrs(*kwargs)
+
+def __setattr__(self: Any, name: str, value: Any) -&gt; None:
+    if name in self._fields():
+        cls = self.__class__
+        descriptor = getattr(cls, name)
+        descriptor.__set__(self, value)
+    else:
+        self.__flag_unknown_attrs(name)
+
+def __flag_unknown_attrs(self: Any, *names: str) -&gt; NoReturn:
+    plural = 's' if len(names) &gt; 1 else ''
+    extra = ', '.join(f'{name!r}' for name in names)
+    cls_name = repr(self.__class__.__name__)
+    raise AttributeError(f'{cls_name} has no attribute{plural} {extra}')
+
+def _asdict(self: Any) -&gt; dict[str, Any]:
+    return {
+        name: getattr(self, name)
+        for name, attr in self.__class__.__dict__.items()
+        if isinstance(attr, Field)
+    }
+
+def __repr__(self: Any) -&gt; str:
+    kwargs = ', '.join(
+        f'{key}={value!r}' for key, value in self._asdict().items()
+    )
+    return f'{self.__class__.__name__}({kwargs})'
+</code></pre>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>There is a subtle trap in that listing.  Inside a class body, <code>self.__flag_unknown_attrs</code>
+would be mangled to <code>self._Checked__flag_unknown_attrs</code>.  At module level there is no class,
+so no mangling happens, and the function is installed under its plain name
+<code>__flag_unknown_attrs</code> — which is exactly the name the module-level functions look up.  It
+works, but only because <em>all</em> the code involved lives outside any class body.</p>
+</blockquote>
+<p>Now the decorator in action:</p>
+<pre><code class="language-python">@checked
+class Movie:
+    title: str
+    year: int
+    box_office: float
+
+movie = Movie(title='The Godfather', year=1972, box_office=137)
+movie
+# Movie(title='The Godfather', year=1972, box_office=137.0)
+Movie(title='Life of Brian')
+# Movie(title='Life of Brian', year=0, box_office=0.0)
+Movie.__mro__  # no special base class
+# (&lt;class '__main__.Movie'&gt;, &lt;class 'object'&gt;)
+</code></pre>
+<p>The <code>checkeddeco.py</code> module implements a simple but usable class decorator.  Python’s
+<code>@dataclass</code> does a lot more.  It supports many configuration options, adds more methods to the
+decorated class, handles or warns about conflicts with user-defined methods in the decorated
+class, and even traverses the <code>__mro__</code> to collect user-defined attributes declared in the
+superclasses of the decorated class.  The source code of the <code>dataclasses</code> module is more than
+1,500 lines long.  Another — much simpler — example of a class decorator in the standard
+library is <code>functools.total_ordering</code>, which generates special methods for object comparison
+(see <a href="operator-overloading.html">Operator Overloading</a>).</p>
+<p>For metaprogramming classes, we must be aware of when the Python interpreter evaluates each
+block of code during the construction of a class.  This is covered next.</p>
+<h2 id="what-happens-when-import-time-versus-runtime"><a class="header" href="#what-happens-when-import-time-versus-runtime">What Happens When: Import Time Versus Runtime</a></h2>
+<p>Python programmers talk about “import time” versus “runtime”, but the terms are not strictly
+defined and there is a gray area between them.  At import time, the interpreter:</p>
+<ol>
+<li>Parses the source code of a <em>.py</em> module in one pass from top to bottom.  This is when a
+<code>SyntaxError</code> may occur.</li>
+<li>Compiles the bytecode to be executed.</li>
+<li>Executes the top-level code of the compiled module.</li>
+</ol>
+<p>If there is an up-to-date <em>.pyc</em> file available in the local <code>__pycache__</code>, parsing and
+compiling are skipped because the bytecode is ready to run (see
+<a href="modules.html">“Compiled” Python files</a>).</p>
+<p>Although parsing and compiling are definitely “import time” activities, other things may happen
+at that time, because almost every statement in Python is executable in the sense that they can
+potentially run user code and may change the state of the user program.  In particular, the
+<code>import</code> statement is not merely a declaration — unlike in Java — but it actually runs all the
+top-level code of a module when it is imported for the first time in the process.  Further
+imports of the same module will use a cache, and then the only effect will be binding the
+imported objects to names in the client module.  That top-level code may do anything,
+including actions typical of “runtime”, such as writing to a log or connecting to a database.
+That’s why the border between “import time” and “runtime” is fuzzy: the <code>import</code> statement
+can trigger all sorts of “runtime” behavior.  Conversely, “import time” can also happen deep
+inside runtime, because the <code>import</code> statement and the <code>__import__()</code> built-in can be used
+inside any regular function.</p>
+<p>This is all rather abstract and subtle, so let’s do some experiments to see what happens when.</p>
+<h3 id="evaluation-time-experiments"><a class="header" href="#evaluation-time-experiments">Evaluation Time Experiments</a></h3>
+<p>Consider an <em>evaldemo.py</em> script that uses a class decorator, a descriptor, and a class builder
+based on <code>__init_subclass__</code>, all defined in a <em>builderlib.py</em> module.  The modules have several
+<code>print</code> calls to show what happens under the covers.  Otherwise, they don’t perform anything
+useful.  The goal of these experiments is to observe the order in which these <code>print</code> calls
+happen.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Applying a class decorator and a class builder with <code>__init_subclass__</code> together in a single
+class is likely a sign of overengineering or desperation.  This unusual combination is useful
+in these experiments to show the timing of the changes that a class decorator and
+<code>__init_subclass__</code> can apply to a class.</p>
+</blockquote>
+<p>Here is <em>builderlib.py</em>.  Lines printed by it are prefixed with <code>@</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">print('@ builderlib module start')
+
+class Builder:  # a class builder to implement...
+    print('@ Builder body')
+
+    def __init_subclass__(cls):  # ...an __init_subclass__ method
+        print(f'@ Builder.__init_subclass__({cls!r})')
+
+        def inner_0(self):  # a function to be added to the subclass below
+            print(f'@ SuperA.__init_subclass__:inner_0({self!r})')
+
+        cls.method_a = inner_0
+
+    def __init__(self):
+        super().__init__()
+        print(f'@ Builder.__init__({self!r})')
+
+
+def deco(cls):  # a class decorator
+    print(f'@ deco({cls!r})')
+
+    def inner_1(self):  # function to be added to the decorated class
+        print(f'@ deco:inner_1({self!r})')
+
+    cls.method_b = inner_1
+    return cls  # return the class received as an argument
+
+class Descriptor:  # a descriptor class to demonstrate when...
+    print('@ Descriptor body')
+
+    def __init__(self):  # ...a descriptor instance is created, and when...
+        print(f'@ Descriptor.__init__({self!r})')
+
+    def __set_name__(self, owner, name):  # ...__set_name__ is invoked
+        args = (self, owner, name)
+        print(f'@ Descriptor.__set_name__{args!r}')
+
+    def __set__(self, instance, value):  # only displays its arguments
+        args = (self, instance, value)
+        print(f'@ Descriptor.__set__{args!r}')
+
+    def __repr__(self):
+        return '&lt;Descriptor instance&gt;'
+
+print('@ builderlib module end')
+</code></pre>
+<p>If you import <em>builderlib.py</em> in the Python console, this is what you get:</p>
+<pre><code class="language-pycon">&gt;&gt;&gt; import builderlib
+@ builderlib module start
+@ Builder body
+@ Descriptor body
+@ builderlib module end
+</code></pre>
+<p>Now let’s turn to <em>evaldemo.py</em>, which will trigger special methods in <em>builderlib.py</em>.  Its
+own lines are prefixed with <code>#</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">#!/usr/bin/env python3
+
+from builderlib import Builder, deco, Descriptor
+
+print('# evaldemo module start')
+
+@deco  # apply a decorator
+class Klass(Builder):  # subclass Builder to trigger its __init_subclass__
+    print('# Klass body')
+
+    attr = Descriptor()  # instantiate the descriptor
+
+    def __init__(self):
+        super().__init__()
+        print(f'# Klass.__init__({self!r})')
+
+    def __repr__(self):
+        return '&lt;Klass instance&gt;'
+
+
+def main():  # only called if the module is run as the main program
+    obj = Klass()
+    obj.method_a()
+    obj.method_b()
+    obj.attr = 999
+
+if __name__ == '__main__':
+    main()
+
+print('# evaldemo module end')
+</code></pre>
+<p>If you open a fresh console and import <em>evaldemo.py</em>, this is the output:</p>
+<pre><code class="language-pycon">&gt;&gt;&gt; import evaldemo
+@ builderlib module start
+@ Builder body
+@ Descriptor body
+@ builderlib module end
+# evaldemo module start
+# Klass body
+@ Descriptor.__init__(&lt;Descriptor instance&gt;)
+@ Descriptor.__set_name__(&lt;Descriptor instance&gt;, &lt;class 'evaldemo.Klass'&gt;, 'attr')
+@ Builder.__init_subclass__(&lt;class 'evaldemo.Klass'&gt;)
+@ deco(&lt;class 'evaldemo.Klass'&gt;)
+# evaldemo module end
+</code></pre>
+<ol>
+<li>The top four lines are the result of <code>from builderlib import…</code>.  They will not appear if
+<em>builderlib.py</em> was already loaded in the same session.</li>
+<li><code># Klass body</code> signals that Python started reading the body of <code>Klass</code>.  At this point, the
+class object does not exist yet.</li>
+<li>The descriptor instance is created and bound to <code>attr</code> in the namespace that Python will
+pass to the default class object constructor: <code>type.__new__</code>.</li>
+<li>At this point, Python’s built-in <code>type.__new__</code> has created the <code>Klass</code> object and calls
+<code>__set_name__</code> on each descriptor instance of descriptor classes that provide that method,
+passing <code>Klass</code> as the <code>owner</code> argument.</li>
+<li><code>type.__new__</code> then calls <code>__init_subclass__</code> on the superclass of <code>Klass</code>, passing <code>Klass</code>
+as the single argument.</li>
+<li>When <code>type.__new__</code> returns the class object, Python applies the decorator.  In this
+example, the class returned by <code>deco</code> is bound to <code>Klass</code> in the module namespace.</li>
+</ol>
+<p>The implementation of <code>type.__new__</code> is written in C.  The behavior just described is
+documented in the
+<a href="https://docs.python.org/3/reference/datamodel.html#creating-the-class-object">Creating the class object</a>
+section of the Data Model reference.</p>
+<p>Note that the <code>main()</code> function of <em>evaldemo.py</em> was not executed in the console session,
+therefore no instance of <code>Klass</code> was created.  All the action we saw was triggered by “import
+time” operations: importing <code>builderlib</code> and defining <code>Klass</code>.  If you run <em>evaldemo.py</em> as a
+script, you will see the same output with extra lines right before the end.  The extra lines
+are the result of running <code>main()</code>:</p>
+<pre><code class="language-console">$ ./evaldemo.py
+[... 9 lines omitted ...]
+@ deco(&lt;class '__main__.Klass'&gt;)
+@ Builder.__init__(&lt;Klass instance&gt;)
+# Klass.__init__(&lt;Klass instance&gt;)
+@ SuperA.__init_subclass__:inner_0(&lt;Klass instance&gt;)
+@ deco:inner_1(&lt;Klass instance&gt;)
+@ Descriptor.__set__(&lt;Descriptor instance&gt;, &lt;Klass instance&gt;, 999)
+# evaldemo module end
+</code></pre>
+<p><code>@ Builder.__init__</code> is triggered by <code>super().__init__()</code> in <code>Klass.__init__</code>; the next two
+lines by <code>obj.method_a()</code> and <code>obj.method_b()</code> in <code>main</code> — <code>method_a</code> was injected by
+<code>Builder.__init_subclass__</code>, <code>method_b</code> by <code>deco</code>; and the <code>Descriptor.__set__</code> line by
+<code>obj.attr = 999</code>.</p>
+<p>A base class with <code>__init_subclass__</code> and a class decorator are powerful tools, but they are
+limited to working with a class already built by <code>type.__new__</code> under the covers.  In the rare
+occasions when you need to adjust the arguments passed to <code>type.__new__</code>, you need a metaclass.
+That’s the final destination of this chapter.</p>
+<h2 id="metaclasses-101"><a class="header" href="#metaclasses-101">Metaclasses 101</a></h2>
+<blockquote>
+<p>[Metaclasses] are deeper magic than 99% of users should ever worry about.  If you wonder
+whether you need them, you don’t (the people who actually need them know with certainty that
+they need them, and don’t need an explanation about why).</p>
+<p>— Tim Peters, inventor of the Timsort algorithm and prolific Python contributor</p>
+</blockquote>
+<p>A metaclass is a class factory.  In contrast with <code>record_factory</code>, a metaclass is written as a
+class.  In other words, a metaclass is a class whose instances are classes — a mill producing
+other mills.</p>
+<p>Consider the Python object model: classes are objects, therefore each class must be an instance
+of some other class.  By default, Python classes are instances of <code>type</code>.  In other words,
+<code>type</code> is the metaclass for most built-in and user-defined classes:</p>
+<pre><code class="language-python">str.__class__
+# &lt;class 'type'&gt;
+Movie.__class__
+# &lt;class 'type'&gt;
+type.__class__  # to avoid infinite regress, the class of type is type
+# &lt;class 'type'&gt;
+</code></pre>
+<p>Note that we are not saying that <code>str</code> or <code>Movie</code> are subclasses of <code>type</code>.  What we are saying
+is that <code>str</code> and <code>Movie</code> are instances of <code>type</code>.  They all are subclasses of <code>object</code>:</p>
+<pre><code class="language-text">   subclass-of view (__mro__)            instance-of view (__class__)
+
+          object                                  type
+         /  |   \                               /  |  \  \
+      str  type  Movie                     str object type Movie
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The classes <code>object</code> and <code>type</code> have a unique relationship: <code>object</code> is an instance of
+<code>type</code>, and <code>type</code> is a subclass of <code>object</code>.  This relationship is “magic”: it cannot be
+expressed in Python because either class would have to exist before the other could be
+defined.  The fact that <code>type</code> is an instance of itself is also magical.</p>
+</blockquote>
+<p>The next snippet shows that the class of <code>collections.abc.Iterable</code> is <code>abc.ABCMeta</code>.  Note
+that <code>Iterable</code> is an abstract class, but <code>ABCMeta</code> is a concrete class — after all, <code>Iterable</code>
+is an instance of <code>ABCMeta</code>:</p>
+<pre><code class="language-python">from collections.abc import Iterable
+Iterable.__class__
+# &lt;class 'abc.ABCMeta'&gt;
+import abc
+from abc import ABCMeta
+ABCMeta.__class__
+# &lt;class 'type'&gt;
+ABCMeta.__mro__  # a metaclass is a subclass of type
+# (&lt;class 'abc.ABCMeta'&gt;, &lt;class 'type'&gt;, &lt;class 'object'&gt;)
+</code></pre>
+<p>Ultimately, the class of <code>ABCMeta</code> is also <code>type</code>.  Every class is an instance of <code>type</code>,
+directly or indirectly, but only metaclasses are also subclasses of <code>type</code>.  That’s the most
+important relationship to understand metaclasses: a metaclass, such as <code>ABCMeta</code>, inherits from
+<code>type</code> the power to construct classes.  A metaclass can customize its instances by implementing
+special methods, as the next sections demonstrate.</p>
+<h3 id="how-a-metaclass-customizes-a-class"><a class="header" href="#how-a-metaclass-customizes-a-class">How a Metaclass Customizes a Class</a></h3>
+<p>To use a metaclass, it’s critical to understand how <code>__new__</code> works on any class.  This was
+discussed in
+<a href="dynamic-attributes.html#flexible-object-creation-with-__new__">Flexible Object Creation with <code>__new__</code></a>.
+The same mechanics happen at a “meta” level when a metaclass is about to create a new instance,
+which is a class.  Consider this declaration:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class Klass(SuperKlass, metaclass=MetaKlass):
+    x = 42
+    def __init__(self, y):
+        self.y = y
+</code></pre>
+<p>To process that <code>class</code> statement, Python calls <code>MetaKlass.__new__</code> with these arguments:</p>
+<dl>
+<dt id="meta_cls"><a class="header" href="#meta_cls"><code>meta_cls</code></a></dt>
+<dd>The metaclass itself (<code>MetaKlass</code>), because <code>__new__</code> works as class method.</dd>
+<dt id="cls_name"><a class="header" href="#cls_name"><code>cls_name</code></a></dt>
+<dd>The string <code>Klass</code>.</dd>
+<dt id="bases-1"><a class="header" href="#bases-1"><code>bases</code></a></dt>
+<dd>The single-element tuple <code>(SuperKlass,)</code>, with more elements in the case of multiple
+inheritance.</dd>
+<dt id="cls_dict"><a class="header" href="#cls_dict"><code>cls_dict</code></a></dt>
+<dd>A mapping like <code>{'x': 42, '__init__': &lt;function __init__ at 0x...&gt;}</code>.</dd>
+</dl>
+<p>When you implement <code>MetaKlass.__new__</code>, you can inspect and change those arguments before
+passing them to <code>super().__new__</code>, which will eventually call <code>type.__new__</code> to create the new
+class object.</p>
+<p>After <code>super().__new__</code> returns, you can also apply further processing to the newly created
+class before returning it to Python.  Python then calls <code>SuperKlass.__init_subclass__</code>, passing
+the class you created, and then applies a class decorator to it, if one is present.  Finally,
+Python binds the class object to its name in the surrounding namespace — usually the global
+namespace of a module, if the <code>class</code> statement was a top-level statement.</p>
+<p>The most common processing made in a metaclass <code>__new__</code> is to add or replace items in the
+<code>cls_dict</code> — the mapping that represents the namespace of the class under construction.  For
+instance, before calling <code>super().__new__</code>, you can inject methods in the class under
+construction by adding functions to <code>cls_dict</code>.  However, note that adding methods can also be
+done after the class is built, which is why we were able to do it using <code>__init_subclass__</code> or
+a class decorator.</p>
+<p>One attribute that you must add to the <code>cls_dict</code> before <code>type.__new__</code> runs is <code>__slots__</code>, as
+discussed in <a href="#why-__init_subclass__-cannot-configure-__slots__">Why <code>__init_subclass__</code> Cannot Configure <code>__slots__</code></a>.
+The <code>__new__</code> method of a metaclass is the ideal place to configure <code>__slots__</code>.  The next
+section shows how to do that.</p>
+<h3 id="a-nice-metaclass-example"><a class="header" href="#a-nice-metaclass-example">A Nice Metaclass Example</a></h3>
+<p>The <code>MetaBunch</code> metaclass presented here is a variation of the last example in Chapter 4 of
+<em>Python in a Nutshell</em>, 3rd ed., by Alex Martelli, Anna Ravenscroft and Steve Holden.  It
+first appeared in a message posted by Martelli to comp.lang.python on July 7, 2002, with the
+subject line “a nice metaclass example”, and his code for Python 2.2 still runs after a single
+change: in Python 3, the metaclass is given with the <code>metaclass</code> keyword argument in the class
+declaration, instead of a <code>__metaclass__</code> class attribute.</p>
+<pre><code class="language-python">class MetaBunch(type):  # to create a new metaclass, inherit from type
+    def __new__(meta_cls, cls_name, bases, cls_dict):  # meta_cls: the class is a metaclass
+
+        defaults = {}  # attribute names and their default values
+
+        def __init__(self, **kwargs):  # this will be injected into the new class
+            for name, default in defaults.items():  # set each attribute from kwargs or default
+                setattr(self, name, kwargs.pop(name, default))
+            if kwargs:  # leftovers: no slots left to place them; fail fast
+                extra = ', '.join(kwargs)
+                raise AttributeError(f'No slots left for: {extra!r}')
+
+        def __repr__(self):  # looks like a constructor call, omitting default values
+            rep = ', '.join(f'{name}={value!r}'
+                            for name, default in defaults.items()
+                            if (value := getattr(self, name)) != default)
+            return f'{cls_name}({rep})'
+
+        new_dict = dict(__slots__=[], __init__=__init__, __repr__=__repr__)  # new namespace
+
+        for name, value in cls_dict.items():  # iterate over the user's class namespace
+            if name.startswith('__') and name.endswith('__'):  # dunder: copy it, unless...
+                if name in new_dict:  # ...it would overwrite __init__ or __repr__
+                    raise AttributeError(f"Can't set {name!r} in {cls_name!r}")
+                new_dict[name] = value
+            else:  # not a dunder: append to __slots__ and save the default
+                new_dict['__slots__'].append(name)
+                defaults[name] = value
+        return super().__new__(meta_cls, cls_name, bases, new_dict)  # build the new class
+
+class Bunch(metaclass=MetaBunch):  # a base class, so users don't need to see MetaBunch
+    pass
+</code></pre>
+<p><code>__new__</code> works as a class method, but the class is a metaclass, so we name the first argument
+<code>meta_cls</code> (<code>mcs</code> is a common alternative).  The remaining three arguments are the same as the
+three-argument signature for calling <code>type()</code> directly to create a class.  The check for dunder
+names prevents users from overwriting <code>__init__</code>, <code>__repr__</code>, while still copying other
+attributes set by Python, such as <code>__qualname__</code> and <code>__module__</code>.</p>
+<p>Here is what the <code>Bunch</code> base class provides:</p>
+<pre><code class="language-python">class Point(Bunch):
+    x = 0.0
+    y = 0.0
+    color = 'gray'
+
+Point(x=1.2, y=3, color='green')
+# Point(x=1.2, y=3, color='green')
+p = Point()
+p.x, p.y, p.color
+# (0.0, 0.0, 'gray')
+p
+# Point()
+</code></pre>
+<p>Remember that <code>Checked</code> assigns names to the <code>Field</code> descriptors in subclasses based on class
+variable type hints, which do not actually become attributes on the class since they don’t have
+values.  <code>Bunch</code> subclasses, on the other hand, use actual class attributes with values, which
+then become the default values of the instance attributes.  The generated <code>__repr__</code> omits the
+arguments for attributes that are equal to the defaults.</p>
+<p><code>MetaBunch</code> — the metaclass of <code>Bunch</code> — generates <code>__slots__</code> for the new class from the class
+attributes declared in the user’s class.  This blocks the instantiation and later assignment of
+undeclared attributes:</p>
+<pre><code class="language-python">Point(x=1, y=2, z=3)
+# Traceback (most recent call last):
+#   ...
+# AttributeError: No slots left for: 'z'
+p = Point(x=21)
+p.y = 42
+p
+# Point(x=21, y=42)
+p.flavor = 'banana'
+# Traceback (most recent call last):
+#   ...
+# AttributeError: 'Point' object has no attribute 'flavor' and no __dict__ for setting new attributes
+</code></pre>
+<p>(That last error message comes from Python 3.13; older versions stop after <code>'flavor'</code>.)
+<code>MetaBunch</code> works because it is able to configure <code>__slots__</code> before calling <code>super().__new__</code>
+to build the final class.  As usual when metaprogramming, understanding the sequence of actions
+is key.  Let’s do another evaluation time experiment, now with a metaclass.</p>
+<h3 id="metaclass-evaluation-time-experiment"><a class="header" href="#metaclass-evaluation-time-experiment">Metaclass Evaluation Time Experiment</a></h3>
+<p>This is a variation of the previous experiment, adding a metaclass to the mix.  The
+<em>builderlib.py</em> module is the same as before, but the main script is now <em>evaldemo_meta.py</em>,
+which is <em>evaldemo.py</em> with three changes: it imports <code>MetaKlass</code> from <em>metalib.py</em>, declares
+the class as <code>class Klass(Builder, metaclass=MetaKlass):</code>, and <code>main()</code> also calls
+<code>obj.method_c()</code>, a method injected by <code>MetaKlass.__new__</code>.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>In the interest of science, <em>evaldemo_meta.py</em> defies all reason and applies three different
+metaprogramming techniques together on <code>Klass</code>: a decorator, a base class using
+<code>__init_subclass__</code>, and a custom metaclass.  If you do this in production code, please
+don’t.  Again, the goal is to observe the order in which the three techniques interfere in
+the class construction process.</p>
+</blockquote>
+<p>Here is <em>metalib.py</em>.  Its lines are prefixed with <code>%</code>:</p>
+<pre><code class="language-python">print('% metalib module start')
+
+import collections
+
+class NosyDict(collections.UserDict):  # displays each key and value as they are set
+    def __setitem__(self, key, value):
+        args = (self, key, value)
+        print(f'% NosyDict.__setitem__{args!r}')
+        super().__setitem__(key, value)
+
+    def __repr__(self):
+        return '&lt;NosyDict instance&gt;'
+
+class MetaKlass(type):
+    print('% MetaKlass body')
+
+    @classmethod  # the class under construction does not exist yet
+    def __prepare__(meta_cls, cls_name, bases):  # get a mapping for the class namespace
+        args = (meta_cls, cls_name, bases)
+        print(f'% MetaKlass.__prepare__{args!r}')
+        return NosyDict()  # use a NosyDict as the namespace
+
+    def __new__(meta_cls, cls_name, bases, cls_dict):  # cls_dict: the NosyDict
+        args = (meta_cls, cls_name, bases, cls_dict)
+        print(f'% MetaKlass.__new__{args!r}')
+        def inner_2(self):
+            print(f'% MetaKlass.__new__:inner_2({self!r})')
+
+        cls = super().__new__(meta_cls, cls_name, bases, cls_dict.data)  # needs a real dict
+
+        cls.method_c = inner_2  # inject a method in the newly created class
+
+        return cls  # __new__ must return the new class
+
+    def __repr__(cls):  # customizes the repr() of class objects
+        cls_name = cls.__name__
+        return f"&lt;class {cls_name!r} built by MetaKlass&gt;"
+
+print('% metalib module end')
+</code></pre>
+<p>Importing <em>metalib.py</em> in the Python console is not very exciting:</p>
+<pre><code class="language-pycon">&gt;&gt;&gt; import metalib
+% metalib module start
+% MetaKlass body
+% metalib module end
+</code></pre>
+<p>The main attraction of <em>metalib.py</em> is the metaclass.  It implements the <code>__prepare__</code> special
+method, a class method that Python only invokes on metaclasses.  The <code>__prepare__</code> method
+provides the earliest opportunity to influence the process of creating a new class: Python
+calls it to obtain a mapping to hold the namespace of the class under construction.
+<code>type.__new__</code> requires a real <code>dict</code> as the last argument, so we give it the <code>data</code> attribute
+of <code>NosyDict</code>, inherited from <code>UserDict</code>.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>When coding a metaclass, it’s useful to adopt this naming convention for special method
+arguments: use <code>cls</code> instead of <code>self</code> for instance methods, because the instance is a
+class; and use <code>meta_cls</code> instead of <code>cls</code> for class methods, because the class is a
+metaclass.  Recall that <code>__new__</code> behaves as a class method even without the <code>@classmethod</code>
+decorator.</p>
+</blockquote>
+<p>The main use case for <code>__prepare__</code> before Python 3.6 was to provide an <code>OrderedDict</code> to hold
+the attributes of the class under construction, so that the metaclass <code>__new__</code> could process
+those attributes in the order in which they appear in the source code of the user’s class
+definition.  Now that <code>dict</code> preserves the insertion order, <code>__prepare__</code> is rarely needed.
+You will see a creative use for it in
+<a href="#a-metaclass-hack-with-__prepare__">A Metaclass Hack with <code>__prepare__</code></a>.</p>
+<p>Lots of things happen if you import <em>evaldemo_meta.py</em> (output from Python 3.13, with
+addresses elided and long lines wrapped):</p>
+<pre><code class="language-pycon">&gt;&gt;&gt; import evaldemo_meta
+@ builderlib module start
+@ Builder body
+@ Descriptor body
+@ builderlib module end
+% metalib module start
+% MetaKlass body
+% metalib module end
+# evaldemo_meta module start
+% MetaKlass.__prepare__(&lt;class 'metalib.MetaKlass'&gt;, 'Klass',
+                        (&lt;class 'builderlib.Builder'&gt;,))
+% NosyDict.__setitem__(&lt;NosyDict instance&gt;, '__module__', 'evaldemo_meta')
+% NosyDict.__setitem__(&lt;NosyDict instance&gt;, '__qualname__', 'Klass')
+% NosyDict.__setitem__(&lt;NosyDict instance&gt;, '__firstlineno__', 8)
+# Klass body
+@ Descriptor.__init__(&lt;Descriptor instance&gt;)
+% NosyDict.__setitem__(&lt;NosyDict instance&gt;, 'attr', &lt;Descriptor instance&gt;)
+% NosyDict.__setitem__(&lt;NosyDict instance&gt;, '__init__',
+                       &lt;function Klass.__init__ at …&gt;)
+% NosyDict.__setitem__(&lt;NosyDict instance&gt;, '__repr__',
+                       &lt;function Klass.__repr__ at …&gt;)
+% NosyDict.__setitem__(&lt;NosyDict instance&gt;, '__static_attributes__', ())
+% NosyDict.__setitem__(&lt;NosyDict instance&gt;, '__classcell__', &lt;cell at …: empty&gt;)
+% MetaKlass.__new__(&lt;class 'metalib.MetaKlass'&gt;, 'Klass',
+                    (&lt;class 'builderlib.Builder'&gt;,), &lt;NosyDict instance&gt;)
+@ Descriptor.__set_name__(&lt;Descriptor instance&gt;,
+                          &lt;class 'Klass' built by MetaKlass&gt;, 'attr')
+@ Builder.__init_subclass__(&lt;class 'Klass' built by MetaKlass&gt;)
+@ deco(&lt;class 'Klass' built by MetaKlass&gt;)
+# evaldemo_meta module end
+</code></pre>
+<ol>
+<li>Python invokes <code>__prepare__</code> to start processing a <code>class</code> statement.</li>
+<li>Before running the class body, Python adds the <code>__module__</code> and <code>__qualname__</code> entries to the
+namespace of the class under construction — and, since Python 3.13, <code>__firstlineno__</code>.</li>
+<li>The descriptor instance is created and bound to <code>attr</code> in the class namespace, then
+<code>__init__</code> and <code>__repr__</code> methods are defined and added.  At the end of the body, Python 3.13
+also stores <code>__static_attributes__</code>: a tuple of the names assigned as <code>self.&lt;name&gt;</code> in the
+methods — empty here, because <code>Klass</code> assigns no instance attributes.  <code>__classcell__</code> is an
+implementation detail that makes <code>super()</code> with no arguments work.</li>
+<li>Once Python finishes processing the class body, it calls <code>MetaKlass.__new__</code>.</li>
+<li><code>__set_name__</code>, <code>__init_subclass__</code> and the decorator are invoked in this order, after the
+<code>__new__</code> method of the metaclass returns the newly constructed class.</li>
+</ol>
+<p>If you run <em>evaldemo_meta.py</em> as a script, <code>main()</code> is called, and a few more things happen:</p>
+<pre><code class="language-console">$ ./evaldemo_meta.py
+[... 23 lines omitted ...]
+@ deco(&lt;class 'Klass' built by MetaKlass&gt;)
+@ Builder.__init__(&lt;Klass instance&gt;)
+# Klass.__init__(&lt;Klass instance&gt;)
+@ SuperA.__init_subclass__:inner_0(&lt;Klass instance&gt;)
+@ deco:inner_1(&lt;Klass instance&gt;)
+% MetaKlass.__new__:inner_2(&lt;Klass instance&gt;)
+@ Descriptor.__set__(&lt;Descriptor instance&gt;, &lt;Klass instance&gt;, 999)
+# evaldemo_meta module end
+</code></pre>
+<p>The <code>% MetaKlass.__new__:inner_2</code> line is triggered by <code>obj.method_c()</code> in <code>main</code>.</p>
+<p>Let’s now go back to the idea of the <code>Checked</code> class with the <code>Field</code> descriptors implementing
+runtime type validation, and see how it can be done with a metaclass.</p>
+<h2 id="a-metaclass-solution-for-checked"><a class="header" href="#a-metaclass-solution-for-checked">A Metaclass Solution for Checked</a></h2>
+<p>We don’t want to encourage premature optimization and overengineering, so here is a
+make-believe scenario to justify rewriting <code>checkedlib.py</code> with <code>__slots__</code>, which requires the
+application of a metaclass.  Feel free to skip it.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p><strong>A bit of storytelling.</strong>  Our <code>checkedlib.py</code> using <code>__init_subclass__</code> is a company-wide
+success, and our production servers have millions of instances of <code>Checked</code> subclasses in
+memory at any one time.  Profiling a proof-of-concept, we discover that using <code>__slots__</code>
+will reduce the cloud hosting bill for two reasons: lower memory usage, as <code>Checked</code>
+instances don’t need their own <code>__dict__</code>; and higher performance, by removing
+<code>__setattr__</code>, which was created just to block unexpected attributes, but is triggered at
+instantiation and for all attribute setting before <code>Field.__set__</code> is called to do its job.</p>
+</blockquote>
+<p>The new <code>checkedlib.py</code> is a drop-in replacement for the previous one.  The complexity is
+abstracted away from the user: the only visible part of the library is the <code>Checked</code> base
+class.  A <code>Movie</code> class using it is an instance of <code>CheckedMeta</code>, and a subclass of <code>Checked</code>.
+Also, the <code>title</code>, <code>year</code> and <code>box_office</code> class attributes of <code>Movie</code> are three separate
+instances of <code>Field</code>.  Each <code>Movie</code> instance has its own <code>_title</code>, <code>_year</code> and <code>_box_office</code>
+slots, to store the values of the corresponding fields.</p>
+<p>The <code>Field</code> descriptor class is now a bit different.  In the previous examples, each <code>Field</code>
+descriptor instance stored its value in the managed instance using an attribute of the same
+name.  This made it unnecessary for <code>Field</code> to provide a <code>__get__</code> method.  However, when a
+class like <code>Movie</code> uses <code>__slots__</code>, it cannot have class attributes and instance attributes
+with the same name.  Each descriptor instance is a class attribute, and now we need separate
+per-instance storage attributes.  The code uses the descriptor name prefixed with a single
+<code>_</code>.  Therefore <code>Field</code> instances have separate <code>name</code> and <code>storage_name</code> attributes, and we
+implement <code>Field.__get__</code>:</p>
+<pre><code class="language-python">class Field:
+    def __init__(self, name: str, constructor: Callable) -&gt; None:
+        if not callable(constructor) or constructor is type(None):
+            raise TypeError(f'{name!r} type hint must be callable')
+        self.name = name
+        self.storage_name = '_' + name  # compute storage_name from name
+        self.constructor = constructor
+
+    def __get__(self, instance, owner=None):
+        if instance is None:  # read from the managed class itself: return the descriptor
+            return self
+        return getattr(instance, self.storage_name)  # the value in the storage slot
+
+    def __set__(self, instance: Any, value: Any) -&gt; None:
+        if value is ...:
+            value = self.constructor()
+        else:
+            try:
+                value = self.constructor(value)
+            except (TypeError, ValueError) as e:
+                type_name = self.constructor.__name__
+                msg = f'{value!r} is not compatible with {self.name}:{type_name}'
+                raise TypeError(msg) from e
+        setattr(instance, self.storage_name, value)  # set or update the slot
+</code></pre>
+<p>Here is the metaclass that drives this example.  There’s one modern wrinkle: to get the type
+hints in prior examples, we used <code>typing.get_type_hints</code>, but that requires an existing class.
+At this point, the class we are configuring does not exist yet, so we need to read the
+annotations from the <code>cls_dict</code> — the namespace of the class under construction.  Through
+Python 3.13, that namespace has an <code>__annotations__</code> dict.  Since Python 3.14, annotations are
+evaluated lazily (<a href="https://peps.python.org/pep-0649/"><strong>PEP 649</strong></a> and
+<a href="https://peps.python.org/pep-0749/"><strong>PEP 749</strong></a>): the namespace holds an annotate function
+instead, which we can call using the new
+<a href="https://docs.python.org/3/library/annotationlib.html"><code>annotationlib</code></a> module.  A helper
+function handles both cases:</p>
+<pre><code class="language-python">def namespace_annotations(cls_dict) -&gt; dict[str, Any]:
+    if '__annotations__' in cls_dict:  # Python &lt;= 3.13, or `from __future__ import annotations`
+        return cls_dict['__annotations__']
+    try:
+        import annotationlib  # Python &gt;= 3.14
+    except ImportError:
+        return {}
+    annotate = annotationlib.get_annotate_from_class_namespace(cls_dict)
+    if annotate is None:
+        return {}
+    return annotationlib.call_annotate_function(annotate, annotationlib.Format.FORWARDREF)
+
+class CheckedMeta(type):
+
+    def __new__(meta_cls, cls_name, bases, cls_dict):  # the only method in CheckedMeta
+        if '__slots__' not in cls_dict:  # only enhance classes that don't declare __slots__
+            slots = []
+            type_hints = namespace_annotations(cls_dict)  # read from the namespace
+            for name, constructor in type_hints.items():  # for each annotated attribute...
+                field = Field(name, constructor)  # ...build a Field...
+                cls_dict[name] = field  # ...put it in the namespace...
+                slots.append(field.storage_name)  # ...and collect its storage name
+
+            cls_dict['__slots__'] = slots  # populate __slots__ before the class exists
+
+        return super().__new__(
+                meta_cls, cls_name, bases, cls_dict)
+</code></pre>
+<p>If <code>__slots__</code> is already present, <code>CheckedMeta</code> assumes it is the <code>Checked</code> base class and not
+a user-defined subclass, and builds the class as is.  The last part of the new <code>checkedlib.py</code>
+is the <code>Checked</code> base class that users of this library will subclass.  It is the same as the
+<code>__init_subclass__</code> version, with three changes:</p>
+<ol>
+<li>Added an empty <code>__slots__</code> to signal to <code>CheckedMeta.__new__</code> that this class doesn’t
+require special processing.</li>
+<li>Removed <code>__init_subclass__</code>.  Its job is now done by <code>CheckedMeta.__new__</code>.</li>
+<li>Removed <code>__setattr__</code>.  It became redundant because adding <code>__slots__</code> to the user-defined
+class prevents setting undeclared attributes.</li>
+</ol>
+<pre><code class="language-python">class Checked(metaclass=CheckedMeta):
+    __slots__ = ()  # skip CheckedMeta.__new__ processing
+
+    @classmethod
+    def _fields(cls) -&gt; dict[str, type]:
+        return get_type_hints(cls)
+
+    def __init__(self, **kwargs: Any) -&gt; None:
+        for name in self._fields():
+            value = kwargs.pop(name, ...)
+            setattr(self, name, value)
+        if kwargs:
+            self.__flag_unknown_attrs(*kwargs)
+
+    def __flag_unknown_attrs(self, *names: str) -&gt; NoReturn:
+        plural = 's' if len(names) &gt; 1 else ''
+        extra = ', '.join(f'{name!r}' for name in names)
+        cls_name = repr(self.__class__.__name__)
+        raise AttributeError(f'{cls_name} object has no attribute{plural} {extra}')
+
+    def _asdict(self) -&gt; dict[str, Any]:
+        return {
+            name: getattr(self, name)
+            for name, attr in self.__class__.__dict__.items()
+            if isinstance(attr, Field)
+        }
+
+    def __repr__(self) -&gt; str:
+        kwargs = ', '.join(
+            f'{key}={value!r}' for key, value in self._asdict().items()
+        )
+        return f'{self.__class__.__name__}({kwargs})'
+
+class Movie(Checked):
+    title: str
+    year: int
+    box_office: float
+
+movie = Movie(title='The Godfather', year=1972, box_office=137)
+movie
+# Movie(title='The Godfather', year=1972, box_office=137.0)
+Movie.__slots__  # configured by the metaclass
+# ['_title', '_year', '_box_office']
+hasattr(movie, '__dict__')  # no per-instance dict: memory saved
+# False
+type(Movie)
+# &lt;class '__main__.CheckedMeta'&gt;
+movie.director = 'Francis Ford Coppola'  # blocked by __slots__, no __setattr__ needed
+# Traceback (most recent call last):
+#   ...
+# AttributeError: 'Movie' object has no attribute 'director' and no __dict__ for setting new attributes
+</code></pre>
+<p>That concise <code>Movie</code> class definition leverages three instances of the <code>Field</code> validating
+descriptor, a <code>__slots__</code> configuration, five methods inherited from <code>Checked</code>, and a metaclass
+to put it all together.  This concludes the third rendering of a class builder with validated
+descriptors.  The next section covers some general issues related to metaclasses.</p>
+<h2 id="metaclasses-in-the-real-world"><a class="header" href="#metaclasses-in-the-real-world">Metaclasses in the Real World</a></h2>
+<p>Metaclasses are powerful, but tricky.  Before deciding to implement a metaclass, consider the
+following points.</p>
+<h3 id="modern-features-simplify-or-replace-metaclasses"><a class="header" href="#modern-features-simplify-or-replace-metaclasses">Modern Features Simplify or Replace Metaclasses</a></h3>
+<p>Over time, several common use cases of metaclasses were made redundant by new language
+features:</p>
+<dl>
+<dt id="class-decorators"><a class="header" href="#class-decorators">Class decorators</a></dt>
+<dd>Simpler to understand than metaclasses, and less likely to cause conflicts with base classes
+and metaclasses.</dd>
+<dt id="__set_name__"><a class="header" href="#__set_name__"><code>__set_name__</code></a></dt>
+<dd>Avoids the need for custom metaclass logic to automatically set the name of a descriptor.</dd>
+<dt id="__init_subclass__"><a class="header" href="#__init_subclass__"><code>__init_subclass__</code></a></dt>
+<dd>Provides a way to customize class creation that is transparent to the end user and even
+simpler than a decorator — but may introduce conflicts in a complex class hierarchy.</dd>
+<dt id="built-in-dict-preserving-key-insertion-order"><a class="header" href="#built-in-dict-preserving-key-insertion-order">Built-in <code>dict</code> preserving key insertion order</a></dt>
+<dd>Eliminated the #1 reason to use <code>__prepare__</code>: to provide an <code>OrderedDict</code> to store the
+namespace of the class under construction.  Python only calls <code>__prepare__</code> on metaclasses,
+so if you needed to process the class namespace in the order it appears in the source code,
+you had to use a metaclass before Python 3.6.</dd>
+<dt id="__class_getitem__"><a class="header" href="#__class_getitem__"><code>__class_getitem__</code></a></dt>
+<dd>Added in Python 3.7 (<a href="https://peps.python.org/pep-0560/"><strong>PEP 560</strong></a>) so that classes can
+support subscription like <code>list[int]</code> without a metaclass implementing <code>__getitem__</code>.</dd>
+</dl>
+<p>Every actively maintained version of CPython supports all the features just listed.  Keep
+advocating these features: there is too much unnecessary complexity in our profession, and
+metaclasses are a gateway to complexity.</p>
+<h3 id="metaclasses-are-stable-language-features"><a class="header" href="#metaclasses-are-stable-language-features">Metaclasses Are Stable Language Features</a></h3>
+<p>Metaclasses were introduced in Python 2.2 in 2002, together with so-called “new-style
+classes”, descriptors and properties.  It is remarkable that the <code>MetaBunch</code> example, first
+posted by Alex Martelli in July 2002, still works today — the only change being the way to
+specify the metaclass to use, which in Python 3 is done with the syntax
+<code>class Bunch(metaclass=MetaBunch):</code>.</p>
+<p>None of the additions mentioned in the previous section broke existing code using
+metaclasses.  But legacy code using metaclasses can often be simplified by leveraging those
+features.</p>
+<h3 id="a-class-can-only-have-one-metaclass"><a class="header" href="#a-class-can-only-have-one-metaclass">A Class Can Only Have One Metaclass</a></h3>
+<p>If your class declaration involves two or more metaclasses, you will see this puzzling error
+message:</p>
+<pre><code class="language-python">class PersistentMeta(type):
+    pass
+
+class Record(abc.ABC, metaclass=PersistentMeta):
+    pass
+# Traceback (most recent call last):
+#   ...
+# TypeError: metaclass conflict: the metaclass of a derived class must be a (non-strict) subclass of the metaclasses of all its bases
+</code></pre>
+<p>This may happen even without multiple inheritance, as that example shows.  We saw that
+<code>abc.ABC</code> is an instance of the <code>abc.ABCMeta</code> metaclass.  If that <code>PersistentMeta</code> metaclass is
+not itself a subclass of <code>abc.ABCMeta</code>, you get a metaclass conflict.  There are two ways of
+dealing with that error:</p>
+<ul>
+<li>Find some other way of doing what you need to do, while avoiding at least one of the
+metaclasses involved.</li>
+<li>Write your own <code>PersistentABCMeta</code> metaclass as a subclass of both <code>abc.ABCMeta</code> and
+<code>PersistentMeta</code>, using multiple inheritance, and use that as the only metaclass for
+<code>Record</code>:</li>
+</ul>
+<pre><code class="language-python">class PersistentABCMeta(abc.ABCMeta, PersistentMeta):
+    pass
+
+class Record(abc.ABC, metaclass=PersistentABCMeta):
+    pass
+
+type(Record).__mro__
+# (&lt;class '__main__.PersistentABCMeta'&gt;, &lt;class 'abc.ABCMeta'&gt;, &lt;class '__main__.PersistentMeta'&gt;, &lt;class 'type'&gt;, &lt;class 'object'&gt;)
+</code></pre>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>One can imagine the solution of the metaclass with two base metaclasses implemented to meet
+a deadline.  But metaclass programming always takes longer than anticipated, which makes
+this approach risky before a hard deadline.  Even in the absence of known bugs, consider this
+approach as technical debt simply because it is hard to understand and maintain.</p>
+</blockquote>
+<h3 id="metaclasses-should-be-implementation-details"><a class="header" href="#metaclasses-should-be-implementation-details">Metaclasses Should Be Implementation Details</a></h3>
+<p>Besides <code>type</code>, there are only a handful of metaclasses in the entire standard library.  The
+better known metaclasses are probably <code>abc.ABCMeta</code>, <code>typing.NamedTupleMeta</code> and
+<code>enum.EnumType</code> (formerly <code>EnumMeta</code>).  None of them are intended to appear explicitly in user
+code.  We may consider them implementation details.</p>
+<p>Although you can do some really wacky metaprogramming with metaclasses, it’s best to heed the
+principle of least astonishment so that most users can indeed regard metaclasses as
+implementation details.  In recent years, some metaclasses in the Python standard library were
+replaced by other mechanisms, without breaking the public API of their packages.  The simplest
+way to future-proof such APIs is to offer a regular class that users subclass to access the
+functionality provided by the metaclass, as we’ve done in our examples.</p>
+<p>To wrap up our coverage of class metaprogramming, here is a small but very cool metaclass
+example.</p>
+<h2 id="a-metaclass-hack-with-__prepare__"><a class="header" href="#a-metaclass-hack-with-__prepare__">A Metaclass Hack with <code>__prepare__</code></a></h2>
+<p>The simplest and most interesting metaclass idea that Luciano Ramalho found while updating
+<em>Fluent Python</em> came from João S. O. Bueno — better known as JS in the Brazilian Python
+community.  One application of his idea is to create a class that autogenerates numeric
+constants:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class Flavor(AutoConst):
+    banana
+    coconut
+    vanilla
+
+Flavor.vanilla
+# 2
+Flavor.banana, Flavor.coconut
+# (0, 1)
+</code></pre>
+<p>Yes, that code works as shown!  Here is the user-friendly <code>AutoConst</code> base class and the
+metaclass behind it, implemented in <code>autoconst.py</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class AutoConstMeta(type):
+    def __prepare__(name, bases, **kwargs):
+        return WilyDict()
+
+class AutoConst(metaclass=AutoConstMeta):
+    pass
+</code></pre>
+<p>That’s it.  Clearly the trick is in <code>WilyDict</code>.  When Python processes the namespace of the
+user’s class and reads <code>banana</code>, it looks up that name in the mapping provided by
+<code>__prepare__</code>: an instance of <code>WilyDict</code>.  <code>WilyDict</code> implements <code>__missing__</code>, covered in
+<a href="dicts-sets.html#the-__missing__-method">The <code>__missing__</code> Method</a>.  The <code>WilyDict</code> instance
+initially has no <code>'banana'</code> key, so the <code>__missing__</code> method is triggered.  It makes an item on
+the fly with the key <code>'banana'</code> and the value <code>0</code>, returning that value.  Python is happy with
+that, then tries to retrieve <code>'coconut'</code>.  <code>WilyDict</code> promptly adds that entry with the value
+<code>1</code>, returning it.  The same happens with <code>'vanilla'</code>, which is then mapped to <code>2</code>.</p>
+<p>We’ve seen <code>__prepare__</code> and <code>__missing__</code> before.  The real innovation is how JS put them
+together.  Here is the source code for <code>WilyDict</code>, also from <code>autoconst.py</code>:</p>
+<pre><code class="language-python">class WilyDict(dict):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__next_value = 0
+
+    def __missing__(self, key):
+        if key.startswith('__') and key.endswith('__'):
+            raise KeyError(key)
+        self[key] = value = self.__next_value
+        self.__next_value += 1
+        return value
+
+class AutoConstMeta(type):
+    def __prepare__(name, bases, **kwargs):
+        return WilyDict()
+
+class AutoConst(metaclass=AutoConstMeta):
+    pass
+
+class Flavor(AutoConst):
+    banana
+    coconut
+    vanilla
+
+Flavor.vanilla
+# 2
+Flavor.banana, Flavor.coconut
+# (0, 1)
+</code></pre>
+<p>While experimenting, Ramalho found that Python looked up <code>__name__</code> in the namespace of the
+class under construction, causing <code>WilyDict</code> to add a <code>__name__</code> entry, and increment
+<code>__next_value</code>.  That’s the reason for the <code>if</code> statement in <code>__missing__</code>, raising <code>KeyError</code>
+for keys that look like dunder attributes.</p>
+<p>Here are some ideas for extending JS’s ingenious hack:</p>
+<ul>
+<li>Make it possible to retrieve the constant name if you have the value.  For example,
+<code>Flavor[2]</code> could return <code>'vanilla'</code>.  You can do this by implementing <code>__getitem__</code> in
+<code>AutoConstMeta</code>, or <code>__class_getitem__</code> in <code>AutoConst</code> itself.</li>
+<li>Support iteration over the class, by implementing <code>__iter__</code> on the metaclass, yielding the
+constants as <code>(name, value)</code> pairs.</li>
+<li>Implement a new <code>Enum</code> variant.  This would be a major undertaking, because the <code>enum</code>
+package is full of tricks, including the <code>EnumType</code> metaclass with hundreds of lines of code
+and a nontrivial <code>__prepare__</code> method.</li>
+</ul>
+<p>Here are the first two ideas, implemented on the metaclass.  Special methods on a metaclass
+apply to its instances — which are classes — so this is how to make a class itself
+subscriptable and iterable, like <code>Enum</code> subclasses:</p>
+<pre><code class="language-python">class AutoConstMeta2(AutoConstMeta):
+    def __getitem__(cls, value):  # Flavor2[2] -&gt; 'vanilla'
+        for name, val in cls:
+            if val == value:
+                return name
+        raise KeyError(value)
+
+    def __iter__(cls):  # iterate over (name, value) pairs
+        for name, value in vars(cls).items():
+            if not (name.startswith('__') and name.endswith('__')):
+                yield name, value
+
+class AutoConst2(metaclass=AutoConstMeta2):
+    pass
+
+class Flavor2(AutoConst2):
+    banana
+    coconut
+    vanilla
+
+Flavor2[2]
+# 'vanilla'
+list(Flavor2)
+# [('banana', 0), ('coconut', 1), ('vanilla', 2)]
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The <code>__class_getitem__</code> special method was added to support generic types, as part of PEP 560
+and <a href="https://peps.python.org/pep-0585/"><strong>PEP 585</strong></a>.  Thanks to <code>__class_getitem__</code>, Python’s
+core developers did not have to write a new metaclass for the built-in types to implement
+<code>__getitem__</code> so that we could write generic type hints like <code>list[int]</code>.  This is a narrow
+feature, but representative of a wider use case for metaclasses: implementing operators and
+other special methods to work at the class level, such as making the class itself iterable,
+just like <code>Enum</code> subclasses.</p>
+</blockquote>
+<h2 id="wrapping-up"><a class="header" href="#wrapping-up">Wrapping Up</a></h2>
+<p>Metaclasses, as well as class decorators and <code>__init_subclass__</code>, are useful for:</p>
+<ul>
+<li>Subclass registration</li>
+<li>Subclass structural validation</li>
+<li>Applying decorators to many methods at once</li>
+<li>Object serialization</li>
+<li>Object-relational mapping</li>
+<li>Object-based persistence</li>
+<li>Implementing special methods at the class level</li>
+<li>Implementing class features found in other languages, such as traits and aspect-oriented
+programming</li>
+</ul>
+<p>Class metaprogramming can also help with performance issues in some cases, by performing tasks
+at import time that otherwise would execute repeatedly at runtime.</p>
+<p>To wrap up, let’s recall Alex Martelli’s final advice from his essay “Waterfowl and ABCs”
+(see <a href="protocols-abcs.html">Interfaces, Protocols, and ABCs</a>):</p>
+<blockquote>
+<p>And, don’t define custom ABCs (or metaclasses) in production code… if you feel the urge to do
+so, I’d bet it’s likely to be a case of “all problems look like a nail”-syndrome for somebody
+who just got a shiny new hammer — you (and future maintainers of your code) will be much
+happier sticking with straightforward and simple code, eschewing such depths.</p>
+</blockquote>
+<p>Martelli’s advice applies not only to ABCs and metaclasses, but also to class hierarchies,
+operator overloading, function decorators, descriptors, class decorators, and class builders
+using <code>__init_subclass__</code>.  Those powerful tools exist primarily to support library and
+framework development.  Applications naturally should use those tools, as provided by the
+Python standard library or external packages.  But implementing them in application code is
+often premature abstraction.</p>
+<blockquote>
+<p>Good frameworks are extracted, not invented.</p>
+<p>— David Heinemeier Hansson, creator of Ruby on Rails</p>
+</blockquote>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>This chapter started with an overview of attributes found in class objects, such as
+<code>__qualname__</code> and the <code>__subclasses__()</code> method.  Next, we saw how the <code>type</code> built-in can be
+used to construct classes at runtime.</p>
+<p>The <code>__init_subclass__</code> special method was introduced, with the first iteration of a <code>Checked</code>
+base class designed to replace attribute type hints in user-defined subclasses with <code>Field</code>
+instances that apply constructors to enforce the type of those attributes at runtime.  The same
+idea was implemented with a <code>@checked</code> class decorator that adds features to user-defined
+classes, similar to what <code>__init_subclass__</code> allows.  We saw that neither <code>__init_subclass__</code>
+nor a class decorator can dynamically configure <code>__slots__</code>, because they operate only after a
+class is created.</p>
+<p>The concepts of “import time” and “runtime” were clarified with experiments showing the order
+in which Python code is executed when modules, descriptors, class decorators and
+<code>__init_subclass__</code> are involved.</p>
+<p>Our coverage of metaclasses began with an overall explanation of <code>type</code> as a metaclass, and how
+user-defined metaclasses can implement <code>__new__</code> to customize the classes they build.  We then
+saw our first custom metaclass, the classic <code>MetaBunch</code> example using <code>__slots__</code>.  Next,
+another evaluation time experiment demonstrated how the <code>__prepare__</code> and <code>__new__</code> methods of a
+metaclass are invoked earlier than <code>__init_subclass__</code> and class decorators, providing
+opportunities for deeper class customization.  The third iteration of a <code>Checked</code> class builder
+with <code>Field</code> descriptors and custom <code>__slots__</code> configuration was presented — including how to
+read annotations from a class namespace under the lazy annotations of Python 3.14 — followed by
+some general considerations about metaclass usage in practice.</p>
+<p>Finally, we saw the <code>AutoConst</code> hack invented by João S. O. Bueno, based on the cunning idea of
+a metaclass with <code>__prepare__</code> returning a mapping that implements <code>__missing__</code>.  In less than
+20 lines of code, <code>autoconst.py</code> showcases the power of combining Python metaprogramming
+techniques.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Properties let us start our programs simply, exposing attributes as public, knowing a public
+attribute can become a property at any time without much pain.  The descriptor idea goes way
+beyond that, providing a framework for abstracting away repetitive accessor logic — so
+effective that essential Python constructs use it behind the scenes.  Combined with functions
+as first-class objects, descriptors unify functions and methods: a function’s <code>__get__</code>
+produces a method object on the fly by binding the instance to the <code>self</code> argument.  And with
+classes as first-class objects, a beginner-friendly language provides powerful abstractions
+such as class builders, class decorators and full-fledged, user-defined metaclasses — without
+complicating its suitability for casual programming.  The convenience and success of
+frameworks such as Django and SQLAlchemy owe much to these features.</p>
+</blockquote>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li><a href="https://docs.python.org/3/reference/datamodel.html#customizing-class-creation">Customizing class creation</a>
+in the Data Model chapter, which covers <code>__init_subclass__</code> and metaclasses; the
+<a href="https://docs.python.org/3/library/functions.html#type"><code>type</code></a> documentation; and
+<a href="https://docs.python.org/3/library/types.html#types.new_class"><code>types.new_class</code></a> and
+<code>types.prepare_class</code>, which simplify dynamic class creation with metaclasses.</li>
+<li><a href="https://peps.python.org/pep-3129/"><strong>PEP 3129</strong></a> — Class Decorators, and
+<a href="https://peps.python.org/pep-3115/"><strong>PEP 3115</strong></a> — Metaclasses in Python 3000, which
+introduced <code>__prepare__</code>.</li>
+<li>Caleb Hattingh’s <a href="https://github.com/cjrh/autoslot">autoslot</a> package: a metaclass that
+creates <code>__slots__</code> automatically by inspecting the bytecode of <code>__init__</code> — only 74 lines,
+and an excellent example to study.</li>
+<li>Guido van Rossum’s 2003 paper “Unifying types and classes in Python 2.2”, which still
+applies to modern Python, and Brett Slatkin’s <em>Effective Python</em>, 2nd ed., with several
+up-to-date examples of class building techniques.</li>
+<li><a href="https://peps.python.org/pep-0638/"><strong>PEP 638</strong></a> — Syntactic Macros, a draft proposal for
+the ultimate metaprogramming feature, as offered by Lisp, Elixir and Rust.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="descriptors.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="venv.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="descriptors.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="venv.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

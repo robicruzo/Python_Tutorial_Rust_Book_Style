@@ -1,0 +1,1462 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Pattern Matching in Depth - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="pattern-matching-in-depth"><a class="header" href="#pattern-matching-in-depth">Pattern Matching in Depth</a></h1>
+<p>The most visible feature added in Python 3.10 is <em>structural pattern matching</em>
+with the <code>match</code>/<code>case</code> statement, proposed in
+<a href="https://peps.python.org/pep-0634/"><strong>PEP 634</strong></a>.  The tutorial introduced it in
+<a href="controlflow.html#tut-match"><code>match</code> Statements</a>.  This chapter goes deeper: it covers
+sequence, mapping and class patterns, OR-patterns, guards, and the capture rules
+that trip people up, and it ends with a case study in which pattern matching drives
+a small interpreter for a subset of the Scheme language.</p>
+<p>On the surface, <code>match</code>/<code>case</code> may look like the <code>switch</code>/<code>case</code> statement of C and
+its descendants, but that’s only half the story.  One key improvement over <code>switch</code>
+is <em>destructuring</em>, a more advanced form of unpacking.  Destructuring is a new word
+in the Python vocabulary, but it is commonly used in the documentation of languages
+that support pattern matching, like Scala and Elixir.  (A sequence of
+<code>if/elif/elif/.../else</code> blocks is a fine replacement for <code>switch/case</code>, and it doesn’t
+suffer from the fallthrough and dangling-<code>else</code> problems that some languages copied
+from C.)</p>
+<h2 id="the-shape-of-a-match-statement"><a class="header" href="#the-shape-of-a-match-statement">The Shape of a <code>match</code> Statement</a></h2>
+<p>A <code>match</code> statement has a <em>subject</em>, the expression after the <code>match</code> keyword, and one
+or more <code>case</code> clauses.  Each <code>case</code> clause has a <em>pattern</em> and an optional <em>guard</em>
+introduced by <code>if</code>.  Python tries the patterns in order; the first one that matches
+the subject, and whose guard (if any) is true, has its block executed, and then the
+<code>match</code> statement ends.  If no case matches, nothing happens: there is no error,
+which can be a silent failure, so it is often good practice to end with a catch-all
+case.</p>
+<p>Here is a first example of <code>match</code>/<code>case</code> handling sequences.  Imagine you are
+designing a robot that accepts commands sent as sequences of words and numbers, like
+<code>BEEPER 440 3</code>.  After splitting into parts and parsing the numbers, you’d have a
+message like <code>['BEEPER', 440, 3]</code>.  You could use a method like this to handle such
+messages:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def handle_command(self, message):
+    match message:
+        case ['BEEPER', frequency, times]:
+            self.beep(times, frequency)
+        case ['NECK', angle]:
+            self.rotate_neck(angle)
+        case ['LED', ident, intensity]:
+            self.leds[ident].set_brightness(ident, intensity)
+        case ['LED', ident, red, green, blue]:
+            self.leds[ident].set_color(ident, red, green, blue)
+        case _:
+            raise InvalidCommand(message)
+</code></pre>
+<p>The expression after the <code>match</code> keyword is the subject: the data that Python will
+try to match against the patterns in each <code>case</code> clause.  The first pattern matches
+any subject that is a sequence with three items; the first item must be the string
+<code>'BEEPER'</code>, and the second and third items can be anything, and are bound to the
+variables <code>frequency</code> and <code>times</code>, in that order.  The second pattern matches any
+subject with two items, the first being <code>'NECK'</code>.  The third matches a subject with
+three items starting with <code>'LED'</code>; if the number of items does not match, Python
+proceeds to the next case, another sequence pattern starting with <code>'LED'</code>, now with
+five items.  The last is the default case: it matches any subject that did not match
+a previous pattern.  The <code>_</code> variable is special, as you’ll see.</p>
+<h2 id="kinds-of-patterns"><a class="header" href="#kinds-of-patterns">Kinds of Patterns</a></h2>
+<p>Patterns are built from a small number of pieces that can be nested freely:</p>
+<dl>
+<dt id="literal-patterns"><a class="header" href="#literal-patterns"><em>Literal patterns</em></a></dt>
+<dd>numbers, strings, <code>None</code>, <code>True</code> and <code>False</code> match values equal to them (<code>None</code>,
+<code>True</code> and <code>False</code> are compared with <code>is</code>).</dd>
+<dt id="capture-patterns"><a class="header" href="#capture-patterns"><em>Capture patterns</em></a></dt>
+<dd>a bare name, like <code>frequency</code>, matches anything and binds the matched value to that
+name.</dd>
+<dt id="the-wildcard-_"><a class="header" href="#the-wildcard-_"><em>The wildcard <code>_</code></em></a></dt>
+<dd>matches anything but binds nothing.</dd>
+<dt id="value-patterns"><a class="header" href="#value-patterns"><em>Value patterns</em></a></dt>
+<dd>a dotted name, like <code>Color.RED</code> or <code>http.HTTPStatus.OK</code>, matches values equal to the
+value of that name.</dd>
+<dt id="sequence-patterns"><a class="header" href="#sequence-patterns"><em>Sequence patterns</em></a></dt>
+<dd>like <code>[a, b, *rest]</code> or <code>(x, y)</code>, match sequences item by item.</dd>
+<dt id="mapping-patterns"><a class="header" href="#mapping-patterns"><em>Mapping patterns</em></a></dt>
+<dd>like <code>{'type': 'book', 'api': 2}</code>, match mappings by key.</dd>
+<dt id="class-patterns"><a class="header" href="#class-patterns"><em>Class patterns</em></a></dt>
+<dd>like <code>Point(x=0)</code> or <code>float(lat)</code>, match instances by type and attributes.</dd>
+<dt id="or-patterns"><a class="header" href="#or-patterns"><em>OR-patterns</em></a></dt>
+<dd>like <code>401 | 403 | 404</code>, match if any alternative matches.</dd>
+<dt id="as-patterns"><a class="header" href="#as-patterns"><em>AS-patterns</em></a></dt>
+<dd>like <code>(lat, lon) as coord</code>, bind the subject of a subpattern to a name.</dd>
+</dl>
+<h3 id="capture-patterns-and-value-patterns"><a class="header" href="#capture-patterns-and-value-patterns">Capture Patterns and Value Patterns</a></h3>
+<p>The rule that a bare name is a capture pattern is the most common source of
+surprise.  This looks like it compares the subject to a constant, but it doesn’t:</p>
+<pre><code class="language-python">NOT_FOUND = 404
+status = 200
+match status:
+    case NOT_FOUND:  # DANGER: this binds NOT_FOUND, it doesn't compare!
+        print('not found')
+# not found
+NOT_FOUND
+# 200
+</code></pre>
+<p><code>case NOT_FOUND:</code> matches any subject, because Python sees <code>NOT_FOUND</code> as a capture
+variable, which is then bound to the subject, clobbering the global.  (In fact, a
+bare capture pattern makes the rest of the cases unreachable, and Python reports a
+<code>SyntaxError</code> if any cases come after it.)  To compare against a named constant, use a
+dotted name: an attribute of a module, a class or an enum.  Enums are ideal for this:</p>
+<pre><code class="language-python">from enum import Enum
+
+class Color(Enum):
+    RED = 'red'
+    GREEN = 'green'
+    BLUE = 'blue'
+
+def describe(color):
+    match color:
+        case Color.RED:
+            return 'I see red!'
+        case Color.GREEN | Color.BLUE:
+            return 'cool colors'
+
+describe(Color('green'))
+# 'cool colors'
+</code></pre>
+<h2 id="pattern-matching-with-sequences"><a class="header" href="#pattern-matching-with-sequences">Pattern Matching with Sequences</a></h2>
+<p>As a first example of destructuring, here is part of the cities report from
+<a href="sequences.html#nested-unpacking">Nested Unpacking</a>, rewritten with <code>match</code>/<code>case</code>:</p>
+<pre><code class="language-python">metro_areas = [
+    ('Tokyo', 'JP', 36.933, (35.689722, 139.691667)),
+    ('Delhi NCR', 'IN', 21.935, (28.613889, 77.208889)),
+    ('Mexico City', 'MX', 20.142, (19.433333, -99.133333)),
+    ('New York-Newark', 'US', 20.104, (40.808611, -74.020386)),
+    ('São Paulo', 'BR', 19.649, (-23.547778, -46.635833)),
+]
+
+def main():
+    print(f'{"":15} | {"latitude":&gt;9} | {"longitude":&gt;9}')
+    for record in metro_areas:
+        match record:
+            case [name, _, _, (lat, lon)] if lon &lt;= 0:
+                print(f'{name:15} | {lat:9.4f} | {lon:9.4f}')
+
+main()
+#                 |  latitude | longitude
+# Mexico City     |   19.4333 |  -99.1333
+# New York-Newark |   40.8086 |  -74.0204
+# São Paulo       |  -23.5478 |  -46.6358
+</code></pre>
+<p>The subject of this <code>match</code> is <code>record</code>, each of the tuples in <code>metro_areas</code>.  The
+<code>case</code> clause has two parts: a pattern and an optional guard with the <code>if</code> keyword.</p>
+<p>In general, a sequence pattern matches the subject if:</p>
+<ol>
+<li>the subject is a sequence, and</li>
+<li>the subject and the pattern have the same number of items, and</li>
+<li>each corresponding item matches, including nested items.</li>
+</ol>
+<p>For example, the pattern <code>[name, _, _, (lat, lon)]</code> matches a sequence with four
+items, and the last item must be a two-item sequence.</p>
+<p>Sequence patterns may be written as tuples or lists or any combination of nested
+tuples and lists; it makes no difference which syntax you use, since in a sequence
+pattern square brackets and parentheses mean the same thing.  The example uses a list
+with a nested 2-tuple just to avoid repeating brackets or parentheses.</p>
+<p>A sequence pattern can match instances of most actual or virtual subclasses of
+<code>collections.abc.Sequence</code>, with the exception of <code>str</code>, <code>bytes</code> and <code>bytearray</code>.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Instances of <code>str</code>, <code>bytes</code> and <code>bytearray</code> are not handled as sequences in the
+context of <code>match</code>/<code>case</code>.  A subject of one of those types is treated as an
+“atomic” value, like the integer 987 is treated as one value, not a sequence of
+digits.  Treating those three types as sequences could cause bugs due to unintended
+matches.  If you want to treat an object of those types as a sequence subject,
+convert it in the <code>match</code> clause, as with <code>tuple(phone)</code> here:</p>
+<pre><code class="language-python">def region(phone):
+    match tuple(phone):
+        case ['1', *rest]:  # North America and Caribbean
+            return 'NANP'
+        case ['2', *rest]:  # Africa and some territories
+            return 'Africa'
+        case ['3' | '4', *rest]:  # Europe
+            return 'Europe'
+
+region('251911234567')
+# 'Africa'
+</code></pre>
+</blockquote>
+<p>In the standard library, these types are compatible with sequence patterns:</p>
+<pre><code class="language-text">list     memoryview    array.array
+tuple    range         collections.deque
+</code></pre>
+<p>Unlike unpacking, patterns don’t destructure iterables that are not sequences (such as
+iterators).</p>
+<p>The <code>_</code> symbol is special in patterns: it matches any single item in that position,
+but it is never bound to the value of the matched item.  Also, <code>_</code> is the only variable
+that can appear more than once in a pattern.</p>
+<p>You can bind any part of a pattern with a variable using the <code>as</code> keyword:</p>
+<!-- nocheck -->
+<pre><code class="language-python">case [name, _, _, (lat, lon) as coord]:
+</code></pre>
+<p>Given the subject <code>['Shanghai', 'CN', 24.9, (31.1, 121.3)]</code>, that pattern will match,
+and set the following variables:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Variable</th><th>Set value</th></tr>
+</thead>
+<tbody>
+<tr><td><code>name</code></td><td><code>'Shanghai'</code></td></tr>
+<tr><td><code>lat</code></td><td><code>31.1</code></td></tr>
+<tr><td><code>lon</code></td><td><code>121.3</code></td></tr>
+<tr><td><code>coord</code></td><td><code>(31.1, 121.3)</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>You can make patterns more specific by adding type information.  For example, the
+following pattern matches the same nested sequence structure as the previous one, but
+the first item must be an instance of <code>str</code>, and both items in the 2-tuple must be
+instances of <code>float</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">case [str(name), _, _, (float(lat), float(lon))]:
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>The expressions <code>str(name)</code> and <code>float(lat)</code> look like constructor calls, which
+you’d use to convert <code>name</code> and <code>lat</code> to <code>str</code> and <code>float</code>.  But in the context of a
+pattern, that syntax performs a runtime type check: the preceding pattern matches a
+four-item sequence in which item 0 must be a <code>str</code>, and item 3 must be a pair of
+floats.  Additionally, the <code>str</code> in item 0 is bound to the <code>name</code> variable, and the
+floats in item 3 are bound to <code>lat</code> and <code>lon</code>.  So, although <code>str(name)</code> borrows the
+syntax of a constructor call, the semantics are completely different in a pattern.
+Class patterns are covered <a href="#pattern-matching-class-instances">below</a>.</p>
+</blockquote>
+<p>On the other hand, if you want to match any subject sequence starting with a <code>str</code> and
+ending with a nested sequence of two floats, you can write:</p>
+<!-- nocheck -->
+<pre><code class="language-python">case [str(name), *_, (float(lat), float(lon))]:
+</code></pre>
+<p>The <code>*_</code> matches any number of items, without binding them to a variable.  Using
+<code>*extra</code> instead of <code>*_</code> would bind the items to <code>extra</code> as a <code>list</code> with zero or more
+items.</p>
+<p>The optional guard clause starting with <code>if</code> is evaluated only if the pattern matches,
+and it can reference variables bound in the pattern, as in the cities example.  The
+block runs only if the pattern matches <em>and</em> the guard expression is truthy.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Destructuring with patterns is so expressive that sometimes a <code>match</code> with a single
+<code>case</code> can make code simpler.  Guido van Rossum has a collection of <code>match</code>/<code>case</code>
+examples, including one that he titled “A very deep iterable and type match with
+extraction”.</p>
+</blockquote>
+<p>The cities example is not an improvement over the plain <code>for</code> loop with unpacking;
+it’s just a way of contrasting two ways of doing the same thing.  The next example
+shows how pattern matching contributes to clear, concise and effective code.</p>
+<h3 id="pattern-matching-sequences-in-an-interpreter"><a class="header" href="#pattern-matching-sequences-in-an-interpreter">Pattern Matching Sequences in an Interpreter</a></h3>
+<p>Peter Norvig of Stanford University wrote <code>lis.py</code>: an interpreter for a subset of the
+Scheme dialect of the Lisp programming language in 132 lines of beautiful and readable
+Python code.  Its two main functions are <code>parse</code> and <code>evaluate</code>.  (Norvig named the
+latter <code>eval</code>; it’s renamed here to avoid confusion with Python’s <code>eval</code> built-in.)
+The parser takes Scheme parenthesized expressions and returns Python lists:</p>
+<!-- nocheck -->
+<pre><code class="language-python">parse('(gcd 18 45)')
+# ['gcd', 18, 45]
+parse('''
+(define double
+    (lambda (n)
+        (* n 2)))
+''')
+# ['define', 'double', ['lambda', ['n'], ['*', 'n', 2]]]
+</code></pre>
+<p>The evaluator takes lists like these and executes them.  The first example calls a
+<code>gcd</code> function with 18 and 45 as arguments; when evaluated, it computes the greatest
+common divisor of the arguments: 9.  The second example defines a function named
+<code>double</code> with a parameter <code>n</code>, whose body is the expression <code>(* n 2)</code>.  The result of
+calling a function in Scheme is the value of the last expression in its body.</p>
+<p>Here is Norvig’s evaluator with minor changes, abbreviated to show only the sequence
+handling, without pattern matching:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def evaluate(exp: Expression, env: Environment) -&gt; Any:
+    "Evaluate an expression in an environment."
+    if isinstance(exp, Symbol):      # variable reference
+        return env[exp]
+    # ... lines omitted
+    elif exp[0] == 'quote':          # (quote exp)
+        (_, x) = exp
+        return x
+    elif exp[0] == 'if':             # (if test conseq alt)
+        (_, test, consequence, alternative) = exp
+        if evaluate(test, env):
+            return evaluate(consequence, env)
+        else:
+            return evaluate(alternative, env)
+    elif exp[0] == 'lambda':         # (lambda (parm…) body…)
+        (_, parms, *body) = exp
+        return Procedure(parms, body, env)
+    elif exp[0] == 'define':
+        (_, name, value_exp) = exp
+        env[name] = evaluate(value_exp, env)
+    # ... more lines omitted
+</code></pre>
+<p>Each <code>elif</code> clause checks the first item of the list, and then unpacks the list,
+ignoring the first item.  The extensive use of unpacking suggests that Norvig is a fan
+of pattern matching, but he wrote that code originally for Python 2.  Using
+<code>match</code>/<code>case</code>, we can refactor <code>evaluate</code> like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def evaluate(exp: Expression, env: Environment) -&gt; Any:
+    "Evaluate an expression in an environment."
+    match exp:
+    # ... lines omitted
+        case ['quote', x]:
+            return x
+        case ['if', test, consequence, alternative]:
+            if evaluate(test, env):
+                return evaluate(consequence, env)
+            else:
+                return evaluate(alternative, env)
+        case ['lambda', [*parms], *body] if body:
+            return Procedure(parms, body, env)
+        case ['define', Symbol() as name, value_exp]:
+            env[name] = evaluate(value_exp, env)
+        # ... more lines omitted
+        case _:
+            raise SyntaxError(lispstr(exp))
+</code></pre>
+<p>The first case matches a two-item sequence starting with <code>'quote'</code>.  The second matches
+a four-item sequence starting with <code>'if'</code>.  The third matches a sequence of three or
+more items starting with <code>'lambda'</code>; the guard ensures that <code>body</code> is not empty.  The
+fourth matches a three-item sequence starting with <code>'define'</code>, followed by an instance
+of <code>Symbol</code>.  And it is good practice to have a catch-all case: if <code>exp</code> doesn’t match
+any of the patterns, the expression is malformed, so we raise <code>SyntaxError</code>.</p>
+<p>Norvig deliberately avoided error checking in <code>lis.py</code> to keep the code easy to
+understand.  With pattern matching, we can add more checks and still keep it readable.
+For example, in the <code>'define'</code> pattern, the original code does not ensure that <code>name</code>
+is an instance of <code>Symbol</code>; that would require an <code>if</code> block, an <code>isinstance</code> call, and
+more code.  The <code>match</code> version is shorter and safer.</p>
+<h4 id="alternative-patterns-for-lambda"><a class="header" href="#alternative-patterns-for-lambda">Alternative patterns for lambda</a></h4>
+<p>This is the syntax of <code>lambda</code> in Scheme, using the convention that the suffix <code>…</code>
+means the element may appear zero or more times:</p>
+<pre><code class="language-text">(lambda (parms…) body1 body2…)
+</code></pre>
+<p>A simple pattern for the <code>'lambda'</code> case would be this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">case ['lambda', parms, *body] if body:
+</code></pre>
+<p>However, that matches any value in the <code>parms</code> position, including the first <code>'x'</code> in
+this invalid subject: <code>['lambda', 'x', ['*', 'x', 2]]</code>.  The nested list after the
+<code>lambda</code> keyword in Scheme holds the names of the formal parameters for the function,
+and it must be a list even if it has only one element.  It may also be an empty list,
+if the function takes no parameters, like Python’s <code>random.random()</code>.  The refactored
+<code>evaluate</code> makes the <code>'lambda'</code> pattern safer using a nested sequence pattern:</p>
+<!-- nocheck -->
+<pre><code class="language-python">case ['lambda', [*parms], *body] if body:
+    return Procedure(parms, body, env)
+</code></pre>
+<p>In a sequence pattern, <code>*</code> can appear only once per sequence.  Here we have two
+sequences: the outer and the inner.  Adding the characters <code>[*]</code> around <code>parms</code> made
+the pattern look more like the Scheme syntax it handles, and gave us an additional
+structural check.</p>
+<h4 id="shortcut-syntax-for-function-definition"><a class="header" href="#shortcut-syntax-for-function-definition">Shortcut syntax for function definition</a></h4>
+<p>Scheme has an alternative <code>define</code> syntax to create a named function without using a
+nested <code>lambda</code>:</p>
+<pre><code class="language-text">(define (name parm…) body1 body2…)
+</code></pre>
+<p>The <code>define</code> keyword is followed by a list with the name of the new function and zero
+or more parameter names.  After that list comes the function body with one or more
+expressions.  Adding these two lines to the <code>match</code> takes care of the implementation:</p>
+<!-- nocheck -->
+<pre><code class="language-python">case ['define', [Symbol() as name, *parms], *body] if body:
+    env[name] = Procedure(parms, body, env)
+</code></pre>
+<p>The order between the two <code>define</code> cases is irrelevant here, because no subject can
+match both patterns: the second element must be a <code>Symbol</code> in the original <code>define</code>
+case, but it must be a sequence starting with a <code>Symbol</code> in the shortcut.  Now consider
+how much work it would take to add support for this second <code>define</code> syntax without the
+help of pattern matching.  The <code>match</code> statement does a lot more than the <code>switch</code> in
+C-like languages.</p>
+<p>Pattern matching is an example of <em>declarative programming</em>: the code describes
+“what” you want to match, instead of “how” to match it.  The shape of the code follows
+the shape of the data:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Scheme syntax</th><th>Sequence pattern</th></tr>
+</thead>
+<tbody>
+<tr><td><code>(quote exp)</code></td><td><code>['quote', exp]</code></td></tr>
+<tr><td><code>(if test conseq alt)</code></td><td><code>['if', test, conseq, alt]</code></td></tr>
+<tr><td><code>(lambda (parms…) body1 body2…)</code></td><td><code>['lambda', [*parms], *body] if body</code></td></tr>
+<tr><td><code>(define name exp)</code></td><td><code>['define', Symbol() as name, exp]</code></td></tr>
+<tr><td><code>(define (name parms…) body1 body2…)</code></td><td><code>['define', [Symbol() as name, *parms], *body] if body</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>The full interpreter is covered in the case study at the end of this chapter.</p>
+<h2 id="pattern-matching-with-mappings"><a class="header" href="#pattern-matching-with-mappings">Pattern Matching with Mappings</a></h2>
+<p>Mapping patterns look like <code>dict</code> literals, but they match instances of any actual or
+virtual subclass of <code>collections.abc.Mapping</code>.  Different kinds of patterns can be
+combined and nested, which makes pattern matching a powerful tool to process records
+structured like nested mappings and sequences, which you often read from JSON APIs and
+from databases with semi-structured schemas.  The simple type hints in this
+<code>get_creators</code> function make it clear that it takes a <code>dict</code> and returns a <code>list</code>:</p>
+<pre><code class="language-python">def get_creators(record: dict) -&gt; list:
+    match record:
+        case {'type': 'book', 'api': 2, 'authors': [*names]}:
+            return names
+        case {'type': 'book', 'api': 1, 'author': name}:
+            return [name]
+        case {'type': 'book'}:
+            raise ValueError(f"Invalid 'book' record: {record!r}")
+        case {'type': 'movie', 'director': name}:
+            return [name]
+        case _:
+            raise ValueError(f'Invalid record: {record!r}')
+
+get_creators(dict(api=1, author='Douglas Hofstadter',
+                  type='book', title='Gödel, Escher, Bach'))
+# ['Douglas Hofstadter']
+get_creators({'type': 'movie', 'director': 'Akira Kurosawa'})
+# ['Akira Kurosawa']
+</code></pre>
+<p><a href="dicts-sets.html#pattern-matching-with-mappings">Pattern Matching with Mappings</a> in the
+Dictionaries and Sets chapter walks through this function in detail.  The rules to
+remember are:</p>
+<ul>
+<li>The order of the keys in mapping patterns is irrelevant.</li>
+<li>Unlike sequence patterns, mapping patterns succeed on <em>partial</em> matches: extra keys
+in the subject are ignored.</li>
+<li>To capture the extra key-value pairs as a <code>dict</code>, prefix one variable with <code>**</code>, as
+in <code>{'category': 'ice cream', **details}</code>.  It must be the last item in the pattern,
+and <code>**_</code> is forbidden because it would be redundant.</li>
+<li>A match succeeds only if the subject already has the required keys.  The automatic
+handling of missing keys of <code>defaultdict</code> and other mappings with <code>__missing__()</code> is
+not triggered, because pattern matching always uses the <code>d.get(key, sentinel)</code>
+method, where <code>sentinel</code> is a special marker value that cannot occur in user data.</li>
+</ul>
+<h2 id="pattern-matching-class-instances"><a class="header" href="#pattern-matching-class-instances">Pattern Matching Class Instances</a></h2>
+<p>Class patterns are designed to match class instances by type and, optionally, by
+attributes.  The subject of a class pattern can be any class instance, not only
+instances of data classes.  There are three variations of class patterns: simple,
+keyword and positional.</p>
+<h3 id="simple-class-patterns"><a class="header" href="#simple-class-patterns">Simple Class Patterns</a></h3>
+<p>You’ve already seen simple class patterns used as subpatterns in sequence patterns:</p>
+<!-- nocheck -->
+<pre><code class="language-python">case [str(name), _, _, (float(lat), float(lon))]:
+</code></pre>
+<p>That pattern matches a four-item sequence where the first item must be an instance of
+<code>str</code>, and the last item must be a 2-tuple with two instances of <code>float</code>.</p>
+<p>The syntax for class patterns looks like a constructor invocation.  The following is a
+class pattern that matches <code>float</code> values without binding a variable (the case body
+can refer to <code>x</code> directly if needed):</p>
+<!-- nocheck -->
+<pre><code class="language-python">match x:
+    case float():
+        do_something_with(x)
+</code></pre>
+<p>But this is likely to be a bug in your code:</p>
+<!-- nocheck -->
+<pre><code class="language-python">match x:
+    case float:  # DANGER!!!
+        do_something_with(x)
+</code></pre>
+<p>In the preceding example, <code>case float:</code> matches any subject, because Python sees
+<code>float</code> as a capture variable, which is then bound to the subject.</p>
+<p>The simple pattern syntax of <code>float(x)</code> is a special case that applies only to nine
+blessed built-in types, listed at the end of the “Class Patterns” section of PEP 634:</p>
+<pre><code class="language-text">bytes   dict   float   frozenset   int   list   set   str   tuple
+</code></pre>
+<p>For those classes, the variable that looks like a constructor argument, the <code>x</code> in
+<code>float(x)</code>, is bound to the whole subject instance or the part of the subject that
+matches a subpattern, as <code>str(name)</code> does in the sequence pattern above.  If the class
+is not one of those nine blessed built-ins, then the argument-like variables represent
+patterns to be matched against attributes of an instance of that class.</p>
+<h3 id="keyword-class-patterns"><a class="header" href="#keyword-class-patterns">Keyword Class Patterns</a></h3>
+<p>To understand keyword class patterns, consider the following <code>City</code> class and five
+instances:</p>
+<pre><code class="language-python">import typing
+
+class City(typing.NamedTuple):
+    continent: str
+    name: str
+    country: str
+
+cities = [
+    City('Asia', 'Tokyo', 'JP'),
+    City('Asia', 'Delhi', 'IN'),
+    City('North America', 'Mexico City', 'MX'),
+    City('North America', 'New York', 'US'),
+    City('South America', 'São Paulo', 'BR'),
+]
+</code></pre>
+<p>Given those definitions, the following function returns a list of Asian cities:</p>
+<pre><code class="language-python">def match_asian_cities():
+    results = []
+    for city in cities:
+        match city:
+            case City(continent='Asia'):
+                results.append(city)
+    return results
+
+match_asian_cities()
+# [City(continent='Asia', name='Tokyo', country='JP'), City(continent='Asia', name='Delhi', country='IN')]
+</code></pre>
+<p>The pattern <code>City(continent='Asia')</code> matches any <code>City</code> instance where the <code>continent</code>
+attribute value is equal to <code>'Asia'</code>, regardless of the values of the other attributes.
+If you want to collect the value of the <code>country</code> attribute, you could write:</p>
+<pre><code class="language-python">def match_asian_countries():
+    results = []
+    for city in cities:
+        match city:
+            case City(continent='Asia', country=cc):
+                results.append(cc)
+    return results
+
+match_asian_countries()
+# ['JP', 'IN']
+</code></pre>
+<p>The pattern <code>City(continent='Asia', country=cc)</code> matches the same Asian cities as
+before, but now the <code>cc</code> variable is bound to the <code>country</code> attribute of the instance.
+This also works if the pattern variable is called <code>country</code> as well:</p>
+<!-- nocheck -->
+<pre><code class="language-python">match city:
+    case City(continent='Asia', country=country):
+        results.append(country)
+</code></pre>
+<p>Keyword class patterns are very readable, and work with any class that has public
+instance attributes, but they are somewhat verbose.  Positional class patterns are
+more convenient in some cases, but they require explicit support by the class of the
+subject.</p>
+<h3 id="positional-class-patterns"><a class="header" href="#positional-class-patterns">Positional Class Patterns</a></h3>
+<p>Given the same definitions, the following function returns a list of Asian cities,
+using a positional class pattern:</p>
+<pre><code class="language-python">def match_asian_cities_pos():
+    results = []
+    for city in cities:
+        match city:
+            case City('Asia'):
+                results.append(city)
+    return results
+
+def match_asian_countries_pos():
+    results = []
+    for city in cities:
+        match city:
+            case City('Asia', _, country):
+                results.append(country)
+    return results
+
+match_asian_countries_pos()
+# ['JP', 'IN']
+</code></pre>
+<p>The pattern <code>City('Asia')</code> matches any <code>City</code> instance where the first attribute value
+is <code>'Asia'</code>, regardless of the values of the other attributes.  The pattern
+<code>City('Asia', _, country)</code> matches the same cities, but binds the <code>country</code> variable to
+the third attribute of the instance.</p>
+<p>What do “first” and “third” attribute mean?  What makes <code>City</code>, or any class, work with
+positional patterns is the presence of a special class attribute named
+<code>__match_args__</code>, which the class builders in <a href="dataclasses.html">Data Class Builders</a>
+create automatically:</p>
+<pre><code class="language-python">City.__match_args__
+# ('continent', 'name', 'country')
+</code></pre>
+<p><code>__match_args__</code> declares the names of the attributes in the order they will be used
+in positional patterns.  <a href="pythonic-object.html#supporting-positional-pattern-matching">Supporting Positional Pattern Matching</a>
+shows how to define <code>__match_args__</code> for a class created without the help of a class
+builder.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>You can combine keyword and positional arguments in a pattern.  Some, but not all,
+of the instance attributes available for matching may be listed in
+<code>__match_args__</code>.  Therefore, sometimes you may need to use keyword arguments in
+addition to positional arguments in a pattern.</p>
+</blockquote>
+<h2 id="using-or-patterns"><a class="header" href="#using-or-patterns">Using OR-Patterns</a></h2>
+<p>A series of patterns separated by <code>|</code> is an <em>OR-pattern</em>: it succeeds if any of the
+subpatterns succeeds.  You’ll see this pattern in the interpreter below:</p>
+<!-- nocheck -->
+<pre><code class="language-python">case int(x) | float(x):
+    return x
+</code></pre>
+<p>All subpatterns in an OR-pattern must use the same variables.  This restriction is
+necessary to ensure that the variables are available to the guard expression and the
+case body, regardless of the subpattern that matched.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>In the context of a <code>case</code> clause, the <code>|</code> operator has a special meaning.  It does
+not trigger the <code>__or__()</code> special method, which handles expressions like <code>a | b</code> in
+other contexts, where it is overloaded to perform operations such as set union or
+integer bitwise-or, depending on the operands.</p>
+</blockquote>
+<p>An OR-pattern is not restricted to the top level of a pattern; you can also use <code>|</code> in
+subpatterns.  For example, to let the interpreter accept the Greek letter λ (lambda)
+as well as the <code>lambda</code> keyword, we can rewrite the pattern like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python"># (λ (a b) (/ (+ a b) 2) )
+case ['lambda' | 'λ', [*parms], *body] if body:
+    return Procedure(parms, body, env)
+</code></pre>
+<p>(The official Unicode name of λ, U+03BB, is <code>GREEK SMALL LETTER LAMDA</code>: the character
+is named “lamda” without the “b” in the Unicode database.)</p>
+<h2 id="case-study-pattern-matching-in-lispy"><a class="header" href="#case-study-pattern-matching-in-lispy">Case Study: Pattern Matching in <code>lis.py</code></a></h2>
+<p>This section gives a broader overview of how Norvig’s <code>lis.py</code> works, explores all the
+<code>case</code> clauses of <code>evaluate</code>, and explains not only the patterns but also what the
+interpreter does in each case.  Besides showing more pattern matching, it is worth
+studying for three reasons: <code>lis.py</code> is a beautiful example of idiomatic Python code;
+the simplicity of Scheme is a master class of language design; and learning how an
+interpreter works gives you a deeper understanding of Python and programming languages
+in general, interpreted or compiled.</p>
+<h3 id="scheme-syntax"><a class="header" href="#scheme-syntax">Scheme Syntax</a></h3>
+<p>In Scheme there is no distinction between expressions and statements, as there is in
+Python.  Also, there are no infix operators.  All expressions use prefix notation like
+<code>(+ x 13)</code> instead of <code>x + 13</code>.  The same prefix notation is used for function calls,
+like <code>(gcd x 13)</code>, and for special forms, like <code>(define x 13)</code>, which we’d write as the
+assignment statement <code>x = 13</code> in Python.  The notation used by Scheme and most Lisp
+dialects is known as <em>S-expression</em>.  Here is a simple example in Scheme:</p>
+<pre><code class="language-text">(define (mod m n)
+    (- m (* n (quotient m n))))
+
+(define (gcd m n)
+    (if (= n 0)
+        m
+        (gcd n (mod m n))))
+
+(display (gcd 18 45))
+</code></pre>
+<p>That shows three Scheme expressions: two function definitions, <code>mod</code> and <code>gcd</code>, and a
+call to <code>display</code>, which outputs 9, the result of <code>(gcd 18 45)</code>.  Here is the same code
+in Python, shorter than an English explanation of the recursive Euclidean algorithm:</p>
+<pre><code class="language-python">def mod(m, n):
+    return m - (m // n * n)
+
+def gcd(m, n):
+    if n == 0:
+        return m
+    else:
+        return gcd(n, mod(m, n))
+
+print(gcd(18, 45))
+# 9
+</code></pre>
+<p>In idiomatic Python you’d use the <code>%</code> operator instead of reinventing <code>mod</code>, and it
+would be more efficient to use a <code>while</code> loop instead of recursion (or just
+<code>math.gcd</code>).  But the point is to make the examples as similar as possible.  Scheme has
+no iterative control flow commands like <code>while</code> or <code>for</code>; iteration is done with
+recursion, which Scheme makes efficient with <em>proper tail calls</em>.  Note that there are
+no assignments in the Scheme and Python examples.  Extensive use of recursion and
+minimal use of assignment are hallmarks of programming in a functional style.</p>
+<h3 id="imports-and-types"><a class="header" href="#imports-and-types">Imports and Types</a></h3>
+<p>Here is the top of <code>lis.py</code>:</p>
+<pre><code class="language-python">import math
+import operator as op
+from collections import ChainMap
+from itertools import chain
+from typing import Any, TypeAlias, NoReturn
+
+Symbol: TypeAlias = str
+Atom: TypeAlias = float | int | Symbol
+Expression: TypeAlias = Atom | list
+</code></pre>
+<p>The types defined are:</p>
+<dl>
+<dt id="symbol"><a class="header" href="#symbol"><code>Symbol</code></a></dt>
+<dd>just an alias for <code>str</code>.  In <code>lis.py</code>, <code>Symbol</code> is used for identifiers; there is no
+string data type with operations such as slicing, splitting, etc.</dd>
+<dt id="atom"><a class="header" href="#atom"><code>Atom</code></a></dt>
+<dd>a simple syntactic element, such as a number or a <code>Symbol</code>, as opposed to a
+composite structure made of distinct parts, like a list.</dd>
+<dt id="expression"><a class="header" href="#expression"><code>Expression</code></a></dt>
+<dd>the building blocks of Scheme programs are expressions made of atoms and lists,
+possibly nested.</dd>
+</dl>
+<p>(These are written as plain assignments annotated with <code>TypeAlias</code> rather than with
+the newer <code>type</code> statement, because <code>evaluate</code> uses <code>Symbol</code> in class patterns like
+<code>Symbol(var)</code>, which requires <code>Symbol</code> to be an actual class.)</p>
+<h3 id="the-parser"><a class="header" href="#the-parser">The Parser</a></h3>
+<p>Norvig’s parser is 36 lines of code showcasing the power of Python applied to handling
+the simple recursive syntax of S-expressions, without string data, comments, macros
+and other features of standard Scheme that make parsing more complicated:</p>
+<pre><code class="language-python">def parse(program: str) -&gt; Expression:
+    "Read a Scheme expression from a string."
+    return read_from_tokens(tokenize(program))
+
+def tokenize(s: str) -&gt; list[str]:
+    "Convert a string into a list of tokens."
+    return s.replace('(', ' ( ').replace(')', ' ) ').split()
+
+def read_from_tokens(tokens: list[str]) -&gt; Expression:
+    "Read an expression from a sequence of tokens."
+    if len(tokens) == 0:
+        raise SyntaxError('unexpected EOF while reading')
+    token = tokens.pop(0)
+    if '(' == token:
+        exp = []
+        while tokens and tokens[0] != ')':
+            exp.append(read_from_tokens(tokens))
+        if not tokens:
+            raise SyntaxError('unexpected EOF while reading')
+        tokens.pop(0)  # discard ')'
+        return exp
+    elif ')' == token:
+        raise SyntaxError('unexpected )')
+    else:
+        return parse_atom(token)
+
+def parse_atom(token: str) -&gt; Atom:
+    "Numbers become numbers; every other token is a symbol."
+    try:
+        return int(token)
+    except ValueError:
+        try:
+            return float(token)
+        except ValueError:
+            return Symbol(token)
+</code></pre>
+<p>The main function of that group is <code>parse</code>, which takes an S-expression as a <code>str</code> and
+returns an <code>Expression</code> object: an <code>Atom</code>, or a <code>list</code> that may contain more atoms and
+nested lists.  Norvig uses a smart trick in <code>tokenize</code>: he adds spaces before and after
+each parenthesis in the input and then splits it, resulting in a list of tokens with
+<code>'('</code> and <code>')'</code> as separate tokens.  This shortcut works because there is no string
+type in the little Scheme of <code>lis.py</code>, so every <code>'('</code> or <code>')'</code> is an expression
+delimiter.  The recursive parsing happens in <code>read_from_tokens</code>.  Here are some
+examples:</p>
+<pre><code class="language-python">parse('1.5')
+# 1.5
+parse('ni!')
+# 'ni!'
+parse('(gcd 18 45)')
+# ['gcd', 18, 45]
+parse('''
+(define double
+    (lambda (n)
+        (* n 2)))
+''')
+# ['define', 'double', ['lambda', ['n'], ['*', 'n', 2]]]
+</code></pre>
+<p>The parsing rules for this subset of Scheme are simple:</p>
+<ol>
+<li>A token that looks like a number is parsed as a <code>float</code> or <code>int</code>.</li>
+<li>Anything else that is not <code>'('</code> or <code>')'</code> is parsed as a <code>Symbol</code>, a <code>str</code> to be used
+as an identifier.  This includes source text like <code>+</code>, <code>set!</code> and <code>make-counter</code>,
+which are valid identifiers in Scheme but not in Python.</li>
+<li>Expressions inside <code>'('</code> and <code>')'</code> are recursively parsed as lists containing atoms
+or as nested lists that may contain atoms and more nested lists.</li>
+</ol>
+<p>Using the terminology of the Python interpreter, the output of <code>parse</code> is an <em>AST</em>
+(Abstract Syntax Tree): a convenient representation of the Scheme program as nested
+lists forming a tree-like structure, where the outermost list is the trunk, inner lists
+are the branches, and atoms are the leaves.</p>
+<h3 id="environment-with-chainmap"><a class="header" href="#environment-with-chainmap">Environment with <code>ChainMap</code></a></h3>
+<p>The <code>Environment</code> class extends <a href="dicts-sets.html#collectionschainmap"><code>collections.ChainMap</code></a>,
+adding a <code>change</code> method to update a value inside one of the chained dicts, which
+<code>ChainMap</code> instances hold in a list of mappings: the <code>self.maps</code> attribute.  The
+<code>change</code> method is needed to support the Scheme <code>(set! …)</code> form, described later:</p>
+<pre><code class="language-python">class Environment(ChainMap[Symbol, Any]):
+    "A ChainMap that allows changing an item in-place."
+
+    def change(self, key: Symbol, value: Any) -&gt; None:
+        "Find where key is defined and change the value there."
+        for map in self.maps:
+            if key in map:
+                map[key] = value
+                return
+        raise KeyError(key)
+</code></pre>
+<p>Note that the <code>change</code> method only updates existing keys; trying to change a key that
+is not found raises <code>KeyError</code>.  Here is how <code>Environment</code> works:</p>
+<pre><code class="language-python">inner_env = {'a': 2}
+outer_env = {'a': 0, 'b': 1}
+env = Environment(inner_env, outer_env)
+env['a']
+# 2
+env['a'] = 111
+env['c'] = 222
+env
+# Environment({'a': 111, 'c': 222}, {'a': 0, 'b': 1})
+env.change('b', 333)
+env
+# Environment({'a': 111, 'c': 222}, {'a': 0, 'b': 333})
+</code></pre>
+<p>When reading values, <code>Environment</code> works as <code>ChainMap</code>: keys are searched in the
+nested mappings from left to right.  That’s why the value of <code>a</code> in <code>outer_env</code> is
+shadowed by the value in <code>inner_env</code>.  Assigning with <code>[]</code> overwrites or inserts new
+items, but always in the first mapping, <code>inner_env</code> in this example.
+<code>env.change('b', 333)</code> seeks the <code>'b'</code> key and assigns a new value to it in place, in
+<code>outer_env</code>.</p>
+<p>Next is the <code>standard_env()</code> function, which builds and returns an <code>Environment</code> loaded
+with predefined functions, similar to Python’s <code>__builtins__</code> module that is always
+available:</p>
+<pre><code class="language-python">def standard_env() -&gt; Environment:
+    "An environment with some Scheme standard procedures."
+    env = Environment()
+    env.update(vars(math))   # sin, cos, sqrt, pi, ...
+    env.update({
+            '+': op.add,
+            '-': op.sub,
+            '*': op.mul,
+            '/': op.truediv,
+            'quotient': op.floordiv,
+            '&gt;': op.gt,
+            '&lt;': op.lt,
+            '&gt;=': op.ge,
+            '&lt;=': op.le,
+            '=': op.eq,
+            'abs': abs,
+            'append': lambda *args: list(chain(*args)),
+            'apply': lambda proc, args: proc(*args),
+            'begin': lambda *x: x[-1],
+            'car': lambda x: x[0],
+            'cdr': lambda x: x[1:],
+            'cons': lambda x, y: [x] + y,
+            'display': lambda x: print(lispstr(x)),
+            'eq?': op.is_,
+            'equal?': op.eq,
+            'length': len,
+            'list': lambda *x: list(x),
+            'list?': lambda x: isinstance(x, list),
+            'map': lambda *args: list(map(*args)),
+            'max': max,
+            'min': min,
+            'not': op.not_,
+            'null?': lambda x: x == [],
+            'number?': lambda x: isinstance(x, (int, float)),
+            'procedure?': callable,
+            'round': round,
+            'symbol?': lambda x: isinstance(x, Symbol),
+    })
+    return env
+</code></pre>
+<p>To summarize, the <code>env</code> mapping is loaded with all functions from Python’s <code>math</code>
+module; selected operators from Python’s <code>operator</code> module; simple but powerful
+functions built with Python’s <code>lambda</code>; and Python built-ins renamed, like <code>callable</code>
+as <code>procedure?</code>, or directly mapped, like <code>round</code>.</p>
+<h3 id="the-repl"><a class="header" href="#the-repl">The REPL</a></h3>
+<p>Norvig’s REPL (read-eval-print loop) is easy to understand but not user-friendly.  At
+the <code>lis.py&gt;</code> prompt, you must enter correct and complete expressions; if you forget
+to close one parenthesis, <code>lis.py</code> crashes:</p>
+<pre><code class="language-python">def repl(prompt: str = 'lis.py&gt; ') -&gt; NoReturn:
+    "A prompt-read-eval-print loop."
+    global_env = Environment({}, standard_env())
+    while True:
+        ast = parse(input(prompt))
+        val = evaluate(ast, global_env)
+        if val is not None:
+            print(lispstr(val))
+
+def lispstr(exp: object) -&gt; str:
+    "Convert a Python object back into a Lisp-readable string."
+    if isinstance(exp, list):
+        return '(' + ' '.join(map(lispstr, exp)) + ')'
+    else:
+        return str(exp)
+</code></pre>
+<p><code>repl</code> calls <code>standard_env()</code> to provide built-in functions for the global
+environment, then enters an infinite loop, reading and parsing each input line,
+evaluating it in the global environment, and displaying the result, unless it’s <code>None</code>.
+The <code>global_env</code> may be modified by <code>evaluate</code>: for example, when a user defines a new
+global variable or named function, it is stored in the first mapping of the
+environment, the empty <code>dict</code> in the <code>Environment</code> constructor call.  <code>lispstr</code> is the
+inverse of <code>parse</code>: given a Python object representing an expression, it returns the
+Scheme source code for it.  For example, given <code>['+', 2, 3]</code>, the result is
+<code>'(+ 2 3)'</code>.</p>
+<h3 id="the-evaluator"><a class="header" href="#the-evaluator">The Evaluator</a></h3>
+<p>Now we can appreciate the beauty of Norvig’s expression evaluator, made a little
+prettier with <code>match</code>/<code>case</code>.  The <code>evaluate</code> function takes an <code>Expression</code> built by
+<code>parse</code> and an <code>Environment</code>.  Its body is a single <code>match</code> statement with an
+expression <code>exp</code> as the subject.  The <code>case</code> patterns express the syntax and semantics
+of Scheme with amazing clarity:</p>
+<pre><code class="language-python">KEYWORDS = ['quote', 'if', 'lambda', 'define', 'set!']
+
+def evaluate(exp: Expression, env: Environment) -&gt; Any:
+    "Evaluate an expression in an environment."
+    match exp:
+        case int(x) | float(x):
+            return x
+        case Symbol(var):
+            return env[var]
+        case ['quote', x]:
+            return x
+        case ['if', test, consequence, alternative]:
+            if evaluate(test, env):
+                return evaluate(consequence, env)
+            else:
+                return evaluate(alternative, env)
+        case ['lambda', [*parms], *body] if body:
+            return Procedure(parms, body, env)
+        case ['define', Symbol(name), value_exp]:
+            env[name] = evaluate(value_exp, env)
+        case ['define', [Symbol(name), *parms], *body] if body:
+            env[name] = Procedure(parms, body, env)
+        case ['set!', Symbol(name), value_exp]:
+            env.change(name, evaluate(value_exp, env))
+        case [func_exp, *args] if func_exp not in KEYWORDS:
+            proc = evaluate(func_exp, env)
+            values = [evaluate(arg, env) for arg in args]
+            return proc(*values)
+        case _:
+            raise SyntaxError(lispstr(exp))
+</code></pre>
+<p>Let’s study each <code>case</code> clause and what it does.  The comments show an S-expression
+that would match the pattern when parsed into a Python list.  (<code>evaluate</code> refers to the
+<code>Procedure</code> class, defined after this walkthrough; the examples below assume it has
+been defined.)</p>
+<h4 id="evaluating-numbers"><a class="header" href="#evaluating-numbers">Evaluating numbers</a></h4>
+<!-- nocheck -->
+<pre><code class="language-python">case int(x) | float(x):
+    return x
+</code></pre>
+<p><em>Subject</em>: an instance of <code>int</code> or <code>float</code>.  <em>Action</em>: return the value as is.  This
+is an OR-pattern; both alternatives bind <code>x</code>.</p>
+<!-- nocheck -->
+<pre><code class="language-python">evaluate(parse('1.5'), {})
+# 1.5
+</code></pre>
+<h4 id="evaluating-symbols"><a class="header" href="#evaluating-symbols">Evaluating symbols</a></h4>
+<!-- nocheck -->
+<pre><code class="language-python">case Symbol(var):
+    return env[var]
+</code></pre>
+<p><em>Subject</em>: an instance of <code>Symbol</code>, that is, a <code>str</code> used as an identifier.
+<em>Action</em>: look up <code>var</code> in <code>env</code> and return its value.</p>
+<!-- nocheck -->
+<pre><code class="language-python">evaluate(parse('+'), standard_env())
+# &lt;built-in function add&gt;
+evaluate(parse('ni!'), standard_env())
+# Traceback (most recent call last):
+#     ...
+# KeyError: 'ni!'
+</code></pre>
+<h4 id="quote-"><a class="header" href="#quote-"><code>(quote …)</code></a></h4>
+<p>The <code>quote</code> special form treats atoms and lists as data instead of expressions to be
+evaluated.</p>
+<!-- nocheck -->
+<pre><code class="language-python"># (quote (99 bottles of beer))
+case ['quote', x]:
+    return x
+</code></pre>
+<p><em>Subject</em>: a list starting with the symbol <code>'quote'</code>, followed by one expression <code>x</code>.
+<em>Action</em>: return <code>x</code> without evaluating it.</p>
+<!-- nocheck -->
+<pre><code class="language-python">evaluate(parse('(quote no-such-name)'), standard_env())
+# 'no-such-name'
+evaluate(parse('(quote (99 bottles of beer))'), standard_env())
+# [99, 'bottles', 'of', 'beer']
+evaluate(parse('(quote (/ 10 0))'), standard_env())
+# ['/', 10, 0]
+</code></pre>
+<p>Without <code>quote</code>, each expression in those tests would raise an error: <code>no-such-name</code>
+would be looked up in the environment, raising <code>KeyError</code>; <code>(99 bottles of beer)</code>
+cannot be evaluated because the number 99 is not a <code>Symbol</code> naming a special form,
+operator or function; and <code>(/ 10 0)</code> would raise <code>ZeroDivisionError</code>.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Why do languages have reserved keywords?  Although simple, <code>quote</code> cannot be
+implemented as a function in Scheme.  Its special power is to prevent the
+interpreter from evaluating <code>(f 10)</code> in the expression <code>(quote (f 10))</code>: the result is
+simply a list with a <code>Symbol</code> and an <code>int</code>.  In a function call like <code>(abs (f 10))</code>,
+by contrast, the interpreter evaluates <code>(f 10)</code> before invoking <code>abs</code>.  That’s why
+<code>quote</code> is a reserved keyword: it must be handled as a special form.  In general,
+reserved keywords are needed to introduce specialized evaluation rules, as in
+<code>quote</code> and <code>lambda</code>, which don’t evaluate any of their subexpressions; to change the
+control flow, as in <code>if</code> and function calls; and to manage the environment, as in
+<code>define</code> and <code>set!</code>.  This is also why Python needs reserved keywords: think of what
+<code>def</code>, <code>if</code>, <code>yield</code>, <code>import</code> and <code>del</code> do.</p>
+</blockquote>
+<h4 id="if-"><a class="header" href="#if-"><code>(if …)</code></a></h4>
+<!-- nocheck -->
+<pre><code class="language-python"># (if (&lt; x 0) 0 x)
+case ['if', test, consequence, alternative]:
+    if evaluate(test, env):
+        return evaluate(consequence, env)
+    else:
+        return evaluate(alternative, env)
+</code></pre>
+<p><em>Subject</em>: a list starting with <code>'if'</code> followed by three expressions: <code>test</code>,
+<code>consequence</code> and <code>alternative</code>.  <em>Action</em>: evaluate <code>test</code>; if true, evaluate
+<code>consequence</code> and return its value, otherwise evaluate <code>alternative</code> and return its
+value.</p>
+<!-- nocheck -->
+<pre><code class="language-python">evaluate(parse('(if (= 3 3) 1 0))'), standard_env())
+# 1
+evaluate(parse('(if (= 3 4) 1 0))'), standard_env())
+# 0
+</code></pre>
+<p>The <code>consequence</code> and <code>alternative</code> branches must be single expressions.  If more than
+one expression is needed in a branch, you can combine them with <code>(begin exp1 exp2…)</code>,
+provided as a function in <code>standard_env</code>.</p>
+<h4 id="lambda-"><a class="header" href="#lambda-"><code>(lambda …)</code></a></h4>
+<p>Scheme’s <code>lambda</code> form defines anonymous functions.  It doesn’t suffer from the
+limitations of Python’s <code>lambda</code>: any function that can be written in Scheme can be
+written using the <code>(lambda …)</code> syntax.</p>
+<!-- nocheck -->
+<pre><code class="language-python"># (lambda (a b) (/ (+ a b) 2))
+case ['lambda', [*parms], *body] if body:
+    return Procedure(parms, body, env)
+</code></pre>
+<p><em>Subject</em>: a list starting with <code>'lambda'</code>, followed by a list of zero or more
+parameter names and one or more expressions collected in <code>body</code> (the guard ensures
+that <code>body</code> is not empty).  <em>Action</em>: create and return a new <code>Procedure</code> instance
+with the parameter names, the list of expressions as the body, and the current
+environment.</p>
+<!-- nocheck -->
+<pre><code class="language-python">expr = '(lambda (a b) (* (/ a b) 100))'
+f = evaluate(parse(expr), standard_env())
+f
+# &lt;__main__.Procedure object at 0x...&gt;
+f(15, 20)
+# 75.0
+</code></pre>
+<p>The <code>Procedure</code> class implements the concept of a closure: a callable object holding
+parameter names, a function body, and a reference to the environment in which the
+function is defined.  We’ll study its code in a moment.</p>
+<h4 id="define-"><a class="header" href="#define-"><code>(define …)</code></a></h4>
+<p>The <code>define</code> keyword is used in two different syntactic forms.  The simplest is:</p>
+<!-- nocheck -->
+<pre><code class="language-python"># (define half (/ 1 2))
+case ['define', Symbol(name), value_exp]:
+    env[name] = evaluate(value_exp, env)
+</code></pre>
+<p><em>Subject</em>: a list starting with <code>'define'</code>, followed by a <code>Symbol</code> and an expression.
+<em>Action</em>: evaluate the expression and put its value into <code>env</code>, using <code>name</code> as key.</p>
+<!-- nocheck -->
+<pre><code class="language-python">global_env = standard_env()
+evaluate(parse('(define answer (* 7 6))'), global_env)
+global_env['answer']
+# 42
+</code></pre>
+<p>We can use that simple <code>define</code> form to create variables or to bind names to
+anonymous functions, using <code>(lambda …)</code> as the <code>value_exp</code>.  Standard Scheme provides a
+shortcut for defining named functions; that’s the second <code>define</code> form:</p>
+<!-- nocheck -->
+<pre><code class="language-python"># (define (average a b) (/ (+ a b) 2))
+case ['define', [Symbol(name), *parms], *body] if body:
+    env[name] = Procedure(parms, body, env)
+</code></pre>
+<p><em>Subject</em>: a list starting with <code>'define'</code>, followed by a list starting with a
+<code>Symbol(name)</code> followed by zero or more items collected into a list named <code>parms</code>, and
+then one or more expressions collected in <code>body</code>.  <em>Action</em>: create a new <code>Procedure</code>
+with the parameter names, the list of expressions as the body, and the current
+environment, and put it into <code>env</code>, using <code>name</code> as key.  Here we define a function
+named <code>%</code> that computes a percentage:</p>
+<!-- nocheck -->
+<pre><code class="language-python">global_env = standard_env()
+percent = '(define (% a b) (* (/ a b) 100))'
+evaluate(parse(percent), global_env)
+global_env['%']
+# &lt;__main__.Procedure object at 0x...&gt;
+global_env['%'](170, 200)
+# 85.0
+</code></pre>
+<p>(The pattern for the second <code>define</code> case does not enforce that the items in <code>parms</code>
+are all <code>Symbol</code> instances.  That would require a check before building the
+<code>Procedure</code>, which is left out to keep the code as easy to follow as Norvig’s.)</p>
+<h4 id="set-"><a class="header" href="#set-"><code>(set! …)</code></a></h4>
+<p>The <code>set!</code> form changes the value of a previously defined variable.</p>
+<!-- nocheck -->
+<pre><code class="language-python"># (set! n (+ n 1))
+case ['set!', Symbol(name), value_exp]:
+    env.change(name, evaluate(value_exp, env))
+</code></pre>
+<p><em>Subject</em>: a list starting with <code>'set!'</code>, followed by a <code>Symbol</code> and an expression.
+<em>Action</em>: update the value of <code>name</code> in <code>env</code> with the result of evaluating the
+expression.  The <code>Environment.change</code> method traverses the chained environments from
+local to global, and updates the first occurrence of <code>name</code> with the new value.  If we
+were not implementing the <code>set!</code> keyword, we could use Python’s <code>ChainMap</code> as the
+<code>Environment</code> type everywhere in this interpreter.  (Coding in a functional style can
+take you very far without state changes: in <em>Structure and Interpretation of Computer
+Programs</em>, the best-known Scheme book, <code>set!</code> only appears on page 220.)</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Python’s <code>nonlocal</code> and Scheme’s <code>set!</code> address the same issue.  Declaring
+<code>nonlocal x</code> allows <code>x = 10</code> to update a previously defined <code>x</code> outside of the local
+scope; without it, <code>x = 10</code> always creates a local variable (see
+<a href="decorators.html#the-nonlocal-declaration">The <code>nonlocal</code> Declaration</a>).  Similarly,
+<code>(set! x 10)</code> updates a previously defined <code>x</code> that may be outside of the local
+environment of the function, while <code>x</code> in <code>(define x 10)</code> is always a local variable.
+Both are needed to update program state held in variables within a closure.  Here is
+the running average from the Decorators chapter, written in the Scheme subset of
+<code>lis.py</code>:</p>
+<pre><code class="language-text">(define (make-averager)
+    (define count 0)
+    (define total 0)
+    (lambda (new-value)
+        (set! count (+ count 1))
+        (set! total (+ total new-value))
+        (/ total count)
+    )
+)
+(define avg (make-averager))
+(avg 10)
+(avg 11)
+(avg 15)
+</code></pre>
+<p><code>(make-averager)</code> creates a new closure with the inner function defined by <code>lambda</code>,
+and the variables <code>count</code> and <code>total</code> initialized to 0, and binds the closure to
+<code>avg</code>.  The three calls return 10.0, 10.5 and 12.0.</p>
+</blockquote>
+<h4 id="function-call"><a class="header" href="#function-call">Function call</a></h4>
+<!-- nocheck -->
+<pre><code class="language-python"># (gcd (* 2 105) 84)
+case [func_exp, *args] if func_exp not in KEYWORDS:
+    proc = evaluate(func_exp, env)
+    values = [evaluate(arg, env) for arg in args]
+    return proc(*values)
+</code></pre>
+<p><em>Subject</em>: a list with one or more items.  The guard ensures that <code>func_exp</code> is not
+one of <code>['quote', 'if', 'define', 'lambda', 'set!']</code>.  The pattern matches any list with
+one or more expressions, binding the first expression to <code>func_exp</code> and the rest to
+<code>args</code> as a list, which may be empty.  <em>Action</em>: evaluate <code>func_exp</code> to obtain a
+function <code>proc</code>, evaluate each item in <code>args</code> to build a list of argument values, and
+call <code>proc</code> with the values as separate arguments, returning the result.</p>
+<!-- nocheck -->
+<pre><code class="language-python">evaluate(parse('(% (* 12 14) (- 500 100))'), global_env)
+# 42.0
+</code></pre>
+<p>That example assumes <code>global_env</code> has the function named <code>%</code> defined above.  The
+arguments given to <code>%</code> are arithmetic expressions, to emphasize that the arguments are
+evaluated before the function is called.  The guard is needed because
+<code>[func_exp, *args]</code> matches any sequence subject with one or more items; if <code>func_exp</code>
+is a keyword and the subject did not match any previous case, then it is really a
+syntax error.</p>
+<h4 id="catch-syntax-errors"><a class="header" href="#catch-syntax-errors">Catch syntax errors</a></h4>
+<p>If the subject <code>exp</code> does not match any of the previous cases, the catch-all case
+raises a <code>SyntaxError</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">case _:
+    raise SyntaxError(lispstr(exp))
+</code></pre>
+<p>Here is a malformed <code>(lambda …)</code> reported as a <code>SyntaxError</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">evaluate(parse('(lambda is not like this)'), standard_env())
+# Traceback (most recent call last):
+#     ...
+# SyntaxError: (lambda is not like this)
+</code></pre>
+<p>If the function call case did not have the guard rejecting keywords, the
+<code>(lambda is not like this)</code> expression would be handled as a function call, which
+would raise <code>KeyError</code> because <code>'lambda'</code> is not part of the environment, just like
+<code>lambda</code> is not a Python built-in function.</p>
+<h3 id="procedure-a-class-implementing-a-closure"><a class="header" href="#procedure-a-class-implementing-a-closure"><code>Procedure</code>: A Class Implementing a Closure</a></h3>
+<p>The <code>Procedure</code> class could very well be named <code>Closure</code>, because that’s what it
+represents: a function definition together with an environment.  The function
+definition includes the names of the parameters and the expressions that make up the
+body of the function.  The environment is used when the function is called to provide
+the values of the <em>free variables</em>: variables that appear in the body of the function
+but are not parameters, local variables or global variables (see
+<a href="decorators.html#closures">Closures</a>).  Here is how a closure is implemented in
+<code>lis.py</code>:</p>
+<pre><code class="language-python">class Procedure:
+    "A user-defined Scheme procedure."
+
+    def __init__(
+        self, parms: list[Symbol], body: list[Expression], env: Environment
+    ):
+        self.parms = parms
+        self.body = body
+        self.env = env
+
+    def __call__(self, *args: Expression) -&gt; Any:
+        local_env = dict(zip(self.parms, args))
+        env = Environment(local_env, self.env)
+        for exp in self.body:
+            result = evaluate(exp, env)
+        return result
+</code></pre>
+<p><code>__init__()</code> is called when a function is defined by the <code>lambda</code> or <code>define</code> forms;
+it saves the parameter names, body expressions and environment for later use.
+<code>__call__()</code> is called by <code>proc(*values)</code> in the last line of the function call case.
+It builds <code>local_env</code>, mapping <code>self.parms</code> as local variable names to the given
+<code>args</code> as values; builds a new combined <code>env</code>, putting <code>local_env</code> first and then
+<code>self.env</code>, the environment that was saved when the function was defined; evaluates
+each expression in <code>self.body</code> in the combined <code>env</code>; and returns the result of the
+last expression evaluated.</p>
+<p>Now the whole interpreter works.  Let’s run the <code>gcd</code> program and the running average
+through it:</p>
+<pre><code class="language-python">def run(source: str) -&gt; Any:
+    "Evaluate each expression in source; return the value of the last one."
+    global_env = Environment({}, standard_env())
+    tokens = tokenize(source)
+    while tokens:
+        exp = read_from_tokens(tokens)
+        result = evaluate(exp, global_env)
+    return result
+
+run('''
+(define (mod m n)
+    (- m (* n (quotient m n))))
+(define (gcd m n)
+    (if (= n 0)
+        m
+        (gcd n (mod m n))))
+(gcd 18 45)
+''')
+# 9
+run('''
+(define (make-averager)
+    (define count 0)
+    (define total 0)
+    (lambda (new-value)
+        (set! count (+ count 1))
+        (set! total (+ total new-value))
+        (/ total count)))
+(define avg (make-averager))
+(avg 10)
+(avg 11)
+(avg 15)
+''')
+# 12.0
+run('''
+(define (% a b) (* (/ a b) 100))
+(% (* 12 14) (- 500 100))
+''')
+# 42.0
+</code></pre>
+<p>The goals of this case study were to share the beauty of Norvig’s little interpreter,
+to give more insight into how closures work, and to show how <code>match</code>/<code>case</code> is a great
+addition to Python.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>Pattern matching with <code>match</code>/<code>case</code> supports destructuring: matching the shape of the
+data and extracting parts of it in one step.  Sequence patterns match sequences other
+than <code>str</code>, <code>bytes</code> and <code>bytearray</code>, item by item, with <code>*</code> to collect excess items;
+mapping patterns match any mapping by key and succeed on partial matches; class
+patterns match instances by type and attributes, positionally through
+<code>__match_args__</code> or by keyword.  Patterns can be nested and combined with <code>|</code>
+(OR-patterns) and <code>as</code>, and guards add arbitrary conditions.  Remember that a bare name
+is always a capture pattern, never a comparison: use dotted names, like enum members,
+to match constants.</p>
+<p>As the <code>lis.py</code> case study shows, pattern matching is an example of declarative
+programming: the shape of the code follows the shape of the data.</p>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li>The “Structural Pattern Matching” section of <a href="https://docs.python.org/3/whatsnew/3.10.html#pep-634-structural-pattern-matching">What’s New In Python 3.10</a>
+is a great introduction in about 1,400 words.
+<a href="https://peps.python.org/pep-0636/"><strong>PEP 636</strong></a> is a longer tutorial, and
+<a href="https://peps.python.org/pep-0635/"><strong>PEP 635</strong></a> gives the motivation and
+rationale.  <a href="https://peps.python.org/pep-0634/"><strong>PEP 634</strong></a> is the
+specification, and the <a href="https://docs.python.org/3/reference/compound_stmts.html#the-match-statement">match statement</a>
+section of the language reference is the authoritative description.</li>
+<li>Peter Norvig’s essay “(How to Write a (Lisp) Interpreter (in Python))” explains
+<code>lis.py</code> in his own words.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="controlflow.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="first-class-functions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="controlflow.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="first-class-functions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

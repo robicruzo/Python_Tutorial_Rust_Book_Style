@@ -1,0 +1,22 @@
+[book]
+title = "The Python Tutorial"
+description = "The official Python tutorial, expanded with material from Fluent Python (2nd ed.)"
+language = "en"
+src = "src"
+
+[build]
+build-dir = "book"
+create-missing = false
+
+[output.html]
+default-theme = "light"
+preferred-dark-theme = "navy"
+additional-css = ["theme/custom.css"]
+no-section-label = false
+
+[output.html.search]
+enable = true
+limit-results = 40
+
+[output.html.fold]
+enable = false

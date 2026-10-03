@@ -1,0 +1,1486 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Decorators and Closures - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="decorators-and-closures"><a class="header" href="#decorators-and-closures">Decorators and Closures</a></h1>
+<p>Function decorators let us “mark” functions in the source code to enhance their
+behavior in some way.  This is powerful stuff, but mastering it requires
+understanding <em>closures</em>, which is what we get when functions capture variables
+defined outside of their bodies.  (The name “decorator” has drawn complaints for
+not matching the Decorator pattern of the <em>Design Patterns</em> book;
+<a href="https://peps.python.org/pep-0318/"><strong>PEP 318</strong></a> suggests that it owes more to its
+use in compilers, where a syntax tree is walked and annotated.)</p>
+<p>The most obscure reserved keyword in Python is <code>nonlocal</code>.  You can have a
+profitable life as a Python programmer without ever using it if you adhere to a
+strict regimen of class-centered object orientation.  However, if you want to
+implement your own function decorators, you must understand closures, and then the
+need for <code>nonlocal</code> becomes obvious.  Aside from their application in decorators,
+closures are also essential for any type of programming using callbacks, and for
+coding in a functional style when it makes sense.</p>
+<p>The goal of this chapter is to explain exactly how function decorators work, from
+the simplest registration decorators to the rather more complicated parameterized
+ones.  Before we reach that goal, we need to cover:</p>
+<ul>
+<li>how Python evaluates decorator syntax;</li>
+<li>how Python decides whether a variable is local;</li>
+<li>why closures exist and how they work;</li>
+<li>what problem is solved by <code>nonlocal</code>.</li>
+</ul>
+<p>With this grounding, we can tackle further topics:</p>
+<ul>
+<li>implementing a well-behaved decorator;</li>
+<li>powerful decorators in the standard library: <code>@cache</code>, <code>@lru_cache</code> and
+<code>@singledispatch</code>;</li>
+<li>implementing a parameterized decorator.</li>
+</ul>
+<p>The scope rules discussed here complement
+<a href="classes.html#tut-scopes">Python Scopes and Namespaces</a> in the Classes chapter.</p>
+<h2 id="decorators-101"><a class="header" href="#decorators-101">Decorators 101</a></h2>
+<p>A decorator is a callable that takes another function as an argument (the
+decorated function).  A decorator may perform some processing with the decorated
+function, and returns it or replaces it with another function or callable object.
+(Replace “function” with “class” in the previous sentences and you have a brief
+description of what a class decorator does; class decorators are covered in
+<a href="class-metaprogramming.html">Class Metaprogramming</a>.)</p>
+<p>In other words, assuming an existing decorator named <code>decorate</code>, this code:</p>
+<!-- nocheck -->
+<pre><code class="language-python">@decorate
+def target():
+    print('running target()')
+</code></pre>
+<p>has the same effect as writing this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def target():
+    print('running target()')
+
+target = decorate(target)
+</code></pre>
+<p>The end result is the same: at the end of either of these snippets, the <code>target</code>
+name is bound to whatever function is returned by <code>decorate(target)</code>, which may be
+the function initially named <code>target</code>, or may be a different function.  To confirm
+that the decorated function is replaced:</p>
+<pre><code class="language-python">def deco(func):
+    def inner():
+        print('running inner()')
+    return inner  # deco returns its inner function object
+
+@deco
+def target():  # target is decorated by deco
+    print('running target()')
+
+target()  # invoking the decorated target actually runs inner
+# running inner()
+target  # target is now a reference to inner
+# &lt;function deco.&lt;locals&gt;.inner at 0x10063b598&gt;
+</code></pre>
+<p>Strictly speaking, decorators are just syntactic sugar.  As we just saw, you can
+always simply call a decorator like any regular callable, passing another function.
+Sometimes that is actually convenient, especially when doing <em>metaprogramming</em>:
+changing program behavior at runtime.</p>
+<p>Three essential facts make a good summary of decorators:</p>
+<ul>
+<li>A decorator is a function or another callable.</li>
+<li>A decorator may replace the decorated function with a different one.</li>
+<li>Decorators are executed immediately when a module is loaded.</li>
+</ul>
+<p>Now let’s focus on the third point.</p>
+<h2 id="when-python-executes-decorators"><a class="header" href="#when-python-executes-decorators">When Python Executes Decorators</a></h2>
+<p>A key feature of decorators is that they run right after the decorated function is
+defined.  That is usually at <em>import time</em>, that is, when a module is loaded by
+Python.  Consider this <code>registration.py</code> module:</p>
+<pre><code class="language-python">registry = []
+
+def register(func):
+    print(f'running register({func})')
+    registry.append(func)
+    return func
+
+@register
+def f1():
+    print('running f1()')
+
+@register
+def f2():
+    print('running f2()')
+
+def f3():
+    print('running f3()')
+
+def main():
+    print('running main()')
+    print('registry -&gt;', registry)
+    f1()
+    f2()
+    f3()
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+<p><code>registry</code> will hold references to functions decorated by <code>@register</code>.  <code>register</code>
+takes a function as an argument, displays what function is being decorated, for
+demonstration, includes it in <code>registry</code>, and returns it: a decorator must return a
+function, and here we return the same one received as the argument.  <code>f1</code> and <code>f2</code>
+are decorated by <code>@register</code>; <code>f3</code> is not.  <code>main</code> displays the registry, then calls
+<code>f1()</code>, <code>f2()</code> and <code>f3()</code>, and it is only invoked if <code>registration.py</code> runs as a
+script.  The output of running it as a script looks like this:</p>
+<pre><code class="language-console">$ python3 registration.py
+running register(&lt;function f1 at 0x100631bf8&gt;)
+running register(&lt;function f2 at 0x100631c80&gt;)
+running main()
+registry -&gt; [&lt;function f1 at 0x100631bf8&gt;, &lt;function f2 at 0x100631c80&gt;]
+running f1()
+running f2()
+running f3()
+</code></pre>
+<p>Note that <code>register</code> runs (twice) before any other function in the module.  When
+<code>register</code> is called, it receives the decorated function object as an argument, for
+example <code>&lt;function f1 at 0x100631bf8&gt;</code>.  After the module is loaded, the <code>registry</code>
+list holds references to the two decorated functions, <code>f1</code> and <code>f2</code>.  These
+functions, as well as <code>f3</code>, are only executed when explicitly called by <code>main</code>.</p>
+<p>If <code>registration.py</code> is imported (and not run as a script), the output is this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import registration
+# running register(&lt;function f1 at 0x10063b1e0&gt;)
+# running register(&lt;function f2 at 0x10063b268&gt;)
+registration.registry
+# [&lt;function f1 at 0x10063b1e0&gt;, &lt;function f2 at 0x10063b268&gt;]
+</code></pre>
+<p>The main point is that function decorators are executed as soon as the module is
+imported, but the decorated functions only run when they are explicitly invoked.
+This highlights the difference between what Pythonistas call <em>import time</em> and
+<em>runtime</em>.</p>
+<h3 id="registration-decorators"><a class="header" href="#registration-decorators">Registration Decorators</a></h3>
+<p>Considering how decorators are commonly employed in real code, <code>registration.py</code> is
+unusual in two ways:</p>
+<ul>
+<li>The decorator function is defined in the same module as the decorated
+functions.  A real decorator is usually defined in one module and applied to
+functions in other modules.</li>
+<li>The <code>register</code> decorator returns the same function passed as an argument.  In
+practice, most decorators define an inner function and return it.</li>
+</ul>
+<p>Even though <code>register</code> returns the decorated function unchanged, that technique is
+not useless.  Similar decorators are used in many Python frameworks to add functions
+to some central registry, for example a registry mapping URL patterns to functions
+that generate HTTP responses.  Such registration decorators may or may not change the
+decorated function.  You’ll see a registration decorator applied in
+<a href="function-patterns.html#decorator-enhanced-strategy-pattern">Decorator-Enhanced Strategy Pattern</a>.</p>
+<p>Most decorators do change the decorated function.  They usually do it by defining
+an inner function and returning it to replace the decorated function.  Code that uses
+inner functions almost always depends on closures to operate correctly.  To
+understand closures, we need to take a step back and review how variable scopes work
+in Python.</p>
+<h2 id="variable-scope-rules"><a class="header" href="#variable-scope-rules">Variable Scope Rules</a></h2>
+<p>Here we define and test a function that reads two variables: a local variable <code>a</code>,
+defined as a function parameter, and a variable <code>b</code> that is not defined anywhere in
+the function:</p>
+<pre><code class="language-python">def f1(a):
+    print(a)
+    print(b)
+
+f1(3)
+# 3
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+#   File "&lt;stdin&gt;", line 3, in f1
+# NameError: name 'b' is not defined
+</code></pre>
+<p>The error is not surprising.  If we assign a value to a global <code>b</code> and then call
+<code>f1</code>, it works:</p>
+<pre><code class="language-python">b = 6
+f1(3)
+# 3
+# 6
+</code></pre>
+<p>Now let’s see an example that may surprise you.  The <code>f2</code> function below starts with
+the same two lines as <code>f1</code>, then makes an assignment to <code>b</code>.  But it fails at the
+second <code>print</code>, before the assignment is made:</p>
+<pre><code class="language-python">b = 6
+def f2(a):
+    print(a)
+    print(b)
+    b = 9
+
+f2(3)
+# 3
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+#   File "&lt;stdin&gt;", line 3, in f2
+# UnboundLocalError: cannot access local variable 'b' where it is not associated with a value
+</code></pre>
+<p>The output starts with <code>3</code>, which proves that the <code>print(a)</code> statement was executed.
+But the second one, <code>print(b)</code>, never runs.  You might expect <code>6</code> to be printed,
+because there is a global variable <code>b</code> and the assignment to the local <code>b</code> is made
+after <code>print(b)</code>.</p>
+<p>But the fact is, when Python compiles the body of the function, it decides that <code>b</code>
+is a local variable because it is assigned within the function.  The generated
+bytecode reflects this decision and will try to fetch <code>b</code> from the local scope.
+Later, when the call <code>f2(3)</code> is made, the body of <code>f2</code> fetches and prints the value
+of the local variable <code>a</code>, but when trying to fetch the value of local variable <code>b</code>,
+it discovers that <code>b</code> is unbound.</p>
+<p>This is not a bug, but a design choice: Python does not require you to declare
+variables, but assumes that a variable assigned in the body of a function is local.
+This is much better than the behavior of JavaScript, which does not require variable
+declarations either, but if you forget to declare that a variable is local (with
+<code>var</code>), you may clobber a global variable without knowing it.</p>
+<p>If we want the interpreter to treat <code>b</code> as a global variable and still assign a new
+value to it within the function, we use the <code>global</code> declaration:</p>
+<pre><code class="language-python">b = 6
+def f3(a):
+    global b
+    print(a)
+    print(b)
+    b = 9
+
+f3(3)
+# 3
+# 6
+b
+# 9
+</code></pre>
+<p>In the preceding examples, we can see two scopes in action:</p>
+<dl>
+<dt id="the-module-global-scope"><a class="header" href="#the-module-global-scope"><em>The module global scope</em></a></dt>
+<dd>made of names assigned to values outside of any class or function block.</dd>
+<dt id="the-f3-function-local-scope"><a class="header" href="#the-f3-function-local-scope"><em>The <code>f3</code> function local scope</em></a></dt>
+<dd>made of names assigned to values as parameters, or directly in the body of the
+function.</dd>
+</dl>
+<p>There is one other scope where variables can come from, which we call <em>nonlocal</em>,
+and it is fundamental for closures; we’ll see it in a bit.</p>
+<h3 id="comparing-bytecodes"><a class="header" href="#comparing-bytecodes">Comparing Bytecodes</a></h3>
+<p>The <a href="https://docs.python.org/3/library/dis.html"><code>dis</code></a> module provides an easy way to
+disassemble the bytecode of Python functions.  Here are the bytecodes for <code>f1</code> and
+<code>f2</code>, as produced by Python 3.13 (the details vary between versions, but the key
+instructions are the same):</p>
+<!-- nocheck -->
+<pre><code class="language-python">from dis import dis
+dis(f1)
+#   1           RESUME                   0
+#
+#   2           LOAD_GLOBAL              1 (print + NULL)
+#               LOAD_FAST                0 (a)
+#               CALL                     1
+#               POP_TOP
+#
+#   3           LOAD_GLOBAL              1 (print + NULL)
+#               LOAD_GLOBAL              2 (b)
+#               CALL                     1
+#               POP_TOP
+#               RETURN_CONST             0 (None)
+</code></pre>
+<p>In <code>f1</code>, <code>print</code> is loaded with <code>LOAD_GLOBAL</code>, the local name <code>a</code> with
+<code>LOAD_FAST</code>, and the global name <code>b</code> with <code>LOAD_GLOBAL</code>.  Contrast that with <code>f2</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">dis(f2)
+#   1           RESUME                   0
+#
+#   2           LOAD_GLOBAL              1 (print + NULL)
+#               LOAD_FAST                0 (a)
+#               CALL                     1
+#               POP_TOP
+#
+#   3           LOAD_GLOBAL              1 (print + NULL)
+#               LOAD_FAST_CHECK          1 (b)
+#               CALL                     1
+#               POP_TOP
+#
+#   4           LOAD_CONST               1 (9)
+#               STORE_FAST               1 (b)
+#               RETURN_CONST             0 (None)
+</code></pre>
+<p>Here <code>b</code> is loaded as a <em>local</em> name (<code>LOAD_FAST_CHECK</code>).  This shows that the
+compiler considers <code>b</code> a local variable, even though the assignment to <code>b</code> occurs
+later, because the nature of a variable (whether it is local or not) cannot change
+within the body of a function.  The CPython virtual machine that runs the bytecode is
+a stack machine, so the <code>LOAD</code> and <code>POP</code> operations refer to the stack; the opcodes are
+documented with the <code>dis</code> module.</p>
+<h2 id="closures"><a class="header" href="#closures">Closures</a></h2>
+<p>Closures are sometimes confused with anonymous functions.  Many people confuse them
+because of the parallel history of those features: defining functions inside
+functions is not so common or convenient until you have anonymous functions, and
+closures only matter when you have nested functions.  So many people learn both
+concepts at the same time.</p>
+<p>Actually, a <em>closure</em> is a function, let’s call it <code>f</code>, with an extended scope that
+encompasses variables referenced in the body of <code>f</code> that are not global variables or
+local variables of <code>f</code>.  Such variables must come from the local scope of an outer
+function that encompasses <code>f</code>.  It does not matter whether the function is anonymous
+or not; what matters is that it can access nonglobal variables that are defined
+outside of its body.</p>
+<p>This is a challenging concept to grasp, and is better approached through an example.
+Consider an <code>avg</code> function to compute the mean of an ever-growing series of values;
+for example, the average closing price of a commodity over its entire history.  Every
+day a new price is added, and the average is computed taking into account all prices
+so far.  Starting with a clean slate, this is how <code>avg</code> could be used:</p>
+<!-- nocheck -->
+<pre><code class="language-python">avg(10)
+# 10.0
+avg(11)
+# 10.5
+avg(12)
+# 11.0
+</code></pre>
+<p>Where does <code>avg</code> come from, and where does it keep the history of previous values?
+For starters, here is a class-based implementation:</p>
+<pre><code class="language-python">class Averager():
+
+    def __init__(self):
+        self.series = []
+
+    def __call__(self, new_value):
+        self.series.append(new_value)
+        total = sum(self.series)
+        return total / len(self.series)
+</code></pre>
+<p>The <code>Averager</code> class creates instances that are callable:</p>
+<pre><code class="language-python">avg = Averager()
+avg(10)
+# 10.0
+avg(11)
+# 10.5
+avg(12)
+# 11.0
+</code></pre>
+<p>Now here is a functional implementation, using the higher-order function
+<code>make_averager</code>:</p>
+<pre><code class="language-python">def make_averager():
+    series = []
+
+    def averager(new_value):
+        series.append(new_value)
+        total = sum(series)
+        return total / len(series)
+
+    return averager
+</code></pre>
+<p>When invoked, <code>make_averager</code> returns an <code>averager</code> function object.  Each time an
+<code>averager</code> is called, it appends the passed argument to the series, and computes the
+current average:</p>
+<pre><code class="language-python">avg = make_averager()
+avg(10)
+# 10.0
+avg(11)
+# 10.5
+avg(15)
+# 12.0
+</code></pre>
+<p>Note the similarities of the examples: we call <code>Averager()</code> or <code>make_averager()</code> to
+get a callable object <code>avg</code> that will update the historical series and calculate the
+current mean.  In the class version, <code>avg</code> is an instance of <code>Averager</code>; in the
+functional version, it is the inner function, <code>averager</code>.  Either way, we just call
+<code>avg(n)</code> to include <code>n</code> in the series and get the updated mean.</p>
+<p>It’s obvious where the <code>avg</code> of the <code>Averager</code> class keeps the history: the
+<code>self.series</code> instance attribute.  But where does the <code>avg</code> function in the second
+example find the <code>series</code>?</p>
+<p>Note that <code>series</code> is a local variable of <code>make_averager</code>, because the assignment
+<code>series = []</code> happens in the body of that function.  But when <code>avg(10)</code> is called,
+<code>make_averager</code> has already returned, and its local scope is long gone.</p>
+<p>Within <code>averager</code>, <code>series</code> is a <em>free variable</em>.  This is a technical term meaning a
+variable that is not bound in the local scope.  The closure for <code>averager</code> extends
+the scope of that function to include the binding for the free variable <code>series</code>.</p>
+<p>Inspecting the returned <code>averager</code> object shows how Python keeps the names of local
+and free variables in the <code>__code__</code> attribute that represents the compiled body of
+the function:</p>
+<pre><code class="language-python">avg.__code__.co_varnames
+# ('new_value', 'total')
+avg.__code__.co_freevars
+# ('series',)
+</code></pre>
+<p>The value for <code>series</code> is kept in the <code>__closure__</code> attribute of the returned
+function <code>avg</code>.  Each item in <code>avg.__closure__</code> corresponds to a name in
+<code>avg.__code__.co_freevars</code>.  These items are <em>cells</em>, and they have an attribute
+called <code>cell_contents</code> where the actual value can be found:</p>
+<pre><code class="language-python">avg.__code__.co_freevars
+# ('series',)
+avg.__closure__
+# (&lt;cell at 0x107a44f78: list object at 0x107a91a48&gt;,)
+avg.__closure__[0].cell_contents
+# [10, 11, 15]
+</code></pre>
+<p>To summarize: a closure is a function that retains the bindings of the free
+variables that exist when the function is defined, so that they can be used later
+when the function is invoked and the defining scope is no longer available.</p>
+<p>Note that the only situation in which a function may need to deal with external
+variables that are nonglobal is when it is nested in another function and those
+variables are part of the local scope of the outer function.</p>
+<h2 id="the-nonlocal-declaration"><a class="header" href="#the-nonlocal-declaration">The <code>nonlocal</code> Declaration</a></h2>
+<p>Our previous implementation of <code>make_averager</code> was not efficient: it stored all the
+values in the historical series and computed their <code>sum</code> every time <code>averager</code> was
+called.  A better implementation would only store the total and the number of items
+so far, and compute the mean from these two numbers.  Here is a broken
+implementation, just to make a point.  Can you see where it breaks?</p>
+<pre><code class="language-python">def make_averager():
+    count = 0
+    total = 0
+
+    def averager(new_value):
+        count += 1
+        total += new_value
+        return total / count
+
+    return averager
+
+avg = make_averager()
+avg(10)
+# Traceback (most recent call last):
+#   ...
+# UnboundLocalError: cannot access local variable 'count' where it is not associated with a value
+</code></pre>
+<p>The problem is that the statement <code>count += 1</code> actually means the same as
+<code>count = count + 1</code>, when <code>count</code> is a number or any immutable type.  So we are
+actually assigning to <code>count</code> in the body of <code>averager</code>, and that makes it a local
+variable.  The same problem affects the <code>total</code> variable.</p>
+<p>We did not have this problem in the previous version, because we never assigned to
+the <code>series</code> name; we only called <code>series.append</code> and invoked <code>sum</code> and <code>len</code> on it.
+So we took advantage of the fact that lists are mutable.  But with immutable types
+like numbers, strings, tuples, etc., all you can do is read, never update.  If you try
+to rebind them, as in <code>count = count + 1</code>, then you are implicitly creating a local
+variable <code>count</code>.  It is no longer a free variable, and therefore it is not saved in
+the closure.</p>
+<p>To work around this, the <code>nonlocal</code> keyword was introduced in Python 3.  It lets you
+declare a variable as a free variable even when it is assigned within the function.
+If a new value is assigned to a <code>nonlocal</code> variable, the binding stored in the closure
+is changed.  A correct implementation of our newest <code>make_averager</code> looks like this:</p>
+<pre><code class="language-python">def make_averager():
+    count = 0
+    total = 0
+
+    def averager(new_value):
+        nonlocal count, total
+        count += 1
+        total += new_value
+        return total / count
+
+    return averager
+
+avg = make_averager()
+avg(10)
+# 10.0
+avg(11)
+# 10.5
+avg(12)
+# 11.0
+</code></pre>
+<h3 id="variable-lookup-logic"><a class="header" href="#variable-lookup-logic">Variable Lookup Logic</a></h3>
+<p>When a function is defined, the Python bytecode compiler determines how to fetch a
+variable <code>x</code> that appears in it, based on these rules:</p>
+<ul>
+<li>If there is a <code>global x</code> declaration, <code>x</code> comes from and is assigned to the <code>x</code>
+global variable of the module.  (Python has no program-wide global scope, only
+module global scopes.)</li>
+<li>If there is a <code>nonlocal x</code> declaration, <code>x</code> comes from and is assigned to the <code>x</code>
+local variable of the nearest surrounding function where <code>x</code> is defined.</li>
+<li>If <code>x</code> is a parameter or is assigned a value in the function body, then <code>x</code> is a
+local variable.</li>
+<li>If <code>x</code> is referenced but is not assigned and is not a parameter:
+<ul>
+<li><code>x</code> will be looked up in the local scopes of the surrounding function bodies
+(nonlocal scopes);</li>
+<li>if not found in surrounding scopes, it will be read from the module global
+scope;</li>
+<li>if not found in the global scope, it will be read from
+<code>__builtins__.__dict__</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Now that we have Python closures covered, we can effectively implement decorators
+with nested functions.</p>
+<h2 id="implementing-a-simple-decorator"><a class="header" href="#implementing-a-simple-decorator">Implementing a Simple Decorator</a></h2>
+<p>Here is a decorator that clocks every invocation of the decorated function and
+displays the elapsed time, the arguments passed, and the result of the call:</p>
+<pre><code class="language-python">import time
+
+def clock(func):
+    def clocked(*args):
+        t0 = time.perf_counter()
+        result = func(*args)
+        elapsed = time.perf_counter() - t0
+        name = func.__name__
+        arg_str = ', '.join(repr(arg) for arg in args)
+        print(f'[{elapsed:0.8f}s] {name}({arg_str}) -&gt; {result!r}')
+        return result
+    return clocked
+</code></pre>
+<p>We define the inner function <code>clocked</code> to accept any number of positional
+arguments.  The line <code>result = func(*args)</code> only works because the closure for
+<code>clocked</code> encompasses the <code>func</code> free variable.  Finally, <code>clock</code> returns the inner
+function to replace the decorated function.  Here is the decorator in use:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import time
+from clockdeco0 import clock
+
+@clock
+def snooze(seconds):
+    time.sleep(seconds)
+
+@clock
+def factorial(n):
+    return 1 if n &lt; 2 else n*factorial(n-1)
+
+if __name__ == '__main__':
+    print('*' * 40, 'Calling snooze(.123)')
+    snooze(.123)
+    print('*' * 40, 'Calling factorial(6)')
+    print('6! =', factorial(6))
+</code></pre>
+<p>The output of running that script looks like this:</p>
+<pre><code class="language-console">$ python3 clockdeco_demo.py
+**************************************** Calling snooze(.123)
+[0.12363791s] snooze(0.123) -&gt; None
+**************************************** Calling factorial(6)
+[0.00000095s] factorial(1) -&gt; 1
+[0.00002408s] factorial(2) -&gt; 2
+[0.00003934s] factorial(3) -&gt; 6
+[0.00005221s] factorial(4) -&gt; 24
+[0.00006390s] factorial(5) -&gt; 120
+[0.00008297s] factorial(6) -&gt; 720
+6! = 720
+</code></pre>
+<h3 id="how-it-works"><a class="header" href="#how-it-works">How It Works</a></h3>
+<p>Remember that this code:</p>
+<!-- nocheck -->
+<pre><code class="language-python">@clock
+def factorial(n):
+    return 1 if n &lt; 2 else n*factorial(n-1)
+</code></pre>
+<p>actually does this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def factorial(n):
+    return 1 if n &lt; 2 else n*factorial(n-1)
+
+factorial = clock(factorial)
+</code></pre>
+<p>So, in both cases, <code>clock</code> gets the <code>factorial</code> function as its <code>func</code> argument.  It
+then creates and returns the <code>clocked</code> function, which the interpreter assigns to
+<code>factorial</code> (behind the scenes, in the first case).  In fact, if you import the
+<code>clockdeco_demo</code> module and check the <code>__name__</code> of <code>factorial</code>, this is what you get:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import clockdeco_demo
+clockdeco_demo.factorial.__name__
+# 'clocked'
+</code></pre>
+<p>So <code>factorial</code> now actually holds a reference to the <code>clocked</code> function.  From now on,
+each time <code>factorial(n)</code> is called, <code>clocked(n)</code> gets executed.  In essence, <code>clocked</code>
+does the following:</p>
+<ol>
+<li>records the initial time <code>t0</code>;</li>
+<li>calls the original <code>factorial</code> function, saving the result;</li>
+<li>computes the elapsed time;</li>
+<li>formats and displays the collected data;</li>
+<li>returns the result saved in step 2.</li>
+</ol>
+<p>This is the typical behavior of a decorator: it replaces the decorated function with
+a new function that accepts the same arguments and (usually) returns whatever the
+decorated function was supposed to return, while also doing some extra processing.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>In <em>Design Patterns</em> by Gamma et al., the short description of the Decorator
+pattern starts with: “Attach additional responsibilities to an object
+dynamically.”  Function decorators fit that description.  But at the
+implementation level, Python decorators bear little resemblance to the classic
+Decorator described there.  In the pattern, an instance of a concrete decorator
+wraps an instance of a concrete component, conforming to its interface so that its
+presence is transparent to clients.  In Python, the decorator function plays the
+role of a concrete Decorator subclass, and the inner function it returns is a
+decorator instance: it wraps the decorated function (the component), accepts the
+same arguments, forwards calls, and may do extra work before or after.
+Transparency lets you stack decorators.  But in general, the Decorator pattern
+itself is best implemented with classes.</p>
+</blockquote>
+<p>The <code>clock</code> decorator has a few shortcomings: it does not support keyword arguments,
+and it masks the <code>__name__</code> and <code>__doc__</code> of the decorated function.  This version
+uses the <a href="https://docs.python.org/3/library/functools.html#functools.wraps"><code>functools.wraps</code></a>
+decorator to copy the relevant attributes from <code>func</code> to <code>clocked</code>, and handles
+keyword arguments correctly:</p>
+<pre><code class="language-python">import time
+import functools
+
+def clock(func):
+    @functools.wraps(func)
+    def clocked(*args, **kwargs):
+        t0 = time.perf_counter()
+        result = func(*args, **kwargs)
+        elapsed = time.perf_counter() - t0
+        name = func.__name__
+        arg_lst = [repr(arg) for arg in args]
+        arg_lst.extend(f'{k}={v!r}' for k, v in kwargs.items())
+        arg_str = ', '.join(arg_lst)
+        print(f'[{elapsed:0.8f}s] {name}({arg_str}) -&gt; {result!r}')
+        return result
+    return clocked
+
+@clock
+def factorial(n):
+    """returns n!"""
+    return 1 if n &lt; 2 else n*factorial(n-1)
+
+factorial.__name__, factorial.__doc__
+# ('factorial', 'returns n!')
+</code></pre>
+<p><code>functools.wraps</code> also sets a <code>__wrapped__</code> attribute on the wrapper, referring to the
+original function, which tools like <code>inspect.signature()</code> use to report the right
+signature.  It is just one of the ready-to-use decorators in the standard library.</p>
+<h2 id="decorators-in-the-standard-library"><a class="header" href="#decorators-in-the-standard-library">Decorators in the Standard Library</a></h2>
+<p>Python has three built-in functions that are designed to decorate methods:
+<code>property</code>, <code>classmethod</code> and <code>staticmethod</code>.  <code>property</code> is covered in
+<a href="dynamic-attributes.html#using-a-property-for-attribute-validation">Using a Property for Attribute Validation</a>,
+and the others in <a href="pythonic-object.html#classmethod-versus-staticmethod"><code>classmethod</code> Versus <code>staticmethod</code></a>.</p>
+<p>You just saw another important decorator: <code>functools.wraps</code>, a helper for building
+well-behaved decorators.  Some of the most interesting decorators in the standard
+library are <code>cache</code>, <code>lru_cache</code> and <code>singledispatch</code>, all from the <code>functools</code>
+module.</p>
+<h3 id="memoization-with-functoolscache"><a class="header" href="#memoization-with-functoolscache">Memoization with <code>functools.cache</code></a></h3>
+<p>The <a href="https://docs.python.org/3/library/functools.html#functools.cache"><code>functools.cache</code></a>
+decorator implements <em>memoization</em>: an optimization technique that works by saving
+the results of previous invocations of an expensive function, avoiding repeat
+computations on previously used arguments.  (That’s not a typo: memoization is a
+computer science term vaguely related to “memorization”, but not the same.)</p>
+<p>A good demonstration is to apply <code>@cache</code> to the painfully slow recursive function
+that generates the <em>n</em>th number in the Fibonacci sequence:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from clockdeco import clock
+
+@clock
+def fibonacci(n):
+    if n &lt; 2:
+        return n
+    return fibonacci(n - 2) + fibonacci(n - 1)
+
+if __name__ == '__main__':
+    print(fibonacci(6))
+</code></pre>
+<p>Here is the result of running it.  Except for the last line, all output is generated
+by the <code>clock</code> decorator:</p>
+<pre><code class="language-console">$ python3 fibo_demo.py
+[0.00000042s] fibonacci(0) -&gt; 0
+[0.00000049s] fibonacci(1) -&gt; 1
+[0.00006115s] fibonacci(2) -&gt; 1
+[0.00000031s] fibonacci(1) -&gt; 1
+[0.00000035s] fibonacci(0) -&gt; 0
+[0.00000030s] fibonacci(1) -&gt; 1
+[0.00001084s] fibonacci(2) -&gt; 1
+[0.00002074s] fibonacci(3) -&gt; 2
+[0.00009189s] fibonacci(4) -&gt; 3
+[0.00000029s] fibonacci(1) -&gt; 1
+[0.00000027s] fibonacci(0) -&gt; 0
+[0.00000029s] fibonacci(1) -&gt; 1
+[0.00000959s] fibonacci(2) -&gt; 1
+[0.00001905s] fibonacci(3) -&gt; 2
+[0.00000026s] fibonacci(0) -&gt; 0
+[0.00000029s] fibonacci(1) -&gt; 1
+[0.00000997s] fibonacci(2) -&gt; 1
+[0.00000028s] fibonacci(1) -&gt; 1
+[0.00000030s] fibonacci(0) -&gt; 0
+[0.00000031s] fibonacci(1) -&gt; 1
+[0.00001019s] fibonacci(2) -&gt; 1
+[0.00001967s] fibonacci(3) -&gt; 2
+[0.00003876s] fibonacci(4) -&gt; 3
+[0.00006670s] fibonacci(5) -&gt; 5
+[0.00016852s] fibonacci(6) -&gt; 8
+8
+</code></pre>
+<p>The waste is obvious: <code>fibonacci(1)</code> is called eight times, <code>fibonacci(2)</code> five
+times, etc.  But adding just two lines to use <code>cache</code>, performance is much improved:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import functools
+
+from clockdeco import clock
+
+@functools.cache
+@clock
+def fibonacci(n):
+    if n &lt; 2:
+        return n
+    return fibonacci(n - 2) + fibonacci(n - 1)
+
+if __name__ == '__main__':
+    print(fibonacci(6))
+</code></pre>
+<p>This is an example of <em>stacked decorators</em>: <code>@cache</code> is applied to the function
+returned by <code>@clock</code>.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>To make sense of stacked decorators, recall that the <code>@</code> is syntax sugar for
+applying the decorator function to the function below it.  If there’s more than
+one decorator, they behave like nested function calls.  This:</p>
+<pre><code class="language-python">@alpha
+@beta
+def my_fn():
+    ...
+</code></pre>
+<p>is the same as this:</p>
+<pre><code class="language-python">my_fn = alpha(beta(my_fn))
+</code></pre>
+<p>In other words, the <code>beta</code> decorator is applied first, and the function it returns
+is then passed to <code>alpha</code>.</p>
+</blockquote>
+<p>Using <code>cache</code>, the <code>fibonacci</code> function is called only once for each value of <code>n</code>:</p>
+<pre><code class="language-console">$ python3 fibo_demo_lru.py
+[0.00000043s] fibonacci(0) -&gt; 0
+[0.00000054s] fibonacci(1) -&gt; 1
+[0.00006179s] fibonacci(2) -&gt; 1
+[0.00000070s] fibonacci(3) -&gt; 2
+[0.00007366s] fibonacci(4) -&gt; 3
+[0.00000057s] fibonacci(5) -&gt; 5
+[0.00008479s] fibonacci(6) -&gt; 8
+8
+</code></pre>
+<p>In another test, to compute <code>fibonacci(30)</code>, the cached version made the 31 calls
+needed in a fraction of a millisecond, while the uncached version took many seconds,
+because it called <code>fibonacci(1)</code> 832,040 times, in a total of 2,692,537 calls.</p>
+<p>All the arguments taken by the decorated function must be hashable, because the
+underlying cache uses a <code>dict</code> to store the results, and the keys are made from the
+positional and keyword arguments used in the calls.  Besides making silly recursive
+algorithms viable, <code>@cache</code> really shines in applications that need to fetch
+information from remote APIs.</p>
+<pre><code class="language-python">import functools
+
+@functools.cache
+def fibonacci(n):
+    if n &lt; 2:
+        return n
+    return fibonacci(n - 2) + fibonacci(n - 1)
+
+fibonacci(100)
+# 354224848179261915075
+fibonacci.cache_info()
+# CacheInfo(hits=98, misses=101, maxsize=None, currsize=101)
+</code></pre>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p><code>functools.cache</code> can consume all available memory if there is a very large number
+of cache entries.  It is more suitable for short-lived command-line scripts.  In
+long-running processes, use <code>functools.lru_cache</code> with a suitable <code>maxsize</code>
+parameter, as explained next.</p>
+</blockquote>
+<h3 id="using-lru_cache"><a class="header" href="#using-lru_cache">Using <code>lru_cache</code></a></h3>
+<p>The <code>functools.cache</code> decorator is actually a simple wrapper around the older
+<a href="https://docs.python.org/3/library/functools.html#functools.lru_cache"><code>functools.lru_cache</code></a>
+function, which is more flexible.  The main advantage of <code>@lru_cache</code> is that its
+memory usage is bounded by the <code>maxsize</code> parameter, which has a rather conservative
+default value of 128, meaning the cache holds at most 128 entries at any time.  The
+acronym LRU stands for <em>Least Recently Used</em>: older entries that have not been read
+for a while are discarded to make room for new ones.</p>
+<p><code>lru_cache</code> can be applied in two ways.  The simplest:</p>
+<!-- nocheck -->
+<pre><code class="language-python">@lru_cache
+def costly_function(a, b):
+    ...
+</code></pre>
+<p>The other way is to invoke it as a function, with <code>()</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">@lru_cache()
+def costly_function(a, b):
+    ...
+</code></pre>
+<p>In both cases, the default parameters are used.  These are:</p>
+<dl>
+<dt id="maxsize128"><a class="header" href="#maxsize128"><code>maxsize=128</code></a></dt>
+<dd>Sets the maximum number of entries to be stored.  After the cache is full, the
+least recently used entry is discarded to make room for each new entry.  For
+optimal performance, <code>maxsize</code> should be a power of 2.  If you pass
+<code>maxsize=None</code>, the LRU logic is disabled, so the cache works faster but entries
+are never discarded, which may consume too much memory.  That’s what
+<code>@functools.cache</code> does.</dd>
+<dt id="typedfalse"><a class="header" href="#typedfalse"><code>typed=False</code></a></dt>
+<dd>Determines whether the results of different argument types are stored
+separately.  For example, in the default setting, <code>float</code> and integer arguments
+that are considered equal are stored only once, so there would be a single entry
+for the calls <code>f(1)</code> and <code>f(1.0)</code>.  If <code>typed=True</code>, those arguments would produce
+different entries, possibly storing distinct results.</dd>
+</dl>
+<p>Here is <code>@lru_cache</code> with nondefault parameters:</p>
+<!-- nocheck -->
+<pre><code class="language-python">@lru_cache(maxsize=2**20, typed=True)
+def costly_function(a, b):
+    ...
+</code></pre>
+<p>A related decorator, <a href="https://docs.python.org/3/library/functools.html#functools.cached_property"><code>functools.cached_property</code></a>,
+caches the result of a method on the instance; it is discussed in
+<a href="dynamic-attributes.html#step-5-caching-properties-with-functools">Dynamic Attributes and Properties</a>.</p>
+<h3 id="single-dispatch-generic-functions"><a class="header" href="#single-dispatch-generic-functions">Single Dispatch Generic Functions</a></h3>
+<p>Imagine we are creating a tool to debug web applications.  We want to generate HTML
+displays for different types of Python objects.  We could start with a function like
+this:</p>
+<pre><code class="language-python">import html
+
+def htmlize(obj):
+    content = html.escape(repr(obj))
+    return f'&lt;pre&gt;{content}&lt;/pre&gt;'
+</code></pre>
+<p>That will work for any Python type, but now we want to extend it to generate custom
+displays for some types:</p>
+<dl>
+<dt id="str"><a class="header" href="#str"><code>str</code></a></dt>
+<dd>replace embedded newline characters with <code>'&lt;br/&gt;\n'</code> and use <code>&lt;p&gt;</code> tags instead
+of <code>&lt;pre&gt;</code>.</dd>
+<dt id="int"><a class="header" href="#int"><code>int</code></a></dt>
+<dd>show the number in decimal and hexadecimal (with a special case for <code>bool</code>).</dd>
+<dt id="list"><a class="header" href="#list"><code>list</code></a></dt>
+<dd>output an HTML list, formatting each item according to its type.</dd>
+<dt id="float-and-decimal"><a class="header" href="#float-and-decimal"><code>float</code> and <code>Decimal</code></a></dt>
+<dd>output the value as usual, but also in the form of a fraction (why not?).</dd>
+</dl>
+<p>The behavior we want is this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">htmlize({1, 2, 3})
+# '&lt;pre&gt;{1, 2, 3}&lt;/pre&gt;'
+htmlize(abs)
+# '&lt;pre&gt;&amp;lt;built-in function abs&amp;gt;&lt;/pre&gt;'
+htmlize('Heimlich &amp; Co.\n- a game')
+# '&lt;p&gt;Heimlich &amp;amp; Co.&lt;br/&gt;\n- a game&lt;/p&gt;'
+htmlize(42)
+# '&lt;pre&gt;42 (0x2a)&lt;/pre&gt;'
+print(htmlize(['alpha', 66, {3, 2, 1}]))
+# &lt;ul&gt;
+# &lt;li&gt;&lt;p&gt;alpha&lt;/p&gt;&lt;/li&gt;
+# &lt;li&gt;&lt;pre&gt;66 (0x42)&lt;/pre&gt;&lt;/li&gt;
+# &lt;li&gt;&lt;pre&gt;{1, 2, 3}&lt;/pre&gt;&lt;/li&gt;
+# &lt;/ul&gt;
+htmlize(True)
+# '&lt;pre&gt;True&lt;/pre&gt;'
+htmlize(fractions.Fraction(2, 3))
+# '&lt;pre&gt;2/3&lt;/pre&gt;'
+htmlize(2/3)
+# '&lt;pre&gt;0.6666666666666666 (2/3)&lt;/pre&gt;'
+htmlize(decimal.Decimal('0.02380952'))
+# '&lt;pre&gt;0.02380952 (1/42)&lt;/pre&gt;'
+</code></pre>
+<p>The original function handles arguments of any type that doesn’t match the other
+implementations.  <code>str</code> objects are also HTML-escaped but wrapped in <code>&lt;p&gt;&lt;/p&gt;</code>, with
+<code>&lt;br/&gt;</code> line breaks inserted before each <code>'\n'</code>.  An <code>int</code> is shown in decimal and
+hexadecimal, inside <code>&lt;pre&gt;&lt;/pre&gt;</code>.  Each list item is formatted according to its type,
+and the whole sequence is rendered as an HTML list.  Although <code>bool</code> is an <code>int</code>
+subtype, it gets special treatment.  A <code>Fraction</code> is shown as a fraction, and <code>float</code>
+and <code>Decimal</code> with an approximate fractional equivalent.</p>
+<h4 id="function-singledispatch"><a class="header" href="#function-singledispatch">Function <code>singledispatch</code></a></h4>
+<p>Because we don’t have Java-style method overloading in Python, we can’t simply create
+variations of <code>htmlize</code> with different signatures for each data type we want to
+handle differently.  A possible solution in Python would be to turn <code>htmlize</code> into a
+dispatch function, with a chain of <code>if/elif/...</code> or <code>match/case/...</code> calling
+specialized functions like <code>htmlize_str</code>, <code>htmlize_int</code>, etc.  This is not extensible
+by users of our module, and is unwieldy: over time, the <code>htmlize</code> dispatcher would
+become too big, and the coupling between it and the specialized functions would be
+very tight.</p>
+<p>The <a href="https://docs.python.org/3/library/functools.html#functools.singledispatch"><code>functools.singledispatch</code></a>
+decorator allows different modules to contribute to the overall solution, and lets
+you easily provide specialized functions even for types that belong to third-party
+packages that you can’t edit.  If you decorate a plain function with
+<code>@singledispatch</code>, it becomes the entry point for a <em>generic function</em>: a group of
+functions to perform the same operation in different ways, depending on the type of
+the first argument.  This is what is meant by the term <em>single dispatch</em>.  If more
+arguments were used to select the specific functions, we’d have <em>multiple dispatch</em>.
+Here is how:</p>
+<pre><code class="language-python">from functools import singledispatch
+from collections import abc
+import fractions
+import decimal
+import html
+import numbers
+
+@singledispatch
+def htmlize(obj: object) -&gt; str:
+    content = html.escape(repr(obj))
+    return f'&lt;pre&gt;{content}&lt;/pre&gt;'
+
+@htmlize.register
+def _(text: str) -&gt; str:
+    content = html.escape(text).replace('\n', '&lt;br/&gt;\n')
+    return f'&lt;p&gt;{content}&lt;/p&gt;'
+
+@htmlize.register
+def _(seq: abc.Sequence) -&gt; str:
+    inner = '&lt;/li&gt;\n&lt;li&gt;'.join(htmlize(item) for item in seq)
+    return '&lt;ul&gt;\n&lt;li&gt;' + inner + '&lt;/li&gt;\n&lt;/ul&gt;'
+
+@htmlize.register
+def _(n: numbers.Integral) -&gt; str:
+    return f'&lt;pre&gt;{n} (0x{n:x})&lt;/pre&gt;'
+
+@htmlize.register
+def _(n: bool) -&gt; str:
+    return f'&lt;pre&gt;{n}&lt;/pre&gt;'
+
+@htmlize.register(fractions.Fraction)
+def _(x) -&gt; str:
+    frac = fractions.Fraction(x)
+    return f'&lt;pre&gt;{frac.numerator}/{frac.denominator}&lt;/pre&gt;'
+
+@htmlize.register(decimal.Decimal)
+@htmlize.register(float)
+def _(x) -&gt; str:
+    frac = fractions.Fraction(x).limit_denominator()
+    return f'&lt;pre&gt;{x} ({frac.numerator}/{frac.denominator})&lt;/pre&gt;'
+
+htmlize(42), htmlize(True), htmlize(2/3)
+# ('&lt;pre&gt;42 (0x2a)&lt;/pre&gt;', '&lt;pre&gt;True&lt;/pre&gt;', '&lt;pre&gt;0.6666666666666666 (2/3)&lt;/pre&gt;')
+</code></pre>
+<p>Some things to note:</p>
+<ul>
+<li><code>@singledispatch</code> marks the base function that handles the <code>object</code> type.</li>
+<li>Each specialized function is decorated with <code>@«base».register</code>.</li>
+<li>The type of the first argument given at runtime determines when a particular
+function definition will be used.  The name of the specialized functions is
+irrelevant; <code>_</code> is a good choice to make this clear.</li>
+<li>For each additional type to get special treatment, register a new function with a
+matching type hint in the first parameter.</li>
+<li>The <code>numbers</code> ABCs are useful with <code>singledispatch</code>.</li>
+<li><code>bool</code> is a subtype-of <code>numbers.Integral</code>, but the <code>singledispatch</code> logic seeks the
+implementation with the most specific matching type, regardless of the order in
+which they appear in the code.</li>
+<li>If you don’t want to, or cannot, add type hints to the decorated function, you can
+pass a type to the <code>@«base».register</code> decorator.</li>
+<li>The <code>@«base».register</code> decorator returns the undecorated function, so it’s
+possible to stack them to register two or more types on the same implementation.
+(Since Python 3.11 you can also register a union type, as in
+<code>def _(x: float | decimal.Decimal)</code>.)</li>
+</ul>
+<p>When possible, register the specialized functions to handle ABCs such as
+<code>numbers.Integral</code> and <code>abc.MutableSequence</code>, instead of concrete implementations like
+<code>int</code> and <code>list</code>.  This allows your code to support a greater variety of compatible
+types.  For example, a Python extension can provide alternatives to the <code>int</code> type
+with fixed bit lengths as subclasses of <code>numbers.Integral</code> (NumPy does this).</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Using ABCs or <code>typing.Protocol</code> with <code>@singledispatch</code> allows your code to support
+existing or future classes that are actual or virtual subclasses of those ABCs, or
+that implement those protocols.  ABCs and virtual subclasses are the subject of
+<a href="protocols-abcs.html">Interfaces, Protocols, and ABCs</a>.</p>
+</blockquote>
+<p>A notable quality of the <code>singledispatch</code> mechanism is that you can register
+specialized functions anywhere in the system, in any module.  If you later add a
+module with a new user-defined type, you can easily provide a new custom function to
+handle that type.  And you can write custom functions for classes that you did not
+write and can’t change.  <a href="https://peps.python.org/pep-0443/"><strong>PEP 443</strong></a> is a good
+reference, though it doesn’t mention type hints, which were added later; the
+<code>functools</code> documentation has up-to-date coverage.  For methods, use
+<a href="https://docs.python.org/3/library/functools.html#functools.singledispatchmethod"><code>functools.singledispatchmethod</code></a>,
+which dispatches on the type of the first argument after <code>self</code>.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p><code>@singledispatch</code> is not designed to bring Java-style method overloading to Python.
+A single class with many overloaded variations of a method is better than a single
+function with a lengthy stretch of <code>if/elif/elif/elif</code> blocks.  But both solutions
+are flawed, because they concentrate too much responsibility in a single code unit,
+the class or the function.  The advantage of <code>@singledispatch</code> is supporting modular
+extension: each module can register a specialized function for each type it
+supports.  In a realistic use case, you would not have all the implementations of a
+generic function in the same module.</p>
+</blockquote>
+<p>We’ve seen some decorators that take arguments, for example <code>@lru_cache()</code> and
+<code>htmlize.register(float)</code>.  The next section shows how to build decorators that
+accept parameters.</p>
+<h2 id="parameterized-decorators"><a class="header" href="#parameterized-decorators">Parameterized Decorators</a></h2>
+<p>When parsing a decorator in source code, Python takes the decorated function and
+passes it as the first argument to the decorator function.  So how do you make a
+decorator accept other arguments?  The answer is: make a <em>decorator factory</em> that
+takes those arguments and returns a decorator, which is then applied to the function
+to be decorated.  Confusing?  Sure.  Let’s start with an example based on the
+simplest decorator we’ve seen, <code>register</code>:</p>
+<pre><code class="language-python">registry = []
+
+def register(func):
+    print(f'running register({func})')
+    registry.append(func)
+    return func
+
+@register
+def f1():
+    print('running f1()')
+
+print('running main()')
+print('registry -&gt;', registry)
+f1()
+</code></pre>
+<h3 id="a-parameterized-registration-decorator"><a class="header" href="#a-parameterized-registration-decorator">A Parameterized Registration Decorator</a></h3>
+<p>To make it easy to enable or disable the registration performed by <code>register</code>, we’ll
+make it accept an optional <code>active</code> parameter which, if <code>False</code>, skips registering
+the decorated function.  Conceptually, the new <code>register</code> function is not a decorator
+but a decorator factory.  When called, it returns the actual decorator that will be
+applied to the target function:</p>
+<pre><code class="language-python">registry = set()
+
+def register(active=True):
+    def decorate(func):
+        print('running register'
+              f'(active={active})-&gt;decorate({func})')
+        if active:
+            registry.add(func)
+        else:
+            registry.discard(func)
+
+        return func
+    return decorate
+
+@register(active=False)
+def f1():
+    print('running f1()')
+
+@register()
+def f2():
+    print('running f2()')
+
+def f3():
+    print('running f3()')
+</code></pre>
+<p><code>registry</code> is now a <code>set</code>, so adding and removing functions is faster.  <code>register</code>
+takes an optional keyword argument.  The <code>decorate</code> inner function is the actual
+decorator; note how it takes a function as an argument.  It registers <code>func</code> only if
+the <code>active</code> argument (retrieved from the closure) is <code>True</code>; if not active and
+<code>func in registry</code>, it removes it.  Because <code>decorate</code> is a decorator, it must return
+a function, and <code>register</code>, our decorator factory, returns <code>decorate</code>.</p>
+<p>The <code>@register</code> factory must be invoked as a function, with the desired parameters.
+If no parameters are passed, <code>register</code> must still be called as a function,
+<code>@register()</code>, to return the actual decorator, <code>decorate</code>.  The main point is that
+<code>register()</code> returns <code>decorate</code>, which is then applied to the decorated function.</p>
+<p>If that code is in a <code>registration_param.py</code> module and we import it, this is what we
+get:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import registration_param
+# running register(active=False)-&gt;decorate(&lt;function f1 at 0x10063c1e0&gt;)
+# running register(active=True)-&gt;decorate(&lt;function f2 at 0x10063c268&gt;)
+registration_param.registry
+# {&lt;function f2 at 0x10063c268&gt;}
+</code></pre>
+<p>Only the <code>f2</code> function appears in the registry; <code>f1</code> does not appear because
+<code>active=False</code> was passed to the <code>register</code> decorator factory, so the <code>decorate</code>
+applied to <code>f1</code> did not add it to the registry.</p>
+<p>If, instead of using the <code>@</code> syntax, we used <code>register</code> as a regular function, the
+syntax needed to decorate a function <code>f</code> would be <code>register()(f)</code> to add <code>f</code> to the
+registry, or <code>register(active=False)(f)</code> to not add it (or remove it):</p>
+<!-- nocheck -->
+<pre><code class="language-python">from registration_param import *
+# running register(active=False)-&gt;decorate(&lt;function f1 at 0x10073c1e0&gt;)
+# running register(active=True)-&gt;decorate(&lt;function f2 at 0x10073c268&gt;)
+registry  # when the module is imported, f2 is in the registry
+# {&lt;function f2 at 0x10073c268&gt;}
+register()(f3)  # register() returns decorate, which is then applied to f3
+# running register(active=True)-&gt;decorate(&lt;function f3 at 0x10073c158&gt;)
+# &lt;function f3 at 0x10073c158&gt;
+registry  # the previous line added f3 to the registry
+# {&lt;function f3 at 0x10073c158&gt;, &lt;function f2 at 0x10073c268&gt;}
+register(active=False)(f2)  # this call removes f2 from the registry
+# running register(active=False)-&gt;decorate(&lt;function f2 at 0x10073c268&gt;)
+# &lt;function f2 at 0x10073c268&gt;
+registry  # only f3 remains
+# {&lt;function f3 at 0x10073c158&gt;}
+</code></pre>
+<p>The workings of parameterized decorators are fairly involved, and the one we’ve just
+discussed is simpler than most.  Parameterized decorators usually replace the
+decorated function, and their construction requires yet another level of nesting.</p>
+<h3 id="the-parameterized-clock-decorator"><a class="header" href="#the-parameterized-clock-decorator">The Parameterized Clock Decorator</a></h3>
+<p>Let’s revisit the <code>clock</code> decorator, adding a feature: users may pass a format string
+to control the output of the clocked function report.  (For simplicity, this is based
+on the initial <code>clock</code> implementation, not the improved one that uses
+<code>@functools.wraps</code>, which would add yet another function layer.)</p>
+<pre><code class="language-python">import time
+
+DEFAULT_FMT = '[{elapsed:0.8f}s] {name}({args}) -&gt; {result}'
+
+def clock(fmt=DEFAULT_FMT):
+    def decorate(func):
+        def clocked(*_args):
+            t0 = time.perf_counter()
+            _result = func(*_args)
+            elapsed = time.perf_counter() - t0
+            name = func.__name__
+            args = ', '.join(repr(arg) for arg in _args)
+            result = repr(_result)
+            print(fmt.format(**locals()))
+            return _result
+        return clocked
+    return decorate
+
+if __name__ == '__main__':
+
+    @clock()
+    def snooze(seconds):
+        time.sleep(seconds)
+
+    for i in range(3):
+        snooze(.123)
+</code></pre>
+<p><code>clock</code> is our parameterized decorator factory, <code>decorate</code> is the actual decorator,
+and <code>clocked</code> wraps the decorated function.  <code>_result</code> is the actual result of the
+decorated function, and <code>_args</code> holds the actual arguments of <code>clocked</code>, while <code>args</code>
+is the <code>str</code> used for display and <code>result</code> is the <code>str</code> representation of <code>_result</code>,
+also for display.  Using <code>**locals()</code> lets any local variable of <code>clocked</code> be
+referenced in <code>fmt</code>.  (Linters may complain about unused variables, since they tend to
+ignore uses of <code>locals()</code>; you could spell out each variable instead, as in
+<code>fmt.format(elapsed=elapsed, name=name, args=args, result=result)</code>.)  <code>clocked</code>
+replaces the decorated function, so it returns whatever that function returns;
+<code>decorate</code> returns <code>clocked</code>, and <code>clock</code> returns <code>decorate</code>.  In the self test,
+<code>clock()</code> is called without arguments, so the decorator applied uses the default
+format.  If you run the module from the shell, this is what you get:</p>
+<pre><code class="language-console">$ python3 clockdeco_param.py
+[0.12412500s] snooze(0.123) -&gt; None
+[0.12411904s] snooze(0.123) -&gt; None
+[0.12410498s] snooze(0.123) -&gt; None
+</code></pre>
+<p>To exercise the new functionality, here are two other modules using
+<code>clockdeco_param</code>, and the outputs they generate:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import time
+from clockdeco_param import clock
+
+@clock('{name}: {elapsed}s')
+def snooze(seconds):
+    time.sleep(seconds)
+
+for i in range(3):
+    snooze(.123)
+</code></pre>
+<pre><code class="language-console">$ python3 clockdeco_param_demo1.py
+snooze: 0.12414693832397461s
+snooze: 0.1241159439086914s
+snooze: 0.12412118911743164s
+</code></pre>
+<!-- nocheck -->
+<pre><code class="language-python">import time
+from clockdeco_param import clock
+
+@clock('{name}({args}) dt={elapsed:0.3f}s')
+def snooze(seconds):
+    time.sleep(seconds)
+
+for i in range(3):
+    snooze(.123)
+</code></pre>
+<pre><code class="language-console">$ python3 clockdeco_param_demo2.py
+snooze(0.123) dt=0.124s
+snooze(0.123) dt=0.124s
+snooze(0.123) dt=0.124s
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Many experienced Pythonistas argue that nontrivial decorators are best coded as
+classes implementing <code>__call__()</code>, rather than as nested functions.  Functions are
+easier for explaining the basic idea, but for industrial-strength techniques when
+building decorators see Graham Dumpleton’s blog posts and his
+<a href="https://pypi.org/project/wrapt/">wrapt</a> package.</p>
+</blockquote>
+<h3 id="a-class-based-clock-decorator"><a class="header" href="#a-class-based-clock-decorator">A Class-Based Clock Decorator</a></h3>
+<p>As a final example, here is a parameterized clock decorator implemented as a class
+with <code>__call__()</code>.  Contrast it with the function-based version.  Which one do you
+prefer?</p>
+<pre><code class="language-python">import time
+
+DEFAULT_FMT = '[{elapsed:0.8f}s] {name}({args}) -&gt; {result}'
+
+class clock:
+
+    def __init__(self, fmt=DEFAULT_FMT):
+        self.fmt = fmt
+
+    def __call__(self, func):
+        def clocked(*_args):
+            t0 = time.perf_counter()
+            _result = func(*_args)
+            elapsed = time.perf_counter() - t0
+            name = func.__name__
+            args = ', '.join(repr(arg) for arg in _args)
+            result = repr(_result)
+            print(self.fmt.format(**locals()))
+            return _result
+        return clocked
+
+@clock('{name}({args}) -&gt; {result}')
+def add(a, b):
+    return a + b
+
+add(2, 3)
+# add(2, 3) -&gt; 5
+# 5
+</code></pre>
+<p>Instead of a <code>clock</code> outer function, the <code>clock</code> class is our parameterized
+decorator factory.  It is named with a lowercase <code>c</code> to make clear that this
+implementation is a drop-in replacement for the function-based one.  The argument
+passed in <code>clock(my_format)</code> is assigned to the <code>fmt</code> parameter; the class constructor
+returns an instance of <code>clock</code>, with <code>my_format</code> stored in <code>self.fmt</code>.  <code>__call__()</code>
+makes the <code>clock</code> instance callable: when invoked, the instance replaces the decorated
+function with <code>clocked</code>, which wraps the decorated function.</p>
+<p>That ends our exploration of function decorators.  Class decorators are covered in
+<a href="class-metaprogramming.html">Class Metaprogramming</a>.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>We covered some difficult terrain in this chapter, and definitely entered the realm of
+metaprogramming.  We started with a simple <code>@register</code> decorator without an inner
+function, and finished with a parameterized <code>@clock()</code> involving two levels of nested
+functions.</p>
+<p>Registration decorators, though simple in essence, have real applications in Python
+frameworks.  We will apply the registration idea in one implementation of the
+Strategy design pattern in <a href="function-patterns.html">Design Patterns with First-Class Functions</a>.</p>
+<p>Understanding how decorators actually work required covering the difference between
+import time and runtime, then diving into variable scoping, closures, and the
+<code>nonlocal</code> declaration.  Mastering closures and <code>nonlocal</code> is valuable not only to
+build decorators, but also to write event-oriented programs for GUIs or asynchronous
+I/O with callbacks, and to adopt a functional style when it makes sense.</p>
+<p>Parameterized decorators almost always involve at least two nested functions, maybe
+more if you want to use <code>@functools.wraps</code> to produce a decorator that provides better
+support for more advanced techniques, such as stacked decorators.  For more
+sophisticated decorators, a class-based implementation may be easier to read and
+maintain.  As examples of decorators in the standard library, we visited the powerful
+<code>@cache</code>, <code>@lru_cache</code> and <code>@singledispatch</code> from the <code>functools</code> module.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Why do closures matter so much?  The designer of any language with first-class
+functions faces this issue: a function is defined in one scope but may be invoked
+in others, so how should its free variables be evaluated?  The simplest answer is
+<em>dynamic scope</em>: look up free variables in the environment where the function is
+<em>invoked</em>.  But then, to use a function with free variables, you’d have to know its
+internals and set up the right environment, and an unrelated assignment like
+<code>series = [1]</code> could silently break <code>avg</code>.  Most modern languages use <em>lexical
+scope</em> instead: free variables are evaluated in the environment where the function
+is <em>defined</em>.  Lexical scope makes source code easier to read, but it requires
+closures.  Lisp started with dynamic scope (Emacs Lisp still uses it by default);
+Scheme, in 1975, popularized lexical scope.  Python lambdas did not provide closures
+until Python 2.2.</p>
+</blockquote>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li>Graham Dumpleton’s blog series starting with “How you implemented your Python
+decorator is wrong” explains techniques for well-behaved decorators that support
+introspection and behave correctly when applied to methods and when used as
+descriptors.</li>
+<li>Chapter 9, “Metaprogramming”, of the <em>Python Cookbook</em>, 3rd ed., by David Beazley
+and Brian K. Jones, has several recipes, from elementary decorators to a decorator
+that can be used with or without arguments, like <code>@clock</code> or <code>@clock()</code>.</li>
+<li><a href="https://peps.python.org/pep-3104/"><strong>PEP 3104</strong></a> describes the introduction of
+<code>nonlocal</code> and compares how other dynamic languages solve the same problem.
+<a href="https://peps.python.org/pep-0227/"><strong>PEP 227</strong></a> documents the introduction of
+lexical scoping in Python 2.1 and 2.2.</li>
+<li>Item 26 of Brett Slatkin’s <em>Effective Python</em>, 2nd ed., recommends always using
+<code>functools.wraps</code> when defining function decorators.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="type-hints-functions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="function-patterns.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="type-hints-functions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="function-patterns.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,706 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>An Informal Introduction to Python - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <p><a id="tut-informal"></a></p>
+<h1 id="an-informal-introduction-to-python"><a class="header" href="#an-informal-introduction-to-python">An Informal Introduction to Python</a></h1>
+<p>In the following examples, the code you type is shown just as you would write it
+in a file or at the interactive prompt, and the output the interpreter prints in
+response is shown as a comment right after it: either at the end of the same
+line, as in <code>2 + 2  # 4</code>, or on the lines below, each one starting with <code>#</code>.
+Because output is written as comments, every example can be copied and pasted
+into the interpreter (or into a script) as is.  When you type the examples at the
+interactive prompt yourself, you will of course see the familiar
+<a href="https://docs.python.org/3/glossary.html#term-0">&gt;&gt;&gt;</a> and
+<a href="https://docs.python.org/3/glossary.html#term-...">…</a> prompts, and you will need
+to type a blank line to end a multi-line command such as a <code>for</code> loop.</p>
+<p>Many of the examples in this manual, even those entered at the interactive
+prompt, include comments.  Comments in Python start with the hash character,
+<code>#</code>, and extend to the end of the physical line.  A comment may appear at the
+start of a line or following whitespace or code, but not within a string
+literal.  A hash character within a string literal is just a hash character.
+Since comments are to clarify code and are not interpreted by Python, they may
+be omitted when typing in examples.</p>
+<p>Some examples:</p>
+<pre><code class="language-python"># this is the first comment
+spam = 1  # and this is the second comment
+          # ... and now a third!
+text = "# This is not a comment because it's inside quotes."
+</code></pre>
+<p><a id="tut-calculator"></a></p>
+<h2 id="using-python-as-a-calculator"><a class="header" href="#using-python-as-a-calculator">Using Python as a Calculator</a></h2>
+<p>Let’s try some simple Python commands.  Start the interpreter and wait for the
+primary prompt, <code>&gt;&gt;&gt;</code>.  (It shouldn’t take long.)</p>
+<p><a id="tut-numbers"></a></p>
+<h3 id="numbers"><a class="header" href="#numbers">Numbers</a></h3>
+<p>The interpreter acts as a simple calculator: you can type an expression into it
+and it will write the value.  Expression syntax is straightforward: the
+operators <code>+</code>, <code>-</code>, <code>*</code> and <code>/</code> can be used to perform
+arithmetic; parentheses (<code>()</code>) can be used for grouping.
+For example:</p>
+<pre><code class="language-python">2 + 2  # 4
+50 - 5*6  # 20
+(50 - 5*6) / 4  # 5.0
+8 / 5  # division always returns a floating-point number
+# 1.6
+</code></pre>
+<p>The integer numbers (e.g. <code>2</code>, <code>4</code>, <code>20</code>) have type <code>int</code>,
+the ones with a fractional part (e.g. <code>5.0</code>, <code>1.6</code>) have type
+<code>float</code>.  We will see more about numeric types later in the tutorial.</p>
+<p>Division (<code>/</code>) always returns a float.  To do <a href="https://docs.python.org/3/glossary.html#term-floor-division">floor division</a> and
+get an integer result you can use the <code>//</code> operator; to calculate
+the remainder you can use <code>%</code>:</p>
+<pre><code class="language-python">17 / 3  # classic division returns a float
+# 5.666666666666667
+
+17 // 3  # floor division discards the fractional part
+# 5
+17 % 3  # the % operator returns the remainder of the division
+# 2
+5 * 3 + 2  # floored quotient * divisor + remainder
+# 17
+</code></pre>
+<p>With Python, it is possible to use the <code>**</code> operator to calculate powers <sup><a href="#id3">1</a></sup>:</p>
+<pre><code class="language-python">5 ** 2  # 5 squared
+# 25
+2 ** 7  # 2 to the power of 7
+# 128
+</code></pre>
+<p>The equal sign (<code>=</code>) is used to assign a value to a variable. Afterwards, no
+result is displayed before the next interactive prompt:</p>
+<pre><code class="language-python">width = 20
+height = 5 * 9
+width * height
+# 900
+</code></pre>
+<p>If a variable is not “defined” (assigned a value), trying to use it will
+give you an error:</p>
+<pre><code class="language-python">n  # try to access an undefined variable
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# NameError: name 'n' is not defined
+</code></pre>
+<p>There is full support for floating point; operators with mixed type operands
+convert the integer operand to floating point:</p>
+<pre><code class="language-python">4 * 3.75 - 1  # 14.0
+</code></pre>
+<p>In interactive mode, the last printed expression is assigned to the variable
+<code>_</code>.  This means that when you are using Python as a desk calculator, it is
+somewhat easier to continue calculations, for example:</p>
+<pre><code class="language-python">tax = 12.5 / 100
+price = 100.50
+price * tax
+# 12.5625
+price + _  # 113.0625
+round(_, 2)  # 113.06
+</code></pre>
+<p>This variable should be treated as read-only by the user.  Don’t explicitly
+assign a value to it — you would create an independent local variable with the
+same name masking the built-in variable with its magic behavior.</p>
+<p>In addition to <code>int</code> and <code>float</code>, Python supports other types of
+numbers, such as <code>Decimal</code> and <code>Fraction</code>.
+Python also has built-in support for <a href="https://docs.python.org/3/library/stdtypes.html#typesnumeric">complex numbers</a>,
+and uses the <code>j</code> or <code>J</code> suffix to indicate the imaginary part
+(e.g. <code>3+5j</code>).</p>
+<p><a id="tut-strings"></a></p>
+<h3 id="text"><a class="header" href="#text">Text</a></h3>
+<p>Python can manipulate text (represented by type <code>str</code>, so-called
+“strings”) as well as numbers.  This includes characters “<code>!</code>”, words
+“<code>rabbit</code>”, names “<code>Paris</code>”, sentences “<code>Got your back.</code>”, etc.
+“<code>Yay! :)</code>”. They can be enclosed in single quotes (<code>'...'</code>) or double
+quotes (<code>"..."</code>) with the same result <sup><a href="#id4">2</a></sup>.</p>
+<pre><code class="language-python">'spam eggs'  # single quotes
+# 'spam eggs'
+"Paris rabbit got your back :)! Yay!"  # double quotes
+# 'Paris rabbit got your back :)! Yay!'
+'1975'  # digits and numerals enclosed in quotes are also strings
+# '1975'
+</code></pre>
+<p>To quote a quote, we need to “escape” it, by preceding it with <code>\</code>.
+Alternatively, we can use the other type of quotation marks:</p>
+<pre><code class="language-python">'doesn\'t'  # use \' to escape the single quote...
+# "doesn't"
+"doesn't"  # ...or use double quotes instead
+# "doesn't"
+'"Yes," they said.'  # '"Yes," they said.'
+"\"Yes,\" they said."  # '"Yes," they said.'
+'"Isn\'t," they said.'  # '"Isn\'t," they said.'
+</code></pre>
+<p>In the Python shell, the string definition and output string can look
+different.  The <code>print()</code> function produces a more readable output, by
+omitting the enclosing quotes and by printing escaped and special characters:</p>
+<pre><code class="language-python">s = 'First line.\nSecond line.'  # \n means newline
+s  # without print(), special characters are included in the string
+# 'First line.\nSecond line.'
+print(s)  # with print(), special characters are interpreted, so \n produces new line
+# First line.
+# Second line.
+</code></pre>
+<p>If you don’t want characters prefaced by <code>\</code> to be interpreted as
+special characters, you can use <em>raw strings</em> by adding an <code>r</code> before
+the first quote:</p>
+<pre><code class="language-python">print('C:\this\name')  # here \t means tab, \n means newline
+# C:      his
+# ame
+print(r'C:\this\name')  # note the r before the quote
+# C:\this\name
+</code></pre>
+<p>There is one subtle aspect to raw strings: a raw string may not end in
+an odd number of <code>\</code> characters; see
+<a href="https://docs.python.org/3/faq/programming.html#faq-programming-raw-string-backslash">the FAQ entry</a> for more information
+and workarounds.</p>
+<p>String literals can span multiple lines.  One way is using triple-quotes:
+<code>"""..."""</code> or <code>'''...'''</code>.  End-of-line characters are automatically
+included in the string, but it’s possible to prevent this by adding a <code>\</code> at
+the end of the line.  In the following example, the initial newline is not
+included:</p>
+<pre><code class="language-python">print("""\
+Usage: thingy [OPTIONS]
+     -h                        Display this usage message
+     -H hostname               Hostname to connect to
+""")
+# Usage: thingy [OPTIONS]
+#      -h                        Display this usage message
+#      -H hostname               Hostname to connect to
+</code></pre>
+<p>Strings can be concatenated (glued together) with the <code>+</code> operator, and
+repeated with <code>*</code>:</p>
+<pre><code class="language-python"># 3 times 'un', followed by 'ium'
+3 * 'un' + 'ium'
+# 'unununium'
+</code></pre>
+<p>Two or more <em>string literals</em> (i.e. the ones enclosed between quotes) next
+to each other are automatically concatenated.</p>
+<pre><code class="language-python">'Py' 'thon'  # 'Python'
+</code></pre>
+<p>This feature is particularly useful when you want to break long strings:</p>
+<pre><code class="language-python">text = ('Put several strings within parentheses '
+        'to have them joined together.')
+text
+# 'Put several strings within parentheses to have them joined together.'
+</code></pre>
+<p>This only works with two literals though, not with variables or expressions:</p>
+<pre><code class="language-python">prefix = 'Py'
+prefix 'thon'  # can't concatenate a variable and a string literal
+#   File "&lt;stdin&gt;", line 1
+#     prefix 'thon'
+#            ^^^^^^
+# SyntaxError: invalid syntax
+('un' * 3) 'ium'
+#   File "&lt;stdin&gt;", line 1
+#     ('un' * 3) 'ium'
+#                ^^^^^
+# SyntaxError: invalid syntax
+</code></pre>
+<p>If you want to concatenate variables or a variable and a literal, use <code>+</code>:</p>
+<pre><code class="language-python">prefix + 'thon'  # 'Python'
+</code></pre>
+<p>Strings can be <em>indexed</em> (subscripted), with the first character having index 0.
+There is no separate character type; a character is simply a string of size
+one:</p>
+<pre><code class="language-python">word = 'Python'
+word[0]  # character in position 0
+# 'P'
+word[5]  # character in position 5
+# 'n'
+</code></pre>
+<p>Indices may also be negative numbers, to start counting from the right:</p>
+<pre><code class="language-python">word[-1]  # last character
+# 'n'
+word[-2]  # second-last character
+# 'o'
+word[-6]  # 'P'
+</code></pre>
+<p>Note that since -0 is the same as 0, negative indices start from -1.</p>
+<p>In addition to indexing, <em>slicing</em> is also supported.  While indexing is used
+to obtain individual characters, <em>slicing</em> allows you to obtain a substring:</p>
+<pre><code class="language-python">word[0:2]  # characters from position 0 (included) to 2 (excluded)
+# 'Py'
+word[2:5]  # characters from position 2 (included) to 5 (excluded)
+# 'tho'
+</code></pre>
+<p>Slice indices have useful defaults; an omitted first index defaults to zero, an
+omitted second index defaults to the size of the string being sliced.</p>
+<pre><code class="language-python">word[:2]   # character from the beginning to position 2 (excluded)
+# 'Py'
+word[4:]   # characters from position 4 (included) to the end
+# 'on'
+word[-2:]  # characters from the second-last (included) to the end
+# 'on'
+</code></pre>
+<p>Note how the start is always included, and the end always excluded.  This
+makes sure that <code>s[:i] + s[i:]</code> is always equal to <code>s</code>:</p>
+<pre><code class="language-python">word[:2] + word[2:]  # 'Python'
+word[:4] + word[4:]  # 'Python'
+</code></pre>
+<p>One way to remember how slices work is to think of the indices as pointing
+<em>between</em> characters, with the left edge of the first character numbered 0.
+Then the right edge of the last character of a string of <em>n</em> characters has
+index <em>n</em>, for example:</p>
+<pre><code class="language-text"> +---+---+---+---+---+---+
+ | P | y | t | h | o | n |
+ +---+---+---+---+---+---+
+ 0   1   2   3   4   5   6
+-6  -5  -4  -3  -2  -1
+</code></pre>
+<p>The first row of numbers gives the position of the indices 0…6 in the string;
+the second row gives the corresponding negative indices. The slice from <em>i</em> to
+<em>j</em> consists of all characters between the edges labeled <em>i</em> and <em>j</em>,
+respectively.</p>
+<p>For non-negative indices, the length of a slice is the difference of the
+indices, if both are within bounds.  For example, the length of <code>word[1:3]</code> is
+2.</p>
+<p>Attempting to use an index that is too large will result in an error:</p>
+<pre><code class="language-python">word[42]  # the word only has 6 characters
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# IndexError: string index out of range
+</code></pre>
+<p>However, out of range slice indexes are handled gracefully when used for
+slicing:</p>
+<pre><code class="language-python">word[4:42]  # 'on'
+word[42:]  # ''
+</code></pre>
+<p>Python strings cannot be changed — they are <a href="https://docs.python.org/3/glossary.html#term-immutable">immutable</a>.
+Therefore, assigning to an indexed position in the string results in an error:</p>
+<pre><code class="language-python">word[0] = 'J'
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: 'str' object does not support item assignment
+word[2:] = 'py'
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: 'str' object does not support item assignment
+</code></pre>
+<p>If you need a different string, you should create a new one:</p>
+<pre><code class="language-python">'J' + word[1:]  # 'Jython'
+word[:2] + 'py'  # 'Pypy'
+</code></pre>
+<p>The built-in function <code>len()</code> returns the length of a string:</p>
+<pre><code class="language-python">s = 'supercalifragilisticexpialidocious'
+len(s)
+# 34
+</code></pre>
+<blockquote>
+<p><strong>See Also</strong></p>
+<dl>
+<dt id="text-sequence-type--str"><a class="header" href="#text-sequence-type--str"><a href="https://docs.python.org/3/library/stdtypes.html#textseq">Text Sequence Type — str</a></a></dt>
+<dd>Strings are examples of <em>sequence types</em>, and support the common
+operations supported by such types.</dd>
+<dt id="string-methods"><a class="header" href="#string-methods"><a href="https://docs.python.org/3/library/stdtypes.html#string-methods">String Methods</a></a></dt>
+<dd>Strings support a large number of methods for
+basic transformations and searching.</dd>
+<dt id="f-strings"><a class="header" href="#f-strings"><a href="https://docs.python.org/3/reference/lexical_analysis.html#f-strings">f-strings</a></a></dt>
+<dd>String literals that have embedded expressions.</dd>
+<dt id="format-string-syntax"><a class="header" href="#format-string-syntax"><a href="https://docs.python.org/3/library/string.html#formatstrings">Format String Syntax</a></a></dt>
+<dd>Information about string formatting with <code>str.format()</code>.</dd>
+<dt id="printf-style-string-formatting"><a class="header" href="#printf-style-string-formatting"><a href="https://docs.python.org/3/library/stdtypes.html#old-string-formatting">printf-style String Formatting</a></a></dt>
+<dd>The old formatting operations invoked when strings are
+the left operand of the <code>%</code> operator are described in more detail here.</dd>
+</dl>
+</blockquote>
+<p><a id="tut-lists"></a></p>
+<h3 id="lists"><a class="header" href="#lists">Lists</a></h3>
+<p>Python knows a number of <em>compound</em> data types, used to group together other
+values.  The most versatile is the <em>list</em>, which can be written as a list of
+comma-separated values (items) between square brackets.  Lists might contain
+items of different types, but usually the items all have the same type.</p>
+<pre><code class="language-python">squares = [1, 4, 9, 16, 25]
+squares
+# [1, 4, 9, 16, 25]
+</code></pre>
+<p>Like strings (and all other built-in <a href="https://docs.python.org/3/glossary.html#term-sequence">sequence</a> types), lists can be
+indexed and sliced:</p>
+<pre><code class="language-python">squares[0]  # indexing returns the item
+# 1
+squares[-1]  # 25
+squares[-3:]  # slicing returns a new list
+# [9, 16, 25]
+</code></pre>
+<p>Lists also support operations like concatenation:</p>
+<pre><code class="language-python">squares + [36, 49, 64, 81, 100]
+# [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+</code></pre>
+<p>Unlike strings, which are <a href="https://docs.python.org/3/glossary.html#term-immutable">immutable</a>, lists are a <a href="https://docs.python.org/3/glossary.html#term-mutable">mutable</a>
+type, i.e. it is possible to change their content:</p>
+<pre><code class="language-python">cubes = [1, 8, 27, 65, 125]  # something's wrong here
+4 ** 3  # the cube of 4 is 64, not 65!
+# 64
+cubes[3] = 64  # replace the wrong value
+cubes
+# [1, 8, 27, 64, 125]
+</code></pre>
+<p>You can also add new items at the end of the list, by using
+the <code>list.append()</code> <em>method</em> (we will see more about methods later):</p>
+<pre><code class="language-python">cubes.append(216)  # add the cube of 6
+cubes.append(7 ** 3)  # and the cube of 7
+cubes
+# [1, 8, 27, 64, 125, 216, 343]
+</code></pre>
+<p>Simple assignment in Python never copies data. When you assign a list
+to a variable, the variable refers to the <em>existing list</em>.
+Any changes you make to the list through one variable will be seen
+through all other variables that refer to it.:</p>
+<pre><code class="language-python">rgb = ["Red", "Green", "Blue"]
+rgba = rgb
+id(rgb) == id(rgba)  # they reference the same object
+# True
+rgba.append("Alph")
+rgb
+# ["Red", "Green", "Blue", "Alph"]
+</code></pre>
+<p>All slice operations return a new list containing the requested elements.  This
+means that the following slice returns a
+<a href="https://docs.python.org/3/library/copy.html#shallow-vs-deep-copy">shallow copy</a> of the list:</p>
+<pre><code class="language-python">correct_rgba = rgba[:]
+correct_rgba[-1] = "Alpha"
+correct_rgba
+# ["Red", "Green", "Blue", "Alpha"]
+rgba  # ["Red", "Green", "Blue", "Alph"]
+</code></pre>
+<p>Assignment to slices is also possible, and this can even change the size of the
+list or clear it entirely:</p>
+<pre><code class="language-python">letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+letters
+# ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+# replace some values
+letters[2:5] = ['C', 'D', 'E']
+letters
+# ['a', 'b', 'C', 'D', 'E', 'f', 'g']
+# now remove them
+letters[2:5] = []
+letters
+# ['a', 'b', 'f', 'g']
+# clear the list by replacing all the elements with an empty list
+letters[:] = []
+letters
+# []
+</code></pre>
+<p>The built-in function <code>len()</code> also applies to lists:</p>
+<pre><code class="language-python">letters = ['a', 'b', 'c', 'd']
+len(letters)
+# 4
+</code></pre>
+<p>It is possible to nest lists (create lists containing other lists), for
+example:</p>
+<pre><code class="language-python">a = ['a', 'b', 'c']
+n = [1, 2, 3]
+x = [a, n]
+x
+# [['a', 'b', 'c'], [1, 2, 3]]
+x[0]  # ['a', 'b', 'c']
+x[0][1]  # 'b'
+</code></pre>
+<p><a id="tut-firststeps"></a></p>
+<h2 id="first-steps-towards-programming"><a class="header" href="#first-steps-towards-programming">First Steps Towards Programming</a></h2>
+<p>Of course, we can use Python for more complicated tasks than adding two and two
+together.  For instance, we can write an initial sub-sequence of the
+<a href="https://en.wikipedia.org/wiki/Fibonacci_sequence">Fibonacci series</a>
+as follows:</p>
+<pre><code class="language-python"># Fibonacci series:
+# the sum of two elements defines the next
+a, b = 0, 1
+while a &lt; 10:
+    print(a)
+    a, b = b, a+b
+# 0
+# 1
+# 1
+# 2
+# 3
+# 5
+# 8
+</code></pre>
+<p>This example introduces several new features.</p>
+<ul>
+<li>
+<p>The first line contains a <em>multiple assignment</em>: the variables <code>a</code> and <code>b</code>
+simultaneously get the new values 0 and 1.  On the last line this is used again,
+demonstrating that the expressions on the right-hand side are all evaluated
+first before any of the assignments take place.  The right-hand side expressions
+are evaluated  from the left to the right.</p>
+</li>
+<li>
+<p>The <code>while</code> loop executes as long as the condition (here: <code>a &lt; 10</code>)
+remains true.  In Python, like in C, any non-zero integer value is true; zero is
+false.  The condition may also be a string or list value, in fact any sequence;
+anything with a non-zero length is true, empty sequences are false.  The test
+used in the example is a simple comparison.  The standard comparison operators
+are written the same as in C: <code>&lt;</code> (less than), <code>&gt;</code> (greater than), <code>==</code>
+(equal to), <code>&lt;=</code> (less than or equal to), <code>&gt;=</code> (greater than or equal to)
+and <code>!=</code> (not equal to).</p>
+</li>
+<li>
+<p>The <em>body</em> of the loop is <em>indented</em>: indentation is Python’s way of grouping
+statements.  At the interactive prompt, you have to type a tab or space(s) for
+each indented line.  In practice you will prepare more complicated input
+for Python with a text editor; all decent text editors have an auto-indent
+facility.  When a compound statement is entered interactively, it must be
+followed by a blank line to indicate completion (since the parser cannot
+guess when you have typed the last line).  Note that each line within a basic
+block must be indented by the same amount.</p>
+</li>
+<li>
+<p>The <code>print()</code> function writes the value of the argument(s) it is given.
+It differs from just writing the expression you want to write (as we did
+earlier in the calculator examples) in the way it handles multiple arguments,
+floating-point quantities, and strings.  Strings are printed without quotes,
+and a space is inserted between items, so you can format things nicely, like
+this:</p>
+<pre><code class="language-python">i = 256*256
+print('The value of i is', i)
+# The value of i is 65536
+</code></pre>
+<p>The keyword argument <em>end</em> can be used to avoid the newline after the output,
+or end the output with a different string:</p>
+<pre><code class="language-python">a, b = 0, 1
+while a &lt; 1000:
+    print(a, end=',')
+    a, b = b, a+b
+# 0,1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p><strong>Going deeper</strong></p>
+<ul>
+<li><a href="unicode.html">Unicode Text Versus Bytes</a> explains how <code>str</code> relates to <code>bytes</code>, encodings
+and decoding, normalization, sorting Unicode text, and the “Unicode sandwich” for I/O.</li>
+</ul>
+</blockquote>
+<h3 id="footnotes"><a class="header" href="#footnotes">Footnotes</a></h3>
+<ul>
+<li><a id="id3"><strong>[1]</strong></a> Since <code>**</code> has higher precedence than <code>-</code>, <code>-3**2</code> will be interpreted as <code>-(3**2)</code> and thus result in <code>-9</code>.  To avoid this and get <code>9</code>, you can use <code>(-3)**2</code>.</li>
+<li><a id="id4"><strong>[2]</strong></a> Unlike other languages, special characters such as <code>\n</code> have the same meaning with both single (<code>'...'</code>) and double (<code>"..."</code>) quotes. The only difference between the two is that within single quotes you don’t need to escape <code>"</code> (but you have to escape <code>\'</code>) and vice versa.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="interpreter.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="unicode.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="interpreter.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="unicode.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

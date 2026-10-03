@@ -1,0 +1,1260 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Attribute Descriptors - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="attribute-descriptors"><a class="header" href="#attribute-descriptors">Attribute Descriptors</a></h1>
+<blockquote>
+<p>Learning about descriptors not only provides access to a larger toolset, it creates a
+deeper understanding of how Python works and an appreciation for the elegance of its
+design.</p>
+<p>— Raymond Hettinger, <a href="https://docs.python.org/3/howto/descriptor.html">Descriptor HowTo Guide</a></p>
+</blockquote>
+<p>Descriptors are a way of reusing the same access logic in multiple attributes.  For example,
+field types in ORMs, such as the Django ORM and SQLAlchemy, are descriptors, managing the
+flow of data from the fields in a database record to Python object attributes and vice
+versa.</p>
+<p>A descriptor is a class that implements a dynamic protocol consisting of the <code>__get__</code>,
+<code>__set__</code> and <code>__delete__</code> methods.  The <code>property</code> class implements the full descriptor
+protocol.  As usual with dynamic protocols, partial implementations are OK.  In fact, most
+descriptors we see in real code implement only <code>__get__</code> and <code>__set__</code>, and many implement
+only one of these methods.</p>
+<p>Descriptors are a distinguishing feature of Python, deployed not only at the application
+level but also in the language infrastructure.  User-defined functions are descriptors.
+We’ll see how the descriptor protocol allows methods to operate as bound or unbound methods,
+depending on how they are called.</p>
+<p>In this chapter we’ll refactor the bulk food example we first saw in
+<a href="dynamic-attributes.html#using-a-property-for-attribute-validation">Using a Property for Attribute Validation</a>,
+replacing properties with descriptors.  This will make it easier to reuse the attribute
+validation logic across different classes.  We’ll tackle the concepts of overriding and
+nonoverriding descriptors, and realize that Python functions are descriptors.  Finally we’ll
+see some tips about implementing descriptors.</p>
+<h2 id="descriptor-example-attribute-validation"><a class="header" href="#descriptor-example-attribute-validation">Descriptor Example: Attribute Validation</a></h2>
+<p>As we saw in <a href="dynamic-attributes.html#coding-a-property-factory">Coding a Property Factory</a>, a
+property factory is a way to avoid repetitive coding of getters and setters by applying
+functional programming patterns.  A property factory is a higher-order function that creates
+a parameterized set of accessor functions and builds a custom property instance from them,
+with closures to hold settings like the <code>storage_name</code>.  The object-oriented way of solving
+the same problem is a descriptor class.</p>
+<p>We’ll continue the series of <code>LineItem</code> examples where we left off, by refactoring the
+<code>quantity</code> property factory into a <code>Quantity</code> descriptor class.  This will make it easier to
+use.</p>
+<h3 id="lineitem-take-3-a-simple-descriptor"><a class="header" href="#lineitem-take-3-a-simple-descriptor">LineItem Take #3: A Simple Descriptor</a></h3>
+<p>As we said in the introduction, a class implementing a <code>__get__</code>, a <code>__set__</code> or a
+<code>__delete__</code> method is a descriptor.  You use a descriptor by declaring instances of it as
+class attributes of another class.</p>
+<p>We’ll create a <code>Quantity</code> descriptor, and the <code>LineItem</code> class will use two instances of
+<code>Quantity</code>: one for managing the <code>weight</code> attribute, the other for <code>price</code>.  Note that there
+are really two distinct attributes named <code>weight</code>: one is a class attribute of <code>LineItem</code>
+(the descriptor instance), the other is an instance attribute that will exist in each
+<code>LineItem</code> object (where the value is stored).  This also applies to <code>price</code>.</p>
+<pre><code class="language-text">             LineItem (class)                      a LineItem instance
+  +-------------------------------------+     +---------------------------+
+  | weight = &lt;Quantity object&gt;  --------+----&gt;| __dict__['weight'] = 8    |
+  | price  = &lt;Quantity object&gt;  --------+----&gt;| __dict__['price']  = 13.95|
+  | __init__(), subtotal()              |     | __dict__['description']   |
+  +-------------------------------------+     +---------------------------+
+        descriptor instances                       storage attributes
+        (class attributes)                         (instance attributes)
+</code></pre>
+<h4 id="terms-to-understand-descriptors"><a class="header" href="#terms-to-understand-descriptors">Terms to understand descriptors</a></h4>
+<p>Implementing and using descriptors involves several components, and it is useful to be
+precise when naming those components.  These terms will be used throughout this chapter.
+They will be easier to understand once you see the code, but they are listed up front so you
+can refer back to them when needed.</p>
+<dl>
+<dt id="descriptor-class"><a class="header" href="#descriptor-class">Descriptor class</a></dt>
+<dd>A class implementing the descriptor protocol.  That’s <code>Quantity</code> in the diagram.</dd>
+<dt id="managed-class"><a class="header" href="#managed-class">Managed class</a></dt>
+<dd>The class where the descriptor instances are declared as class attributes.  <code>LineItem</code> is
+the managed class.</dd>
+<dt id="descriptor-instance"><a class="header" href="#descriptor-instance">Descriptor instance</a></dt>
+<dd>Each instance of a descriptor class, declared as a class attribute of the managed class.</dd>
+<dt id="managed-instance"><a class="header" href="#managed-instance">Managed instance</a></dt>
+<dd>One instance of the managed class.  In this example, <code>LineItem</code> instances are the managed
+instances.</dd>
+<dt id="storage-attribute"><a class="header" href="#storage-attribute">Storage attribute</a></dt>
+<dd>An attribute of the managed instance that holds the value of a managed attribute for that
+particular instance.  The <code>LineItem</code> instance attributes <code>weight</code> and <code>price</code> are the
+storage attributes.  They are distinct from the descriptor instances, which are always
+class attributes.</dd>
+<dt id="managed-attribute"><a class="header" href="#managed-attribute">Managed attribute</a></dt>
+<dd>A public attribute in the managed class that is handled by a descriptor instance, with
+values stored in storage attributes.  In other words, a descriptor instance and a storage
+attribute provide the infrastructure for a managed attribute.</dd>
+</dl>
+<p>It’s important to realize that <code>Quantity</code> instances are class attributes of <code>LineItem</code>.  In
+Luciano Ramalho’s “Mills &amp; Gizmos Notation”, classes are <em>mills</em> — complicated machines that
+produce <em>gizmos</em>, the instances.  The <code>Quantity</code> mill produces two gizmos which are attached
+to the <code>LineItem</code> mill: <code>weight</code> and <code>price</code>.  The <code>LineItem</code> mill produces many gizmos of its
+own, each with its own <code>weight</code> and <code>price</code> values.  Each descriptor gizmo has a magnifying
+glass to <code>__get__</code> values and a claw to <code>__set__</code> values in the <code>LineItem</code> gizmos.</p>
+<p>Enough doodling for now.  Here is the code: the <code>Quantity</code> descriptor class (<code>bulkfood_v3.py</code>):</p>
+<pre><code class="language-python">class Quantity:  # descriptor is a protocol-based feature; no subclassing needed
+
+    def __init__(self, storage_name):
+        self.storage_name = storage_name  # name of the storage attribute
+
+    def __set__(self, instance, value):  # called on assignment to the managed attribute
+        if value &gt; 0:
+            instance.__dict__[self.storage_name] = value  # store directly in the instance
+        else:
+            msg = f'{self.storage_name} must be &gt; 0'
+            raise ValueError(msg)
+
+    def __get__(self, instance, owner):  # needed: storage_name may differ from the attr name
+        return instance.__dict__[self.storage_name]
+</code></pre>
+<p>Each <code>Quantity</code> instance will have a <code>storage_name</code> attribute: that’s the name of the storage
+attribute to hold the value in the managed instances.  <code>__set__</code> is called when there is an
+attempt to assign to the managed attribute.  Here, <code>self</code> is the descriptor instance (i.e.,
+<code>LineItem.weight</code> or <code>LineItem.price</code>), <code>instance</code> is the managed instance (a <code>LineItem</code>
+instance), and <code>value</code> is the value being assigned.  We must store the attribute value
+directly into <code>__dict__</code>; calling <code>setattr(instance, self.storage_name)</code> would trigger the
+<code>__set__</code> method again, leading to infinite recursion.</p>
+<p>We need to implement <code>__get__</code> because the name of the managed attribute may not be the same
+as the <code>storage_name</code>.  A user could write something like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class House:
+    rooms = Quantity('number_of_rooms')
+</code></pre>
+<p>In the <code>House</code> class, the managed attribute is <code>rooms</code>, but the storage attribute is
+<code>number_of_rooms</code>.  Given a <code>House</code> instance named <code>chaos_manor</code>, reading and writing
+<code>chaos_manor.rooms</code> goes through the <code>Quantity</code> descriptor instance attached to <code>rooms</code>, but
+reading and writing <code>chaos_manor.number_of_rooms</code> bypasses the descriptor.</p>
+<p>Note that <code>__get__</code> receives three arguments: <code>self</code>, <code>instance</code> and <code>owner</code>.  The <code>owner</code>
+argument is a reference to the managed class (e.g., <code>LineItem</code>), and it’s useful if you want
+the descriptor to support retrieving a class attribute — perhaps to emulate Python’s default
+behavior of retrieving a class attribute when the name is not found in the instance.</p>
+<p>If a managed attribute, such as <code>weight</code>, is retrieved via the class like <code>LineItem.weight</code>,
+the descriptor <code>__get__</code> method receives <code>None</code> as the value for the <code>instance</code> argument.  To
+support introspection and other metaprogramming tricks by the user, it’s a good practice to
+make <code>__get__</code> return the descriptor instance when the managed attribute is accessed through
+the class.  To do that, we’d code <code>__get__</code> like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def __get__(self, instance, owner):
+    if instance is None:
+        return self
+    else:
+        return instance.__dict__[self.storage_name]
+</code></pre>
+<p>Here is the <code>LineItem</code> class using <code>Quantity</code>:</p>
+<pre><code class="language-python">class LineItem:
+    weight = Quantity('weight')  # the first descriptor instance manages weight
+    price = Quantity('price')  # the second manages price
+
+    def __init__(self, description, weight, price):  # the rest is as simple as Take #1
+        self.description = description
+        self.weight = weight
+        self.price = price
+
+    def subtotal(self):
+        return self.weight * self.price
+</code></pre>
+<p>The code works as intended, preventing the sale of truffles for $0:</p>
+<pre><code class="language-python">truffle = LineItem('White truffle', 100, 0)
+# Traceback (most recent call last):
+#     ...
+# ValueError: price must be &gt; 0
+</code></pre>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>When coding descriptor <code>__get__</code> and <code>__set__</code> methods, keep in mind what the <code>self</code> and
+<code>instance</code> arguments mean: <code>self</code> is the descriptor instance, and <code>instance</code> is the managed
+instance.  Descriptors managing instance attributes should store values in the managed
+instances.  That’s why Python provides the <code>instance</code> argument to the descriptor methods.</p>
+</blockquote>
+<p>It may be tempting, but wrong, to store the value of each managed attribute in the descriptor
+instance itself.  In other words, in the <code>__set__</code> method, instead of coding
+<code>instance.__dict__[self.storage_name] = value</code>, the tempting but bad alternative would be
+<code>self.__dict__[self.storage_name] = value</code>.  To understand why this would be wrong, think
+about the meaning of the first two arguments to <code>__set__</code>.  Here, <code>self</code> is the descriptor
+instance, which is actually a class attribute of the managed class.  You may have thousands of
+<code>LineItem</code> instances in memory at one time, but you’ll only have two instances of the
+descriptors: the class attributes <code>LineItem.weight</code> and <code>LineItem.price</code>.  So anything you
+store in the descriptor instances themselves is actually part of a <code>LineItem</code> class attribute,
+and therefore is shared among all <code>LineItem</code> instances:</p>
+<pre><code class="language-python">class BadQuantity:
+    def __set__(self, instance, value):
+        self.value = value  # WRONG: stored in the descriptor, shared by all instances
+
+    def __get__(self, instance, owner):
+        return self.value
+
+class Item:
+    weight = BadQuantity()
+
+a, b = Item(), Item()
+a.weight = 10
+b.weight = 20
+a.weight  # oops: b clobbered a's weight
+# 20
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>If you really need per-instance storage outside the instance — say, because the managed
+class uses <code>__slots__</code> without a <code>__dict__</code> — keep a
+<a href="https://docs.python.org/3/library/weakref.html#weakref.WeakKeyDictionary"><code>weakref.WeakKeyDictionary</code></a>
+in the descriptor, keyed by managed instance, so the descriptor doesn’t keep the instances
+alive.</p>
+</blockquote>
+<p>A drawback of this version is the need to repeat the names of the attributes when the
+descriptors are instantiated in the managed class body.  It would be nice if the <code>LineItem</code>
+class could be declared like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">class LineItem:
+    weight = Quantity()
+    price = Quantity()
+
+    # remaining methods as before
+</code></pre>
+<p>As it stands, Take #3 requires naming each <code>Quantity</code> explicitly, which is not only
+inconvenient but dangerous.  If a programmer copying and pasting code forgets to edit both
+names and writes something like <code>price = Quantity('weight')</code>, the program will misbehave
+badly, clobbering the value of <code>weight</code> whenever the <code>price</code> is set.</p>
+<p>The problem is that — as we saw in <a href="references.html">Object References, Mutability, and Recycling</a>
+— the righthand side of an assignment is executed before the variable exists.  The expression
+<code>Quantity()</code> is evaluated to create a descriptor instance, and there is no way the code in the
+<code>Quantity</code> class can guess the name of the variable to which the descriptor will be bound
+(e.g., <code>weight</code> or <code>price</code>).  Thankfully, the descriptor protocol supports the aptly named
+<code>__set_name__</code> special method.  We’ll see how to use it next.</p>
+<h3 id="lineitem-take-4-automatic-naming-of-storage-attributes"><a class="header" href="#lineitem-take-4-automatic-naming-of-storage-attributes">LineItem Take #4: Automatic Naming of Storage Attributes</a></h3>
+<p>To avoid retyping the attribute name in the descriptor instances, we’ll implement
+<code>__set_name__</code> to set the <code>storage_name</code> of each <code>Quantity</code> instance.  The <code>__set_name__</code>
+special method was added to the descriptor protocol in Python 3.6
+(<a href="https://peps.python.org/pep-0487/"><strong>PEP 487</strong></a>).  The interpreter calls <code>__set_name__</code> on
+each descriptor it finds in a class body — if the descriptor implements it.  (More precisely,
+<code>__set_name__</code> is called by <code>type.__new__</code>, the constructor of objects representing classes;
+see <a href="class-metaprogramming.html">Class Metaprogramming</a>.)</p>
+<p>In <code>bulkfood_v4.py</code>, the <code>Quantity</code> descriptor class doesn’t need an <code>__init__</code>.  Instead,
+<code>__set_name__</code> saves the name of the storage attribute:</p>
+<pre><code class="language-python">class Quantity:
+
+    def __set_name__(self, owner, name):  # owner: managed class; name: attribute name
+        self.storage_name = name  # this is what __init__ did in Take #3
+
+    def __set__(self, instance, value):  # exactly the same as in Take #3
+        if value &gt; 0:
+            instance.__dict__[self.storage_name] = value
+        else:
+            msg = f'{self.storage_name} must be &gt; 0'
+            raise ValueError(msg)
+
+    # no __get__ needed
+
+class LineItem:
+    weight = Quantity()  # no need to pass the managed attribute name any more
+    price = Quantity()
+
+    def __init__(self, description, weight, price):
+        self.description = description
+        self.weight = weight
+        self.price = price
+
+    def subtotal(self):
+        return self.weight * self.price
+
+nutmeg = LineItem('Moluccan nutmeg', 8, 13.95)
+nutmeg.weight, nutmeg.price
+# (8, 13.95)
+LineItem.weight.storage_name
+# 'weight'
+nutmeg.weight = 0
+# Traceback (most recent call last):
+#     ...
+# ValueError: weight must be &gt; 0
+</code></pre>
+<p>In <code>__set_name__</code>, <code>self</code> is the descriptor instance (not the managed instance), <code>owner</code> is
+the managed class, and <code>name</code> is the name of the attribute of <code>owner</code> to which this descriptor
+instance was assigned in the class body of <code>owner</code>.</p>
+<p>Implementing <code>__get__</code> is not necessary because the name of the storage attribute matches the
+name of the managed attribute.  The expression <code>product.price</code> gets the <code>price</code> attribute
+directly from the <code>LineItem</code> instance.  (Notice that <code>LineItem.weight</code> returned the descriptor
+instance itself: with no <code>__get__</code>, Python returns the class attribute as is.)</p>
+<p>Looking at this example, you may think that’s a lot of code just for managing a couple of
+attributes, but it’s important to realize that the descriptor logic is now abstracted into a
+separate code unit: the <code>Quantity</code> class.  Usually we do not define a descriptor in the same
+module where it’s used, but in a separate utility module designed to be used across the
+application — even in many applications, if you are developing a library or framework.  With
+this in mind, this better represents the typical usage of a descriptor:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import model_v4c as model  # import the module where Quantity is implemented
+
+
+class LineItem:
+    weight = model.Quantity()  # put model.Quantity to use
+    price = model.Quantity()
+
+    def __init__(self, description, weight, price):
+        self.description = description
+        self.weight = weight
+        self.price = price
+
+    def subtotal(self):
+        return self.weight * self.price
+</code></pre>
+<p>Django users will notice that this looks a lot like a model definition.  It’s no coincidence:
+Django model fields are descriptors.</p>
+<p>Because descriptors are implemented as classes, we can leverage inheritance to reuse some of
+the code we have for new descriptors.  That’s what we’ll do in the following section.</p>
+<h3 id="lineitem-take-5-a-new-descriptor-type"><a class="header" href="#lineitem-take-5-a-new-descriptor-type">LineItem Take #5: A New Descriptor Type</a></h3>
+<p>The imaginary organic food store hits a snag: somehow a line item instance was created with a
+blank description, and the order could not be fulfilled.  To prevent that, we’ll create a new
+descriptor, <code>NonBlank</code>.  As we design <code>NonBlank</code>, we realize it will be very much like the
+<code>Quantity</code> descriptor, except for the validation logic.</p>
+<p>This prompts a refactoring, producing <code>Validated</code>, an abstract class that overrides the
+<code>__set__</code> method, calling a <code>validate</code> method that must be implemented by subclasses.  We’ll
+then rewrite <code>Quantity</code>, and implement <code>NonBlank</code> by inheriting from <code>Validated</code> and just
+coding the <code>validate</code> methods.</p>
+<p>The relationship among <code>Validated</code>, <code>Quantity</code> and <code>NonBlank</code> is an application of the
+<em>template method</em> as described in the <em>Design Patterns</em> classic:</p>
+<blockquote>
+<p>A template method defines an algorithm in terms of abstract operations that subclasses
+override to provide concrete behavior.</p>
+</blockquote>
+<p>Here, <code>Validated.__set__</code> is the template method and <code>self.validate</code> is the abstract
+operation (<code>model_v5.py</code>):</p>
+<pre><code class="language-python">import abc
+
+class Validated(abc.ABC):
+
+    def __set_name__(self, owner, name):
+        self.storage_name = name
+
+    def __set__(self, instance, value):
+        value = self.validate(self.storage_name, value)  # delegate validation...
+        instance.__dict__[self.storage_name] = value  # ...then store the returned value
+
+    @abc.abstractmethod
+    def validate(self, name, value):  # the abstract operation
+        """return validated value or raise ValueError"""
+</code></pre>
+<p>Alex Martelli prefers to call this design pattern <em>Self-Delegation</em>, and it’s a more
+descriptive name: the first line of <code>__set__</code> self-delegates to <code>validate</code>.  The concrete
+<code>Validated</code> subclasses in this example are <code>Quantity</code> and <code>NonBlank</code>:</p>
+<pre><code class="language-python">class Quantity(Validated):
+    """a number greater than zero"""
+
+    def validate(self, name, value):  # implementation of the abstract operation
+        if value &lt;= 0:
+            raise ValueError(f'{name} must be &gt; 0')
+        return value
+
+class NonBlank(Validated):
+    """a string with at least one non-space character"""
+
+    def validate(self, name, value):
+        value = value.strip()
+        if not value:  # nothing left after stripping blanks: reject
+            raise ValueError(f'{name} cannot be blank')
+        return value  # returning the value lets validate clean it up
+</code></pre>
+<p>Requiring the concrete <code>validate</code> methods to return the validated value gives them an
+opportunity to clean up, convert, or normalize the data received.  In this case, <code>value</code> is
+returned without leading or trailing blanks.</p>
+<p>Users of <code>model_v5.py</code> don’t need to know all these details.  What matters is that they get
+to use <code>Quantity</code> and <code>NonBlank</code> to automate the validation of instance attributes.  Here is
+the latest <code>LineItem</code> class (<code>bulkfood_v5.py</code>):</p>
+<pre><code class="language-python">class LineItem:
+    description = NonBlank()  # put NonBlank to use; the rest is unchanged
+    weight = Quantity()
+    price = Quantity()
+
+    def __init__(self, description, weight, price):
+        self.description = description
+        self.weight = weight
+        self.price = price
+
+    def subtotal(self):
+        return self.weight * self.price
+
+raisins = LineItem('  Golden raisins ', 10, 6.95)
+raisins.description  # NonBlank cleaned up the value
+# 'Golden raisins'
+raisins.subtotal()
+# 69.5
+LineItem('   ', 1, 1)
+# Traceback (most recent call last):
+#     ...
+# ValueError: description cannot be blank
+</code></pre>
+<p>The <code>LineItem</code> examples we’ve seen in this chapter demonstrate a typical use of descriptors to
+manage data attributes.  Descriptors like <code>Quantity</code> are called overriding descriptors because
+their <code>__set__</code> method overrides (i.e., intercepts and overrules) the setting of an instance
+attribute by the same name in the managed instance.  However, there are also nonoverriding
+descriptors.  We’ll explore this distinction in detail in the next section.</p>
+<h2 id="overriding-versus-nonoverriding-descriptors"><a class="header" href="#overriding-versus-nonoverriding-descriptors">Overriding Versus Nonoverriding Descriptors</a></h2>
+<p>Recall that there is an important asymmetry in the way Python handles attributes.  Reading an
+attribute through an instance normally returns the attribute defined in the instance, but if
+there is no such attribute in the instance, a class attribute will be retrieved.  On the other
+hand, assigning to an attribute in an instance normally creates the attribute in the instance,
+without affecting the class at all.</p>
+<p>This asymmetry also affects descriptors, in effect creating two broad categories of
+descriptors, depending on whether the <code>__set__</code> method is implemented.  If <code>__set__</code> is
+present, the class is an overriding descriptor; otherwise, it is a nonoverriding descriptor.
+These terms will make sense as we study descriptor behaviors in the next examples.</p>
+<p>Observing the different descriptor categories requires a few classes, so we’ll use the code
+in <code>descriptorkinds.py</code> as our test bed for the following sections.  Every <code>__get__</code> and
+<code>__set__</code> method calls <code>print_args</code> so their invocations are displayed in a readable way.
+Understanding <code>print_args</code> and the auxiliary functions <code>cls_name</code> and <code>display</code> is not
+important, so don’t get distracted by them.</p>
+<pre><code class="language-python">### auxiliary functions for display only ###
+
+def cls_name(obj_or_cls):
+    cls = type(obj_or_cls)
+    if cls is type:
+        cls = obj_or_cls
+    return cls.__name__.split('.')[-1]
+
+def display(obj):
+    cls = type(obj)
+    if cls is type:
+        return f'&lt;class {obj.__name__}&gt;'
+    elif cls in [type(None), int]:
+        return repr(obj)
+    else:
+        return f'&lt;{cls_name(obj)} object&gt;'
+
+def print_args(name, *args):
+    pseudo_args = ', '.join(display(x) for x in args)
+    print(f'-&gt; {cls_name(args[0])}.__{name}__({pseudo_args})')
+
+### essential classes for this example ###
+
+class Overriding:  # an overriding descriptor class with __get__ and __set__
+    """a.k.a. data descriptor or enforced descriptor"""
+
+    def __get__(self, instance, owner):
+        print_args('get', self, instance, owner)
+
+    def __set__(self, instance, value):
+        print_args('set', self, instance, value)
+
+class OverridingNoGet:  # an overriding descriptor without a __get__ method
+    """an overriding descriptor without ``__get__``"""
+
+    def __set__(self, instance, value):
+        print_args('set', self, instance, value)
+
+class NonOverriding:  # no __set__ method here, so this is a nonoverriding descriptor
+    """a.k.a. non-data or shadowable descriptor"""
+
+    def __get__(self, instance, owner):
+        print_args('get', self, instance, owner)
+
+class Managed:  # the managed class, using one instance of each descriptor class
+    over = Overriding()
+    over_no_get = OverridingNoGet()
+    non_over = NonOverriding()
+
+    def spam(self):  # here for comparison, because methods are also descriptors
+        print(f'-&gt; Managed.spam({display(self)})')
+</code></pre>
+<p>In the following sections, we will examine the behavior of attribute reads and writes on the
+<code>Managed</code> class, and one instance of it, going through each of the different descriptors
+defined.</p>
+<h3 id="overriding-descriptors"><a class="header" href="#overriding-descriptors">Overriding Descriptors</a></h3>
+<p>A descriptor that implements the <code>__set__</code> method is an overriding descriptor, because
+although it is a class attribute, a descriptor implementing <code>__set__</code> will override attempts
+to assign to instance attributes.  This is how Take #4 was implemented.  Properties are also
+overriding descriptors: if you don’t provide a setter function, the default <code>__set__</code> from the
+<code>property</code> class will raise <code>AttributeError</code> to signal that the attribute is read-only.  Here
+are experiments with an overriding descriptor:</p>
+<pre><code class="language-python">obj = Managed()  # create a Managed object for testing
+obj.over  # triggers __get__, passing the managed instance obj as the second argument
+# -&gt; Overriding.__get__(&lt;Overriding object&gt;, &lt;Managed object&gt;, &lt;class Managed&gt;)
+Managed.over  # via the class: __get__ gets None as the instance argument
+# -&gt; Overriding.__get__(&lt;Overriding object&gt;, None, &lt;class Managed&gt;)
+obj.over = 7  # assigning triggers __set__, passing 7 as the last argument
+# -&gt; Overriding.__set__(&lt;Overriding object&gt;, &lt;Managed object&gt;, 7)
+obj.over  # reading still invokes the descriptor __get__
+# -&gt; Overriding.__get__(&lt;Overriding object&gt;, &lt;Managed object&gt;, &lt;class Managed&gt;)
+obj.__dict__['over'] = 8  # bypass the descriptor, setting a value directly in __dict__
+vars(obj)  # the value is in obj.__dict__, under the over key...
+# {'over': 8}
+obj.over  # ...but the Managed.over descriptor still overrides reads
+# -&gt; Overriding.__get__(&lt;Overriding object&gt;, &lt;Managed object&gt;, &lt;class Managed&gt;)
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Python contributors and authors use different terms when discussing these concepts.
+“Overriding descriptor” comes from the book <em>Python in a Nutshell</em>.  The official Python
+documentation uses “data descriptor”, but “overriding descriptor” highlights the special
+behavior.  Overriding descriptors are also called “enforced descriptors”.  Synonyms for
+nonoverriding descriptors include “nondata descriptors” or “shadowable descriptors”.</p>
+</blockquote>
+<h3 id="overriding-descriptor-without-__get__"><a class="header" href="#overriding-descriptor-without-__get__">Overriding Descriptor Without <code>__get__</code></a></h3>
+<p>Properties and other overriding descriptors, such as Django model fields, implement both
+<code>__set__</code> and <code>__get__</code>, but it’s also possible to implement only <code>__set__</code>, as we saw in Take
+#4.  In this case, only writing is handled by the descriptor.  Reading the descriptor through
+an instance will return the descriptor object itself because there is no <code>__get__</code> to handle
+that access.  If a namesake instance attribute is created with a new value via direct access
+to the instance <code>__dict__</code>, the <code>__set__</code> method will still override further attempts to set
+that attribute, but reading that attribute will simply return the new value from the instance,
+instead of returning the descriptor object.  In other words, the instance attribute will
+shadow the descriptor, but only when reading:</p>
+<pre><code class="language-python">obj.over_no_get  # no __get__: reading retrieves the descriptor instance from the class
+# &lt;__main__.OverridingNoGet object at 0x...&gt;
+Managed.over_no_get  # the same thing happens via the managed class
+# &lt;__main__.OverridingNoGet object at 0x...&gt;
+obj.over_no_get = 7  # setting invokes the __set__ descriptor method
+# -&gt; OverridingNoGet.__set__(&lt;OverridingNoGet object&gt;, &lt;Managed object&gt;, 7)
+obj.over_no_get  # our __set__ doesn't store anything, so we get the descriptor again
+# &lt;__main__.OverridingNoGet object at 0x...&gt;
+obj.__dict__['over_no_get'] = 9  # set an instance attribute through __dict__
+obj.over_no_get  # now the instance attribute shadows the descriptor, for reading
+# 9
+obj.over_no_get = 7  # assignment still goes through the descriptor __set__
+# -&gt; OverridingNoGet.__set__(&lt;OverridingNoGet object&gt;, &lt;Managed object&gt;, 7)
+obj.over_no_get  # but reading is shadowed while the namesake instance attribute exists
+# 9
+</code></pre>
+<h3 id="nonoverriding-descriptor"><a class="header" href="#nonoverriding-descriptor">Nonoverriding Descriptor</a></h3>
+<p>A descriptor that does not implement <code>__set__</code> is a nonoverriding descriptor.  Setting an
+instance attribute with the same name will shadow the descriptor, rendering it ineffective for
+handling that attribute in that specific instance.  Methods and <code>@functools.cached_property</code>
+are implemented as nonoverriding descriptors.  Here is the operation of a nonoverriding
+descriptor:</p>
+<pre><code class="language-python">obj = Managed()
+obj.non_over  # triggers __get__, passing obj as the second argument
+# -&gt; NonOverriding.__get__(&lt;NonOverriding object&gt;, &lt;Managed object&gt;, &lt;class Managed&gt;)
+obj.non_over = 7  # no __set__ to interfere with this assignment
+obj.non_over  # the instance attribute shadows the namesake descriptor
+# 7
+Managed.non_over  # the descriptor is still there, and catches access via the class
+# -&gt; NonOverriding.__get__(&lt;NonOverriding object&gt;, None, &lt;class Managed&gt;)
+del obj.non_over  # if the instance attribute is deleted...
+obj.non_over  # ...reading hits the descriptor __get__ again
+# -&gt; NonOverriding.__get__(&lt;NonOverriding object&gt;, &lt;Managed object&gt;, &lt;class Managed&gt;)
+</code></pre>
+<p>In the previous examples, we saw several assignments to an instance attribute with the same
+name as a descriptor, and different results according to the presence of a <code>__set__</code> method in
+the descriptor.</p>
+<p>The setting of attributes in the class cannot be controlled by descriptors attached to the
+same class.  In particular, this means that the descriptor attributes themselves can be
+clobbered by assigning to the class, as the next section explains.</p>
+<h3 id="overwriting-a-descriptor-in-the-class"><a class="header" href="#overwriting-a-descriptor-in-the-class">Overwriting a Descriptor in the Class</a></h3>
+<p>Regardless of whether a descriptor is overriding or not, it can be overwritten by assignment
+to the class.  This is a monkey-patching technique, but here the descriptors are replaced by
+integers, which would effectively break any class that depended on the descriptors for proper
+operation:</p>
+<pre><code class="language-python">class Managed2:  # a fresh copy, so we don't break Managed for later examples
+    over = Overriding()
+    over_no_get = OverridingNoGet()
+    non_over = NonOverriding()
+
+obj = Managed2()  # create a new instance for later testing
+Managed2.over = 1  # overwrite the descriptor attributes in the class
+Managed2.over_no_get = 2
+Managed2.non_over = 3
+obj.over, obj.over_no_get, obj.non_over  # the descriptors are really gone
+# (1, 2, 3)
+</code></pre>
+<p>This reveals another asymmetry regarding reading and writing attributes: although the reading
+of a class attribute can be controlled by a descriptor with <code>__get__</code> attached to the managed
+class, the writing of a class attribute cannot be handled by a descriptor with <code>__set__</code>
+attached to the same class.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>In order to control the setting of attributes in a class, you have to attach descriptors to
+the class of the class — in other words, the metaclass.  By default, the metaclass of
+user-defined classes is <code>type</code>, and you cannot add attributes to <code>type</code>.  But in
+<a href="class-metaprogramming.html">Class Metaprogramming</a>, we’ll create our own metaclasses.</p>
+</blockquote>
+<h3 id="the-attribute-lookup-algorithm"><a class="header" href="#the-attribute-lookup-algorithm">The Attribute Lookup Algorithm</a></h3>
+<p>We can now summarize what <code>obj.attr</code> does for an ordinary object.  The work is done by
+<code>object.__getattribute__</code> (classes use <code>type.__getattribute__</code>, which is similar but also
+calls <code>__get__</code> for descriptors found in the class itself):</p>
+<ol>
+<li>Search <code>type(obj).__mro__</code> for <code>attr</code>.  If found, and it’s an <strong>overriding</strong> (data)
+descriptor — it has <code>__set__</code> or <code>__delete__</code> — return <code>descriptor.__get__(obj, type(obj))</code>.</li>
+<li>Otherwise, if <code>attr</code> is in <code>obj.__dict__</code>, return that value.</li>
+<li>Otherwise, if step 1 found a <strong>nonoverriding</strong> descriptor, return the result of its
+<code>__get__</code>; if it found a plain class attribute, return it.</li>
+<li>Otherwise, raise <code>AttributeError</code> — which makes Python try <code>__getattr__</code>, if the class has
+one.</li>
+</ol>
+<p>Assignment is simpler: <code>obj.attr = value</code> calls <code>__set__</code> if an overriding descriptor named
+<code>attr</code> is found in the class’s MRO; otherwise it stores the value in <code>obj.__dict__</code>.  Here is
+a pure-Python emulation of <code>property</code> along the lines of the one in the
+<a href="https://docs.python.org/3/howto/descriptor.html#properties">Descriptor HowTo Guide</a>, showing
+that there’s nothing magical about it:</p>
+<pre><code class="language-python">class Property:
+    "Emulate PyProperty_Type() in Objects/descrobject.c"
+
+    def __init__(self, fget=None, fset=None, fdel=None, doc=None):
+        self.fget = fget
+        self.fset = fset
+        self.fdel = fdel
+        if doc is None and fget is not None:
+            doc = fget.__doc__
+        self.__doc__ = doc
+
+    def __set_name__(self, owner, name):
+        self.__name__ = name
+
+    def __get__(self, obj, objtype=None):
+        if obj is None:
+            return self
+        if self.fget is None:
+            raise AttributeError(f'property {self.__name__!r} has no getter')
+        return self.fget(obj)
+
+    def __set__(self, obj, value):  # always present: Property is an overriding descriptor
+        if self.fset is None:
+            raise AttributeError(f'property {self.__name__!r} has no setter')
+        self.fset(obj, value)
+
+    def __delete__(self, obj):
+        if self.fdel is None:
+            raise AttributeError(f'property {self.__name__!r} has no deleter')
+        self.fdel(obj)
+
+    def getter(self, fget):
+        return type(self)(fget, self.fset, self.fdel, self.__doc__)
+
+    def setter(self, fset):
+        return type(self)(self.fget, fset, self.fdel, self.__doc__)
+
+    def deleter(self, fdel):
+        return type(self)(self.fget, self.fset, fdel, self.__doc__)
+
+class Celsius:
+    def __init__(self, degrees):
+        self.degrees = degrees
+
+    @Property
+    def fahrenheit(self):
+        """temperature in degrees Fahrenheit"""
+        return self.degrees * 9 / 5 + 32
+
+c = Celsius(100)
+c.fahrenheit
+# 212.0
+Celsius.fahrenheit.__doc__
+# 'temperature in degrees Fahrenheit'
+c.fahrenheit = 0
+# Traceback (most recent call last):
+#     ...
+# AttributeError: property 'fahrenheit' has no setter
+</code></pre>
+<p>Let’s now focus on how descriptors are used to implement methods in Python.</p>
+<h2 id="methods-are-descriptors"><a class="header" href="#methods-are-descriptors">Methods Are Descriptors</a></h2>
+<p>A function within a class becomes a bound method when invoked on an instance because all
+user-defined functions have a <code>__get__</code> method, therefore they operate as descriptors when
+attached to a class.  Here we read the <code>spam</code> method from the <code>Managed</code> class introduced
+earlier:</p>
+<pre><code class="language-python">obj = Managed()
+obj.spam  # reading from obj.spam retrieves a bound method object
+# &lt;bound method Managed.spam of &lt;__main__.Managed object at 0x...&gt;&gt;
+Managed.spam  # but reading from Managed.spam retrieves a function
+# &lt;function Managed.spam at 0x...&gt;
+obj.spam = 7  # assigning to obj.spam shadows the class attribute
+obj.spam
+# 7
+</code></pre>
+<p>Functions do not implement <code>__set__</code>, therefore they are nonoverriding descriptors, as the
+last line shows.</p>
+<p>The other key takeaway is that <code>obj.spam</code> and <code>Managed.spam</code> retrieve different objects.  As
+usual with descriptors, the <code>__get__</code> of a function returns a reference to itself when the
+access happens through the managed class.  But when the access goes through an instance, the
+<code>__get__</code> of the function returns a bound method object: a callable that wraps the function
+and binds the managed instance (e.g., <code>obj</code>) to the first argument of the function (i.e.,
+<code>self</code>), like the <code>functools.partial</code> function does (as seen in
+<a href="first-class-functions.html#freezing-arguments-with-functoolspartial">Freezing Arguments with <code>functools.partial</code></a>).
+For a deeper understanding of this mechanism, consider this <code>Text</code> class, derived from
+<code>UserString</code> (<code>method_is_descriptor.py</code>):</p>
+<pre><code class="language-python">import collections
+
+class Text(collections.UserString):
+
+    def __repr__(self):
+        return 'Text({!r})'.format(self.data)
+
+    def reverse(self):
+        return self[::-1]
+</code></pre>
+<p>Now let’s investigate the <code>Text.reverse</code> method:</p>
+<pre><code class="language-python">word = Text('forward')
+word  # the repr looks like a constructor call that would make an equal instance
+# Text('forward')
+word.reverse()  # the reverse method returns the text spelled backward
+# Text('drawrof')
+Text.reverse(Text('backward'))  # a method called on the class works as a function
+# Text('drawkcab')
+type(Text.reverse), type(word.reverse)  # note the different types
+# (&lt;class 'function'&gt;, &lt;class 'method'&gt;)
+list(map(Text.reverse, ['repaid', (10, 20, 30), Text('stressed')]))  # works on any sequence
+# ['diaper', (30, 20, 10), Text('desserts')]
+Text.reverse.__get__(word)  # calling __get__ with an instance retrieves a bound method
+# &lt;bound method Text.reverse of Text('forward')&gt;
+Text.reverse.__get__(None, Text)  # with None as the instance: the function itself
+# &lt;function Text.reverse at 0x...&gt;
+word.reverse  # word.reverse actually invokes Text.reverse.__get__(word)
+# &lt;bound method Text.reverse of Text('forward')&gt;
+word.reverse.__self__  # the bound method holds a reference to the instance...
+# Text('forward')
+word.reverse.__func__ is Text.reverse  # ...and to the original function
+# True
+</code></pre>
+<p><code>Text.reverse</code> operates as a function, even working with objects that are not instances of
+<code>Text</code>.  Any function is a nonoverriding descriptor.  Calling its <code>__get__</code> with an instance
+retrieves a method bound to that instance; calling it with <code>None</code> as the instance argument
+retrieves the function itself.  The bound method object has a <code>__self__</code> attribute holding a
+reference to the instance on which the method was called, and a <code>__func__</code> attribute that is a
+reference to the original function attached to the managed class.</p>
+<p>The bound method object also has a <code>__call__</code> method, which handles the actual invocation.
+This method calls the original function referenced in <code>__func__</code>, passing the <code>__self__</code>
+attribute of the method as the first argument.  That’s how the implicit binding of the
+conventional <code>self</code> argument works.  We can do the same by hand with
+<a href="https://docs.python.org/3/library/types.html#types.MethodType"><code>types.MethodType</code></a>:</p>
+<pre><code class="language-python">import types
+
+def shout(self):
+    return self.data.upper() + '!'
+
+bound = types.MethodType(shout, word)  # what function.__get__(word) builds
+bound
+# &lt;bound method shout of Text('forward')&gt;
+bound()
+# 'FORWARD!'
+</code></pre>
+<p>The way functions are turned into bound methods is a prime example of how descriptors are used
+as infrastructure in the language.  The <code>classmethod</code> and <code>staticmethod</code> built-ins are
+descriptors too: <code>classmethod.__get__</code> binds the <em>class</em> (the <code>owner</code> argument) instead of the
+instance, and <code>staticmethod.__get__</code> returns the underlying function without binding anything:</p>
+<pre><code class="language-python">class Demo:
+    @classmethod
+    def klassmeth(cls, *args):
+        return cls, args
+
+    @staticmethod
+    def statmeth(*args):
+        return args
+
+d = Demo()
+d.klassmeth(1)  # the class is bound, even when accessed through an instance
+# (&lt;class '__main__.Demo'&gt;, (1,))
+Demo.__dict__['klassmeth'].__get__(None, Demo)  # what Demo.klassmeth does under the hood
+# &lt;bound method Demo.klassmeth of &lt;class '__main__.Demo'&gt;&gt;
+Demo.__dict__['statmeth'].__get__(d, Demo)  # nothing bound: the plain function
+# &lt;function Demo.statmeth at 0x...&gt;
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Python 3.9 allowed <code>classmethod</code> to wrap other descriptors such as <code>property</code>, to create
+“class properties”.  The feature turned out to be subtly broken; it was deprecated in 3.11
+and removed in 3.13.  If you need a computed class attribute, use a descriptor whose
+<code>__get__</code> uses the <code>owner</code> argument, or a property on a metaclass.</p>
+</blockquote>
+<p>Since a decorator implemented as a class with <code>__call__</code> is not a function, it doesn’t get
+<code>__get__</code> for free, and therefore won’t bind <code>self</code> when used on a method — unless you
+implement <code>__get__</code> yourself.  This is a well-known pitfall:</p>
+<pre><code class="language-python">import functools
+
+class counted:
+    def __init__(self, func):
+        functools.update_wrapper(self, func)
+        self.func = func
+        self.calls = 0
+
+    def __call__(self, *args, **kwargs):
+        self.calls += 1
+        return self.func(*args, **kwargs)
+
+    def __get__(self, instance, owner):  # without this, self would not be bound
+        if instance is None:
+            return self
+        return types.MethodType(self, instance)
+
+class Greeter:
+    @counted
+    def hello(self, name):
+        return f'Hello, {name}!'
+
+g = Greeter()
+g.hello('Ana')
+# 'Hello, Ana!'
+Greeter.hello.calls
+# 1
+</code></pre>
+<p>Delete <code>__get__</code> from <code>counted</code> and <code>g.hello('Ana')</code> fails with
+<code>TypeError: Greeter.hello() missing 1 required positional argument: 'name'</code>, because the
+instance <code>g</code> is never passed to the function.</p>
+<p>After this deep dive into how descriptors and methods work, let’s go through some practical
+advice about their use.</p>
+<h2 id="descriptor-usage-tips"><a class="header" href="#descriptor-usage-tips">Descriptor Usage Tips</a></h2>
+<p>The following list addresses some practical consequences of the descriptor characteristics
+just described:</p>
+<dl>
+<dt id="use-property-to-keep-it-simple"><a class="header" href="#use-property-to-keep-it-simple">Use <code>property</code> to keep it simple</a></dt>
+<dd>The <code>property</code> built-in creates overriding descriptors implementing <code>__set__</code> and <code>__get__</code>
+even if you do not define a setter method (a <code>__delete__</code> method is provided too).  The
+default <code>__set__</code> of a property raises <code>AttributeError: property 'x' of 'C' object has no setter</code>, so a property is the easiest way to create a read-only attribute, avoiding the
+issue described next.</dd>
+<dt id="read-only-descriptors-require-__set__"><a class="header" href="#read-only-descriptors-require-__set__">Read-only descriptors require <code>__set__</code></a></dt>
+<dd>If you use a descriptor class to implement a read-only attribute, you must remember to code
+both <code>__get__</code> and <code>__set__</code>, otherwise setting a namesake attribute on an instance will
+shadow the descriptor.  The <code>__set__</code> method of a read-only attribute should just raise
+<code>AttributeError</code> with a suitable message.</dd>
+<dt id="validation-descriptors-can-work-with-__set__-only"><a class="header" href="#validation-descriptors-can-work-with-__set__-only">Validation descriptors can work with <code>__set__</code> only</a></dt>
+<dd>In a descriptor designed only for validation, the <code>__set__</code> method should check the <code>value</code>
+argument it gets, and if valid, set it directly in the instance <code>__dict__</code> using the
+descriptor instance name as key.  That way, reading the attribute with the same name from
+the instance will be as fast as possible, because it will not require a <code>__get__</code>.  See the
+code for Take #4.</dd>
+<dt id="caching-can-be-done-efficiently-with-__get__-only"><a class="header" href="#caching-can-be-done-efficiently-with-__get__-only">Caching can be done efficiently with <code>__get__</code> only</a></dt>
+<dd>If you code just the <code>__get__</code> method, you have a nonoverriding descriptor.  These are
+useful to make some expensive computation and then cache the result by setting an attribute
+by the same name on the instance.  The namesake instance attribute will shadow the
+descriptor, so subsequent access to that attribute will fetch it directly from the instance
+<code>__dict__</code> and not trigger the descriptor <code>__get__</code> anymore.  The
+<code>@functools.cached_property</code> decorator actually produces a nonoverriding descriptor.
+(Recall that creating instance attributes after <code>__init__</code> defeats the key-sharing memory
+optimization discussed in <a href="dicts-sets.html">Dictionaries and Sets</a>.)</dd>
+<dt id="nonspecial-methods-can-be-shadowed-by-instance-attributes"><a class="header" href="#nonspecial-methods-can-be-shadowed-by-instance-attributes">Nonspecial methods can be shadowed by instance attributes</a></dt>
+<dd>Because functions and methods only implement <code>__get__</code>, they are nonoverriding descriptors.
+A simple assignment like <code>my_obj.the_method = 7</code> means that further access to <code>the_method</code>
+through that instance will retrieve the number 7 — without affecting the class or other
+instances.  However, this issue does not interfere with special methods.  The interpreter
+only looks for special methods in the class itself; in other words, <code>repr(x)</code> is executed as
+<code>x.__class__.__repr__(x)</code>, so a <code>__repr__</code> attribute defined in <code>x</code> has no effect on
+<code>repr(x)</code>.  For the same reason, the existence of an attribute named <code>__getattr__</code> in an
+instance will not subvert the usual attribute access algorithm.</dd>
+</dl>
+<p>Here is a minimal caching descriptor, implementing only <code>__get__</code>:</p>
+<pre><code class="language-python">class lazy:
+    """compute once per instance, then get out of the way"""
+
+    def __init__(self, func):
+        self.func = func
+
+    def __set_name__(self, owner, name):
+        self.name = name
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+        value = self.func(instance)
+        instance.__dict__[self.name] = value  # the instance attribute will shadow us
+        return value
+
+class Report:
+    @lazy
+    def data(self):
+        print('crunching numbers...')
+        return [1, 2, 3]
+
+r = Report()
+r.data
+# crunching numbers...
+# [1, 2, 3]
+r.data  # served from r.__dict__: the descriptor is not called again
+# [1, 2, 3]
+</code></pre>
+<p>The fact that nonspecial methods can be overridden so easily in instances may sound fragile
+and error prone, but in practice this rarely bites.  On the other hand, if you are doing a lot
+of dynamic attribute creation, where the attribute names come from data you don’t control (as
+we did in <a href="dynamic-attributes.html">Dynamic Attributes and Properties</a>), then you should be aware
+of this and perhaps implement some filtering or escaping of the dynamic attribute names to
+preserve your sanity.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The <code>FrozenJSON</code> class in the previous chapter is safe from instance attributes shadowing
+methods because its only methods are special methods and the <code>build</code> class method.  Class
+methods are safe as long as they are always accessed through the class, as with
+<code>FrozenJSON.build</code> — later replaced by <code>__new__</code>.  The <code>Record</code> and <code>Event</code> classes are also
+safe: they implement only special methods, static methods, and properties.  Properties are
+overriding descriptors, so they are not shadowed by instance attributes.</p>
+</blockquote>
+<p>To close this chapter, we’ll cover two features we saw with properties that we have not
+addressed in the context of descriptors: documentation and handling attempts to delete a
+managed attribute.</p>
+<h2 id="descriptor-docstring-and-overriding-deletion"><a class="header" href="#descriptor-docstring-and-overriding-deletion">Descriptor Docstring and Overriding Deletion</a></h2>
+<p>The docstring of a descriptor class is used to document every instance of the descriptor in
+the managed class.  For example, <code>help(LineItem.weight)</code> with the <code>Quantity</code> descriptor from
+Take #5 shows the docstring of the <code>Quantity</code> class:</p>
+<pre><code class="language-python">LineItem.weight.__doc__
+# 'a number greater than zero'
+</code></pre>
+<p>(<code>LineItem.weight</code> returns the <code>Quantity</code> instance because <code>Validated</code> doesn’t implement
+<code>__get__</code>; a <code>__get__</code> that returns <code>self</code> when <code>instance is None</code> gives the same result.)
+That is somewhat unsatisfactory.  In the case of <code>LineItem</code>, it would
+be good to add, for example, the information that <code>weight</code> must be in kilograms.  That would
+be trivial with properties, because each property handles a specific managed attribute.  But
+with descriptors, the same <code>Quantity</code> descriptor class is used for <code>weight</code> and <code>price</code>.  One
+simple solution is to accept an optional <code>doc</code> argument and assign it to <code>self.__doc__</code> in the
+descriptor’s <code>__init__</code>: an instance attribute named <code>__doc__</code> takes precedence over the class
+docstring when reading <code>LineItem.weight.__doc__</code> (although <code>help()</code> may still show the class
+docstring, since it documents the object’s type).</p>
+<p>The second detail we discussed with properties, but have not addressed with descriptors, is
+handling attempts to delete a managed attribute.  That can be done by implementing a
+<code>__delete__</code> method alongside or instead of the usual <code>__get__</code> and/or <code>__set__</code> in the
+descriptor class.  Real-world usage is rare, but here is a silly example:</p>
+<pre><code class="language-python">class Undeletable:
+    def __set_name__(self, owner, name):
+        self.name = name
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+        return instance.__dict__[self.name]
+
+    def __set__(self, instance, value):
+        instance.__dict__[self.name] = value
+
+    def __delete__(self, instance):
+        raise AttributeError(f'{self.name!r} is here to stay')
+
+class Monument:
+    name = Undeletable()
+
+m = Monument()
+m.name = 'Colossus of Rhodes'
+del m.name
+# Traceback (most recent call last):
+#     ...
+# AttributeError: 'name' is here to stay
+</code></pre>
+<p>Note that a descriptor implementing only <code>__delete__</code> (without <code>__set__</code>) is still an
+overriding descriptor: the data model considers any object with <code>__set__</code> <em>or</em> <code>__delete__</code> a
+data descriptor.</p>
+<h2 id="type-hints-for-descriptors"><a class="header" href="#type-hints-for-descriptors">Type Hints for Descriptors</a></h2>
+<p>Static type checkers understand descriptors: the type of <code>obj.attr</code> is the return type of
+<code>__get__</code> when called with an instance, and the accepted types for assignment come from the
+<code>value</code> parameter of <code>__set__</code>.  Use <code>typing.overload</code> to distinguish access through the class
+(<code>instance</code> is <code>None</code>) from access through an instance, and make the descriptor generic to
+reuse it for different value types:</p>
+<pre><code class="language-python">from typing import Any, Callable, overload, Self
+
+class Validated[T]:
+    def __init__(self, check: Callable[[T], bool], message: str) -&gt; None:
+        self.check = check
+        self.message = message
+
+    def __set_name__(self, owner: type, name: str) -&gt; None:
+        self.name = name
+
+    @overload
+    def __get__(self, instance: None, owner: type) -&gt; Self: ...
+    @overload
+    def __get__(self, instance: object, owner: type) -&gt; T: ...
+    def __get__(self, instance: object | None, owner: type) -&gt; Self | T:
+        if instance is None:
+            return self
+        return instance.__dict__[self.name]
+
+    def __set__(self, instance: object, value: T) -&gt; None:
+        if not self.check(value):
+            raise ValueError(f'{self.name} {self.message}')
+        instance.__dict__[self.name] = value
+
+class Product:
+    name: Validated[str] = Validated(str.strip, 'cannot be blank')
+    price: Validated[float] = Validated(lambda v: v &gt; 0, 'must be &gt; 0')
+
+    def __init__(self, name: str, price: float) -&gt; None:
+        self.name = name
+        self.price = price
+
+p = Product('Kona coffee', 30.5)
+p.name, p.price  # a type checker infers (str, float)
+# ('Kona coffee', 30.5)
+Product('Mystery box', -1)
+# Traceback (most recent call last):
+#     ...
+# ValueError: price must be &gt; 0
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Descriptors work with <a href="dataclasses.html">data classes</a>, too: a field annotated as a descriptor
+type and assigned a descriptor instance as the default value gets the descriptor’s
+<code>__set__</code> called by the generated <code>__init__</code>.  The data class machinery calls the
+descriptor’s <code>__get__(None, cls)</code> to find the default value, so such a descriptor should
+return the default — or raise <code>AttributeError</code> if there is none — when accessed through the
+class.  See “Descriptor-typed fields” in the
+<a href="https://docs.python.org/3/library/dataclasses.html#descriptor-typed-fields"><code>dataclasses</code> documentation</a>.</p>
+</blockquote>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>The first example of this chapter was a continuation of the <code>LineItem</code> examples from the
+previous chapter.  In Take #3, we replaced properties with descriptors.  We saw that a
+descriptor is a class that provides instances that are deployed as attributes in the managed
+class.  Discussing this mechanism required special terminology, introducing terms such as
+<em>managed instance</em> and <em>storage attribute</em>.</p>
+<p>In Take #4 we removed the requirement that <code>Quantity</code> descriptors were declared with an
+explicit <code>storage_name</code>, which was redundant and error prone.  The solution was to implement
+the <code>__set_name__</code> special method in <code>Quantity</code>, to save the name of the managed attribute as
+<code>self.storage_name</code>.  Take #5 showed how to subclass an abstract descriptor class to share code
+while building specialized descriptors with some common functionality.</p>
+<p>We then looked at the different behaviors of descriptors providing or omitting the <code>__set__</code>
+method, making the crucial distinction between overriding and nonoverriding descriptors, a.k.a.
+data and nondata descriptors.  Through detailed testing we uncovered when descriptors are in
+control and when they are shadowed, bypassed, or overwritten, and summarized the attribute
+lookup algorithm.</p>
+<p>Following that, we studied a particular category of nonoverriding descriptors: methods.
+Console experiments revealed how a function attached to a class becomes a method when accessed
+through an instance, by leveraging the descriptor protocol — and why a class-based decorator
+must implement <code>__get__</code> to decorate methods.  To conclude the chapter, we presented practical
+tips, a brief look at how to document descriptors and handle deletion, and how to type hint
+descriptors.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p><strong>The design of <code>self</code>.</strong>  The requirement to explicitly declare <code>self</code> as a first argument
+in methods is a controversial design decision in Python.  It’s an example of “worse is
+better”, a design philosophy described by Richard P. Gabriel, whose first priority is
+simplicity — especially of implementation.  The implementation of methods as descriptors
+wrapping plain functions is simple, even elegant, at the expense of the user interface: a
+method signature like <code>def zfill(self, width):</code> doesn’t visually match the invocation
+<code>label.zfill(8)</code>.  Guido van Rossum explained his reasons in “Adding Support for User-Defined
+Classes”, a post on his blog <em>The History of Python</em>.  Anyone unhappy about the explicit
+<code>self</code> can feel a lot better by considering the baffling semantics of the implicit <code>this</code> in
+JavaScript.</p>
+</blockquote>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li>Raymond Hettinger’s <a href="https://docs.python.org/3/howto/descriptor.html">Descriptor HowTo Guide</a>,
+part of the HowTo collection in the official documentation, and
+<a href="https://docs.python.org/3/reference/datamodel.html#implementing-descriptors">Implementing Descriptors</a>
+in the Data Model chapter.</li>
+<li><a href="https://peps.python.org/pep-0487/"><strong>PEP 487</strong></a> — Simpler customization of class creation,
+which introduced <code>__set_name__</code> and includes an example of a validating descriptor.  Beware
+that coverage of descriptors written before 2016 is likely to contain examples that are
+needlessly complicated today, because <code>__set_name__</code> was not supported before Python 3.6.</li>
+<li><em>Python Cookbook</em>, 3rd ed., by David Beazley and Brian K. Jones: “8.10. Using Lazily
+Computed Properties”, “8.13. Implementing a Data Model or Type System” and “9.9. Defining
+Decorators As Classes”.</li>
+<li>Alex Martelli’s presentation “Python’s Object Model”, which covers properties and
+descriptors in depth.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="dynamic-attributes.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="class-metaprogramming.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="dynamic-attributes.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="class-metaprogramming.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

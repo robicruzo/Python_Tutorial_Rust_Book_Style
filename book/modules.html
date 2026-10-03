@@ -1,0 +1,707 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Modules - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <p><a id="tut-modules"></a></p>
+<h1 id="modules"><a class="header" href="#modules">Modules</a></h1>
+<p>If you quit from the Python interpreter and enter it again, the definitions you
+have made (functions and variables) are lost. Therefore, if you want to write a
+somewhat longer program, you are better off using a text editor to prepare the
+input for the interpreter and running it with that file as input instead.  This
+is known as creating a <em>script</em>.  As your program gets longer, you may want to
+split it into several files for easier maintenance.  You may also want to use a
+handy function that you’ve written in several programs without copying its
+definition into each program.</p>
+<p>To support this, Python has a way to put definitions in a file and use them in a
+script or in an interactive instance of the interpreter. Such a file is called a
+<em>module</em>; definitions from a module can be <em>imported</em> into other modules or into
+the <em>main</em> module (the collection of variables that you have access to in a
+script executed at the top level and in calculator mode).</p>
+<p>A module is a file containing Python definitions and statements.  The file name
+is the module name with the suffix <code>.py</code> appended.  Within a module, the
+module’s name (as a string) is available as the value of the global variable
+<code>__name__</code>.  For instance, use your favorite text editor to create a file
+called <code>fibo.py</code> in the current directory with the following contents:</p>
+<pre><code class="language-python"># Fibonacci numbers module
+
+def fib(n):
+    """Write Fibonacci series up to n."""
+    a, b = 0, 1
+    while a &lt; n:
+        print(a, end=' ')
+        a, b = b, a+b
+    print()
+
+def fib2(n):
+    """Return Fibonacci series up to n."""
+    result = []
+    a, b = 0, 1
+    while a &lt; n:
+        result.append(a)
+        a, b = b, a+b
+    return result
+</code></pre>
+<p>Now enter the Python interpreter and import this module with the following
+command:</p>
+<pre><code class="language-python">import fibo
+</code></pre>
+<p>This does not add the names of the functions defined in <code>fibo</code>  directly to
+the current <a href="https://docs.python.org/3/glossary.html#term-namespace">namespace</a> (see <a href="classes.html#tut-scopes">Python Scopes and Namespaces</a> for more details);
+it only adds the module name <code>fibo</code> there. Using
+the module name you can access the functions:</p>
+<pre><code class="language-python">fibo.fib(1000)  # 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987
+fibo.fib2(100)  # [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+fibo.__name__  # 'fibo'
+</code></pre>
+<p>If you intend to use a function often you can assign it to a local name:</p>
+<pre><code class="language-python">fib = fibo.fib
+fib(500)
+# 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377
+</code></pre>
+<p><a id="tut-moremodules"></a></p>
+<h2 id="more-on-modules"><a class="header" href="#more-on-modules">More on Modules</a></h2>
+<p>A module can contain executable statements as well as function definitions.
+These statements are intended to initialize the module. They are executed only
+the <em>first</em> time the module name is encountered in an import statement. <sup><a href="#id3">1</a></sup>
+(They are also run if the file is executed as a script.)</p>
+<p>Each module has its own private namespace, which is used as the global namespace
+by all functions defined in the module. Thus, the author of a module can
+use global variables in the module without worrying about accidental clashes
+with a user’s global variables. On the other hand, if you know what you are
+doing you can touch a module’s global variables with the same notation used to
+refer to its functions, <code>modname.itemname</code>.</p>
+<p>Modules can import other modules.  It is customary but not required to place all
+<code>import</code> statements at the beginning of a module (or script, for that
+matter).  The imported module names, if placed at the top level of a module
+(outside any functions or classes), are added to the module’s global namespace.</p>
+<p>There is a variant of the <code>import</code> statement that imports names from a
+module directly into the importing module’s namespace.  For example:</p>
+<pre><code class="language-python">from fibo import fib, fib2
+fib(500)
+# 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377
+</code></pre>
+<p>This does not introduce the module name from which the imports are taken in the
+local namespace (so in the example, <code>fibo</code> is not defined).</p>
+<p>There is even a variant to import all names that a module defines:</p>
+<pre><code class="language-python">from fibo import *
+fib(500)
+# 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377
+</code></pre>
+<p>This imports all names except those beginning with an underscore (<code>_</code>).
+In most cases Python programmers do not use this facility since it introduces
+an unknown set of names into the interpreter, possibly hiding some things
+you have already defined.</p>
+<p>Note that in general the practice of importing <code>*</code> from a module or package is
+frowned upon, since it often causes poorly readable code. However, it is okay to
+use it to save typing in interactive sessions.</p>
+<p>If the module name is followed by <code>as</code>, then the name
+following <code>as</code> is bound directly to the imported module.</p>
+<pre><code class="language-python">import fibo as fib
+fib.fib(500)
+# 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377
+</code></pre>
+<p>This is effectively importing the module in the same way that <code>import fibo</code>
+will do, with the only difference of it being available as <code>fib</code>.</p>
+<p>It can also be used when utilising <code>from</code> with similar effects:</p>
+<pre><code class="language-python">from fibo import fib as fibonacci
+fibonacci(500)
+# 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>For efficiency reasons, each module is only imported once per interpreter
+session.  Therefore, if you change your modules, you must restart the
+interpreter – or, if it’s just one module you want to test interactively,
+use <code>importlib.reload()</code>, e.g. <code>import importlib; importlib.reload(modulename)</code>.</p>
+</blockquote>
+<p><a id="tut-modulesasscripts"></a></p>
+<h3 id="executing-modules-as-scripts"><a class="header" href="#executing-modules-as-scripts">Executing modules as scripts</a></h3>
+<p>When you run a Python module with</p>
+<pre><code class="language-console">python fibo.py &lt;arguments&gt;
+</code></pre>
+<p>the code in the module will be executed, just as if you imported it, but with
+the <code>__name__</code> set to <code>"__main__"</code>.  That means that by adding this code at
+the end of your module:</p>
+<pre><code class="language-python">if __name__ == "__main__":
+    import sys
+    fib(int(sys.argv[1]))
+</code></pre>
+<p>you can make the file usable as a script as well as an importable module,
+because the code that parses the command line only runs if the module is
+executed as the “main” file:</p>
+<pre><code class="language-console">$ python fibo.py 50
+0 1 1 2 3 5 8 13 21 34
+</code></pre>
+<p>If the module is imported, the code is not run:</p>
+<pre><code class="language-python">import fibo
+</code></pre>
+<p>This is often used either to provide a convenient user interface to a module, or
+for testing purposes (running the module as a script executes a test suite).</p>
+<p><a id="tut-searchpath"></a></p>
+<h3 id="the-module-search-path"><a class="header" href="#the-module-search-path">The Module Search Path</a></h3>
+<p>When a module named <code>spam</code> is imported, the interpreter first searches for
+a built-in module with that name. These module names are listed in
+<code>sys.builtin_module_names</code>. If not found, it then searches for a file
+named <code>spam.py</code> in a list of directories given by the variable
+<code>sys.path</code>.  <code>sys.path</code> is initialized from these locations:</p>
+<ul>
+<li>The directory containing the input script (or the current directory when no
+file is specified).</li>
+<li><code>PYTHONPATH</code> (a list of directory names, with the same syntax as the
+shell variable <code>PATH</code>).</li>
+<li>The installation-dependent default (by convention including a
+<code>site-packages</code> directory, handled by the <code>site</code> module).</li>
+</ul>
+<p>More details are at <a href="https://docs.python.org/3/library/sys_path_init.html">The initialization of the sys.path module search path</a>.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>On file systems which support symlinks, the directory containing the input
+script is calculated after the symlink is followed. In other words the
+directory containing the symlink is <strong>not</strong> added to the module search path.</p>
+</blockquote>
+<p>After initialization, Python programs can modify <code>sys.path</code>.  The
+directory containing the script being run is placed at the beginning of the
+search path, ahead of the standard library path. This means that scripts in that
+directory will be loaded instead of modules of the same name in the library
+directory. This is an error unless the replacement is intended.  See section
+<a href="#tut-standardmodules">Standard Modules</a> for more information.</p>
+<!-- %
+Do we need stuff on zip files etc. ? DUBOIS -->
+<p><a id="tut-pycache"></a></p>
+<h3 id="compiled-python-files"><a class="header" href="#compiled-python-files">“Compiled” Python files</a></h3>
+<p>To speed up loading modules, Python caches the compiled version of each module
+in the <code>__pycache__</code> directory under the name <code>module.*version*.pyc</code>,
+where the version encodes the format of the compiled file; it generally contains
+the Python version number.  For example, in CPython release 3.3 the compiled
+version of spam.py would be cached as <code>__pycache__/spam.cpython-33.pyc</code>.  This
+naming convention allows compiled modules from different releases and different
+versions of Python to coexist.</p>
+<p>Python checks the modification date of the source against the compiled version
+to see if it’s out of date and needs to be recompiled.  This is a completely
+automatic process.  Also, the compiled modules are platform-independent, so the
+same library can be shared among systems with different architectures.</p>
+<p>Python does not check the cache in two circumstances.  First, it always
+recompiles and does not store the result for the module that’s loaded directly
+from the command line.  Second, it does not check the cache if there is no
+source module.  To support a non-source (compiled only) distribution, the
+compiled module must be in the source directory, and there must not be a source
+module.</p>
+<p>Some tips for experts:</p>
+<ul>
+<li>You can use the <code>-O</code> or <code>-OO</code> switches on the Python command
+to reduce the size of a compiled module.  The <code>-O</code> switch removes assert
+statements, the <code>-OO</code> switch removes both assert statements and __doc__
+strings.  Since some programs may rely on having these available, you should
+only use this option if you know what you’re doing.  “Optimized” modules have
+an <code>opt-</code> tag and are usually smaller.  Future releases may
+change the effects of optimization.</li>
+<li>A program doesn’t run any faster when it is read from a <code>.pyc</code>
+file than when it is read from a <code>.py</code> file; the only thing that’s faster
+about <code>.pyc</code> files is the speed with which they are loaded.</li>
+<li>The module <code>compileall</code> can create .pyc files for all modules in a
+directory.</li>
+<li>There is more detail on this process, including a flow chart of the
+decisions, in <a href="https://peps.python.org/pep-3147/"><strong>PEP 3147</strong></a>.</li>
+</ul>
+<p><a id="tut-standardmodules"></a></p>
+<h2 id="standard-modules"><a class="header" href="#standard-modules">Standard Modules</a></h2>
+<p>Python comes with a library of standard modules, described in a separate
+document, the Python Library Reference (“Library Reference” hereafter).  Some
+modules are built into the interpreter; these provide access to operations that
+are not part of the core of the language but are nevertheless built in, either
+for efficiency or to provide access to operating system primitives such as
+system calls.  The set of such modules is a configuration option which also
+depends on the underlying platform.  For example, the <code>winreg</code> module is only
+provided on Windows systems. One particular module deserves some attention:
+<code>sys</code>, which is built into every Python interpreter.  The variables
+<code>sys.ps1</code> and <code>sys.ps2</code> define the strings used as primary and secondary
+prompts:</p>
+<pre><code class="language-python">import sys
+sys.ps1
+# '&gt;&gt;&gt; '
+sys.ps2  # '... '
+sys.ps1 = 'C&gt; '
+# C&gt; print('Yuck!')
+# Yuck!
+# C&gt;
+</code></pre>
+<p>These two variables are only defined if the interpreter is in interactive mode.</p>
+<p>The variable <code>sys.path</code> is a list of strings that determines the interpreter’s
+search path for modules. It is initialized to a default path taken from the
+environment variable <code>PYTHONPATH</code>, or from a built-in default if
+<code>PYTHONPATH</code> is not set.  You can modify it using standard list
+operations:</p>
+<pre><code class="language-python">import sys
+sys.path.append('/ufs/guido/lib/python')
+</code></pre>
+<p><a id="tut-dir"></a></p>
+<h2 id="the-dir-function"><a class="header" href="#the-dir-function">The <code>dir()</code> Function</a></h2>
+<p>The built-in function <code>dir()</code> is used to find out which names a module
+defines.  It returns a sorted list of strings:</p>
+<pre><code class="language-python">import fibo, sys
+dir(fibo)
+# ['__name__', 'fib', 'fib2']
+dir(sys)
+# ['__breakpointhook__', '__displayhook__', '__doc__', '__excepthook__',
+#  '__interactivehook__', '__loader__', '__name__', '__package__', '__spec__',
+#  '__stderr__', '__stdin__', '__stdout__', '__unraisablehook__',
+#  '_clear_type_cache', '_current_frames', '_debugmallocstats', '_framework',
+#  '_getframe', '_git', '_home', '_xoptions', 'abiflags', 'addaudithook',
+#  'api_version', 'argv', 'audit', 'base_exec_prefix', 'base_prefix',
+#  'breakpointhook', 'builtin_module_names', 'byteorder', 'call_tracing',
+#  'callstats', 'copyright', 'displayhook', 'dont_write_bytecode', 'exc_info',
+#  'excepthook', 'exec_prefix', 'executable', 'exit', 'flags', 'float_info',
+#  'float_repr_style', 'get_asyncgen_hooks', 'get_coroutine_origin_tracking_depth',
+#  'getallocatedblocks', 'getdefaultencoding', 'getdlopenflags',
+#  'getfilesystemencodeerrors', 'getfilesystemencoding', 'getprofile',
+#  'getrecursionlimit', 'getrefcount', 'getsizeof', 'getswitchinterval',
+#  'gettrace', 'hash_info', 'hexversion', 'implementation', 'int_info',
+#  'intern', 'is_finalizing', 'last_traceback', 'last_type', 'last_value',
+#  'maxsize', 'maxunicode', 'meta_path', 'modules', 'path', 'path_hooks',
+#  'path_importer_cache', 'platform', 'prefix', 'ps1', 'ps2', 'pycache_prefix',
+#  'set_asyncgen_hooks', 'set_coroutine_origin_tracking_depth', 'setdlopenflags',
+#  'setprofile', 'setrecursionlimit', 'setswitchinterval', 'settrace', 'stderr',
+#  'stdin', 'stdout', 'thread_info', 'unraisablehook', 'version', 'version_info',
+#  'warnoptions']
+</code></pre>
+<p>Without arguments, <code>dir()</code> lists the names you have defined currently:</p>
+<pre><code class="language-python">a = [1, 2, 3, 4, 5]
+import fibo
+fib = fibo.fib
+dir()
+# ['__builtins__', '__name__', 'a', 'fib', 'fibo', 'sys']
+</code></pre>
+<p>Note that it lists all types of names: variables, modules, functions, etc.</p>
+<p><code>dir()</code> does not list the names of built-in functions and variables.  If you
+want a list of those, they are defined in the standard module
+<code>builtins</code>:</p>
+<pre><code class="language-python">import builtins
+dir(builtins)
+# ['ArithmeticError', 'AssertionError', 'AttributeError', 'BaseException',
+#  'BlockingIOError', 'BrokenPipeError', 'BufferError', 'BytesWarning',
+#  'ChildProcessError', 'ConnectionAbortedError', 'ConnectionError',
+#  'ConnectionRefusedError', 'ConnectionResetError', 'DeprecationWarning',
+#  'EOFError', 'Ellipsis', 'EnvironmentError', 'Exception', 'False',
+#  'FileExistsError', 'FileNotFoundError', 'FloatingPointError',
+#  'FutureWarning', 'GeneratorExit', 'IOError', 'ImportError',
+#  'ImportWarning', 'IndentationError', 'IndexError', 'InterruptedError',
+#  'IsADirectoryError', 'KeyError', 'KeyboardInterrupt', 'LookupError',
+#  'MemoryError', 'NameError', 'None', 'NotADirectoryError', 'NotImplemented',
+#  'NotImplementedError', 'OSError', 'OverflowError',
+#  'PendingDeprecationWarning', 'PermissionError', 'ProcessLookupError',
+#  'ReferenceError', 'ResourceWarning', 'RuntimeError', 'RuntimeWarning',
+#  'StopIteration', 'SyntaxError', 'SyntaxWarning', 'SystemError',
+#  'SystemExit', 'TabError', 'TimeoutError', 'True', 'TypeError',
+#  'UnboundLocalError', 'UnicodeDecodeError', 'UnicodeEncodeError',
+#  'UnicodeError', 'UnicodeTranslateError', 'UnicodeWarning', 'UserWarning',
+#  'ValueError', 'Warning', 'ZeroDivisionError', '_', '__build_class__',
+#  '__debug__', '__doc__', '__import__', '__name__', '__package__', 'abs',
+#  'all', 'any', 'ascii', 'bin', 'bool', 'bytearray', 'bytes', 'callable',
+#  'chr', 'classmethod', 'compile', 'complex', 'copyright', 'credits',
+#  'delattr', 'dict', 'dir', 'divmod', 'enumerate', 'eval', 'exec', 'exit',
+#  'filter', 'float', 'format', 'frozenset', 'getattr', 'globals', 'hasattr',
+#  'hash', 'help', 'hex', 'id', 'input', 'int', 'isinstance', 'issubclass',
+#  'iter', 'len', 'license', 'list', 'locals', 'map', 'max', 'memoryview',
+#  'min', 'next', 'object', 'oct', 'open', 'ord', 'pow', 'print', 'property',
+#  'quit', 'range', 'repr', 'reversed', 'round', 'set', 'setattr', 'slice',
+#  'sorted', 'staticmethod', 'str', 'sum', 'super', 'tuple', 'type', 'vars',
+#  'zip']
+</code></pre>
+<p><a id="tut-packages"></a></p>
+<h2 id="packages"><a class="header" href="#packages">Packages</a></h2>
+<p>Packages are a way of structuring Python’s module namespace by using “dotted
+module names”.  For example, the module name <code>A.B</code> designates a submodule
+named <code>B</code> in a package named <code>A</code>.  Just like the use of modules saves the
+authors of different modules from having to worry about each other’s global
+variable names, the use of dotted module names saves the authors of multi-module
+packages like NumPy or Pillow from having to worry about
+each other’s module names.</p>
+<p>Suppose you want to design a collection of modules (a “package”) for the uniform
+handling of sound files and sound data.  There are many different sound file
+formats (usually recognized by their extension, for example: <code>.wav</code>,
+<code>.aiff</code>, <code>.au</code>), so you may need to create and maintain a growing
+collection of modules for the conversion between the various file formats.
+There are also many different operations you might want to perform on sound data
+(such as mixing, adding echo, applying an equalizer function, creating an
+artificial stereo effect), so in addition you will be writing a never-ending
+stream of modules to perform these operations.  Here’s a possible structure for
+your package (expressed in terms of a hierarchical filesystem):</p>
+<pre><code class="language-text">sound/                          Top-level package
+      __init__.py               Initialize the sound package
+      formats/                  Subpackage for file format conversions
+              __init__.py
+              wavread.py
+              wavwrite.py
+              aiffread.py
+              aiffwrite.py
+              auread.py
+              auwrite.py
+              ...
+      effects/                  Subpackage for sound effects
+              __init__.py
+              echo.py
+              surround.py
+              reverse.py
+              ...
+      filters/                  Subpackage for filters
+              __init__.py
+              equalizer.py
+              vocoder.py
+              karaoke.py
+              ...
+</code></pre>
+<p>When importing the package, Python searches through the directories on
+<code>sys.path</code> looking for the package subdirectory.</p>
+<p>The <code>__init__.py</code> files are required to make Python treat directories
+containing the file as packages (unless using a <a href="https://docs.python.org/3/glossary.html#term-namespace-package">namespace package</a>, a
+relatively advanced feature). This prevents directories with a common name,
+such as <code>string</code>, from unintentionally hiding valid modules that occur later
+on the module search path. In the simplest case, <code>__init__.py</code> can just be
+an empty file, but it can also execute initialization code for the package or
+set the <code>__all__</code> variable, described later.</p>
+<p>Users of the package can import individual modules from the package, for
+example:</p>
+<pre><code class="language-python">import sound.effects.echo
+</code></pre>
+<p>This loads the submodule <code>sound.effects.echo</code>.  It must be referenced with
+its full name.</p>
+<pre><code class="language-python">sound.effects.echo.echofilter(input, output, delay=0.7, atten=4)
+</code></pre>
+<p>An alternative way of importing the submodule is:</p>
+<pre><code class="language-python">from sound.effects import echo
+</code></pre>
+<p>This also loads the submodule <code>echo</code>, and makes it available without its
+package prefix, so it can be used as follows:</p>
+<pre><code class="language-python">echo.echofilter(input, output, delay=0.7, atten=4)
+</code></pre>
+<p>Yet another variation is to import the desired function or variable directly:</p>
+<pre><code class="language-python">from sound.effects.echo import echofilter
+</code></pre>
+<p>Again, this loads the submodule <code>echo</code>, but this makes its function
+<code>echofilter()</code> directly available:</p>
+<pre><code class="language-python">echofilter(input, output, delay=0.7, atten=4)
+</code></pre>
+<p>Note that when using <code>from package import item</code>, the item can be either a
+submodule (or subpackage) of the package, or some  other name defined in the
+package, like a function, class or variable.  The <code>import</code> statement first
+tests whether the item is defined in the package; if not, it assumes it is a
+module and attempts to load it.  If it fails to find it, an <code>ImportError</code>
+exception is raised.</p>
+<p>Contrarily, when using syntax like <code>import item.subitem.subsubitem</code>, each item
+except for the last must be a package; the last item can be a module or a
+package but can’t be a class or function or variable defined in the previous
+item.</p>
+<p><a id="tut-pkg-import-star"></a></p>
+<h3 id="importing--from-a-package"><a class="header" href="#importing--from-a-package">Importing * From a Package</a></h3>
+<p>Now what happens when the user writes <code>from sound.effects import *</code>?  Ideally,
+one would hope that this somehow goes out to the filesystem, finds which
+submodules are present in the package, and imports them all.  This could take a
+long time and importing sub-modules might have unwanted side-effects that should
+only happen when the sub-module is explicitly imported.</p>
+<p>The only solution is for the package author to provide an explicit index of the
+package.  The <code>import</code> statement uses the following convention: if a package’s
+<code>__init__.py</code> code defines a list named <code>__all__</code>, it is taken to be the
+list of module names that should be imported when <code>from package import *</code> is
+encountered.  It is up to the package author to keep this list up-to-date when a
+new version of the package is released.  Package authors may also decide not to
+support it, if they don’t see a use for importing * from their package.  For
+example, the file <code>sound/effects/__init__.py</code> could contain the following
+code:</p>
+<pre><code class="language-python">__all__ = ["echo", "surround", "reverse"]
+</code></pre>
+<p>This would mean that <code>from sound.effects import *</code> would import the three
+named submodules of the <code>sound.effects</code> package.</p>
+<p>Be aware that submodules might become shadowed by locally defined names. For
+example, if you added a <code>reverse</code> function to the
+<code>sound/effects/__init__.py</code> file, the <code>from sound.effects import *</code>
+would only import the two submodules <code>echo</code> and <code>surround</code>, but <em>not</em> the
+<code>reverse</code> submodule, because it is shadowed by the locally defined
+<code>reverse</code> function:</p>
+<pre><code class="language-python">__all__ = [
+    "echo",      # refers to the 'echo.py' file
+    "surround",  # refers to the 'surround.py' file
+    "reverse",   # !!! refers to the 'reverse' function now !!!
+]
+
+def reverse(msg: str):  # &lt;-- this name shadows the 'reverse.py' submodule
+    return msg[::-1]    #     in the case of a 'from sound.effects import *'
+</code></pre>
+<p>If <code>__all__</code> is not defined, the statement <code>from sound.effects import *</code>
+does <em>not</em> import all submodules from the package <code>sound.effects</code> into the
+current namespace; it only ensures that the package <code>sound.effects</code> has
+been imported (possibly running any initialization code in <code>__init__.py</code>)
+and then imports whatever names are defined in the package.  This includes any
+names defined (and submodules explicitly loaded) by <code>__init__.py</code>.  It
+also includes any submodules of the package that were explicitly loaded by
+previous <code>import</code> statements.  Consider this code:</p>
+<pre><code class="language-python">import sound.effects.echo
+import sound.effects.surround
+from sound.effects import *
+</code></pre>
+<p>In this example, the <code>echo</code> and <code>surround</code> modules are imported in the
+current namespace because they are defined in the <code>sound.effects</code> package
+when the <code>from...import</code> statement is executed.  (This also works when
+<code>__all__</code> is defined.)</p>
+<p>Although certain modules are designed to export only names that follow certain
+patterns when you use <code>import *</code>, it is still considered bad practice in
+production code.</p>
+<p>Remember, there is nothing wrong with using <code>from package import specific_submodule</code>!  In fact, this is the recommended notation unless the
+importing module needs to use submodules with the same name from different
+packages.</p>
+<p><a id="intra-package-references"></a></p>
+<h3 id="intra-package-references"><a class="header" href="#intra-package-references">Intra-package References</a></h3>
+<p>When packages are structured into subpackages (as with the <code>sound</code> package
+in the example), you can use absolute imports to refer to submodules of siblings
+packages.  For example, if the module <code>sound.filters.vocoder</code> needs to use
+the <code>echo</code> module in the <code>sound.effects</code> package, it can use <code>from sound.effects import echo</code>.</p>
+<p>You can also write relative imports, with the <code>from module import name</code> form
+of import statement.  These imports use leading dots to indicate the current and
+parent packages involved in the relative import.  From the <code>surround</code>
+module for example, you might use:</p>
+<pre><code class="language-python">from . import echo
+from .. import formats
+from ..filters import equalizer
+</code></pre>
+<p>Note that relative imports are based on the name of the current module’s package.
+Since the main module does not have a package, modules intended for use
+as the main module of a Python application must always use absolute imports.</p>
+<blockquote>
+<p><strong>Going deeper</strong></p>
+<p><a href="class-metaprogramming.html#what-happens-when-import-time-versus-runtime">Class Metaprogramming</a>
+shows, step by step, which code runs when a module is imported.</p>
+</blockquote>
+<h3 id="footnotes"><a class="header" href="#footnotes">Footnotes</a></h3>
+<ul>
+<li><a id="id3"><strong>[1]</strong></a> In fact function definitions are also ‘statements’ that are ‘executed’; the execution of a module-level function definition adds the function name to the module’s global namespace.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="references.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="inputoutput.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="references.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="inputoutput.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

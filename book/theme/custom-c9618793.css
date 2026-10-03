@@ -1,0 +1,9 @@
+/* Slightly larger body text, as in the original site */
+body { font-size: 1.9rem; }
+.content main { max-width: 900px; }
+
+/* Output shown as comments in code blocks stays readable but recedes */
+.hljs-comment { font-style: normal; }
+
+/* "Note", "Warning", "See Also" boxes rendered as blockquotes */
+.content blockquote > p:first-child > strong:only-child { text-transform: uppercase; font-size: 0.85em; letter-spacing: 0.04em; }

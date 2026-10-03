@@ -1,0 +1,819 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Errors and Exceptions - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <p><a id="tut-errors"></a></p>
+<h1 id="errors-and-exceptions"><a class="header" href="#errors-and-exceptions">Errors and Exceptions</a></h1>
+<p>Until now error messages haven’t been more than mentioned, but if you have tried
+out the examples you have probably seen some.  There are (at least) two
+distinguishable kinds of errors: <em>syntax errors</em> and <em>exceptions</em>.</p>
+<p><a id="tut-syntaxerrors"></a></p>
+<h2 id="syntax-errors"><a class="header" href="#syntax-errors">Syntax Errors</a></h2>
+<p>Syntax errors, also known as parsing errors, are perhaps the most common kind of
+complaint you get while you are still learning Python:</p>
+<pre><code class="language-python">while True print('Hello world')
+#   File "&lt;stdin&gt;", line 1
+#     while True print('Hello world')
+#                ^^^^^
+# SyntaxError: invalid syntax
+</code></pre>
+<p>The parser repeats the offending line and displays little arrows pointing
+at the place where the error was detected.  Note that this is not always the
+place that needs to be fixed.  In the example, the error is detected at the
+function <code>print()</code>, since a colon (<code>':'</code>) is missing just before it.</p>
+<p>The file name (<code>&lt;stdin&gt;</code> in our example) and line number are printed so you
+know where to look in case the input came from a file.</p>
+<p><a id="tut-exceptions"></a></p>
+<h2 id="exceptions"><a class="header" href="#exceptions">Exceptions</a></h2>
+<p>Even if a statement or expression is syntactically correct, it may cause an
+error when an attempt is made to execute it. Errors detected during execution
+are called <em>exceptions</em> and are not unconditionally fatal: you will soon learn
+how to handle them in Python programs.  Most exceptions are not handled by
+programs, however, and result in error messages as shown here:</p>
+<pre><code class="language-python">10 * (1/0)
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+#     10 * (1/0)
+#           ~^~
+# ZeroDivisionError: division by zero
+4 + spam*3
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+#     4 + spam*3
+#         ^^^^
+# NameError: name 'spam' is not defined
+'2' + 2
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+#     '2' + 2
+#     ~~~~^~~
+# TypeError: can only concatenate str (not "int") to str
+</code></pre>
+<p>The last line of the error message indicates what happened. Exceptions come in
+different types, and the type is printed as part of the message: the types in
+the example are <code>ZeroDivisionError</code>, <code>NameError</code> and <code>TypeError</code>.
+The string printed as the exception type is the name of the built-in exception
+that occurred.  This is true for all built-in exceptions, but need not be true
+for user-defined exceptions (although it is a useful convention). Standard
+exception names are built-in identifiers (not reserved keywords).</p>
+<p>The rest of the line provides detail based on the type of exception and what
+caused it.</p>
+<p>The preceding part of the error message shows the context where the exception
+occurred, in the form of a stack traceback. In general it contains a stack
+traceback listing source lines; however, it will not display lines read from
+standard input.</p>
+<p><a href="https://docs.python.org/3/library/exceptions.html">Built-in Exceptions</a> lists the built-in exceptions and their meanings.</p>
+<p><a id="tut-handling"></a></p>
+<h2 id="handling-exceptions"><a class="header" href="#handling-exceptions">Handling Exceptions</a></h2>
+<p>It is possible to write programs that handle selected exceptions. Look at the
+following example, which asks the user for input until a valid integer has been
+entered, but allows the user to interrupt the program (using <code>Control</code>-<code>C</code> or
+whatever the operating system supports); note that a user-generated interruption
+is signalled by raising the <code>KeyboardInterrupt</code> exception.</p>
+<pre><code class="language-python">while True:
+    try:
+        x = int(input("Please enter a number: "))
+        break
+    except ValueError:
+        print("Oops!  That was no valid number.  Try again...")
+</code></pre>
+<p>The <code>try</code> statement works as follows.</p>
+<ul>
+<li>First, the <em>try clause</em> (the statement(s) between the <code>try</code> and
+<code>except</code> keywords) is executed.</li>
+<li>If no exception occurs, the <em>except clause</em> is skipped and execution of the
+<code>try</code> statement is finished.</li>
+<li>If an exception occurs during execution of the <code>try</code> clause, the rest of the
+clause is skipped.  Then, if its type matches the exception named after the
+<code>except</code> keyword, the <em>except clause</em> is executed, and then execution
+continues after the try/except block.</li>
+<li>If an exception occurs which does not match the exception named in the <em>except
+clause</em>, it is passed on to outer <code>try</code> statements; if no handler is
+found, it is an <em>unhandled exception</em> and execution stops with an error message.</li>
+</ul>
+<p>A <code>try</code> statement may have more than one <em>except clause</em>, to specify
+handlers for different exceptions.  At most one handler will be executed.
+Handlers only handle exceptions that occur in the corresponding <em>try clause</em>,
+not in other handlers of the same <code>try</code> statement.  An <em>except clause</em>
+may name multiple exceptions, for example:</p>
+<pre><code class="language-python">except RuntimeError, TypeError, NameError:
+    pass
+</code></pre>
+<p>A class in an <code>except</code> clause matches exceptions which are instances of the
+class itself or one of its derived classes (but not the other way around — an
+<em>except clause</em> listing a derived class does not match instances of its base classes).
+For example, the following code will print B, C, D in that order:</p>
+<pre><code class="language-python">class B(Exception):
+    pass
+
+class C(B):
+    pass
+
+class D(C):
+    pass
+
+for cls in [B, C, D]:
+    try:
+        raise cls()
+    except D:
+        print("D")
+    except C:
+        print("C")
+    except B:
+        print("B")
+</code></pre>
+<p>Note that if the <em>except clauses</em> were reversed (with <code>except B</code> first), it
+would have printed B, B, B — the first matching <em>except clause</em> is triggered.</p>
+<p>When an exception occurs, it may have associated values, also known as the
+exception’s <em>arguments</em>. The presence and types of the arguments depend on the
+exception type.</p>
+<p>The <em>except clause</em> may specify a variable after the exception name.  The
+variable is bound to the exception instance which typically has an <code>args</code>
+attribute that stores the arguments. For convenience, builtin exception
+types define <code>__str__()</code> to print all the arguments without explicitly
+accessing <code>.args</code>.</p>
+<pre><code class="language-python">try:
+    raise Exception('spam', 'eggs')
+except Exception as inst:
+    print(type(inst))    # the exception type
+    print(inst.args)     # arguments stored in .args
+    print(inst)          # __str__ allows args to be printed directly,
+                         # but may be overridden in exception subclasses
+    x, y = inst.args     # unpack args
+    print('x =', x)
+    print('y =', y)
+# &lt;class 'Exception'&gt;
+# ('spam', 'eggs')
+# ('spam', 'eggs')
+# x = spam
+# y = eggs
+</code></pre>
+<p>The exception’s <code>__str__()</code> output is printed as the last part (‘detail’)
+of the message for unhandled exceptions.</p>
+<p><code>BaseException</code> is the common base class of all exceptions. One of its
+subclasses, <code>Exception</code>, is the base class of all the non-fatal exceptions.
+Exceptions which are not subclasses of <code>Exception</code> are not typically
+handled, because they are used to indicate that the program should terminate.
+They include <code>SystemExit</code> which is raised by <code>sys.exit()</code> and
+<code>KeyboardInterrupt</code> which is raised when a user wishes to interrupt
+the program.</p>
+<p><code>Exception</code> can be used as a wildcard that catches (almost) everything.
+However, it is good practice to be as specific as possible with the types
+of exceptions that we intend to handle, and to allow any unexpected
+exceptions to propagate on.</p>
+<p>The most common pattern for handling <code>Exception</code> is to print or log
+the exception and then re-raise it (allowing a caller to handle the
+exception as well):</p>
+<pre><code class="language-python">import sys
+
+try:
+    f = open('myfile.txt')
+    s = f.readline()
+    i = int(s.strip())
+except OSError as err:
+    print("OS error:", err)
+except ValueError:
+    print("Could not convert data to an integer.")
+except Exception as err:
+    print(f"Unexpected {err=}, {type(err)=}")
+    raise
+</code></pre>
+<p>The <code>try</code> … <code>except</code> statement has an optional <em>else
+clause</em>, which, when present, must follow all <em>except clauses</em>.  It is useful
+for code that must be executed if the <em>try clause</em> does not raise an exception.
+For example:</p>
+<pre><code class="language-python">for arg in sys.argv[1:]:
+    try:
+        f = open(arg, 'r')
+    except OSError:
+        print('cannot open', arg)
+    else:
+        print(arg, 'has', len(f.readlines()), 'lines')
+        f.close()
+</code></pre>
+<p>The use of the <code>else</code> clause is better than adding additional code to
+the <code>try</code> clause because it avoids accidentally catching an exception
+that wasn’t raised by the code being protected by the <code>try</code> …
+<code>except</code> statement.</p>
+<p>Exception handlers do not handle only exceptions that occur immediately in the
+<em>try clause</em>, but also those that occur inside functions that are called (even
+indirectly) in the <em>try clause</em>. For example:</p>
+<pre><code class="language-python">def this_fails():
+    x = 1/0
+try:
+    this_fails()
+except ZeroDivisionError as err:
+    print('Handling run-time error:', err)
+# Handling run-time error: division by zero
+</code></pre>
+<p><a id="tut-raising"></a></p>
+<h2 id="raising-exceptions"><a class="header" href="#raising-exceptions">Raising Exceptions</a></h2>
+<p>The <code>raise</code> statement allows the programmer to force a specified
+exception to occur. For example:</p>
+<pre><code class="language-python">raise NameError('HiThere')
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+#     raise NameError('HiThere')
+# NameError: HiThere
+</code></pre>
+<p>The sole argument to <code>raise</code> indicates the exception to be raised.
+This must be either an exception instance or an exception class (a class that
+derives from <code>BaseException</code>, such as <code>Exception</code> or one of its
+subclasses).  If an exception class is passed, it will be implicitly
+instantiated by calling its constructor with no arguments:</p>
+<pre><code class="language-python">raise ValueError  # shorthand for 'raise ValueError()'
+</code></pre>
+<p>If you need to determine whether an exception was raised but don’t intend to
+handle it, a simpler form of the <code>raise</code> statement allows you to
+re-raise the exception:</p>
+<pre><code class="language-python">try:
+    raise NameError('HiThere')
+except NameError:
+    print('An exception flew by!')
+    raise
+# An exception flew by!
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 2, in &lt;module&gt;
+#     raise NameError('HiThere')
+# NameError: HiThere
+</code></pre>
+<p><a id="tut-exception-chaining"></a></p>
+<h2 id="exception-chaining"><a class="header" href="#exception-chaining">Exception Chaining</a></h2>
+<p>If an unhandled exception occurs inside an <code>except</code> section, it will
+have the exception being handled attached to it and included in the error
+message:</p>
+<pre><code class="language-python">try:
+    open("database.sqlite")
+except OSError:
+    raise RuntimeError("unable to handle error")
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 2, in &lt;module&gt;
+#     open("database.sqlite")
+#     ~~~~^^^^^^^^^^^^^^^^^^^
+# FileNotFoundError: [Errno 2] No such file or directory: 'database.sqlite'
+#
+# During handling of the above exception, another exception occurred:
+#
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 4, in &lt;module&gt;
+#     raise RuntimeError("unable to handle error")
+# RuntimeError: unable to handle error
+</code></pre>
+<p>To indicate that an exception is a direct consequence of another, the
+<code>raise</code> statement allows an optional <code>from</code> clause:</p>
+<pre><code class="language-python"># exc must be exception instance or None.
+raise RuntimeError from exc
+</code></pre>
+<p>This can be useful when you are transforming exceptions. For example:</p>
+<pre><code class="language-python">def func():
+    raise ConnectionError
+try:
+    func()
+except ConnectionError as exc:
+    raise RuntimeError('Failed to open database') from exc
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 2, in &lt;module&gt;
+#     func()
+#     ~~~~^^
+#   File "&lt;stdin&gt;", line 2, in func
+# ConnectionError
+#
+# The above exception was the direct cause of the following exception:
+#
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 4, in &lt;module&gt;
+#     raise RuntimeError('Failed to open database') from exc
+# RuntimeError: Failed to open database
+</code></pre>
+<p>It also allows disabling automatic exception chaining using the <code>from None</code>
+idiom:</p>
+<pre><code class="language-python">try:
+    open('database.sqlite')
+except OSError:
+    raise RuntimeError from None
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 4, in &lt;module&gt;
+#     raise RuntimeError from None
+# RuntimeError
+</code></pre>
+<p>For more information about chaining mechanics, see <a href="https://docs.python.org/3/library/exceptions.html">Built-in Exceptions</a>.</p>
+<p><a id="tut-userexceptions"></a></p>
+<h2 id="user-defined-exceptions"><a class="header" href="#user-defined-exceptions">User-defined Exceptions</a></h2>
+<p>Programs may name their own exceptions by creating a new exception class (see
+<a href="classes.html#tut-classes">Classes</a> for more about Python classes).  Exceptions should typically
+be derived from the <code>Exception</code> class, either directly or indirectly.</p>
+<p>Exception classes can be defined which do anything any other class can do, but
+are usually kept simple, often only offering a number of attributes that allow
+information about the error to be extracted by handlers for the exception.</p>
+<p>Most exceptions are defined with names that end in “Error”, similar to the
+naming of the standard exceptions.</p>
+<p>Many standard modules define their own exceptions to report errors that may
+occur in functions they define.</p>
+<p><a id="tut-cleanup"></a></p>
+<h2 id="defining-clean-up-actions"><a class="header" href="#defining-clean-up-actions">Defining Clean-up Actions</a></h2>
+<p>The <code>try</code> statement has another optional clause which is intended to
+define clean-up actions that must be executed under all circumstances.  For
+example:</p>
+<pre><code class="language-python">try:
+    raise KeyboardInterrupt
+finally:
+    print('Goodbye, world!')
+# Goodbye, world!
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 2, in &lt;module&gt;
+#     raise KeyboardInterrupt
+# KeyboardInterrupt
+</code></pre>
+<p>If a <code>finally</code> clause is present, the <code>finally</code>
+clause will execute as the last task before the <code>try</code>
+statement completes. The <code>finally</code> clause runs whether or
+not the <code>try</code> statement produces an exception. The following
+points discuss more complex cases when an exception occurs:</p>
+<ul>
+<li>If an exception occurs during execution of the <code>try</code>
+clause, the exception may be handled by an <code>except</code>
+clause. If the exception is not handled by an <code>except</code>
+clause, the exception is re-raised after the <code>finally</code>
+clause has been executed.</li>
+<li>An exception could occur during execution of an <code>except</code>
+or <code>else</code> clause. Again, the exception is re-raised after
+the <code>finally</code> clause has been executed.</li>
+<li>If the <code>finally</code> clause executes a <code>break</code>,
+<code>continue</code> or <code>return</code> statement, exceptions are not
+re-raised. This can be confusing and is therefore discouraged. From
+version 3.14 the compiler emits a <code>SyntaxWarning</code> for it
+(see <a href="https://peps.python.org/pep-0765/"><strong>PEP 765</strong></a>).</li>
+<li>If the <code>try</code> statement reaches a <code>break</code>,
+<code>continue</code> or <code>return</code> statement, the
+<code>finally</code> clause will execute just prior to the
+<code>break</code>, <code>continue</code> or <code>return</code>
+statement’s execution.</li>
+<li>If a <code>finally</code> clause includes a <code>return</code>
+statement, the returned value will be the one from the
+<code>finally</code> clause’s <code>return</code> statement, not the
+value from the <code>try</code> clause’s <code>return</code>
+statement. This can be confusing and is therefore discouraged. From
+version 3.14 the compiler emits a <code>SyntaxWarning</code> for it
+(see <a href="https://peps.python.org/pep-0765/"><strong>PEP 765</strong></a>).</li>
+</ul>
+<p>For example:</p>
+<pre><code class="language-python">def bool_return():
+    try:
+        return True
+    finally:
+        return False
+bool_return()
+# False
+</code></pre>
+<p>A more complicated example:</p>
+<pre><code class="language-python">def divide(x, y):
+    try:
+        result = x / y
+    except ZeroDivisionError:
+        print("division by zero!")
+    else:
+        print("result is", result)
+    finally:
+        print("executing finally clause")
+divide(2, 1)
+# result is 2.0
+# executing finally clause
+divide(2, 0)
+# division by zero!
+# executing finally clause
+divide("2", "1")
+# executing finally clause
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+#     divide("2", "1")
+#     ~~~~~~^^^^^^^^^^
+#   File "&lt;stdin&gt;", line 3, in divide
+#     result = x / y
+#              ~~^~~
+# TypeError: unsupported operand type(s) for /: 'str' and 'str'
+</code></pre>
+<p>As you can see, the <code>finally</code> clause is executed in any event.  The
+<code>TypeError</code> raised by dividing two strings is not handled by the
+<code>except</code> clause and therefore re-raised after the <code>finally</code>
+clause has been executed.</p>
+<p>In real world applications, the <code>finally</code> clause is useful for
+releasing external resources (such as files or network connections), regardless
+of whether the use of the resource was successful.</p>
+<p><a id="tut-cleanup-with"></a></p>
+<h2 id="predefined-clean-up-actions"><a class="header" href="#predefined-clean-up-actions">Predefined Clean-up Actions</a></h2>
+<p>Some objects define standard clean-up actions to be undertaken when the object
+is no longer needed, regardless of whether or not the operation using the object
+succeeded or failed. Look at the following example, which tries to open a file
+and print its contents to the screen.</p>
+<pre><code class="language-python">for line in open("myfile.txt"):
+    print(line, end="")
+</code></pre>
+<p>The problem with this code is that it leaves the file open for an indeterminate
+amount of time after this part of the code has finished executing.
+This is not an issue in simple scripts, but can be a problem for larger
+applications. The <code>with</code> statement allows objects like files to be
+used in a way that ensures they are always cleaned up promptly and correctly.</p>
+<pre><code class="language-python">with open("myfile.txt") as f:
+    for line in f:
+        print(line, end="")
+</code></pre>
+<p>After the statement is executed, the file <em>f</em> is always closed, even if a
+problem was encountered while processing the lines. Objects which, like files,
+provide predefined clean-up actions will indicate this in their documentation.</p>
+<p><a id="tut-exception-groups"></a></p>
+<h2 id="raising-and-handling-multiple-unrelated-exceptions"><a class="header" href="#raising-and-handling-multiple-unrelated-exceptions">Raising and Handling Multiple Unrelated Exceptions</a></h2>
+<p>There are situations where it is necessary to report several exceptions that
+have occurred. This is often the case in concurrency frameworks, when several
+tasks may have failed in parallel, but there are also other use cases where
+it is desirable to continue execution and collect multiple errors rather than
+raise the first exception.</p>
+<p>The builtin <code>ExceptionGroup</code> wraps a list of exception instances so
+that they can be raised together. It is an exception itself, so it can be
+caught like any other exception.</p>
+<pre><code class="language-python">def f():
+    excs = [OSError('error 1'), SystemError('error 2')]
+    raise ExceptionGroup('there were problems', excs)
+f()
+#   + Exception Group Traceback (most recent call last):
+#   |   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+#   |     f()
+#   |     ~^^
+#   |   File "&lt;stdin&gt;", line 3, in f
+#   |     raise ExceptionGroup('there were problems', excs)
+#   | ExceptionGroup: there were problems (2 sub-exceptions)
+#   +-+---------------- 1 ----------------
+#     | OSError: error 1
+#     +---------------- 2 ----------------
+#     | SystemError: error 2
+#     +------------------------------------
+try:
+    f()
+except Exception as e:
+    print(f'caught {type(e)}: {e}')
+# caught &lt;class 'ExceptionGroup'&gt;: there were problems (2 sub-exceptions)
+</code></pre>
+<p>By using <code>except*</code> instead of <code>except</code>, we can selectively
+handle only the exceptions in the group that match a certain
+type. In the following example, which shows a nested exception
+group, each <code>except*</code> clause extracts from the group exceptions
+of a certain type while letting all other exceptions propagate to
+other clauses and eventually to be reraised.</p>
+<pre><code class="language-python">def f():
+    raise ExceptionGroup(
+        "group1",
+        [
+            OSError(1),
+            SystemError(2),
+            ExceptionGroup(
+                "group2",
+                [
+                    OSError(3),
+                    RecursionError(4)
+                ]
+            )
+        ]
+    )
+try:
+    f()
+except* OSError as e:
+    print("There were OSErrors")
+except* SystemError as e:
+    print("There were SystemErrors")
+# There were OSErrors
+# There were SystemErrors
+#   + Exception Group Traceback (most recent call last):
+#   |   File "&lt;stdin&gt;", line 2, in &lt;module&gt;
+#   |     f()
+#   |     ~^^
+#   |   File "&lt;stdin&gt;", line 2, in f
+#   |     raise ExceptionGroup(
+#   |     ...&lt;12 lines&gt;...
+#   |     )
+#   | ExceptionGroup: group1 (1 sub-exception)
+#   +-+---------------- 1 ----------------
+#     | ExceptionGroup: group2 (1 sub-exception)
+#     +-+---------------- 1 ----------------
+#       | RecursionError: 4
+#       +------------------------------------
+</code></pre>
+<p>Note that the exceptions nested in an exception group must be instances,
+not types. This is because in practice the exceptions would typically
+be ones that have already been raised and caught by the program, along
+the following pattern:</p>
+<pre><code class="language-python">excs = []
+for test in tests:
+    try:
+        test.run()
+    except Exception as e:
+        excs.append(e)
+if excs:
+   raise ExceptionGroup("Test Failures", excs)
+</code></pre>
+<p><a id="tut-exception-notes"></a></p>
+<h2 id="enriching-exceptions-with-notes"><a class="header" href="#enriching-exceptions-with-notes">Enriching Exceptions with Notes</a></h2>
+<p>When an exception is created in order to be raised, it is usually initialized
+with information that describes the error that has occurred. There are cases
+where it is useful to add information after the exception was caught. For this
+purpose, exceptions have a method <code>add_note(note)</code> that accepts a string and
+adds it to the exception’s notes list. The standard traceback rendering
+includes all notes, in the order they were added, after the exception.</p>
+<pre><code class="language-python">try:
+    raise TypeError('bad type')
+except Exception as e:
+    e.add_note('Add some information')
+    e.add_note('Add some more information')
+    raise
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 2, in &lt;module&gt;
+#     raise TypeError('bad type')
+# TypeError: bad type
+# Add some information
+# Add some more information
+</code></pre>
+<p>For example, when collecting exceptions into an exception group, we may want
+to add context information for the individual errors. In the following each
+exception in the group has a note indicating when this error has occurred.</p>
+<pre><code class="language-python">def f():
+    raise OSError('operation failed')
+excs = []
+for i in range(3):
+    try:
+        f()
+    except Exception as e:
+        e.add_note(f'Happened in Iteration {i+1}')
+        excs.append(e)
+raise ExceptionGroup('We have some problems', excs)
+#   + Exception Group Traceback (most recent call last):
+#   |   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+#   |     raise ExceptionGroup('We have some problems', excs)
+#   | ExceptionGroup: We have some problems (3 sub-exceptions)
+#   +-+---------------- 1 ----------------
+#     | Traceback (most recent call last):
+#     |   File "&lt;stdin&gt;", line 3, in &lt;module&gt;
+#     |     f()
+#     |     ~^^
+#     |   File "&lt;stdin&gt;", line 2, in f
+#     |     raise OSError('operation failed')
+#     | OSError: operation failed
+#     | Happened in Iteration 1
+#     +---------------- 2 ----------------
+#     | Traceback (most recent call last):
+#     |   File "&lt;stdin&gt;", line 3, in &lt;module&gt;
+#     |     f()
+#     |     ~^^
+#     |   File "&lt;stdin&gt;", line 2, in f
+#     |     raise OSError('operation failed')
+#     | OSError: operation failed
+#     | Happened in Iteration 2
+#     +---------------- 3 ----------------
+#     | Traceback (most recent call last):
+#     |   File "&lt;stdin&gt;", line 3, in &lt;module&gt;
+#     |     f()
+#     |     ~^^
+#     |   File "&lt;stdin&gt;", line 2, in f
+#     |     raise OSError('operation failed')
+#     | OSError: operation failed
+#     | Happened in Iteration 3
+#     +------------------------------------
+</code></pre>
+<blockquote>
+<p><strong>Going deeper</strong></p>
+<ul>
+<li><a href="context-managers.html">Context Managers and <code>else</code> Blocks</a> — how the <code>with</code> statement works,
+the <code>contextlib</code> utilities, <code>@contextmanager</code>, and the <code>else</code> clause in <code>for</code>, <code>while</code> and
+<code>try</code> statements.</li>
+<li><a href="asyncio.html#structured-concurrency-with-taskgroup">Asynchronous Programming</a> shows exception
+groups and <code>except*</code> at work with <code>asyncio.TaskGroup</code>.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="inputoutput.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="context-managers.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="inputoutput.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="context-managers.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,723 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>The Python Data Model - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="the-python-data-model"><a class="header" href="#the-python-data-model">The Python Data Model</a></h1>
+<p>One of Python’s best qualities is its consistency.  Once you have worked with
+the language for a while, you can start making informed, correct guesses about
+features that are new to you.</p>
+<p>If you learned another object-oriented language first, though, you may find it
+odd to write <code>len(collection)</code> rather than <code>collection.len()</code>.  This apparent
+oddity is the tip of an iceberg, and once you understand the iceberg you
+understand much of what people mean by “Pythonic” code.  The iceberg is called
+the <em>Python Data Model</em>, and it is the interface you use to make your own
+objects work with the most idiomatic features of the language.</p>
+<p>You can think of the data model as a description of Python as a framework.  It
+formalizes the interfaces of the language’s own building blocks: sequences,
+functions, iterators, coroutines, classes, context managers, and so on.  When
+you use a framework, you spend much of your time writing methods that the
+framework calls.  The same thing happens when you build classes that take part
+in the data model: the interpreter invokes <em>special methods</em> to carry out basic
+operations on objects, usually in response to some piece of special syntax.</p>
+<p>Special method names always begin and end with two underscores.  For example,
+the syntax <code>obj[key]</code> is supported by the
+<a href="https://docs.python.org/3/reference/datamodel.html#object.__getitem__"><code>__getitem__()</code></a>
+special method.  To evaluate <code>my_collection[key]</code>, the interpreter calls
+<code>my_collection.__getitem__(key)</code>.</p>
+<p>You implement special methods when you want your objects to support and
+interact with fundamental language constructs such as:</p>
+<ul>
+<li>collections;</li>
+<li>attribute access;</li>
+<li>iteration, including asynchronous iteration with <code>async for</code>;</li>
+<li>operator overloading;</li>
+<li>function and method invocation;</li>
+<li>string representation and formatting;</li>
+<li>asynchronous programming with <code>await</code>;</li>
+<li>object creation and destruction;</li>
+<li>managed contexts with the <code>with</code> and <code>async with</code> statements.</li>
+</ul>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Special methods are often called <em>magic methods</em>, but there is nothing magical
+about them: they are fully documented, and they let ordinary programmers
+emulate the behavior of the built-in types.  Pythonistas usually pronounce a
+name like <code>__getitem__</code> as “dunder-getitem”; “dunder” is short for “double
+underscore before and after”, which is why special methods are also known as
+<em>dunder methods</em>.  The “Lexical Analysis” chapter of the language reference
+warns that any use of <code>__*__</code> names that does not follow explicitly
+documented use is subject to breakage without warning, so don’t invent dunder
+names of your own.</p>
+</blockquote>
+<h2 id="a-pythonic-card-deck"><a class="header" href="#a-pythonic-card-deck">A Pythonic Card Deck</a></h2>
+<p>The following class is simple, but it shows how much you gain by implementing
+just two special methods, <code>__getitem__()</code> and <code>__len__()</code>:</p>
+<pre><code class="language-python">import collections
+
+Card = collections.namedtuple('Card', ['rank', 'suit'])
+
+class FrenchDeck:
+    ranks = [str(n) for n in range(2, 11)] + list('JQKA')
+    suits = 'spades diamonds clubs hearts'.split()
+
+    def __init__(self):
+        self._cards = [Card(rank, suit) for suit in self.suits
+                                        for rank in self.ranks]
+
+    def __len__(self):
+        return len(self._cards)
+
+    def __getitem__(self, position):
+        return self._cards[position]
+</code></pre>
+<p>The first thing to notice is the use of
+<a href="https://docs.python.org/3/library/collections.html#collections.namedtuple"><code>collections.namedtuple()</code></a>
+to build a simple class representing individual cards.  <code>namedtuple</code> makes
+classes whose instances are just bundles of fields with no custom methods, like
+a database record.  Here it gives the cards a readable representation:</p>
+<pre><code class="language-python">beer_card = Card('7', 'diamonds')
+beer_card
+# Card(rank='7', suit='diamonds')
+</code></pre>
+<p>The real point of the example, however, is the <code>FrenchDeck</code> class.  It is
+short, but it packs a punch.  To begin with, like any standard Python
+collection, a deck responds to the <code>len()</code> function by returning the number of
+cards in it:</p>
+<pre><code class="language-python">deck = FrenchDeck()
+len(deck)
+# 52
+</code></pre>
+<p>Reading specific cards from the deck, say the first or the last, is easy thanks
+to the <code>__getitem__()</code> method:</p>
+<pre><code class="language-python">deck[0]
+# Card(rank='2', suit='spades')
+deck[-1]
+# Card(rank='A', suit='hearts')
+</code></pre>
+<p>Should we write a method to pick a random card?  There is no need: the
+standard library already has a function that returns a random item from a
+sequence, <a href="https://docs.python.org/3/library/random.html#random.choice"><code>random.choice()</code></a>,
+and it works on a deck just as it works on a list:</p>
+<pre><code class="language-python">from random import choice
+choice(deck)
+# Card(rank='3', suit='hearts')
+choice(deck)
+# Card(rank='K', suit='spades')
+</code></pre>
+<p>(Your cards will differ, of course.)  We have just seen two advantages of using
+special methods to take part in the data model:</p>
+<ul>
+<li>Users of your classes don’t have to memorize arbitrary method names for
+standard operations.  (“How do I get the number of items?  Is it <code>.size()</code>,
+<code>.length()</code>, or something else?”)</li>
+<li>It is easier to benefit from the rich standard library and avoid reinventing
+the wheel, as with <code>random.choice()</code>.</li>
+</ul>
+<p>But it gets better.  Because our <code>__getitem__()</code> delegates to the <code>[]</code>
+operator of the <code>self._cards</code> list, the deck automatically supports slicing.
+Here is how to look at the top three cards of a brand-new deck, and then pick
+just the aces by starting at index 12 and skipping 13 cards at a time:</p>
+<pre><code class="language-python">deck[:3]
+# [Card(rank='2', suit='spades'), Card(rank='3', suit='spades'),
+#  Card(rank='4', suit='spades')]
+deck[12::13]
+# [Card(rank='A', suit='spades'), Card(rank='A', suit='diamonds'),
+#  Card(rank='A', suit='clubs'), Card(rank='A', suit='hearts')]
+</code></pre>
+<p>Just by implementing <code>__getitem__()</code>, the deck is also iterable, forwards and
+backwards:</p>
+<pre><code class="language-python">for card in deck:
+    print(card)
+# Card(rank='2', suit='spades')
+# Card(rank='3', suit='spades')
+# Card(rank='4', suit='spades')
+# ...
+
+for card in reversed(deck):
+    print(card)
+# Card(rank='A', suit='hearts')
+# Card(rank='K', suit='hearts')
+# Card(rank='Q', suit='hearts')
+# ...
+</code></pre>
+<p>Iteration is often implicit.  If a collection has no <code>__contains__()</code> method,
+the <code>in</code> operator falls back to a sequential scan, so <code>in</code> works with our
+deck because the deck is iterable:</p>
+<pre><code class="language-python">Card('Q', 'hearts') in deck
+# True
+Card('7', 'beasts') in deck
+# False
+</code></pre>
+<p>How about sorting?  A common way of ranking cards is by rank, with aces
+highest, and then by suit in the order spades (highest), hearts, diamonds and
+clubs (lowest).  Here is a function that ranks cards by that rule, returning
+<code>0</code> for the 2 of clubs and <code>51</code> for the ace of spades:</p>
+<pre><code class="language-python">suit_values = dict(spades=3, hearts=2, diamonds=1, clubs=0)
+
+def spades_high(card):
+    rank_value = FrenchDeck.ranks.index(card.rank)
+    return rank_value * len(suit_values) + suit_values[card.suit]
+</code></pre>
+<p>Given <code>spades_high</code>, we can list the deck in order of increasing rank:</p>
+<pre><code class="language-python">for card in sorted(deck, key=spades_high):
+    print(card)
+# Card(rank='2', suit='clubs')
+# Card(rank='2', suit='diamonds')
+# Card(rank='2', suit='hearts')
+# ... (46 cards omitted)
+# Card(rank='A', suit='diamonds')
+# Card(rank='A', suit='hearts')
+# Card(rank='A', suit='spades')
+</code></pre>
+<p>Although <code>FrenchDeck</code> implicitly inherits from <code>object</code>, most of its behavior
+is not inherited at all.  It comes from taking part in the data model and from
+<em>composition</em>: by implementing <code>__len__()</code> and <code>__getitem__()</code>, <code>FrenchDeck</code>
+behaves like a standard Python sequence and benefits from core language
+features (iteration, slicing) and from the standard library (<code>random.choice()</code>,
+<code>reversed()</code>, <code>sorted()</code>).  Thanks to composition, both methods simply delegate
+their work to a list object, <code>self._cards</code>.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>As written, a <code>FrenchDeck</code> cannot be shuffled, because it is immutable: the
+cards and their positions cannot change unless you break encapsulation and
+handle the <code>_cards</code> attribute directly.  In
+<a href="protocols-abcs.html">Interfaces, Protocols, and ABCs</a> we fix that by adding a
+one-line <code>__setitem__()</code> method.</p>
+</blockquote>
+<h2 id="how-special-methods-are-used"><a class="header" href="#how-special-methods-are-used">How Special Methods Are Used</a></h2>
+<p>The first thing to know about special methods is that they are meant to be
+called by the Python interpreter, not by you.  You don’t write
+<code>my_object.__len__()</code>.  You write <code>len(my_object)</code> and, if <code>my_object</code> is an
+instance of a class you defined, Python calls the <code>__len__()</code> method you
+implemented.</p>
+<p>The interpreter takes a shortcut, however, for built-in types such as <code>list</code>,
+<code>str</code> and <code>bytearray</code>, and for extensions like NumPy arrays.  Variable-sized
+collections written in C include a struct called <code>PyVarObject</code> with an
+<code>ob_size</code> field holding the number of items.  If <code>my_object</code> is one of those
+built-ins, <code>len(my_object)</code> just reads that field, which is much faster than
+calling a method.</p>
+<p>More often than not, the special method call is implicit.  For example, the
+statement <code>for i in x:</code> actually calls <code>iter(x)</code>, which in turn may call
+<code>x.__iter__()</code> if it exists, or fall back on <code>x.__getitem__()</code>, as in the
+<code>FrenchDeck</code> example.</p>
+<p>Normally your code should not contain many direct calls to special methods.
+Unless you are doing a lot of metaprogramming, you should be <em>implementing</em>
+special methods far more often than <em>invoking</em> them.  The only special method
+that user code commonly calls directly is <code>__init__()</code>, to invoke the
+initializer of a superclass from your own <code>__init__()</code>.</p>
+<p>If you do need the effect of a special method, it is usually better to call the
+related built-in function (<code>len()</code>, <code>iter()</code>, <code>str()</code>, and so on).  These
+built-ins call the corresponding special method, but they often provide extra
+services and, for built-in types, they are faster than method calls.  You will
+see an example in <a href="iterators-generators.html#using-iter-with-a-callable">Using <code>iter()</code> with a callable</a>.</p>
+<p>In the next sections we look at some of the most important uses of special
+methods: emulating numeric types, representing objects as strings, giving
+objects a Boolean value, and implementing collections.</p>
+<p><a id="dm-vector"></a></p>
+<h3 id="emulating-numeric-types"><a class="header" href="#emulating-numeric-types">Emulating Numeric Types</a></h3>
+<p>Several special methods let your objects respond to operators such as <code>+</code>.
+<a href="operator-overloading.html">Operator Overloading</a> covers this in detail; here the
+goal is just to show special methods at work in another simple example.</p>
+<p>We will write a class to represent two-dimensional Euclidean vectors, like
+those used in math and physics.  (The built-in <code>complex</code> type can represent
+two-dimensional vectors, but our class can grow into an <em>n</em>-dimensional one,
+and in <a href="sequence-protocol.html">Special Methods for Sequences</a> it will.)</p>
+<p>It helps to start designing a class’s interface by writing down how you want
+to use it.  Vector addition should produce a new <code>Vector</code>, displayed in a
+friendly way:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v1 = Vector(2, 4)
+v2 = Vector(2, 1)
+v1 + v2
+# Vector(4, 5)
+</code></pre>
+<p>The built-in <code>abs()</code> function returns the absolute value of integers and
+floats and the magnitude of complex numbers, so to be consistent our class
+should also use <code>abs()</code> for the magnitude of a vector:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v = Vector(3, 4)
+abs(v)
+# 5.0
+</code></pre>
+<p>We can also implement the <code>*</code> operator to perform scalar multiplication, that
+is, multiplying a vector by a number to get a new vector with the same
+direction and a scaled magnitude:</p>
+<!-- nocheck -->
+<pre><code class="language-python">v * 3
+# Vector(9, 12)
+abs(v * 3)
+# 15.0
+</code></pre>
+<p>Here is a <code>Vector</code> class that implements these operations through the special
+methods <code>__repr__()</code>, <code>__abs__()</code>, <code>__add__()</code> and <code>__mul__()</code>, plus
+<code>__bool__()</code>, which we’ll discuss in a moment:</p>
+<pre><code class="language-python">import math
+
+class Vector:
+
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y
+
+    def __repr__(self):
+        return f'Vector({self.x!r}, {self.y!r})'
+
+    def __abs__(self):
+        return math.hypot(self.x, self.y)
+
+    def __bool__(self):
+        return bool(abs(self))
+
+    def __add__(self, other):
+        x = self.x + other.x
+        y = self.y + other.y
+        return Vector(x, y)
+
+    def __mul__(self, scalar):
+        return Vector(self.x * scalar, self.y * scalar)
+</code></pre>
+<p>The class implements five special methods besides the familiar <code>__init__()</code>,
+yet none of them is called directly, either inside the class or in the usage
+examples above.  As mentioned before, the interpreter is the only frequent
+caller of most special methods.</p>
+<p>Notice that <code>__add__()</code> and <code>__mul__()</code> both build and return a new <code>Vector</code>
+and leave their operands alone: <code>self</code> and <code>other</code> are only read.  That is the
+expected behavior of infix operators: create new objects and don’t touch the
+operands.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>As written, this class lets you multiply a <code>Vector</code> by a number, but not a
+number by a <code>Vector</code>, which breaks the commutative property of scalar
+multiplication.  The special method <code>__rmul__()</code>, explained in
+<a href="operator-overloading.html">Operator Overloading</a>, fixes that.</p>
+</blockquote>
+<h3 id="string-representation"><a class="header" href="#string-representation">String Representation</a></h3>
+<p>The <code>__repr__()</code> special method is called by the
+<a href="https://docs.python.org/3/library/functions.html#repr"><code>repr()</code></a> built-in to get
+the string representation of an object for inspection.  Without a custom
+<code>__repr__()</code>, the interactive interpreter would display a <code>Vector</code> as something
+like <code>&lt;Vector object at 0x10e100070&gt;</code>.</p>
+<p>The interactive interpreter and the debugger call <code>repr()</code> on the results of
+the expressions they evaluate, and so do the <code>%r</code> placeholder of <code>%</code>
+formatting and the <code>!r</code> conversion field of f-strings and <code>str.format()</code>.</p>
+<p>The f-string in our <code>__repr__()</code> uses <code>!r</code> to get the standard representation
+of each attribute.  That is good practice, because it shows the crucial
+difference between <code>Vector(1, 2)</code> and <code>Vector('1', '2')</code>.  The second would not
+work in this example, since the constructor’s arguments should be numbers, not
+strings.</p>
+<p>The string returned by <code>__repr__()</code> should be unambiguous and, when possible,
+match the source code needed to re-create the object.  That is why our
+representation looks like a call to the class constructor, <code>Vector(3, 4)</code>.</p>
+<p>By contrast, <code>__str__()</code> is called by the
+<a href="https://docs.python.org/3/library/stdtypes.html#str"><code>str()</code></a> built-in and used
+implicitly by <code>print()</code>.  It should return a string suitable for display to end
+users.  Often the string returned by <code>__repr__()</code> is friendly enough, and you
+don’t need <code>__str__()</code> at all: the implementation inherited from <code>object</code> falls
+back on <code>__repr__()</code>.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Programmers coming from languages with a <code>toString</code> method tend to implement
+<code>__str__()</code> and not <code>__repr__()</code>.  If you implement only one of these special
+methods in Python, choose <code>__repr__()</code>.</p>
+</blockquote>
+<h3 id="boolean-value-of-a-custom-type"><a class="header" href="#boolean-value-of-a-custom-type">Boolean Value of a Custom Type</a></h3>
+<p>Although Python has a <code>bool</code> type, it accepts any object in a Boolean context:
+the expression controlling an <code>if</code> or <code>while</code> statement, or the operands of
+<code>and</code>, <code>or</code> and <code>not</code>.  To decide whether a value <code>x</code> is <em>truthy</em> or <em>falsy</em>,
+Python applies <code>bool(x)</code>, which returns either <code>True</code> or <code>False</code>.</p>
+<p>By default, instances of user-defined classes are truthy, unless the class
+implements <code>__bool__()</code> or <code>__len__()</code>.  Basically, <code>bool(x)</code> calls
+<code>x.__bool__()</code> and uses the result.  If <code>__bool__()</code> is not implemented, Python
+tries <code>x.__len__()</code>, and if that returns zero, <code>bool()</code> returns <code>False</code>;
+otherwise it returns <code>True</code>.</p>
+<p>Our <code>__bool__()</code> is conceptually simple: it returns <code>False</code> if the magnitude of
+the vector is zero and <code>True</code> otherwise.  It converts the magnitude with
+<code>bool(abs(self))</code> because <code>__bool__()</code> must return an actual Boolean.  Outside
+<code>__bool__()</code> methods, you rarely need to call <code>bool()</code> explicitly, because any
+object can be used in a Boolean context.</p>
+<p>A faster implementation of <code>Vector.__bool__()</code> is this:</p>
+<pre><code class="language-python">def __bool__(self):
+    return bool(self.x or self.y)
+</code></pre>
+<p>It is harder to read, but it avoids the trip through <code>abs()</code>, <code>__abs__()</code>, the
+squares and the square root.  The explicit conversion is still needed, because
+<code>or</code> returns one of its operands as is: <code>x or y</code> evaluates to <code>x</code> if <code>x</code> is
+truthy, and to <code>y</code>, whatever it is, otherwise.</p>
+<h3 id="collection-api"><a class="header" href="#collection-api">Collection API</a></h3>
+<p>All of Python’s essential collection types are described by abstract base
+classes (ABCs) in the <a href="https://docs.python.org/3/library/collections.abc.html"><code>collections.abc</code></a>
+module.  ABCs are covered in <a href="protocols-abcs.html">Interfaces, Protocols, and ABCs</a>;
+here the goal is just a panoramic view of how the main collection interfaces
+are built out of special methods.</p>
+<p>At the top of the hierarchy sit three ABCs, each with a single special method.
+The <code>Collection</code> ABC (new in Python 3.6) unifies them, because every collection
+should support all three:</p>
+<ul>
+<li><code>Iterable</code>, with <code>__iter__()</code>, supports <code>for</code>, unpacking, and other forms of
+iteration;</li>
+<li><code>Sized</code>, with <code>__len__()</code>, supports the <code>len()</code> built-in;</li>
+<li><code>Container</code>, with <code>__contains__()</code>, supports the <code>in</code> operator.</li>
+</ul>
+<p>Python does not require concrete classes to inherit from any of these ABCs.
+Any class that implements <code>__len__()</code> satisfies the <code>Sized</code> interface.</p>
+<p>Three very important specializations of <code>Collection</code> are:</p>
+<ul>
+<li><code>Sequence</code>, formalizing the interface of built-ins like <code>list</code> and <code>str</code>;</li>
+<li><code>Mapping</code>, implemented by <code>dict</code>, <code>collections.defaultdict</code>, and others;</li>
+<li><code>Set</code>, the interface of the <code>set</code> and <code>frozenset</code> built-in types.</li>
+</ul>
+<p>Only <code>Sequence</code> is also <code>Reversible</code>, because sequences allow arbitrary
+ordering of their contents, while mappings and sets do not.  (Since Python 3.7
+<code>dict</code> is officially “ordered”, but that only means that key insertion order is
+preserved; you cannot rearrange the keys however you like.)  Each of these has
+a mutable counterpart, <code>MutableSequence</code>, <code>MutableMapping</code> and <code>MutableSet</code>,
+which adds methods such as <code>__setitem__()</code>, <code>__delitem__()</code>, <code>append()</code>,
+<code>pop()</code> and <code>add()</code>.</p>
+<p>All the special methods in the <code>Set</code> ABC implement infix operators.  For
+example, <code>a &amp; b</code> computes the intersection of the sets <code>a</code> and <code>b</code>, and is
+implemented by <code>__and__()</code>.</p>
+<p><a href="sequences.html">An Array of Sequences</a> and <a href="dicts-sets.html">Dictionaries and Sets</a>
+cover the standard library’s sequences, mappings and sets in detail.</p>
+<h2 id="overview-of-special-methods"><a class="header" href="#overview-of-special-methods">Overview of Special Methods</a></h2>
+<p>The <a href="https://docs.python.org/3/reference/datamodel.html">Data Model</a> chapter of
+the language reference lists more than 80 special method names.  More than
+half of them implement arithmetic, bitwise and comparison operators.  The
+following tables give an overview of what is available.</p>
+<p>The first table lists special methods other than those used for operators and
+core math functions like <code>abs()</code>.  Most of them are covered somewhere in this
+book, including recent additions such as the asynchronous special methods
+(<code>__anext__()</code> and friends, added in Python 3.5) and the class customization
+hook <code>__init_subclass__()</code> (Python 3.6).</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Category</th><th>Method names</th></tr>
+</thead>
+<tbody>
+<tr><td>String/bytes representation</td><td><code>__repr__</code> <code>__str__</code> <code>__format__</code> <code>__bytes__</code> <code>__fspath__</code></td></tr>
+<tr><td>Conversion to number</td><td><code>__bool__</code> <code>__complex__</code> <code>__int__</code> <code>__float__</code> <code>__hash__</code> <code>__index__</code></td></tr>
+<tr><td>Emulating collections</td><td><code>__len__</code> <code>__getitem__</code> <code>__setitem__</code> <code>__delitem__</code> <code>__contains__</code></td></tr>
+<tr><td>Iteration</td><td><code>__iter__</code> <code>__aiter__</code> <code>__next__</code> <code>__anext__</code> <code>__reversed__</code></td></tr>
+<tr><td>Callable or coroutine execution</td><td><code>__call__</code> <code>__await__</code></td></tr>
+<tr><td>Context management</td><td><code>__enter__</code> <code>__exit__</code> <code>__aenter__</code> <code>__aexit__</code></td></tr>
+<tr><td>Instance creation and destruction</td><td><code>__new__</code> <code>__init__</code> <code>__del__</code></td></tr>
+<tr><td>Attribute management</td><td><code>__getattr__</code> <code>__getattribute__</code> <code>__setattr__</code> <code>__delattr__</code> <code>__dir__</code></td></tr>
+<tr><td>Attribute descriptors</td><td><code>__get__</code> <code>__set__</code> <code>__delete__</code> <code>__set_name__</code></td></tr>
+<tr><td>Abstract base classes</td><td><code>__instancecheck__</code> <code>__subclasscheck__</code></td></tr>
+<tr><td>Class metaprogramming</td><td><code>__prepare__</code> <code>__init_subclass__</code> <code>__class_getitem__</code> <code>__mro_entries__</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>Infix and numeric operators are supported by the special methods in the next
+table.  The most recent names are <code>__matmul__()</code>, <code>__rmatmul__()</code> and
+<code>__imatmul__()</code>, added in Python 3.5 to support <code>@</code> as an infix operator for
+matrix multiplication.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Operator category</th><th>Symbols</th><th>Method names</th></tr>
+</thead>
+<tbody>
+<tr><td>Unary numeric</td><td><code>-</code> <code>+</code> <code>abs()</code></td><td><code>__neg__</code> <code>__pos__</code> <code>__abs__</code></td></tr>
+<tr><td>Rich comparison</td><td><code>&lt;</code> <code>&lt;=</code> <code>==</code> <code>!=</code> <code>&gt;</code> <code>&gt;=</code></td><td><code>__lt__</code> <code>__le__</code> <code>__eq__</code> <code>__ne__</code> <code>__gt__</code> <code>__ge__</code></td></tr>
+<tr><td>Arithmetic</td><td><code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>//</code> <code>%</code> <code>@</code> <code>divmod()</code> <code>round()</code> <code>**</code> <code>pow()</code></td><td><code>__add__</code> <code>__sub__</code> <code>__mul__</code> <code>__truediv__</code> <code>__floordiv__</code> <code>__mod__</code> <code>__matmul__</code> <code>__divmod__</code> <code>__round__</code> <code>__pow__</code></td></tr>
+<tr><td>Reversed arithmetic</td><td>(arithmetic operators with swapped operands)</td><td><code>__radd__</code> <code>__rsub__</code> <code>__rmul__</code> <code>__rtruediv__</code> <code>__rfloordiv__</code> <code>__rmod__</code> <code>__rmatmul__</code> <code>__rdivmod__</code> <code>__rpow__</code></td></tr>
+<tr><td>Augmented assignment arithmetic</td><td><code>+=</code> <code>-=</code> <code>*=</code> <code>/=</code> <code>//=</code> <code>%=</code> <code>@=</code> <code>**=</code></td><td><code>__iadd__</code> <code>__isub__</code> <code>__imul__</code> <code>__itruediv__</code> <code>__ifloordiv__</code> <code>__imod__</code> <code>__imatmul__</code> <code>__ipow__</code></td></tr>
+<tr><td>Bitwise</td><td><code>&amp;</code> <code>|</code> <code>^</code> <code>&lt;&lt;</code> <code>&gt;&gt;</code> <code>~</code></td><td><code>__and__</code> <code>__or__</code> <code>__xor__</code> <code>__lshift__</code> <code>__rshift__</code> <code>__invert__</code></td></tr>
+<tr><td>Reversed bitwise</td><td>(bitwise operators with swapped operands)</td><td><code>__rand__</code> <code>__ror__</code> <code>__rxor__</code> <code>__rlshift__</code> <code>__rrshift__</code></td></tr>
+<tr><td>Augmented assignment bitwise</td><td><code>&amp;=</code> <code>|=</code> <code>^=</code> <code>&lt;&lt;=</code> <code>&gt;&gt;=</code></td><td><code>__iand__</code> <code>__ior__</code> <code>__ixor__</code> <code>__ilshift__</code> <code>__irshift__</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>Python calls a <em>reversed</em> operator method on the second operand when the
+corresponding method on the first operand cannot be used.  <em>Augmented
+assignments</em> are shortcuts that combine an infix operator with variable
+assignment, as in <code>a += b</code>.  Both are explained in detail in
+<a href="operator-overloading.html">Operator Overloading</a>.</p>
+<h2 id="why-len-is-not-a-method"><a class="header" href="#why-len-is-not-a-method">Why <code>len</code> Is Not a Method</a></h2>
+<p>The short answer comes from the Zen of Python: “practicality beats purity.”
+As described above, <code>len(x)</code> runs very fast when <code>x</code> is an instance of a
+built-in type: for the built-in objects of CPython no method is called at all,
+and the length is simply read from a field of a C struct.  Getting the number of
+items in a collection is a very common operation, and it must be efficient for
+basic and diverse types such as <code>str</code>, <code>list</code> and <code>memoryview</code>.</p>
+<p>In other words, <code>len</code> is not called as a method because it gets special
+treatment as part of the data model, just like <code>abs</code>.  But thanks to the
+special method <code>__len__()</code>, you can also make <code>len()</code> work with your own
+objects.  That is a fair compromise between the need for efficient built-in
+objects and the consistency of the language.  Again from the Zen of Python:
+“Special cases aren’t special enough to break the rules.”</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>If you think of <code>abs</code> and <code>len</code> as unary operators, you may be more inclined
+to forgive their functional look, as opposed to the method-call syntax you
+might expect in an object-oriented language.  In fact, ABC, a direct ancestor
+of Python that pioneered many of its features, had a <code>#</code> operator equivalent
+to <code>len</code> (you wrote <code>#s</code>).  Used as an infix operator, <code>x#s</code> counted the
+occurrences of <code>x</code> in <code>s</code>, which in Python you get as <code>s.count(x)</code>.</p>
+</blockquote>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>By implementing special methods, your objects can behave like the built-in
+types, which enables the expressive coding style the community considers
+Pythonic.</p>
+<p>A basic requirement for a Python object is to provide usable string
+representations of itself: one for debugging and logging, another for
+presentation to end users.  That is why <code>__repr__()</code> and <code>__str__()</code> both exist.</p>
+<p>Emulating sequences, as <code>FrenchDeck</code> does, is one of the most common uses of
+special methods; database libraries, for example, often return query results
+wrapped in sequence-like collections.  Making the most of the existing sequence
+types is the subject of <a href="sequences.html">An Array of Sequences</a>, and implementing
+your own sequences is covered in <a href="sequence-protocol.html">Special Methods for Sequences</a>.</p>
+<p>Thanks to operator overloading, Python offers a rich selection of numeric
+types, from the built-ins to <a href="https://docs.python.org/3/library/decimal.html"><code>decimal.Decimal</code></a>
+and <a href="https://docs.python.org/3/library/fractions.html"><code>fractions.Fraction</code></a>, all
+supporting the infix arithmetic operators, and libraries like NumPy support
+infix operators on matrices and tensors.  Implementing operators, including
+reversed operators and augmented assignment, is shown in
+<a href="operator-overloading.html">Operator Overloading</a>.</p>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li>The <a href="https://docs.python.org/3/reference/datamodel.html">Data Model</a> chapter of
+<em>The Python Language Reference</em> is the canonical source for this chapter
+and for much of what follows.</li>
+<li>What the Python documentation calls the “data model”, most authors would
+call the <em>object model</em>: the properties of objects in general in a specific
+programming language.  A more academic name is <em>metaobject protocol</em>, an
+interface for the core constructs of a language, a term made popular by
+<em>The Art of the Metaobject Protocol</em> by Kiczales, des Rivières and Bobrow.
+A rich metaobject protocol is what lets you extend a language with new
+programming paradigms from inside the language itself.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="classes.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="dataclasses.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="classes.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="dataclasses.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

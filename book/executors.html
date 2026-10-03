@@ -1,0 +1,1211 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Concurrent Executors - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="concurrent-executors"><a class="header" href="#concurrent-executors">Concurrent Executors</a></h1>
+<blockquote>
+<p>The people bashing threads are typically system programmers which have in mind use
+cases that the typical application programmer will never encounter in her life.  […]
+In 99% of the use cases an application programmer is likely to run into, the simple
+pattern of spawning a bunch of independent threads and collecting the results in a
+queue is everything one needs to know.</p>
+<p>— Michele Simionato, Python deep thinker</p>
+</blockquote>
+<p>This chapter focuses on the <code>concurrent.futures.Executor</code> classes that encapsulate the
+pattern of “spawning a bunch of independent threads and collecting the results in a
+queue”, described by Michele Simionato.  The concurrent executors make this pattern
+almost trivial to use, not only with threads but also with processes — useful for
+compute-intensive tasks.</p>
+<p>Here we also introduce the concept of <em>futures</em> — objects representing the asynchronous
+execution of an operation, similar to JavaScript promises.  This primitive idea is the
+foundation not only of <code>concurrent.futures</code> but also of the <code>asyncio</code> package, the subject
+of <a href="asyncio.html">Asynchronous Programming</a>.</p>
+<h2 id="concurrent-web-downloads"><a class="header" href="#concurrent-web-downloads">Concurrent Web Downloads</a></h2>
+<p>Concurrency is essential for efficient network I/O: instead of idly waiting for remote
+machines, the application should do something else until a response comes back.</p>
+<p>To demonstrate with code, here are three simple programs to download images of 20 country
+flags from the web.  The first one, <code>flags.py</code>, runs sequentially: it only requests the
+next image when the previous one is downloaded and saved locally.  The other two scripts
+make concurrent downloads: they request several images practically at the same time, and
+save them as they arrive.  The <code>flags_threadpool.py</code> script uses the <code>concurrent.futures</code>
+package, while <code>flags_asyncio.py</code> uses <code>asyncio</code>.  Here are three typical runs of each
+script, downloading images from fluentpython.com, which is behind a CDN:</p>
+<pre><code class="language-console">$ python3 flags.py
+BD BR CD CN DE EG ET FR ID IN IR JP MX NG PH PK RU TR US VN
+20 flags downloaded in 7.26s
+$ python3 flags.py
+BD BR CD CN DE EG ET FR ID IN IR JP MX NG PH PK RU TR US VN
+20 flags downloaded in 7.20s
+$ python3 flags.py
+BD BR CD CN DE EG ET FR ID IN IR JP MX NG PH PK RU TR US VN
+20 flags downloaded in 7.09s
+$ python3 flags_threadpool.py
+DE BD CN JP ID EG NG BR RU CD IR MX US PH FR PK VN IN ET TR
+20 flags downloaded in 1.37s
+$ python3 flags_threadpool.py
+EG BR FR IN BD JP DE RU PK PH CD MX ID US NG TR CN VN ET IR
+20 flags downloaded in 1.60s
+$ python3 flags_threadpool.py
+BD DE EG CN ID RU IN VN ET MX FR CD NG US JP TR PK BR IR PH
+20 flags downloaded in 1.22s
+$ python3 flags_asyncio.py
+BD BR IN ID TR DE CN US IR PK PH FR RU NG VN ET MX EG JP CD
+20 flags downloaded in 1.36s
+$ python3 flags_asyncio.py
+RU CN BR IN FR BD TR EG VN IR PH CD ET ID NG DE JP PK MX US
+20 flags downloaded in 1.27s
+$ python3 flags_asyncio.py
+RU IN ID DE BR VN PK MX US IR ET EG NG BD FR CN JP PH CD TR
+20 flags downloaded in 1.42s
+</code></pre>
+<p>The output for each run starts with the country codes of the flags as they are downloaded,
+and ends with a message stating the elapsed time.  It took <code>flags.py</code> an average 7.18s to
+download 20 images.  The average for <code>flags_threadpool.py</code> was 1.40s; for
+<code>flags_asyncio.py</code>, 1.35s.  Note the order of the country codes: the downloads happened in a
+different order every time with the concurrent scripts.</p>
+<p>The difference in performance between the concurrent scripts is not significant, but they
+are both more than five times faster than the sequential script — and this is just for the
+small task of downloading 20 files of a few kilobytes each.  If you scale the task to
+hundreds of downloads, the concurrent scripts can outpace the sequential code by a factor of
+20 or more.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>While testing concurrent HTTP clients against public web servers, you may inadvertently
+launch a denial-of-service (DoS) attack, or be suspected of doing so.  In this case it’s
+OK because those scripts are hardcoded to make only 20 requests.  For anything bigger,
+run a local test server, as explained in <a href="#setting-up-test-servers">Setting Up Test Servers</a>.</p>
+</blockquote>
+<p>Now let’s study the implementations of two of the scripts: <code>flags.py</code> and
+<code>flags_threadpool.py</code>.  The third script, <code>flags_asyncio.py</code>, is explained in
+<a href="asyncio.html">Asynchronous Programming</a>, but showing all three together makes two points:</p>
+<ol>
+<li>Regardless of the concurrency constructs you use — threads or coroutines — you’ll see
+vastly improved throughput over sequential code in network I/O operations, if you code
+it properly.</li>
+<li>For HTTP clients that can control how many requests they make, there is no significant
+difference in performance between threads and coroutines.  (For servers that may be hit
+by many clients, there is a difference: coroutines scale better because they use much
+less memory than threads, and also reduce the cost of context switching.)</li>
+</ol>
+<h3 id="a-sequential-download-script"><a class="header" href="#a-sequential-download-script">A Sequential Download Script</a></h3>
+<p>Here is the implementation of <code>flags.py</code>.  It’s not very interesting, but we’ll reuse most
+of its code and settings to implement the concurrent scripts, so it deserves some
+attention.  For clarity, there is no error handling in it.  We will deal with exceptions
+later, but here the focus is on the basic structure of the code, to make it easier to
+contrast this script with the concurrent ones.</p>
+<!-- nocheck -->
+<pre><code class="language-python">import time
+from pathlib import Path
+from typing import Callable
+
+import httpx  # not part of the standard library: by convention, imported after a blank line
+
+POP20_CC = ('CN IN US ID BR PK NG BD RU JP '  # the 20 most populous countries
+            'MX PH VN ET EG DE IR TR CD FR').split()
+
+BASE_URL = 'https://www.fluentpython.com/data/flags'  # the directory with the flag images
+DEST_DIR = Path('downloaded')  # local directory where the images are saved
+
+def save_flag(img: bytes, filename: str) -&gt; None:  # save the img bytes to filename
+    (DEST_DIR / filename).write_bytes(img)
+
+def get_flag(cc: str) -&gt; bytes:  # given a country code, download the image
+    url = f'{BASE_URL}/{cc}/{cc}.gif'.lower()
+    resp = httpx.get(url, timeout=6.1,  # always add a sensible timeout to network operations
+                     follow_redirects=True)  # by default, HTTPX does not follow redirects
+    resp.raise_for_status()  # raise an exception if the HTTP status is not 2XX
+    return resp.content
+
+def download_many(cc_list: list[str]) -&gt; int:  # the key function to compare
+    for cc in sorted(cc_list):  # alphabetical order, to see that it's preserved
+        image = get_flag(cc)
+        save_flag(image, f'{cc}.gif')
+        print(cc, end=' ', flush=True)  # show progress, one code at a time on the same line
+    return len(cc_list)
+
+def main(downloader: Callable[[list[str]], int]) -&gt; None:  # called with the download function
+    DEST_DIR.mkdir(exist_ok=True)  # create DEST_DIR if needed
+    t0 = time.perf_counter()  # record and report the elapsed time
+    count = downloader(POP20_CC)
+    elapsed = time.perf_counter() - t0
+    print(f'\n{count} downloads in {elapsed:.2f}s')
+
+if __name__ == '__main__':
+    main(download_many)
+</code></pre>
+<p>We import the <a href="https://www.python-httpx.org/">HTTPX</a> library.  It’s not part of the
+standard library, so by convention the import goes after the standard library modules and
+a blank line.  <code>POP20_CC</code> lists the ISO 3166 country codes for the 20 most populous
+countries in order of decreasing population.  <code>get_flag</code>, given a country code, builds the
+URL and downloads the image, returning the binary contents of the response.  It’s good
+practice to add a sensible timeout to network operations, to avoid blocking for several
+minutes for no good reason.  <code>raise_for_status</code> raises an exception if the HTTP status is
+not in the 2XX range — highly recommended to avoid silent failures.</p>
+<p><code>download_many</code> is the key function to compare with the concurrent implementations.  It
+loops over the list of country codes in alphabetical order, to make it easy to see that the
+ordering is preserved in the output.  It displays one country code at a time in the same
+line so we can see progress as each download happens.  The <code>end=' '</code> argument replaces the
+usual line break at the end of each line printed with a space character, so all country
+codes are displayed progressively in the same line.  The <code>flush=True</code> argument is needed
+because, by default, Python output is line buffered, meaning that Python only displays
+printed characters after a line break.</p>
+<p><code>main</code> must be called with the function that will make the downloads; that way, we can use
+<code>main</code> as a library function with other implementations of <code>download_many</code> in the
+threadpool and asyncio examples.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>HTTPX is inspired by the Pythonic <code>requests</code> package, but is built on a more modern
+foundation.  Crucially, HTTPX provides synchronous and asynchronous APIs, so we can use
+it in all HTTP client examples in this chapter and the next.  Python’s standard library
+provides the <code>urllib.request</code> module, but its API is synchronous only, and is not user
+friendly.</p>
+</blockquote>
+<p>There’s really nothing new to <code>flags.py</code>.  It serves as a baseline for comparing the other
+scripts, and is used as a library to avoid redundant code when implementing them.  Now
+let’s see a reimplementation using <code>concurrent.futures</code>.</p>
+<h3 id="downloading-with-concurrentfutures"><a class="header" href="#downloading-with-concurrentfutures">Downloading with <code>concurrent.futures</code></a></h3>
+<p>The main features of the
+<a href="https://docs.python.org/3/library/concurrent.futures.html"><code>concurrent.futures</code></a> package
+are the <code>ThreadPoolExecutor</code> and <code>ProcessPoolExecutor</code> classes, which implement an API to
+submit callables for execution in different threads or processes, respectively.  The
+classes transparently manage a pool of worker threads or processes, and queues to
+distribute jobs and collect results.  But the interface is very high-level, and we don’t
+need to know about any of those details for a simple use case like our flag downloads.</p>
+<p>Here is the easiest way to implement the downloads concurrently, using the
+<code>ThreadPoolExecutor.map</code> method:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from concurrent import futures
+
+from flags import save_flag, get_flag, main  # reuse some functions from the flags module
+
+def download_one(cc: str):  # download a single image: this is what each worker executes
+    image = get_flag(cc)
+    save_flag(image, f'{cc}.gif')
+    print(cc, end=' ', flush=True)
+    return cc
+
+def download_many(cc_list: list[str]) -&gt; int:
+    with futures.ThreadPoolExecutor() as executor:  # __exit__ waits for all threads
+        res = executor.map(download_one, sorted(cc_list))  # call download_one concurrently
+
+    return len(list(res))  # any exception raised in a thread is re-raised here
+
+if __name__ == '__main__':
+    main(download_many)  # pass the concurrent version of download_many
+</code></pre>
+<p>We instantiate the <code>ThreadPoolExecutor</code> as a context manager; the <code>executor.__exit__</code>
+method will call <code>executor.shutdown(wait=True)</code>, which will block until all threads are
+done.  The <code>map</code> method is similar to the <code>map</code> built-in, except that the <code>download_one</code>
+function will be called concurrently from multiple threads; it returns a generator that you
+can iterate to retrieve the value returned by each function call — in this case, each call
+to <code>download_one</code> will return a country code.  We return the number of results obtained.
+If any of the threaded calls raises an exception, that exception is raised here when the
+implicit <code>next()</code> call inside the <code>list</code> constructor tries to retrieve the corresponding
+return value from the iterator returned by <code>executor.map</code>.</p>
+<p>Note that the <code>download_one</code> function is essentially the body of the <code>for</code> loop in the
+sequential <code>download_many</code> function.  This is a common refactoring when writing concurrent
+code: turning the body of a sequential <code>for</code> loop into a function to be called
+concurrently.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>The script is very short because it reuses most functions from the sequential <code>flags.py</code>
+script.  One of the best features of <code>concurrent.futures</code> is to make it simple to add
+concurrent execution on top of legacy sequential code.</p>
+</blockquote>
+<p>The <code>ThreadPoolExecutor</code> constructor takes several arguments not shown, but the first and
+most important one is <code>max_workers</code>, setting the maximum number of worker threads to be
+executed.  When <code>max_workers</code> is <code>None</code> (the default), <code>ThreadPoolExecutor</code> decides its
+value using the following expression:</p>
+<!-- nocheck -->
+<pre><code class="language-python">max_workers = min(32, (os.process_cpu_count() or 1) + 4)
+</code></pre>
+<p>(Before Python 3.13 it used <code>os.cpu_count()</code>.)  The rationale is explained in the
+<code>ThreadPoolExecutor</code> documentation: “This default value preserves at least 5 workers for
+I/O bound tasks.  It utilizes at most 32 CPU cores for CPU bound tasks which release the
+GIL.  And it avoids using very large resources implicitly on many-core machines.”
+<code>ThreadPoolExecutor</code> also reuses idle worker threads before starting <code>max_workers</code> worker
+threads.  To conclude: the computed default for <code>max_workers</code> is sensible, and
+<code>ThreadPoolExecutor</code> avoids starting new workers unnecessarily.</p>
+<p>The library is called <code>concurrent.futures</code>, yet there are no futures to be seen in that
+example, so you may be wondering where they are.  The next section explains.</p>
+<h3 id="where-are-the-futures"><a class="header" href="#where-are-the-futures">Where Are the Futures?</a></h3>
+<p>Futures are core components of <code>concurrent.futures</code> and of <code>asyncio</code>, but as users of these
+libraries we sometimes don’t see them.  The script above depends on futures behind the
+scenes, but the code does not touch them directly.  This section is an overview of futures,
+with an example that shows them in action.</p>
+<p>There are two classes named <code>Future</code> in the standard library: <code>concurrent.futures.Future</code>
+and <code>asyncio.Future</code>.  They serve the same purpose: an instance of either <code>Future</code> class
+represents a deferred computation that may or may not have completed.  This is somewhat
+similar to the <code>Deferred</code> class in Twisted, the <code>Future</code> class in Tornado, and <code>Promise</code> in
+modern JavaScript.</p>
+<p>Futures encapsulate pending operations so that we can put them in queues, check whether
+they are done, and retrieve results (or exceptions) when they become available.</p>
+<p>An important thing to know about futures is that you and I should not create them: they are
+meant to be instantiated exclusively by the concurrency framework, be it
+<code>concurrent.futures</code> or <code>asyncio</code>.  Here is why: a <code>Future</code> represents something that will
+eventually run, therefore it must be scheduled to run, and that’s the job of the framework.
+In particular, <code>concurrent.futures.Future</code> instances are created only as the result of
+submitting a callable for execution with a <code>concurrent.futures.Executor</code> subclass.  For
+example, the <code>Executor.submit()</code> method takes a callable, schedules it to run, and returns
+a <code>Future</code>.</p>
+<p>Application code is not supposed to change the state of a future: the concurrency framework
+changes the state of a future when the computation it represents is done, and we can’t
+control when that happens.</p>
+<p>Both types of <code>Future</code> have a <code>.done()</code> method that is nonblocking and returns a Boolean
+that tells you whether the callable wrapped by that future has executed or not.  However,
+instead of repeatedly asking whether a future is done, client code usually asks to be
+notified.  That’s why both <code>Future</code> classes have an <code>.add_done_callback()</code> method: you give
+it a callable, and the callable will be invoked with the future as the single argument when
+the future is done.  Be aware that the callback callable will run in the same worker thread
+or process that ran the function wrapped in the future.</p>
+<p>There is also a <code>.result()</code> method, which works the same in both classes when the future
+is done: it returns the result of the callable, or re-raises whatever exception might have
+been thrown when the callable was executed.  However, when the future is not done, the
+behavior of the <code>result</code> method is very different between the two flavors of <code>Future</code>.  In
+a <code>concurrent.futures.Future</code> instance, invoking <code>f.result()</code> will block the caller’s
+thread until the result is ready.  An optional <code>timeout</code> argument can be passed, and if the
+future is not done in the specified time, the <code>result</code> method raises <code>TimeoutError</code>.  The
+<code>asyncio.Future.result</code> method does not support timeout, and <code>await</code> is the preferred way
+to get the result of futures in <code>asyncio</code> — but <code>await</code> doesn’t work with
+<code>concurrent.futures.Future</code> instances.</p>
+<pre><code class="language-python">from concurrent import futures
+
+with futures.ThreadPoolExecutor() as executor:
+    ok = executor.submit(pow, 2, 10)  # submit schedules a callable, returning a Future
+    bad = executor.submit(divmod, 1, 0)
+
+ok.result()  # the with block waited for both futures to finish
+# 1024
+ok.done(), bad.done()
+# (True, True)
+bad.exception()
+# ZeroDivisionError('integer division or modulo by zero')
+bad.result()  # result() re-raises the exception from the callable
+# Traceback (most recent call last):
+#   ...
+# ZeroDivisionError: integer division or modulo by zero
+</code></pre>
+<p>Several functions in both libraries return futures; others use them in their implementation
+in a way that is transparent to the user.  An example of the latter is the <code>Executor.map</code>
+we saw earlier: it returns an iterator in which <code>__next__</code> calls the <code>result</code> method of each
+future, so we get the results of the futures, and not the futures themselves.</p>
+<p>To get a practical look at futures, we can rewrite the threadpool script to use the
+<a href="https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.as_completed"><code>concurrent.futures.as_completed</code></a>
+function, which takes an iterable of futures and returns an iterator that yields futures as
+they are done.</p>
+<p>Using <code>futures.as_completed</code> requires changes to the <code>download_many</code> function only.  The
+higher-level <code>executor.map</code> call is replaced by two <code>for</code> loops: one to create and schedule
+the futures, the other to retrieve their results.  While we are at it, we’ll add a few
+<code>print</code> calls to display each future before and after it’s done:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def download_many(cc_list: list[str]) -&gt; int:
+    cc_list = cc_list[:5]  # for this demonstration, use only five countries
+    with futures.ThreadPoolExecutor(max_workers=3) as executor:  # to see pending futures
+        to_do: list[futures.Future] = []
+        for cc in sorted(cc_list):  # alphabetically: results will arrive out of order
+            future = executor.submit(download_one, cc)  # schedule; returns a pending future
+            to_do.append(future)  # store each future so we can use as_completed later
+            print(f'Scheduled for {cc}: {future}')
+
+        for count, future in enumerate(futures.as_completed(to_do), 1):  # yields done futures
+            res: str = future.result()  # get the result of this future
+            print(f'{future} result: {res!r}')
+
+    return count
+</code></pre>
+<p>We use only the top five most populous countries and set <code>max_workers</code> to 3 so we can see
+pending futures in the output.  <code>executor.submit</code> schedules the callable to be executed,
+and returns a future representing this pending operation.  <code>as_completed</code> yields futures as
+they are completed.  Note that the <code>future.result()</code> call will never block in this example
+because the future is coming out of <code>as_completed</code>.  Here is the output of one run:</p>
+<pre><code class="language-console">$ python3 flags_threadpool_futures.py
+Scheduled for BR: &lt;Future at 0x100791518 state=running&gt;
+Scheduled for CN: &lt;Future at 0x100791710 state=running&gt;
+Scheduled for ID: &lt;Future at 0x100791a90 state=running&gt;
+Scheduled for IN: &lt;Future at 0x101807080 state=pending&gt;
+Scheduled for US: &lt;Future at 0x101807128 state=pending&gt;
+CN &lt;Future at 0x100791710 state=finished returned str&gt; result: 'CN'
+BR ID &lt;Future at 0x100791518 state=finished returned str&gt; result: 'BR'
+&lt;Future at 0x100791a90 state=finished returned str&gt; result: 'ID'
+IN &lt;Future at 0x101807080 state=finished returned str&gt; result: 'IN'
+US &lt;Future at 0x101807128 state=finished returned str&gt; result: 'US'
+
+5 downloads in 0.70s
+</code></pre>
+<p>The futures are scheduled in alphabetical order; the <code>repr()</code> of a future shows its state:
+the first three are <code>running</code>, because there are three worker threads.  The last two
+futures are <code>pending</code>, waiting for worker threads.  The first <code>CN</code> in the result lines is
+the output of <code>download_one</code> in a worker thread; the rest of the line is the output of
+<code>download_many</code>.  In the next line, two threads output codes before <code>download_many</code> in the
+main thread can display the result of the first thread.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Experiment with <code>flags_threadpool_futures.py</code>.  If you run it several times, you’ll see
+the order of the results varying.  Increasing <code>max_workers</code> to 5 will increase the
+variation in the order of the results.  Decreasing it to 1 will make this script run
+sequentially, and the order of the results will always be the order of the <code>submit</code>
+calls.</p>
+</blockquote>
+<p>You can run the same experiment without a network: replace <code>download_one</code> with a function
+that sleeps for a different time for each country code, and the futures behave the same
+way.</p>
+<p>Now let’s take a brief look at a simple way to work around the GIL for CPU-bound jobs using
+<code>concurrent.futures</code>.</p>
+<h2 id="launching-processes-with-concurrentfutures"><a class="header" href="#launching-processes-with-concurrentfutures">Launching Processes with <code>concurrent.futures</code></a></h2>
+<p>The <code>concurrent.futures</code> documentation page is subtitled “Launching parallel tasks”.  The
+package enables parallel computation on multicore machines because it supports
+distributing work among multiple Python processes using the <code>ProcessPoolExecutor</code> class.</p>
+<p>Both <code>ProcessPoolExecutor</code> and <code>ThreadPoolExecutor</code> implement the <code>Executor</code> interface, so
+it’s easy to switch from a thread-based to a process-based solution using
+<code>concurrent.futures</code>.  There is no advantage in using a <code>ProcessPoolExecutor</code> for the flags
+download example or any I/O-bound job.  It’s easy to verify this; just change
+<code>futures.ThreadPoolExecutor()</code> to <code>futures.ProcessPoolExecutor()</code> in <code>download_many</code>.</p>
+<p>The constructor for <code>ProcessPoolExecutor</code> also has a <code>max_workers</code> parameter, which defaults
+to <code>None</code>.  In that case, the executor limits the number of workers to the number returned
+by <code>os.process_cpu_count()</code>.  Processes use more memory and take longer to start than
+threads, so the real value of <code>ProcessPoolExecutor</code> is in CPU-intensive jobs.  Let’s go back
+to the primality test example of <a href="concurrency-models.html#a-homegrown-process-pool">A Homegrown Process Pool</a>,
+rewriting it with <code>concurrent.futures</code>.</p>
+<h3 id="multicore-prime-checker-redux"><a class="header" href="#multicore-prime-checker-redux">Multicore Prime Checker Redux</a></h3>
+<p>In <a href="concurrency-models.html#code-for-the-multicore-prime-checker">Code for the multicore prime checker</a>
+we studied <code>procs.py</code>, a script that checked the primality of some large numbers using
+<code>multiprocessing</code>.  Here we solve the same problem in the <code>proc_pool.py</code> program using a
+<code>ProcessPoolExecutor</code>.  <code>procs.py</code> has 43 nonblank lines of code, and <code>proc_pool.py</code> has 31
+— 28% shorter:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import sys
+from concurrent import futures  # no need to import multiprocessing, SimpleQueue, etc.
+from time import perf_counter
+from typing import NamedTuple
+
+from primes import is_prime, NUMBERS
+
+class PrimeResult(NamedTuple):  # the same as in procs.py, but no queues or worker function
+    n: int
+    flag: bool
+    elapsed: float
+
+def check(n: int) -&gt; PrimeResult:
+    t0 = perf_counter()
+    res = is_prime(n)
+    return PrimeResult(n, res, perf_counter() - t0)
+
+def main() -&gt; None:
+    if len(sys.argv) &lt; 2:
+        workers = None  # let the ProcessPoolExecutor decide
+    else:
+        workers = int(sys.argv[1])
+
+    executor = futures.ProcessPoolExecutor(workers)  # built before the with, to display...
+    actual_workers = executor._max_workers  # type: ignore  # ...the actual number of workers
+
+    print(f'Checking {len(NUMBERS)} numbers with {actual_workers} processes:')
+
+    t0 = perf_counter()
+
+    numbers = sorted(NUMBERS, reverse=True)  # descending order, to expose a difference
+    with executor:  # use the executor as a context manager
+        for n, prime, elapsed in executor.map(check, numbers):  # results in argument order
+            label = 'P' if prime else ' '
+            print(f'{n:16}  {label} {elapsed:9.6f}s')
+
+    time = perf_counter() - t0
+    print(f'Total time: {time:.2f}s')
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+<p>Instead of deciding ourselves how many workers to use if no command-line argument was
+given, we set <code>workers</code> to <code>None</code> and let the <code>ProcessPoolExecutor</code> decide.  We build the
+<code>ProcessPoolExecutor</code> before the <code>with</code> block so that we can display the actual number of
+workers in the next line.  <code>_max_workers</code> is an undocumented instance attribute of a
+<code>ProcessPoolExecutor</code>; Mypy correctly complains when we access it, so the <code>type: ignore</code>
+comment silences it.  We sort the numbers to be checked in descending order.  This will
+expose a difference in the behavior of <code>proc_pool.py</code> when compared with <code>procs.py</code>.  The
+<code>executor.map</code> call returns the <code>PrimeResult</code> instances returned by <code>check</code> in the same
+order as the <code>numbers</code> arguments.</p>
+<p>If you run it, you’ll see the results appearing in strict descending order:</p>
+<pre><code class="language-console">$ ./proc_pool.py
+Checking 20 numbers with 12 processes:
+9999999999999999     0.000024s
+9999999999999917  P  9.500677s
+7777777777777777     0.000022s
+7777777777777753  P  8.976933s
+7777777536340681     8.896149s
+6666667141414921     8.537621s
+6666666666666719  P  8.548641s
+6666666666666666     0.000002s
+5555555555555555     0.000017s
+5555555555555503  P  8.214086s
+5555553133149889     8.067247s
+4444444488888889     7.546234s
+4444444444444444     0.000002s
+4444444444444423  P  7.622370s
+3333335652092209     6.724649s
+3333333333333333     0.000018s
+3333333333333301  P  6.655039s
+ 299593572317531  P  2.072723s
+ 142702110479723  P  1.461840s
+               2  P  0.000001s
+Total time: 9.65s
+</code></pre>
+<p>The first line appears very quickly; the second line takes more than 9.5s to show up; all
+the remaining lines appear almost immediately.  In contrast, the ordering of the output of
+<code>procs.py</code> is heavily influenced by the difficulty in checking whether each number is a
+prime.  For example, <code>procs.py</code> shows the result for 7777777777777777 near the top, because
+it has a low divisor, 7, so <code>is_prime</code> quickly determines it’s not a prime.  In contrast,
+7777777536340681 is 88191709<sup>2</sup>, so <code>is_prime</code> will take much longer to determine
+that it’s a composite number, and even longer to find out that 7777777777777753 is prime —
+therefore both of these numbers appear near the end of the output of <code>procs.py</code>.</p>
+<p>Here is why <code>proc_pool.py</code> behaves in that way:</p>
+<ul>
+<li>As mentioned before, <code>executor.map(check, numbers)</code> returns the results in the same order
+as the <code>numbers</code> are given.</li>
+<li>By default, <code>proc_pool.py</code> uses as many workers as there are CPUs — it’s what
+<code>ProcessPoolExecutor</code> does when <code>max_workers</code> is <code>None</code>.  That’s 12 processes in that
+laptop.</li>
+<li>Because we are submitting <code>numbers</code> in descending order, the first is 9999999999999999;
+with 9 as a divisor, it returns quickly.</li>
+<li>The second number is 9999999999999917, the largest prime in the sample.  This will take
+longer than all the others to check.</li>
+<li>Meanwhile, the remaining 11 processes will be checking other numbers, which are either
+primes or composites with large factors, or composites with very small factors.</li>
+<li>When the worker in charge of 9999999999999917 finally determines that’s a prime, all the
+other processes have completed their last jobs, so the results appear immediately after.</li>
+</ul>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Although the progress of <code>proc_pool.py</code> is not as visible as that of <code>procs.py</code>, the
+overall execution time is practically the same, for the same number of workers and CPU
+cores.</p>
+</blockquote>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Python 3.14 added a third executor, <code>concurrent.futures.InterpreterPoolExecutor</code>, which
+runs each worker in its own isolated interpreter within the same process
+(<a href="https://peps.python.org/pep-0734/"><strong>PEP 734</strong></a>).  Each interpreter has its own GIL, so
+CPU-bound work runs in parallel as with processes, with lower startup costs.  As with
+processes, data passed to and from workers must be serialized, and some extension
+modules don’t yet support multiple interpreters.</p>
+</blockquote>
+<p>Understanding how concurrent programs behave is not straightforward, so here’s a second
+experiment that may help you visualize the operation of <code>Executor.map</code>.</p>
+<h2 id="experimenting-with-executormap"><a class="header" href="#experimenting-with-executormap">Experimenting with <code>Executor.map</code></a></h2>
+<p>Let’s investigate <code>Executor.map</code>, now using a <code>ThreadPoolExecutor</code> with three workers
+running five callables that output timestamped messages:</p>
+<pre><code class="language-python">from time import sleep, strftime
+from concurrent import futures
+
+def display(*args):  # print the arguments, preceded by a timestamp [HH:MM:SS]
+    print(strftime('[%H:%M:%S]'), end=' ')
+    print(*args)
+
+def loiter(n):  # display a message, sleep for n seconds, display another message
+    msg = '{}loiter({}): doing nothing for {}s...'
+    display(msg.format('\t'*n, n, n))
+    sleep(n)
+    msg = '{}loiter({}): done.'
+    display(msg.format('\t'*n, n))
+    return n * 10  # return n * 10 so we can see how to collect results
+
+def main():
+    display('Script starting.')
+    executor = futures.ThreadPoolExecutor(max_workers=3)  # three threads
+    results = executor.map(loiter, range(5))  # submit five tasks; this does not block
+    display('results:', results)  # results is a generator
+    display('Waiting for individual results:')
+    for i, result in enumerate(results):  # next(results) blocks until each result is ready
+        display(f'result {i}: {result}')
+</code></pre>
+<p><code>display</code> simply prints whatever arguments it gets, preceded by a timestamp in the format
+<code>[HH:MM:SS]</code>.  <code>loiter</code> does nothing except display a message when it starts, sleep for <code>n</code>
+seconds, then display a message when it ends; tabs are used to indent the messages
+according to the value of <code>n</code>.  <code>loiter</code> returns <code>n * 10</code> so we can see how to collect
+results.</p>
+<p><code>main</code> creates a <code>ThreadPoolExecutor</code> with three threads and submits five tasks to the
+executor.  Since there are only three threads, only three of those tasks will start
+immediately: the calls <code>loiter(0)</code>, <code>loiter(1)</code> and <code>loiter(2)</code>; this is a nonblocking
+call.  We immediately display the results of invoking <code>executor.map</code>: it’s a generator, as
+the output shows.  The <code>enumerate</code> call in the <code>for</code> loop will implicitly invoke
+<code>next(results)</code>, which in turn will invoke <code>_f.result()</code> on the (internal) <code>_f</code> future
+representing the first call, <code>loiter(0)</code>.  The <code>result</code> method will block until the future
+is done, therefore each iteration in this loop will have to wait for the next result to be
+ready.</p>
+<p>Here is a sample run (the exact sequencing of events that happen nearly at the same time
+may vary):</p>
+<pre><code class="language-console">$ python3 demo_executor_map.py
+[15:56:50] Script starting.
+[15:56:50] loiter(0): doing nothing for 0s...
+[15:56:50] loiter(0): done.
+[15:56:50]      loiter(1): doing nothing for 1s...
+[15:56:50]              loiter(2): doing nothing for 2s...
+[15:56:50] results: &lt;generator object Executor.map.&lt;locals&gt;.result_iterator at 0x106517168&gt;
+[15:56:50]                      loiter(3): doing nothing for 3s...
+[15:56:50] Waiting for individual results:
+[15:56:50] result 0: 0
+[15:56:51]      loiter(1): done.
+[15:56:51]                              loiter(4): doing nothing for 4s...
+[15:56:51] result 1: 10
+[15:56:52]              loiter(2): done.
+[15:56:52] result 2: 20
+[15:56:53]                      loiter(3): done.
+[15:56:53] result 3: 30
+[15:56:55]                              loiter(4): done.
+[15:56:55] result 4: 40
+</code></pre>
+<p>This run started at 15:56:50.  The first thread executes <code>loiter(0)</code>, so it will sleep for
+0s and return even before the second thread has a chance to start, but your mileage may
+vary.  <code>loiter(1)</code> and <code>loiter(2)</code> start immediately (because the thread pool has three
+workers, it can run three functions concurrently).  The results returned by <code>executor.map</code>
+is a generator; nothing so far would block, regardless of the number of tasks and the
+<code>max_workers</code> setting.  Because <code>loiter(0)</code> is done, the first worker is now available to
+start the fourth thread for <code>loiter(3)</code>.</p>
+<p>The loop is where execution may block, depending on the parameters given to the <code>loiter</code>
+calls: the <code>__next__</code> method of the <code>results</code> generator must wait until the first future is
+complete.  In this case, it won’t block because the call to <code>loiter(0)</code> finished before
+this loop started.  Note that everything up to this point happened within the same second:
+15:56:50.  <code>loiter(1)</code> is done one second later, at 15:56:51.  The thread is freed to start
+<code>loiter(4)</code>.  The result of <code>loiter(1)</code> is shown: <code>10</code>.  Now the <code>for</code> loop will block
+waiting for the result of <code>loiter(2)</code>.  The pattern repeats: <code>loiter(2)</code> is done, its result
+is shown; same with <code>loiter(3)</code>.  There is a 2s delay until <code>loiter(4)</code> is done, because it
+started at 15:56:51 and did nothing for 4s.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p><code>Executor.map</code> submits all the tasks right away, which can use a lot of memory if the
+input iterable is very large or infinite.  Since Python 3.14, the <code>buffersize</code> argument
+limits how many tasks are submitted ahead of the results being consumed.</p>
+</blockquote>
+<p>The <code>Executor.map</code> function is easy to use, but often it’s preferable to get the results as
+they are ready, regardless of the order they were submitted.  To do that, we need a
+combination of the <code>Executor.submit</code> method and the <code>futures.as_completed</code> function, as we
+saw in <a href="#where-are-the-futures">Where Are the Futures?</a>.  We’ll come back to this technique
+in <a href="#using-futuresas_completed">Using <code>futures.as_completed</code></a>.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>The combination of <code>executor.submit</code> and <code>futures.as_completed</code> is more flexible than
+<code>executor.map</code> because you can submit different callables and arguments, while
+<code>executor.map</code> is designed to run the same callable on the different arguments.  In
+addition, the set of futures you pass to <code>futures.as_completed</code> may come from more than
+one executor — perhaps some were created by a <code>ThreadPoolExecutor</code> instance, while others
+are from a <code>ProcessPoolExecutor</code>.</p>
+</blockquote>
+<p>In the next section, we will resume the flag download examples with new requirements that
+will force us to iterate over the results of <code>futures.as_completed</code> instead of using
+<code>executor.map</code>.</p>
+<h2 id="downloads-with-progress-display-and-error-handling"><a class="header" href="#downloads-with-progress-display-and-error-handling">Downloads with Progress Display and Error Handling</a></h2>
+<p>As mentioned, the scripts in <a href="#concurrent-web-downloads">Concurrent Web Downloads</a> have no
+error handling to make them easier to read and to contrast the structure of the three
+approaches: sequential, threaded and asynchronous.  In order to test the handling of a
+variety of error conditions, <em>Fluent Python</em> includes the <code>flags2</code> examples (in the
+<code>20-executors/getflags/</code> directory of the fluentpython/example-code-2e repository):</p>
+<dl>
+<dt id="flags2_commonpy"><a class="header" href="#flags2_commonpy"><code>flags2_common.py</code></a></dt>
+<dd>Common functions and settings used by all <code>flags2</code> examples, including a <code>main</code> function,
+which takes care of command-line parsing, timing and reporting results.  That is support
+code, not directly relevant to the subject of this chapter, so it’s not listed here.</dd>
+<dt id="flags2_sequentialpy"><a class="header" href="#flags2_sequentialpy"><code>flags2_sequential.py</code></a></dt>
+<dd>A sequential HTTP client with proper error handling and progress bar display.  Its
+<code>download_one</code> function is also used by <code>flags2_threadpool.py</code>.</dd>
+<dt id="flags2_threadpoolpy"><a class="header" href="#flags2_threadpoolpy"><code>flags2_threadpool.py</code></a></dt>
+<dd>Concurrent HTTP client based on <code>futures.ThreadPoolExecutor</code> to demonstrate error
+handling and integration of the progress bar.</dd>
+<dt id="flags2_asynciopy"><a class="header" href="#flags2_asynciopy"><code>flags2_asyncio.py</code></a></dt>
+<dd>Same functionality as the previous example, but implemented with <code>asyncio</code> and <code>httpx</code>.
+This is covered in <a href="asyncio.html#enhancing-the-asyncio-downloader">Enhancing the asyncio Downloader</a>.</dd>
+</dl>
+<p>The most visible feature of the <code>flags2</code> examples is that they have an animated, text-mode
+progress bar implemented with the <a href="https://pypi.org/project/tqdm/">tqdm</a> package.  If you
+type the following code in the Python console after installing the <code>tqdm</code> package, you’ll
+see an animated progress bar where the comment is:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import time
+from tqdm import tqdm
+for i in tqdm(range(1000)):
+    time.sleep(.01)
+
+# -&gt; progress bar will appear here &lt;-
+</code></pre>
+<p>Besides the neat effect, the <code>tqdm</code> function is also interesting conceptually: it consumes
+any iterable and produces an iterator which, while it’s consumed, displays the progress bar
+and estimates the remaining time to complete all iterations.  To compute that estimate,
+<code>tqdm</code> needs to get an iterable that has a <code>len</code>, or additionally receive the <code>total=</code>
+argument with the expected number of items.  Integrating <code>tqdm</code> with our <code>flags2</code> examples
+provides an opportunity to look deeper into how the concurrent scripts actually work, by
+forcing us to use the <code>futures.as_completed</code> and the <code>asyncio.as_completed</code> functions so
+that <code>tqdm</code> can display progress as each future is completed.</p>
+<p>The other feature of the <code>flags2</code> examples is a command-line interface.  All three scripts
+accept the same options:</p>
+<pre><code class="language-console">$ python3 flags2_threadpool.py -h
+usage: flags2_threadpool.py [-h] [-a] [-e] [-l N] [-m CONCURRENT] [-s LABEL]
+                            [-v]
+                            [CC ...]
+
+Download flags for country codes. Default: top 20 countries by population.
+
+positional arguments:
+  CC                    country code or 1st letter (eg. B for BA...BZ)
+
+options:
+  -h, --help            show this help message and exit
+  -a, --all             get all available flags (AD to ZW)
+  -e, --every           get flags for every possible code (AA...ZZ)
+  -l N, --limit N       limit to N first codes
+  -m CONCURRENT, --max_req CONCURRENT
+                        maximum concurrent requests (default=30)
+  -s LABEL, --server LABEL
+                        Server to hit; one of DELAY, ERROR, LOCAL, REMOTE
+                        (default=LOCAL)
+  -v, --verbose         output detailed progress info
+</code></pre>
+<p>All arguments are optional.  But the <code>-s/--server</code> is essential for testing: it lets you
+choose which HTTP server and port will be used in the test.  Pass one of these
+case-insensitive labels to determine where the script will look for the flags:</p>
+<dl>
+<dt id="local"><a class="header" href="#local"><code>LOCAL</code></a></dt>
+<dd>Use <code>http://localhost:8000/flags</code>; this is the default.  You should configure a local
+HTTP server to answer at port 8000.</dd>
+<dt id="remote"><a class="header" href="#remote"><code>REMOTE</code></a></dt>
+<dd>Use <code>http://fluentpython.com/data/flags</code>; that is a public website, hosted on a shared
+server.  Please do not pound it with too many concurrent requests.</dd>
+<dt id="delay"><a class="header" href="#delay"><code>DELAY</code></a></dt>
+<dd>Use <code>http://localhost:8001/flags</code>; a server delaying HTTP responses should be listening
+to port 8001.</dd>
+<dt id="error"><a class="header" href="#error"><code>ERROR</code></a></dt>
+<dd>Use <code>http://localhost:8002/flags</code>; a server returning some HTTP errors should be
+listening on port 8002.</dd>
+</dl>
+<h3 id="setting-up-test-servers"><a class="header" href="#setting-up-test-servers">Setting Up Test Servers</a></h3>
+<p>You can set up the test servers using only Python, with no external libraries (the
+<code>README.adoc</code> in the same directory of the example code repository has the details):</p>
+<dl>
+<dt id="python3--m-httpserver"><a class="header" href="#python3--m-httpserver"><code>python3 -m http.server</code></a></dt>
+<dd>The <code>LOCAL</code> server on port 8000, serving the files in the current directory.  (Since
+Python 3.7, <code>http.server</code> uses the multithreaded <code>ThreadingHTTPServer</code>, which is good for
+experimenting with concurrent clients.)</dd>
+<dt id="python3-slow_serverpy"><a class="header" href="#python3-slow_serverpy"><code>python3 slow_server.py</code></a></dt>
+<dd>The <code>DELAY</code> server on port 8001, which adds a random delay of 0.5s to 5s before each
+response.</dd>
+<dt id="python3-slow_serverpy-8002---error-rate-25"><a class="header" href="#python3-slow_serverpy-8002---error-rate-25"><code>python3 slow_server.py 8002 --error-rate .25</code></a></dt>
+<dd>The <code>ERROR</code> server on port 8002, which in addition to the random delay, has a 25% chance
+of returning a “418 I’m a teapot” error response.</dd>
+</dl>
+<p>By default, each <code>flags2*.py</code> script will fetch the flags of the 20 most populous countries
+from the <code>LOCAL</code> server using a default number of concurrent connections, which varies from
+script to script:</p>
+<pre><code class="language-console">$ python3 flags2_sequential.py
+LOCAL site: http://localhost:8000/flags
+Searching for 20 flags: from BD to VN
+1 concurrent connection will be used.
+--------------------
+20 flags downloaded.
+Elapsed time: 0.10s
+</code></pre>
+<p>You can select which flags will be downloaded in several ways.  This shows how to download
+all flags with country codes starting with the letters A, B or C, from the <code>DELAY</code> server:</p>
+<pre><code class="language-console">$ python3 flags2_threadpool.py -s DELAY a b c
+DELAY site: http://localhost:8001/flags
+Searching for 78 flags: from AA to CZ
+30 concurrent connections will be used.
+--------------------
+43 flags downloaded.
+35 not found.
+Elapsed time: 1.72s
+</code></pre>
+<p>Regardless of how the country codes are selected, the number of flags to fetch can be
+limited with the <code>-l/--limit</code> option.  This runs exactly 100 requests against the <code>ERROR</code>
+server, combining the <code>-a</code> option to get all flags with <code>-l 100</code>, using 100 concurrent
+requests:</p>
+<pre><code class="language-console">$ python3 flags2_asyncio.py -s ERROR -al 100 -m 100
+ERROR site: http://localhost:8002/flags
+Searching for 100 flags: from AD to LK
+100 concurrent connections will be used.
+--------------------
+73 flags downloaded.
+27 errors.
+Elapsed time: 0.64s
+</code></pre>
+<p>That’s the user interface of the <code>flags2</code> examples.  Let’s see how they are implemented.</p>
+<h3 id="error-handling-in-the-flags2-examples"><a class="header" href="#error-handling-in-the-flags2-examples">Error Handling in the <code>flags2</code> Examples</a></h3>
+<p>The common strategy in all three examples to deal with HTTP errors is that 404 errors (not
+found) are handled by the function in charge of downloading a single file
+(<code>download_one</code>).  Any other exception propagates to be handled by the <code>download_many</code>
+function or the <code>supervisor</code> coroutine — in the <code>asyncio</code> example.</p>
+<p>Once more, we’ll start by studying the sequential code, which is easier to follow — and
+mostly reused by the thread pool script.  Here are the functions that perform the actual
+downloads in the <code>flags2_sequential.py</code> and <code>flags2_threadpool.py</code> scripts:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from collections import Counter
+from http import HTTPStatus
+
+import httpx
+import tqdm  # type: ignore  # tqdm has no type hints: tell Mypy to skip it
+
+from flags2_common import main, save_flag, DownloadStatus  # DownloadStatus is an Enum
+
+DEFAULT_CONCUR_REQ = 1
+MAX_CONCUR_REQ = 1
+
+def get_flag(base_url: str, cc: str) -&gt; bytes:
+    url = f'{base_url}/{cc}/{cc}.gif'.lower()
+    resp = httpx.get(url, timeout=3.1, follow_redirects=True)
+    resp.raise_for_status()  # raises HTTPStatusError if the status is not in range(200, 300)
+    return resp.content
+
+def download_one(cc: str, base_url: str, verbose: bool = False) -&gt; DownloadStatus:
+    try:
+        image = get_flag(base_url, cc)
+    except httpx.HTTPStatusError as exc:  # handle HTTP code 404 specifically...
+        res = exc.response
+        if res.status_code == HTTPStatus.NOT_FOUND:
+            status = DownloadStatus.NOT_FOUND  # ...by setting the status to NOT_FOUND
+            msg = f'not found: {res.url}'
+        else:
+            raise  # any other HTTPStatusError is re-raised to propagate to the caller
+    else:
+        save_flag(image, f'{cc}.gif')
+        status = DownloadStatus.OK
+        msg = 'OK'
+
+    if verbose:  # in verbose mode, display the country code and status message
+        print(cc, msg)
+
+    return status
+</code></pre>
+<p>Note the <code>try</code>/<code>except</code>/<code>else</code> structure, as recommended in
+<a href="context-managers.html#do-this-then-that-else-blocks-beyond-if">Do This, Then That</a>: the
+<code>try</code> block only contains the call that may raise the expected exception.  Here is the
+sequential version of the <code>download_many</code> function.  This code is straightforward, but
+it’s worth studying to contrast with the concurrent versions coming up.  Focus on how it
+reports progress, handles errors and tallies downloads:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def download_many(cc_list: list[str],
+                  base_url: str,
+                  verbose: bool,
+                  _unused_concur_req: int) -&gt; Counter[DownloadStatus]:
+    counter: Counter[DownloadStatus] = Counter()  # tally the outcomes: OK, NOT_FOUND, ERROR
+    cc_iter = sorted(cc_list)  # the country codes, ordered alphabetically
+    if not verbose:
+        cc_iter = tqdm.tqdm(cc_iter)  # an iterator that also animates the progress bar
+    for cc in cc_iter:
+        try:
+            status = download_one(cc, base_url, verbose)  # successive calls to download_one
+        except httpx.HTTPStatusError as exc:  # HTTP status errors not handled by download_one
+            error_msg = 'HTTP error {resp.status_code} - {resp.reason_phrase}'
+            error_msg = error_msg.format(resp=exc.response)
+        except httpx.RequestError as exc:  # other network-related exceptions
+            error_msg = f'{exc} {type(exc)}'.strip()
+        except KeyboardInterrupt:  # exit the loop if the user hits Ctrl-C
+            break
+        else:  # if no exception escaped download_one, clear the error message
+            error_msg = ''
+
+        if error_msg:
+            status = DownloadStatus.ERROR  # if there was an error, set the status accordingly
+        counter[status] += 1  # increment the counter for that status
+        if verbose and error_msg:  # in verbose mode, display the error message, if any
+            print(f'{cc} error: {error_msg}')
+
+    return counter  # main displays the numbers in the final report
+</code></pre>
+<p>Any exception other than those handled here will abort the script, because the
+<code>flags2_common.main</code> function that calls <code>download_many</code> has no <code>try</code>/<code>except</code>.  We’ll now
+study the refactored thread pool example, <code>flags2_threadpool.py</code>.</p>
+<h3 id="using-futuresas_completed"><a class="header" href="#using-futuresas_completed">Using <code>futures.as_completed</code></a></h3>
+<p>In order to integrate the <code>tqdm</code> progress bar and handle errors on each request, the
+<code>flags2_threadpool.py</code> script uses <code>futures.ThreadPoolExecutor</code> with the
+<code>futures.as_completed</code> function we’ve already seen.  Here is the full listing of
+<code>flags2_threadpool.py</code>.  Only the <code>download_many</code> function is implemented; the other
+functions are reused from <code>flags2_common.py</code> and <code>flags2_sequential.py</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from collections import Counter
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+import httpx
+import tqdm  # type: ignore
+
+from flags2_common import main, DownloadStatus
+from flags2_sequential import download_one  # reuse download_one from flags2_sequential
+
+DEFAULT_CONCUR_REQ = 30  # default maximum number of concurrent requests (size of the pool)
+MAX_CONCUR_REQ = 1000  # a safety cap, to avoid launching too many threads
+
+def download_many(cc_list: list[str],
+                  base_url: str,
+                  verbose: bool,
+                  concur_req: int) -&gt; Counter[DownloadStatus]:
+    counter: Counter[DownloadStatus] = Counter()
+    with ThreadPoolExecutor(max_workers=concur_req) as executor:
+        to_do_map = {}  # maps each Future to the respective country code, for error reports
+        for cc in sorted(cc_list):
+            future = executor.submit(download_one, cc,
+                                     base_url, verbose)  # schedule one call; get a Future
+            to_do_map[future] = cc  # store the future and the country code in the dict
+        done_iter = as_completed(to_do_map)  # an iterator that yields futures as they're done
+        if not verbose:
+            done_iter = tqdm.tqdm(done_iter, total=len(cc_list))  # no len: give tqdm the total
+        for future in done_iter:  # iterate over the futures as they are completed
+            try:
+                status = future.result()  # returns the value or raises the exception
+            except httpx.HTTPStatusError as exc:  # the rest is the same as the sequential...
+                error_msg = 'HTTP error {resp.status_code} - {resp.reason_phrase}'
+                error_msg = error_msg.format(resp=exc.response)
+            except httpx.RequestError as exc:
+                error_msg = f'{exc} {type(exc)}'.strip()
+            except KeyboardInterrupt:
+                break
+            else:
+                error_msg = ''
+
+            if error_msg:
+                status = DownloadStatus.ERROR
+            counter[status] += 1
+            if verbose and error_msg:
+                cc = to_do_map[future]  # ...except this: get the country code for the future
+                print(f'{cc} error: {error_msg}')
+
+    return counter
+
+if __name__ == '__main__':
+    main(download_many, DEFAULT_CONCUR_REQ, MAX_CONCUR_REQ)
+</code></pre>
+<p>If the <code>-m/--max_req</code> command-line option is not given, <code>DEFAULT_CONCUR_REQ</code> will be the
+maximum number of concurrent requests, implemented as the size of the thread pool; the
+actual number may be smaller if the number of flags to download is smaller.
+<code>MAX_CONCUR_REQ</code> caps the maximum number of concurrent requests regardless of the number of
+flags to download or the <code>-m/--max_req</code> command-line option.  It’s a safety precaution to
+avoid launching too many threads with their significant memory overhead.</p>
+<p>We create the <code>executor</code> with <code>max_workers</code> set to <code>concur_req</code>, computed by the <code>main</code>
+function as the smaller of: <code>MAX_CONCUR_REQ</code>, the length of <code>cc_list</code>, or the value of the
+<code>-m/--max_req</code> command-line option.  This avoids creating more threads than necessary.  The
+order of the results will depend on the timing of the HTTP responses more than anything, but
+if the size of the thread pool is much smaller than <code>len(cc_list)</code>, you may notice the
+downloads batched alphabetically.</p>
+<p>Each call to <code>executor.submit</code> schedules the execution of one callable and returns a
+<code>Future</code> instance.  The first argument is the callable, the rest are the arguments it will
+receive.  <code>futures.as_completed</code> returns an iterator that yields futures as each task is
+done.  If not in verbose mode, we wrap the result of <code>as_completed</code> with the <code>tqdm</code>
+function to display the progress bar; because <code>done_iter</code> has no <code>len</code>, we must tell <code>tqdm</code>
+what is the expected number of items as the <code>total=</code> argument, so <code>tqdm</code> can estimate the
+work remaining.</p>
+<p>Calling the <code>result</code> method on a future either returns the value returned by the callable,
+or raises whatever exception was caught when the callable was executed.  This method may
+block waiting for a resolution, but not in this example because <code>as_completed</code> only returns
+futures that are done.  To provide context for the error message, we retrieve the country
+code from the <code>to_do_map</code> using the current future as key.  This was not necessary in the
+sequential version because we were iterating over the list of country codes, so we knew the
+current <code>cc</code>; here we are iterating over the futures.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>That example uses an idiom that is very useful with <code>futures.as_completed</code>: building a
+<code>dict</code> to map each future to other data that may be useful when the future is completed.
+Here the <code>to_do_map</code> maps each future to the country code assigned to it.  This makes it
+easy to do follow-up processing with the result of the futures, despite the fact that they
+are produced out of order.</p>
+</blockquote>
+<p>Here is the idiom in a self-contained form, with <code>time.sleep</code> standing in for network
+latency:</p>
+<pre><code class="language-python">import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+def fake_download(cc: str) -&gt; int:
+    delay = {'BR': .3, 'CN': .1, 'IN': .2}[cc]
+    time.sleep(delay)
+    if cc == 'IN':
+        raise ConnectionError('network is down')
+    return len(cc) * 1000  # pretend this is the number of bytes downloaded
+
+results = {}
+errors = {}
+with ThreadPoolExecutor(max_workers=3) as executor:
+    to_do_map = {executor.submit(fake_download, cc): cc for cc in ['BR', 'CN', 'IN']}
+    for future in as_completed(to_do_map):
+        cc = to_do_map[future]  # which country does this future belong to?
+        try:
+            results[cc] = future.result()
+        except ConnectionError as exc:
+            errors[cc] = str(exc)
+
+sorted(results.items()), errors
+# ([('BR', 2000), ('CN', 2000)], {'IN': 'network is down'})
+</code></pre>
+<p>Python threads are well suited for I/O-intensive applications, and the <code>concurrent.futures</code>
+package makes it relatively simple to use for certain use cases.  With
+<code>ProcessPoolExecutor</code>, you can also solve CPU-intensive problems on multiple cores — if the
+computations are “embarrassingly parallel”.  This concludes our basic introduction to
+<code>concurrent.futures</code>.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>We started the chapter by comparing two concurrent HTTP clients with a sequential one,
+demonstrating that the concurrent solutions show significant performance gains over the
+sequential script.</p>
+<p>After studying the first example based on <code>concurrent.futures</code>, we took a closer look at
+future objects, either instances of <code>concurrent.futures.Future</code> or <code>asyncio.Future</code>,
+emphasizing what these classes have in common (their differences will be emphasized in
+<a href="asyncio.html">Asynchronous Programming</a>).  We saw how to create futures by calling
+<code>Executor.submit</code>, and iterate over completed futures with
+<code>concurrent.futures.as_completed</code>.</p>
+<p>We then discussed the use of multiple processes with the
+<code>concurrent.futures.ProcessPoolExecutor</code> class, to go around the GIL and use multiple CPU
+cores to simplify the multicore prime checker we first saw in
+<a href="concurrency-models.html">Concurrency Models in Python</a>.</p>
+<p>In the following section, we saw how the <code>concurrent.futures.ThreadPoolExecutor</code> works with
+a didactic example, launching tasks that did nothing for a few seconds, except for
+displaying their status with a timestamp.</p>
+<p>Next we went back to the flag downloading examples.  Enhancing them with a progress bar and
+proper error handling prompted further exploration of the <code>futures.as_completed</code> generator
+function, showing a common pattern: storing futures in a <code>dict</code> to link further information
+to them when submitting, so that we can use that information when the future comes out of
+the <code>as_completed</code> iterator.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>“Concurrency: one of the most difficult topics in computer science (usually best
+avoided),” as David Beazley put it.  That is not a contradiction of the Simionato quote at
+the start of this chapter: <code>concurrent.futures</code> is interesting precisely because it treats
+threads, processes and queues as infrastructure at your service, not something you have
+to deal with directly.  It’s designed with simple jobs in mind, the so-called
+embarrassingly parallel problems.  But that’s a large slice of the concurrency problems we
+face when writing applications — as opposed to operating systems or database servers.</p>
+</blockquote>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li>The <a href="https://docs.python.org/3/library/concurrent.futures.html"><code>concurrent.futures</code></a>
+documentation, and <a href="https://peps.python.org/pep-3148/"><strong>PEP 3148</strong></a> — futures - execute
+computations asynchronously, whose author, Brian Quinlan, wrote that the library was
+“heavily influenced by the Java <code>java.util.concurrent</code> package”.</li>
+<li>Brian Quinlan’s talk “The Future Is Soon!” at PyCon Australia 2010.</li>
+<li>The references on threads and processes at the end of
+<a href="concurrency-models.html#summary">Concurrency Models in Python</a> also cover
+<code>concurrent.futures</code>.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="concurrency-models.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="asyncio.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="concurrency-models.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="asyncio.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

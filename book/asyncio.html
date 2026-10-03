@@ -1,0 +1,2087 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Asynchronous Programming - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="asynchronous-programming"><a class="header" href="#asynchronous-programming">Asynchronous Programming</a></h1>
+<blockquote>
+<p>The problem with normal approaches to asynchronous programming is that they’re
+all-or-nothing propositions.  You rewrite all your code so none of it blocks or you’re
+just wasting your time.</p>
+<p>— Alvaro Videla and Jason J. W. Williams, <em>RabbitMQ in Action</em></p>
+</blockquote>
+<p>This chapter addresses three major topics that are closely related:</p>
+<ul>
+<li>Python’s <code>async def</code>, <code>await</code>, <code>async with</code> and <code>async for</code> constructs;</li>
+<li>objects supporting those constructs: native coroutines and asynchronous variants of
+context managers, iterables, generators and comprehensions;</li>
+<li><a href="https://docs.python.org/3/library/asyncio.html"><code>asyncio</code></a> and other asynchronous
+libraries.</li>
+</ul>
+<p>This chapter builds on the ideas of iterables and generators
+(<a href="iterators-generators.html">Iterators, Generators, and Classic Coroutines</a>, in particular
+<a href="iterators-generators.html#classic-coroutines">Classic Coroutines</a>), context managers
+(<a href="context-managers.html">Context Managers and <code>else</code> Blocks</a>), and general concepts of
+concurrent programming (<a href="concurrency-models.html">Concurrency Models in Python</a>).</p>
+<p>We’ll study concurrent HTTP clients similar to the ones we saw in
+<a href="executors.html">Concurrent Executors</a>, rewritten with native coroutines and asynchronous
+context managers, using the same HTTPX library as before, but now through its asynchronous
+API.  We’ll also see how to avoid blocking the event loop by delegating slow operations to a
+thread or process executor.</p>
+<p>After the HTTP client examples, we’ll see two simple asynchronous server-side applications,
+one of them using the FastAPI framework.  Then we’ll cover other language constructs
+enabled by the <code>async</code>/<code>await</code> keywords: asynchronous generator functions, asynchronous
+comprehensions and asynchronous generator expressions.  To emphasize the fact that those
+language features are not tied to <code>asyncio</code>, we’ll see one example rewritten to use Curio —
+the elegant and innovative asynchronous framework invented by David Beazley — and then
+<code>asyncio.TaskGroup</code>, which brought Curio’s and Trio’s ideas of structured concurrency to
+the standard library.  To wrap up the chapter, there’s a brief section on the advantages and
+pitfalls of asynchronous programming.</p>
+<p>That’s a lot of ground to cover.  We only have space for basic examples, but they will
+illustrate the most important features of each idea.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>The <code>asyncio</code> documentation separates the few functions useful to application developers
+(the “high-level APIs”) from the low-level API for creators of packages like web
+frameworks and database drivers.  Start with the high-level part.  For book-length
+coverage of <code>asyncio</code>, read <em>Using Asyncio in Python</em> by Caleb Hattingh (O’Reilly).</p>
+</blockquote>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Many examples in this chapter talk to DNS or HTTP servers on the network.  Those are
+shown as listings with sample output.  Wherever a concept can be demonstrated without a
+network, there is also a self-contained version that simulates network latency with
+<code>asyncio.sleep</code>, so you can run it as is.</p>
+</blockquote>
+<h2 id="a-few-definitions"><a class="header" href="#a-few-definitions">A Few Definitions</a></h2>
+<p>At the start of <a href="iterators-generators.html#classic-coroutines">Classic Coroutines</a>, we saw
+that Python offers more than one kind of coroutine:</p>
+<dl>
+<dt id="native-coroutine"><a class="header" href="#native-coroutine"><strong>Native coroutine</strong></a></dt>
+<dd>A coroutine function defined with <code>async def</code>.  You can delegate from a native coroutine
+to another native coroutine using the <code>await</code> keyword, similar to how classic coroutines
+use <code>yield from</code>.  The <code>async def</code> statement always defines a native coroutine, even if
+the <code>await</code> keyword is not used in its body.  The <code>await</code> keyword cannot be used outside
+of a native coroutine (with one exception: the asynchronous console, explained in
+<a href="#experimenting-with-pythons-async-console">Experimenting with Python’s async console</a>).</dd>
+<dt id="classic-coroutine"><a class="header" href="#classic-coroutine"><strong>Classic coroutine</strong></a></dt>
+<dd>A generator function that consumes data sent to it via <code>my_coro.send(data)</code> calls, and
+reads that data by using <code>yield</code> in an expression.  Classic coroutines can delegate to
+other classic coroutines using <code>yield from</code>.  Classic coroutines cannot be driven by
+<code>await</code>, and are no longer supported by <code>asyncio</code>.</dd>
+<dt id="generator-based-coroutine"><a class="header" href="#generator-based-coroutine"><strong>Generator-based coroutine</strong></a></dt>
+<dd>A generator function decorated with <code>@types.coroutine</code>.  That decorator makes the
+generator compatible with the <code>await</code> keyword.  It is not supported by <code>asyncio</code>, but is
+used in low-level code in the Curio and Trio asynchronous frameworks.  (The
+<code>@asyncio.coroutine</code> decorator was removed in Python 3.11.)</dd>
+</dl>
+<p>In this chapter, we focus on native coroutines as well as asynchronous generators:</p>
+<dl>
+<dt id="asynchronous-generator"><a class="header" href="#asynchronous-generator"><strong>Asynchronous generator</strong></a></dt>
+<dd>A generator function defined with <code>async def</code> and using <code>yield</code> in its body.  It returns
+an asynchronous generator object that provides <code>__anext__</code>, a coroutine method to
+retrieve the next item.</dd>
+</dl>
+<h2 id="an-asyncio-example-probing-domains"><a class="header" href="#an-asyncio-example-probing-domains">An <code>asyncio</code> Example: Probing Domains</a></h2>
+<p>Imagine you are about to start a new blog on Python, and you plan to register a domain
+using a Python keyword and the <code>.DEV</code> suffix — for example: AWAIT.DEV.  Here is a script
+using <code>asyncio</code> to check several domains concurrently.  This is the output it produces:</p>
+<pre><code class="language-console">$ python3 blogdom.py
+  with.dev
++ elif.dev
++ def.dev
+  from.dev
+  else.dev
+  or.dev
+  if.dev
+  del.dev
++ as.dev
+  none.dev
+  pass.dev
+  true.dev
++ in.dev
++ for.dev
++ is.dev
++ and.dev
++ try.dev
++ not.dev
+</code></pre>
+<p>Note that the domains appear unordered.  If you run the script, you’ll see them displayed
+one after the other, with varying delays.  The <code>+</code> sign indicates your machine was able to
+resolve the domain via DNS.  Otherwise, the domain did not resolve and may be available.</p>
+<p>In <code>blogdom.py</code>, the DNS probing is done via native coroutine objects.  Because the
+asynchronous operations are interleaved, the time needed to check the 18 domains is much
+less than checking them sequentially.  In fact, the total time is practically the same as
+the time for the single slowest DNS response, instead of the sum of the times of all
+responses.  Here is the code:</p>
+<!-- nocheck -->
+<pre><code class="language-python">#!/usr/bin/env python3
+import asyncio
+import socket
+from keyword import kwlist
+
+MAX_KEYWORD_LEN = 4  # shorter is better for domain names
+
+async def probe(domain: str) -&gt; tuple[str, bool]:  # returns the domain and whether it resolved
+    loop = asyncio.get_running_loop()  # get a reference to the asyncio event loop
+    try:
+        await loop.getaddrinfo(domain, None)  # we don't need the result, only success/failure
+    except socket.gaierror:
+        return (domain, False)
+    return (domain, True)
+
+async def main() -&gt; None:  # main must be a coroutine, so that we can use await in it
+    names = (kw for kw in kwlist if len(kw) &lt;= MAX_KEYWORD_LEN)
+    domains = (f'{name}.dev'.lower() for name in names)
+    coros = [probe(domain) for domain in domains]  # a list of coroutine objects
+    for coro in asyncio.as_completed(coros):  # yields awaitables in the order they complete
+        domain, found = await coro  # won't block: the coroutine is done
+        mark = '+' if found else ' '
+        print(f'{mark} {domain}')
+
+if __name__ == '__main__':
+    asyncio.run(main())  # start the event loop; return only when it exits
+</code></pre>
+<p><code>probe</code> returns a tuple with the domain name and a boolean; <code>True</code> means the domain
+resolved.  Returning the domain name will make it easier to display the results.  We get a
+reference to the <code>asyncio</code> event loop, so we can use it next.  The <code>loop.getaddrinfo(...)</code>
+coroutine method returns a five-part tuple of parameters to connect to the given address
+using a socket.  In this example, we don’t need the result.  If we got it, the domain
+resolves; otherwise, it doesn’t.</p>
+<p><code>main</code> must be a coroutine, so that we can use <code>await</code> in it.  It builds a list of coroutine
+objects by invoking the <code>probe</code> coroutine with each <code>domain</code> argument.
+<code>asyncio.as_completed</code> produces awaitables that return the results of the coroutines passed
+to it in the order they are completed — not the order they were submitted.  It’s similar to
+<code>futures.as_completed</code>, which we saw in <a href="executors.html">Concurrent Executors</a>.  At that
+point, we know the coroutine is done because that’s how <code>as_completed</code> works.  Therefore,
+the <code>await</code> expression will not block, but we need it to get the result from <code>coro</code>.  If
+<code>coro</code> raised an unhandled exception, it would be re-raised here.</p>
+<p><code>asyncio.run</code> starts the event loop and returns only when the event loop exits.  This is a
+common pattern for scripts that use <code>asyncio</code>: implement <code>main</code> as a coroutine, and drive it
+with <code>asyncio.run</code> inside the <code>if __name__ == '__main__':</code> block.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Use <code>asyncio.get_running_loop()</code> inside coroutines, as shown in <code>probe</code>.  If there’s no
+running loop, it raises <code>RuntimeError</code>.  The older <code>asyncio.get_event_loop()</code> used to
+create a loop if necessary; that behavior was deprecated, and since Python 3.14 it raises
+<code>RuntimeError</code> when there is no current event loop.</p>
+</blockquote>
+<p>Here is a version of the same idea that runs without a network: <code>probe</code> pretends to take a
+different amount of time for each domain.</p>
+<pre><code class="language-python">import asyncio
+
+DELAYS = {'if.dev': .3, 'or.dev': .1, 'in.dev': .2, 'def.dev': .05}
+
+async def probe(domain: str) -&gt; tuple[str, bool]:
+    await asyncio.sleep(DELAYS[domain])  # stands in for a DNS query
+    return (domain, domain != 'or.dev')
+
+async def main() -&gt; None:
+    coros = [probe(domain) for domain in DELAYS]
+    for coro in asyncio.as_completed(coros):
+        domain, found = await coro
+        mark = '+' if found else ' '
+        print(f'{mark} {domain}')
+
+asyncio.run(main())
+# + def.dev
+#   or.dev
+# + in.dev
+# + if.dev
+</code></pre>
+<h3 id="guidos-trick-to-read-asynchronous-code"><a class="header" href="#guidos-trick-to-read-asynchronous-code">Guido’s Trick to Read Asynchronous Code</a></h3>
+<p>There are a lot of new concepts to grasp in <code>asyncio</code>, but the overall logic of
+<code>blogdom.py</code> is easy to follow if you employ a trick suggested by Guido van Rossum himself:
+squint and pretend the <code>async</code> and <code>await</code> keywords are not there.  If you do that, you’ll
+realize that coroutines read like plain old sequential functions.</p>
+<p>For example, imagine that the body of this coroutine:</p>
+<!-- nocheck -->
+<pre><code class="language-python">async def probe(domain: str) -&gt; tuple[str, bool]:
+    loop = asyncio.get_running_loop()
+    try:
+        await loop.getaddrinfo(domain, None)
+    except socket.gaierror:
+        return (domain, False)
+    return (domain, True)
+</code></pre>
+<p>works like the following function, except that it magically never blocks:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def probe(domain: str) -&gt; tuple[str, bool]:  # no async
+    loop = asyncio.get_running_loop()
+    try:
+        loop.getaddrinfo(domain, None)  # no await
+    except socket.gaierror:
+        return (domain, False)
+    return (domain, True)
+</code></pre>
+<p>Using the syntax <code>await loop.getaddrinfo(...)</code> avoids blocking because <code>await</code> suspends the
+current coroutine object.  For example, during the execution of the <code>probe('if.dev')</code>
+coroutine, a new coroutine object is created by <code>getaddrinfo('if.dev', None)</code>.  Awaiting it
+starts the low-level <code>addrinfo</code> query and yields control back to the event loop, not to the
+<code>probe('if.dev')</code> coroutine, which is suspended.  The event loop can then drive other
+pending coroutine objects, such as <code>probe('or.dev')</code>.</p>
+<p>When the event loop gets a response for the <code>getaddrinfo('if.dev', None)</code> query, that
+specific coroutine object resumes and returns control back to the <code>probe('if.dev')</code> — which
+was suspended at <code>await</code> — and can now handle a possible exception and return the result
+tuple.</p>
+<p>So far, we’ve only seen <code>asyncio.as_completed</code> and <code>await</code> applied to coroutines.  But they
+handle any <em>awaitable</em> object.  That concept is explained next.</p>
+<h2 id="new-concept-awaitable"><a class="header" href="#new-concept-awaitable">New Concept: Awaitable</a></h2>
+<p>The <code>for</code> keyword works with iterables.  The <code>await</code> keyword works with awaitables.  As an
+end user of <code>asyncio</code>, these are the awaitables you will see on a daily basis:</p>
+<ul>
+<li>a native coroutine object, which you get by calling a native coroutine function;</li>
+<li>an <code>asyncio.Task</code>, which you usually get by passing a coroutine object to
+<code>asyncio.create_task()</code>.</li>
+</ul>
+<p>However, end-user code does not always need to <code>await</code> on a <code>Task</code>.  We use
+<code>asyncio.create_task(one_coro())</code> to schedule <code>one_coro</code> for concurrent execution, without
+waiting for its return.  That’s what we did with the <code>spinner</code> coroutine in
+<a href="concurrency-models.html#spinner-with-coroutines">Spinner with Coroutines</a>.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>The event loop keeps only a <em>weak</em> reference to tasks.  A task that nobody references may
+be garbage collected before it’s done.  If you create “fire-and-forget” tasks, keep a
+reference to them — for example, in a set, removing each task when it finishes with
+<code>task.add_done_callback(tasks.discard)</code> — or, better, use a <code>TaskGroup</code>, as shown in
+<a href="#structured-concurrency-with-taskgroup">Structured Concurrency with <code>TaskGroup</code></a>.</p>
+</blockquote>
+<p>In contrast, we use <code>await other_coro()</code> to run <code>other_coro</code> right now and wait for its
+completion because we need its result before we can proceed.  In the spinner example, the
+<code>supervisor</code> coroutine did <code>res = await slow()</code> to execute <code>slow</code> and get its result.</p>
+<p>When implementing asynchronous libraries or contributing to <code>asyncio</code> itself, you may also
+deal with these lower-level awaitables:</p>
+<ul>
+<li>an object with an <code>__await__</code> method that returns an iterator; for example, an
+<code>asyncio.Future</code> instance (<code>asyncio.Task</code> is a subclass of <code>asyncio.Future</code>);</li>
+<li>objects written in other languages using the Python/C API with a
+<code>tp_as_async.am_await</code> function, returning an iterator (similar to <code>__await__</code>).</li>
+</ul>
+<blockquote>
+<p><strong>Note</strong></p>
+<p><a href="https://peps.python.org/pep-0492/"><strong>PEP 492</strong></a> states that the <code>await</code> expression “uses
+the <code>yield from</code> implementation with an extra step of validating its argument” and
+“<code>await</code> only accepts an awaitable”.</p>
+</blockquote>
+<p>Here is a minimal awaitable class, just to show the protocol at work (never write one of
+these in application code):</p>
+<pre><code class="language-python">import asyncio
+
+class Ready:
+    def __init__(self, value):
+        self.value = value
+
+    def __await__(self):  # must return an iterator
+        yield from asyncio.sleep(0).__await__()  # give the event loop a chance to run
+        return self.value
+
+async def main():
+    return await Ready(42)
+
+asyncio.run(main())
+# 42
+</code></pre>
+<p>Now let’s study the <code>asyncio</code> version of a script that downloads a fixed set of flag images.</p>
+<h2 id="downloading-with-asyncio-and-httpx"><a class="header" href="#downloading-with-asyncio-and-httpx">Downloading with <code>asyncio</code> and HTTPX</a></h2>
+<p>The <code>flags_asyncio.py</code> script downloads a fixed set of 20 flags from fluentpython.com.  We
+first mentioned it in <a href="executors.html#concurrent-web-downloads">Concurrent Web Downloads</a>, but
+now we’ll study it in detail, applying the concepts we just saw.  <code>asyncio</code> supports TCP and
+UDP directly, but there are no asynchronous HTTP client or server packages in the standard
+library, so we use HTTPX in all the HTTP client examples.</p>
+<p>We’ll explore <code>flags_asyncio.py</code> from the bottom up — that is, looking first at the
+functions that set up the action.  To make the code easier to read, <code>flags_asyncio.py</code> has no
+error handling.  As we introduce <code>async</code>/<code>await</code>, it’s useful to focus on the “happy path”
+initially, to understand how regular functions and coroutines are arranged in a program.</p>
+<!-- nocheck -->
+<pre><code class="language-python">def download_many(cc_list: list[str]) -&gt; int:  # a plain function, to be passed to main
+    return asyncio.run(supervisor(cc_list))  # run the event loop until supervisor returns
+
+async def supervisor(cc_list: list[str]) -&gt; int:
+    async with AsyncClient() as client:  # an asynchronous context manager
+        to_do = [download_one(client, cc)
+                 for cc in sorted(cc_list)]  # a list of coroutine objects
+        res = await asyncio.gather(*to_do)  # wait for all of them; results in submission order
+
+    return len(res)
+
+if __name__ == '__main__':
+    main(download_many)
+</code></pre>
+<p><code>download_many</code> needs to be a plain function — not a coroutine — so it can be passed to and
+called by the <code>main</code> function from the <code>flags.py</code> module.  It executes the event loop driving
+the <code>supervisor(cc_list)</code> coroutine object until it returns.  This will block while the event
+loop runs.  The result of this line is whatever <code>supervisor</code> returns.</p>
+<p>Asynchronous HTTP client operations in <code>httpx</code> are methods of <code>AsyncClient</code>, which is also an
+asynchronous context manager: a context manager with asynchronous setup and teardown methods
+(more about this in <a href="#asynchronous-context-managers">Asynchronous Context Managers</a>).  We build
+a list of coroutine objects by calling the <code>download_one</code> coroutine once for each flag to be
+retrieved, then wait for the <code>asyncio.gather</code> coroutine, which accepts one or more awaitable
+arguments and waits for all of them to complete, returning a list of results for the given
+awaitables in the order they were submitted.  <code>supervisor</code> returns the length of the list
+returned by <code>asyncio.gather</code>.</p>
+<p>Now let’s review the top of <code>flags_asyncio.py</code>, with the coroutines in the order they are
+started by the event loop:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import asyncio
+
+from httpx import AsyncClient  # httpx must be installed: it's not in the standard library
+
+from flags import BASE_URL, save_flag, main  # reuse code from flags.py
+
+async def download_one(client: AsyncClient, cc: str):  # must be a coroutine to await get_flag
+    image = await get_flag(client, cc)
+    save_flag(image, f'{cc}.gif')
+    print(cc, end=' ', flush=True)
+    return cc
+
+async def get_flag(client: AsyncClient, cc: str) -&gt; bytes:  # needs the AsyncClient
+    url = f'{BASE_URL}/{cc}/{cc}.gif'.lower()
+    resp = await client.get(url, timeout=6.1,
+                                  follow_redirects=True)  # network I/O is a coroutine method
+    return resp.read()
+</code></pre>
+<p><code>download_one</code> must be a native coroutine, so it can <code>await</code> on <code>get_flag</code> — which does the
+HTTP request.  Then it displays the code of the downloaded flag, and saves the image.
+<code>get_flag</code> needs to receive the <code>AsyncClient</code> to make the request.  The <code>get</code> method of an
+<code>httpx.AsyncClient</code> instance is a coroutine, so network I/O operations are driven
+asynchronously by the <code>asyncio</code> event loop.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>For better performance, the <code>save_flag</code> call inside <code>download_one</code> should be asynchronous,
+to avoid blocking the event loop.  However, <code>asyncio</code> does not provide an asynchronous
+filesystem API — as Node.js does.  <a href="#using-asyncioas_completed-and-a-thread">Using <code>asyncio.as_completed</code> and a Thread</a>
+will show how to delegate <code>save_flag</code> to a thread.</p>
+</blockquote>
+<p>Your code delegates to the <code>httpx</code> coroutines explicitly through <code>await</code> or implicitly through
+the special methods of the asynchronous context managers, such as <code>AsyncClient</code>.</p>
+<h3 id="the-secret-of-native-coroutines-humble-generators"><a class="header" href="#the-secret-of-native-coroutines-humble-generators">The Secret of Native Coroutines: Humble Generators</a></h3>
+<p>A key difference between the classic coroutine examples we saw in
+<a href="iterators-generators.html#classic-coroutines">Classic Coroutines</a> and <code>flags_asyncio.py</code> is
+that there are no visible <code>.send()</code> calls or <code>yield</code> expressions in the latter.  Your code
+sits between the <code>asyncio</code> library and the asynchronous libraries you are using, such as
+HTTPX: a user’s function starts the event loop, scheduling an initial coroutine with
+<code>asyncio.run</code>.  Each user’s coroutine drives the next with an <code>await</code> expression, forming a
+channel that enables communication between a library like HTTPX and the event loop.</p>
+<p>Under the hood, the <code>asyncio</code> event loop makes the <code>.send</code> calls that drive your coroutines,
+and your coroutines <code>await</code> on other coroutines, including library coroutines.  As
+mentioned, <code>await</code> borrows most of its implementation from <code>yield from</code>, which also makes
+<code>.send</code> calls to drive coroutines.</p>
+<p>The <code>await</code> chain eventually reaches a low-level awaitable, which returns a generator that
+the event loop can drive in response to events such as timers or network I/O.  The low-level
+awaitables and generators at the end of these <code>await</code> chains are implemented deep into the
+libraries, are not part of their APIs, and may be Python/C extensions.</p>
+<p>Using functions like <code>asyncio.gather</code> and <code>asyncio.create_task</code>, you can start multiple
+concurrent <code>await</code> channels, enabling concurrent execution of multiple I/O operations driven
+by a single event loop, in a single thread.</p>
+<p>You can see the generator machinery by driving a coroutine by hand, as the event loop does:</p>
+<pre><code class="language-python">import types
+
+@types.coroutine
+def suspend():  # a generator-based coroutine: the bottom of an await chain
+    received = yield 'suspended'  # this value goes all the way up to whoever calls send()
+    return received
+
+async def middle():
+    return await suspend()
+
+async def top():
+    return await middle()
+
+coro = top()
+coro.send(None)  # start it: runs until the yield deep in suspend()
+# 'suspended'
+try:
+    coro.send('data from the "event loop"')  # resume; the value travels down the chain
+except StopIteration as exc:  # the coroutine returned: the value is wrapped in StopIteration
+    print(exc.value)
+
+# data from the "event loop"
+</code></pre>
+<h3 id="the-all-or-nothing-problem"><a class="header" href="#the-all-or-nothing-problem">The All-or-Nothing Problem</a></h3>
+<p>Note that <code>flags_asyncio.py</code> could not reuse the <code>get_flag</code> function from <code>flags.py</code>.  It had
+to be rewritten as a coroutine to use the asynchronous API of HTTPX.  For peak performance
+with <code>asyncio</code>, we must replace every function that does I/O with an asynchronous version
+that is activated with <code>await</code> or <code>asyncio.create_task</code>, so that control is given back to
+the event loop while the function waits for I/O.  If you can’t rewrite a blocking function
+as a coroutine, you should run it in a separate thread or process, as we’ll see in
+<a href="#delegating-tasks-to-executors">Delegating Tasks to Executors</a>.</p>
+<p>That’s why the epigraph for this chapter includes this advice: “You rewrite all your code so
+none of it blocks or you’re just wasting your time.”</p>
+<p>For the same reason, <code>flags_asyncio.py</code> could not reuse the <code>download_one</code> function from
+<code>flags_threadpool.py</code> either.  It drives <code>get_flag</code> with <code>await</code>, so <code>download_one</code> must also
+be a coroutine.  For each request, a <code>download_one</code> coroutine object is created in
+<code>supervisor</code>, and they are all driven by the <code>asyncio.gather</code> coroutine.</p>
+<p>Now let’s study the <code>async with</code> statement that appeared in <code>supervisor</code>.</p>
+<h2 id="asynchronous-context-managers"><a class="header" href="#asynchronous-context-managers">Asynchronous Context Managers</a></h2>
+<p>In <a href="context-managers.html#context-managers-and-with-blocks">Context Managers and <code>with</code> Blocks</a>,
+we saw how an object can be used to run code before and after the body of a <code>with</code> block, if
+its class provides the <code>__enter__</code> and <code>__exit__</code> methods.  Now, consider this example, from
+the documentation of the asyncpg asyncio-compatible PostgreSQL driver:</p>
+<!-- nocheck -->
+<pre><code class="language-python">tr = connection.transaction()
+await tr.start()
+try:
+    await connection.execute("INSERT INTO mytable VALUES (1, 2, 3)")
+except:
+    await tr.rollback()
+    raise
+else:
+    await tr.commit()
+</code></pre>
+<p>A database transaction is a natural fit for the context manager protocol: the transaction has
+to be started, data is changed with <code>connection.execute</code>, and then a rollback or commit must
+happen, depending on the outcome of the changes.</p>
+<p>In an asynchronous driver like asyncpg, the setup and wrap-up need to be coroutines so that
+other operations can happen concurrently.  However, the implementation of the classic <code>with</code>
+statement doesn’t support coroutines doing the work of <code>__enter__</code> or <code>__exit__</code>.  That’s why
+PEP 492 introduced the <code>async with</code> statement, which works with <em>asynchronous context
+managers</em>: objects implementing the <code>__aenter__</code> and <code>__aexit__</code> methods as coroutines.
+With <code>async with</code>, that example can be written like this other snippet from the asyncpg
+documentation:</p>
+<!-- nocheck -->
+<pre><code class="language-python">async with connection.transaction():
+    await connection.execute("INSERT INTO mytable VALUES (1, 2, 3)")
+</code></pre>
+<p>In the <code>asyncpg.Transaction</code> class, the <code>__aenter__</code> coroutine method does
+<code>await self.start()</code>, and the <code>__aexit__</code> coroutine awaits on private <code>__rollback</code> or
+<code>__commit</code> coroutine methods, depending on whether an exception occurred or not.  Using
+coroutines to implement <code>Transaction</code> as an asynchronous context manager allows asyncpg to
+handle many transactions concurrently.</p>
+<p>Here is a toy asynchronous context manager, to see the protocol at work:</p>
+<pre><code class="language-python">import asyncio
+
+class Connection:
+    async def __aenter__(self):
+        await asyncio.sleep(.01)  # pretend to connect over the network
+        print('connected')
+        return self
+
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        await asyncio.sleep(.01)  # pretend to say goodbye politely
+        print('disconnected')
+
+async def main():
+    async with Connection() as conn:
+        print('using', type(conn).__name__)
+
+asyncio.run(main())
+# connected
+# using Connection
+# disconnected
+</code></pre>
+<p>Back to <code>flags_asyncio.py</code>, the <code>AsyncClient</code> class of <code>httpx</code> is an asynchronous context
+manager, so it can use awaitables in its <code>__aenter__</code> and <code>__aexit__</code> special coroutine
+methods.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p><a href="#asynchronous-generators-as-context-managers">Asynchronous generators as context managers</a>
+shows how to use Python’s <code>contextlib</code> to create an asynchronous context manager without
+having to write a class.  That explanation comes later in this chapter because of a
+prerequisite topic: <a href="#asynchronous-generator-functions">Asynchronous Generator Functions</a>.</p>
+</blockquote>
+<p>We’ll now enhance the <code>asyncio</code> flag download example with a progress bar, which will lead
+us to explore a bit more of the <code>asyncio</code> API.</p>
+<h2 id="enhancing-the-asyncio-downloader"><a class="header" href="#enhancing-the-asyncio-downloader">Enhancing the asyncio Downloader</a></h2>
+<p>Recall from <a href="executors.html#downloads-with-progress-display-and-error-handling">Downloads with Progress Display and Error Handling</a>
+that the <code>flags2</code> set of examples share the same command-line interface, and they display a
+progress bar while the downloads are happening.  They also include error handling.  For
+instance, here is an attempt to get 100 flags (<code>-al 100</code>) from the <code>ERROR</code> server, using 100
+concurrent requests (<code>-m 100</code>).  The 48 errors in the result are either HTTP 418 or time-out
+errors — the expected (mis)behavior of the test server:</p>
+<pre><code class="language-console">$ python3 flags2_asyncio.py -s ERROR -al 100 -m 100
+ERROR site: http://localhost:8002/flags
+Searching for 100 flags: from AD to LK
+100 concurrent connections will be used.
+100%|█████████████████████████████████████████| 100/100 [00:03&lt;00:00, 30.48it/s]
+--------------------
+ 52 flags downloaded.
+ 48 errors.
+Elapsed time: 3.31s
+</code></pre>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Even if the overall download time is not much different between the threaded and
+<code>asyncio</code> HTTP clients, <code>asyncio</code> can send requests faster, so it’s more likely that the
+server will suspect a DoS attack.  To really exercise these concurrent clients at full
+throttle, please use local HTTP servers for testing, as explained in
+<a href="executors.html#setting-up-test-servers">Setting Up Test Servers</a>.</p>
+</blockquote>
+<p>Now let’s see how <code>flags2_asyncio.py</code> is implemented.</p>
+<h3 id="using-asyncioas_completed-and-a-thread"><a class="header" href="#using-asyncioas_completed-and-a-thread">Using <code>asyncio.as_completed</code> and a Thread</a></h3>
+<p>In <code>flags_asyncio.py</code>, we passed several coroutines to <code>asyncio.gather</code>, which returns a list
+with results of the coroutines in the order they were submitted.  This means that
+<code>asyncio.gather</code> can only return when all the awaitables are done.  However, to update a
+progress bar, we need to get results as they are done.  Fortunately, there is an <code>asyncio</code>
+equivalent of the <code>as_completed</code> generator function we used in the thread pool example with
+the progress bar.  Here is the top of the <code>flags2_asyncio.py</code> script, where the <code>get_flag</code>
+and <code>download_one</code> coroutines are defined:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import asyncio
+from collections import Counter
+from http import HTTPStatus
+from pathlib import Path
+
+import httpx
+import tqdm  # type: ignore
+
+from flags2_common import main, DownloadStatus, save_flag
+
+# low concurrency default to avoid errors from remote site,
+# such as 503 - Service Temporarily Unavailable
+DEFAULT_CONCUR_REQ = 5
+MAX_CONCUR_REQ = 1000
+
+async def get_flag(client: httpx.AsyncClient,  # requires the client parameter
+                   base_url: str,
+                   cc: str) -&gt; bytes:
+    url = f'{base_url}/{cc}/{cc}.gif'.lower()
+    resp = await client.get(url, timeout=3.1, follow_redirects=True)  # a coroutine: await it
+    resp.raise_for_status()
+    return resp.content
+
+async def download_one(client: httpx.AsyncClient,
+                       cc: str,
+                       base_url: str,
+                       semaphore: asyncio.Semaphore,
+                       verbose: bool) -&gt; DownloadStatus:
+    try:
+        async with semaphore:  # only this coroutine is suspended if the counter is zero
+            image = await get_flag(client, base_url, cc)
+    except httpx.HTTPStatusError as exc:  # same error handling logic as before
+        res = exc.response
+        if res.status_code == HTTPStatus.NOT_FOUND:
+            status = DownloadStatus.NOT_FOUND
+            msg = f'not found: {res.url}'
+        else:
+            raise
+    else:
+        await asyncio.to_thread(save_flag, image, f'{cc}.gif')  # file I/O in a thread
+        status = DownloadStatus.OK
+        msg = 'OK'
+    if verbose and msg:
+        print(cc, msg)
+    return status
+</code></pre>
+<p><code>get_flag</code> is very similar to the sequential version, but it requires the <code>client</code>
+parameter, and <code>.get</code> is an <code>AsyncClient</code> method that is a coroutine, so we need to <code>await</code>
+it.  In <code>download_one</code>, we use the semaphore as an asynchronous context manager so that the
+program as a whole is not blocked; only this coroutine is suspended when the semaphore
+counter is zero.  More about this in <a href="#pythons-semaphores">Python’s Semaphores</a>.  The error
+handling logic is the same as in the sequential <code>download_one</code>.</p>
+<p>Saving the image is an I/O operation.  To avoid blocking the event loop, we run <code>save_flag</code>
+in a thread.  All network I/O is done with coroutines in <code>asyncio</code>, but not file I/O.
+However, file I/O is also “blocking” — in the sense that reading/writing files takes
+thousands of times longer than reading/writing to RAM.  If you’re using Network-Attached
+Storage, it may even involve network I/O under the covers.  The
+<a href="https://docs.python.org/3/library/asyncio-task.html#asyncio.to_thread"><code>asyncio.to_thread</code></a>
+coroutine makes it easy to delegate file I/O to a thread pool provided by <code>asyncio</code>.</p>
+<pre><code class="language-python">import asyncio
+import threading
+import time
+
+def blocking_io(label):  # a plain function that blocks, like reading a big file
+    time.sleep(.1)
+    return f'{label} done in {threading.current_thread().name.split("_")[0]}'
+
+async def main():
+    results = await asyncio.gather(  # both run concurrently in worker threads
+        asyncio.to_thread(blocking_io, 'A'),
+        asyncio.to_thread(blocking_io, 'B'),
+    )
+    print(results)
+
+asyncio.run(main())
+# ['A done in asyncio', 'B done in asyncio']
+</code></pre>
+<p>But first, let’s finish our study of the HTTP client code.</p>
+<h3 id="throttling-requests-with-a-semaphore"><a class="header" href="#throttling-requests-with-a-semaphore">Throttling Requests with a Semaphore</a></h3>
+<p>Network clients like the ones we are studying should be <em>throttled</em> (i.e., limited) to avoid
+pounding the server with too many concurrent requests.  A <em>semaphore</em> is a synchronization
+primitive, more flexible than a lock.  A semaphore can be held by multiple coroutines, with a
+configurable maximum number.  This makes it ideal to throttle the number of active
+concurrent coroutines.</p>
+<p>In <code>flags2_threadpool.py</code>, the throttling was done by instantiating the <code>ThreadPoolExecutor</code>
+with the required <code>max_workers</code> argument set to <code>concur_req</code> in the <code>download_many</code> function.
+In <code>flags2_asyncio.py</code>, an <code>asyncio.Semaphore</code> is created by the <code>supervisor</code> function and
+passed as the <code>semaphore</code> argument to <code>download_one</code>.</p>
+<h4 id="pythons-semaphores"><a class="header" href="#pythons-semaphores">Python’s Semaphores</a></h4>
+<p>Computer scientist Edsger W. Dijkstra invented the semaphore in the early 1960s.  It’s a
+simple idea, but it’s so flexible that most other synchronization objects — such as locks
+and barriers — can be built on top of semaphores.  There are three <code>Semaphore</code> classes in
+Python’s standard library: one in <code>threading</code>, another in <code>multiprocessing</code>, and a third one
+in <code>asyncio</code>.  Here we’ll describe the latter.</p>
+<p>An <code>asyncio.Semaphore</code> has an internal counter that is decremented whenever we <code>await</code> on the
+<code>.acquire()</code> coroutine method, and incremented when we call the <code>.release()</code> method — which
+is not a coroutine because it never blocks.  The initial value of the counter is set when the
+<code>Semaphore</code> is instantiated:</p>
+<!-- nocheck -->
+<pre><code class="language-python">semaphore = asyncio.Semaphore(concur_req)
+</code></pre>
+<p>Awaiting on <code>.acquire()</code> causes no delay when the counter is greater than zero, but if the
+counter is zero, <code>.acquire()</code> suspends the awaiting coroutine until some other coroutine
+calls <code>.release()</code> on the same <code>Semaphore</code>, thus incrementing the counter.  Instead of using
+those methods directly, it’s safer to use the semaphore as an asynchronous context manager,
+as in <code>download_one</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">async with semaphore:
+    image = await get_flag(client, base_url, cc)
+</code></pre>
+<p>The <code>Semaphore.__aenter__</code> coroutine method awaits for <code>.acquire()</code>, and its <code>__aexit__</code>
+coroutine method calls <code>.release()</code>.  That snippet guarantees that no more than <code>concur_req</code>
+instances of <code>get_flag</code> coroutines will be active at any time.  Here is the effect, measured:</p>
+<pre><code class="language-python">import asyncio
+
+async def worker(n, semaphore, active, peak):
+    async with semaphore:
+        active.append(n)
+        peak[0] = max(peak[0], len(active))
+        await asyncio.sleep(.01)  # pretend to make a request
+        active.remove(n)
+
+async def main():
+    semaphore = asyncio.Semaphore(3)
+    active, peak = [], [0]
+    await asyncio.gather(*(worker(n, semaphore, active, peak) for n in range(10)))
+    return peak[0]
+
+asyncio.run(main())  # never more than 3 workers inside the async with block
+# 3
+</code></pre>
+<p>Each of the <code>Semaphore</code> classes in the standard library has a <code>BoundedSemaphore</code> subclass
+that enforces an additional constraint: the internal counter can never become larger than
+the initial value when there are more <code>.release()</code> than <code>.acquire()</code> operations.</p>
+<p>Now let’s take a look at the rest of the script:</p>
+<!-- nocheck -->
+<pre><code class="language-python">async def supervisor(cc_list: list[str],
+                     base_url: str,
+                     verbose: bool,
+                     concur_req: int) -&gt; Counter[DownloadStatus]:  # same arguments as download_many
+    counter: Counter[DownloadStatus] = Counter()
+    semaphore = asyncio.Semaphore(concur_req)  # no more than concur_req active coroutines
+    async with httpx.AsyncClient() as client:
+        to_do = [download_one(client, cc, base_url, semaphore, verbose)
+                 for cc in sorted(cc_list)]  # one coroutine object per download
+        to_do_iter = asyncio.as_completed(to_do)  # coroutines come out as they're done
+        if not verbose:
+            to_do_iter = tqdm.tqdm(to_do_iter, total=len(cc_list))  # wrap to show progress
+        error: httpx.HTTPError | None = None  # holds an exception beyond the try/except
+        for coro in to_do_iter:  # similar to the loop in flags2_threadpool.py
+            try:
+                status = await coro  # will not block: as_completed only produces done ones
+            except httpx.HTTPStatusError as exc:
+                error_msg = 'HTTP error {resp.status_code} - {resp.reason_phrase}'
+                error_msg = error_msg.format(resp=exc.response)
+                error = exc  # exc is unbound after the except clause, so keep it
+            except httpx.RequestError as exc:
+                error_msg = f'{exc} {type(exc)}'.strip()
+                error = exc
+            except KeyboardInterrupt:
+                break
+
+            if error:
+                status = DownloadStatus.ERROR  # if there was an error, set the status
+                if verbose:
+                    url = str(error.request.url)  # extract the URL from the exception...
+                    cc = Path(url).stem.upper()  # ...and the country code from the URL
+                    print(f'{cc} error: {error_msg}')
+            counter[status] += 1
+
+    return counter
+
+def download_many(cc_list: list[str],
+                  base_url: str,
+                  verbose: bool,
+                  concur_req: int) -&gt; Counter[DownloadStatus]:
+    coro = supervisor(cc_list, base_url, verbose, concur_req)
+    counts = asyncio.run(coro)  # drive supervisor and collect its result
+
+    return counts
+
+if __name__ == '__main__':
+    main(download_many, DEFAULT_CONCUR_REQ, MAX_CONCUR_REQ)
+</code></pre>
+<p><code>supervisor</code> takes the same arguments as the <code>download_many</code> function, but it cannot be
+invoked directly from <code>main</code> because it’s a coroutine and not a plain function like
+<code>download_many</code>.  The value of <code>concur_req</code> is computed by the <code>main</code> function from
+<code>flags2_common.py</code>, based on command-line options and constants set in each example.  The
+call to <code>as_completed</code> is not placed directly in the <code>for</code> loop because it may need to be
+wrapped with the <code>tqdm</code> iterator for the progress bar, depending on the user’s choice for
+verbosity.</p>
+<p>We declare and initialize <code>error</code> with <code>None</code>; this variable will be used to hold an
+exception beyond the <code>try</code>/<code>except</code> statement, if one is raised.  That assignment is
+necessary because the <code>exc</code> variable scope is limited to its <code>except</code> clause.</p>
+<p>In that code, we could not use the mapping of futures to country codes we saw in
+<code>flags2_threadpool.py</code>, because the awaitables produced by iterating over
+<code>asyncio.as_completed</code> with a plain <code>for</code> loop are not the same objects we pass into the
+<code>as_completed</code> call.  That’s why the country code is extracted from the exception, kept in
+the <code>error</code> variable to retrieve outside of the <code>try</code>/<code>except</code> statement.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Since Python 3.13, <code>asyncio.as_completed</code> is also an <em>asynchronous</em> iterator, and
+iterating over it with <code>async for</code> yields the original tasks or futures you passed in.
+So if you wrap your coroutines in tasks first, you can use the same idiom as with
+<code>concurrent.futures</code>: a <code>dict</code> mapping each task to extra data.</p>
+<pre><code class="language-python">to_do_map = {asyncio.create_task(download_one(...)): cc for cc in cc_list}
+async for task in asyncio.as_completed(to_do_map):
+    cc = to_do_map[task]
+    ...
+</code></pre>
+</blockquote>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Python is not a block-scoped language: statements such as loops and <code>try</code>/<code>except</code> don’t
+create a local scope in the blocks they manage.  But if an <code>except</code> clause binds an
+exception to a variable, like the <code>exc</code> variables we just saw, that binding only exists
+within the block inside that particular <code>except</code> clause — the name is deleted when the
+clause ends.</p>
+</blockquote>
+<p>This wraps up the discussion of an <code>asyncio</code> example functionally equivalent to the
+<code>flags2_threadpool.py</code> we saw earlier.</p>
+<p>The next example demonstrates the simple pattern of executing one asynchronous task after
+another using coroutines.  This deserves our attention because anyone with previous
+experience with JavaScript knows that running one asynchronous function after the other was
+the reason for the nested coding pattern known as <em>pyramid of doom</em>.  The <code>await</code> keyword
+makes that curse go away.</p>
+<h3 id="making-multiple-requests-for-each-download"><a class="header" href="#making-multiple-requests-for-each-download">Making Multiple Requests for Each Download</a></h3>
+<p>Suppose you want to save each country flag with the name of the country and the country
+code, instead of just the country code.  Now you need to make two HTTP requests per flag:
+one to get the flag image itself, the other to get the <code>metadata.json</code> file in the same
+directory as the image — that’s where the name of the country is recorded.</p>
+<p>Coordinating multiple requests in the same task is easy in the threaded script: just make
+one request then the other, blocking the thread twice, and keeping both pieces of data
+(country code and name) in local variables, ready to use when saving the files.  If you
+needed to do the same in an asynchronous script with callbacks, you needed nested functions
+so that the country code and name were available in their closures until you could save the
+file, because each callback runs in a different local scope.  The <code>await</code> keyword provides
+relief from that, allowing you to drive the asynchronous requests one after the other,
+sharing the local scope of the driving coroutine.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>If you are doing asynchronous application programming in modern Python with lots of
+callbacks, you are probably applying old patterns that don’t make sense in modern Python.
+That is justified if you are writing a library that interfaces with legacy or low-level
+code that does not support coroutines.</p>
+</blockquote>
+<p>The third variation of the <code>asyncio</code> flag downloading script adds a <code>get_country</code>
+coroutine, which fetches the <code>metadata.json</code> file for the country code and gets the name of
+the country from it, and changes <code>download_one</code> to use <code>await</code> to delegate to <code>get_flag</code> and
+the new <code>get_country</code> coroutine:</p>
+<!-- nocheck -->
+<pre><code class="language-python">async def get_country(client: httpx.AsyncClient,
+                      base_url: str,
+                      cc: str) -&gt; str:  # returns the country name, if all goes well
+    url = f'{base_url}/{cc}/metadata.json'.lower()
+    resp = await client.get(url, timeout=3.1, follow_redirects=True)
+    resp.raise_for_status()
+    metadata = resp.json()  # a Python dict built from the JSON contents of the response
+    return metadata['country']
+
+async def download_one(client: httpx.AsyncClient,
+                       cc: str,
+                       base_url: str,
+                       semaphore: asyncio.Semaphore,
+                       verbose: bool) -&gt; DownloadStatus:
+    try:
+        async with semaphore:  # hold the semaphore to await for get_flag...
+            image = await get_flag(client, base_url, cc)
+        async with semaphore:  # ...and again for get_country
+            country = await get_country(client, base_url, cc)
+    except httpx.HTTPStatusError as exc:
+        res = exc.response
+        if res.status_code == HTTPStatus.NOT_FOUND:
+            status = DownloadStatus.NOT_FOUND
+            msg = f'not found: {res.url}'
+        else:
+            raise
+    else:
+        filename = country.replace(' ', '_')  # no spaces in filenames
+        await asyncio.to_thread(save_flag, image, f'{filename}.gif')
+        status = DownloadStatus.OK
+        msg = 'OK'
+    if verbose and msg:
+        print(cc, msg)
+    return status
+</code></pre>
+<p>Much better than nested callbacks!  The calls to <code>get_flag</code> and <code>get_country</code> are in separate
+<code>with</code> blocks controlled by the semaphore because it’s good practice to hold semaphores and
+locks for the shortest possible time.</p>
+<p>We could schedule both <code>get_flag</code> and <code>get_country</code> in parallel using <code>asyncio.gather</code>, but
+if <code>get_flag</code> raises an exception, there is no image to save, so it’s pointless to run
+<code>get_country</code>.  But there are cases where it makes sense to use <code>asyncio.gather</code> to hit
+several APIs at the same time instead of waiting for one response before making the next
+request.</p>
+<p>One challenge is to know when you have to use <code>await</code> and when you can’t use it.  The answer
+in principle is easy: you <code>await</code> coroutines and other awaitables, such as <code>asyncio.Task</code>
+instances.  But some APIs are tricky, mixing coroutines and plain functions in seemingly
+arbitrary ways, like the <code>StreamWriter</code> class we’ll use in
+<a href="#an-asyncio-tcp-server">An <code>asyncio</code> TCP Server</a>.</p>
+<h2 id="delegating-tasks-to-executors"><a class="header" href="#delegating-tasks-to-executors">Delegating Tasks to Executors</a></h2>
+<p>One important advantage of Node.js over Python for asynchronous programming is the Node.js
+standard library, which provides async APIs for all I/O — not just for network I/O.  In
+Python, if you’re not careful, file I/O can seriously degrade the performance of asynchronous
+applications, because reading and writing to storage in the main thread blocks the event
+loop.  In the <code>download_one</code> coroutine, we used this line to save the downloaded image to
+disk:</p>
+<!-- nocheck -->
+<pre><code class="language-python">await asyncio.to_thread(save_flag, image, f'{cc}.gif')
+</code></pre>
+<p><code>asyncio.to_thread</code> is a convenience built on a lower-level method of the event loop,
+<code>run_in_executor</code>, which is what you’d use in older code:</p>
+<!-- nocheck -->
+<pre><code class="language-python">loop = asyncio.get_running_loop()  # get a reference to the event loop
+await loop.run_in_executor(None, save_flag,  # None selects the default ThreadPoolExecutor
+                           image, f'{cc}.gif')
+</code></pre>
+<p>The first argument is the executor to use; passing <code>None</code> selects the default
+<code>ThreadPoolExecutor</code> that is always available in the <code>asyncio</code> event loop.  You can pass
+positional arguments to the function to run, but if you need to pass keyword arguments, then
+you need to resort to <code>functools.partial</code>, as described in the <code>run_in_executor</code>
+documentation.  The newer <code>asyncio.to_thread</code> function is easier to use and more flexible, as
+it also accepts keyword arguments.</p>
+<p>The implementation of <code>asyncio</code> itself uses <code>run_in_executor</code> under the hood in a few places.
+For example, the <code>loop.getaddrinfo(...)</code> coroutine we saw in <code>blogdom.py</code> is implemented by
+calling the <code>getaddrinfo</code> function from the <code>socket</code> module — which is a blocking function
+that may take seconds to return, as it depends on DNS resolution.</p>
+<p>A common pattern in asynchronous APIs is to wrap blocking calls that are implementation
+details in coroutines using <code>run_in_executor</code> internally.  That way, you provide a
+consistent interface of coroutines to be driven with <code>await</code>, and hide the threads you need
+to use for pragmatic reasons.  The Motor asynchronous driver for MongoDB, for example, has an
+API compatible with <code>async</code>/<code>await</code> that was really a façade around a threaded core that talks
+to the database server: its lead developer found that a thread pool was more performant in
+the particular use case of a database driver — despite the myth that asynchronous approaches
+are always faster than threads for network I/O.</p>
+<p>The main reason to pass an explicit <code>Executor</code> to <code>loop.run_in_executor</code> is to employ a
+<code>ProcessPoolExecutor</code> if the function to execute is CPU intensive, so that it runs in a
+different Python process, avoiding contention for the GIL.  Because of the high start-up
+cost, it would be better to start the <code>ProcessPoolExecutor</code> in the <code>supervisor</code>, and pass it
+to the coroutines that need to use it.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Caleb Hattingh, the author of <em>Using Asyncio in Python</em>, warns: “Using <code>run_in_executor</code>
+can produce hard-to-debug problems since cancellation doesn’t work the way one might
+expect.  Coroutines that use executors give merely the pretense of cancellation: the
+underlying thread (if it’s a <code>ThreadPoolExecutor</code>) has no cancellation mechanism.  For
+example, a long-lived thread that is created inside a <code>run_in_executor</code> call may prevent
+your asyncio program from shutting down cleanly: <code>asyncio.run</code> will wait for the executor
+to fully shut down before returning, and it will wait forever if the executor jobs don’t
+stop somehow on their own.  My greybeard inclination is to want that function to be named
+<code>run_in_executor_uncancellable</code>.”  The same applies to <code>asyncio.to_thread</code>.</p>
+</blockquote>
+<p>We’ll now go from client scripts to writing servers with <code>asyncio</code>.</p>
+<h2 id="writing-asyncio-servers"><a class="header" href="#writing-asyncio-servers">Writing asyncio Servers</a></h2>
+<p>The classic toy example of a TCP server is an echo server.  We’ll build slightly more
+interesting toys: server-side Unicode character search utilities, first using HTTP with
+FastAPI, then using plain TCP with <code>asyncio</code> only.  These servers let users query for Unicode
+characters based on words in their standard names from the <code>unicodedata</code> module we discussed
+in <a href="unicode.html#the-unicode-database">The Unicode Database</a>.</p>
+<p>The Unicode search logic in these examples is in the <code>InvertedIndex</code> class in the
+<code>charindex.py</code> module of the <em>Fluent Python</em> code repository.  There’s nothing concurrent in
+that small module, so here is just a brief overview.</p>
+<h4 id="meet-the-inverted-index"><a class="header" href="#meet-the-inverted-index">Meet the inverted index</a></h4>
+<p>An <em>inverted index</em> usually maps words to documents in which they occur.  In the mojifinder
+examples, each “document” is one Unicode character.  The <code>charindex.InvertedIndex</code> class
+indexes each word that appears in each character name in the Unicode database, and creates an
+inverted index stored in a <code>defaultdict</code>.  For example, to index character U+0037 — DIGIT
+SEVEN — the <code>InvertedIndex</code> initializer appends the character <code>'7'</code> to the entries under the
+keys <code>'DIGIT'</code> and <code>'SEVEN'</code>.  The <code>InvertedIndex.search</code> method breaks the query into words,
+and returns the intersection of the entries for each word.  That’s the beautiful idea behind
+an inverted index: a fundamental building block in information retrieval — the theory behind
+search engines.  Here is a tiny version:</p>
+<pre><code class="language-python">import sys
+import unicodedata
+from collections import defaultdict
+
+class InvertedIndex:
+    def __init__(self, start=32, stop=sys.maxunicode + 1):
+        self.entries = defaultdict(set)
+        for char in (chr(i) for i in range(start, stop)):
+            name = unicodedata.name(char, '')
+            for word in name.split():
+                self.entries[word].add(char)
+
+    def search(self, query):
+        words = query.upper().split()
+        if not words:
+            return set()
+        return set.intersection(*(self.entries.get(w, set()) for w in words))
+
+index = InvertedIndex(0x1F600, 0x1F650)  # just the emoticons block, to keep it fast
+sorted(index.search('cat face'))
+# ['😸', '😹', '😺', '😻', '😼', '😽', '😾', '😿', '🙀']
+</code></pre>
+<h3 id="a-fastapi-web-service"><a class="header" href="#a-fastapi-web-service">A FastAPI Web Service</a></h3>
+<p>The next example — <code>web_mojifinder.py</code> — uses <a href="https://fastapi.tiangolo.com/">FastAPI</a>: one
+of the Python ASGI web frameworks mentioned in
+<a href="concurrency-models.html#wsgi-application-servers">WSGI Application Servers</a>.  Its frontend is a
+super simple SPA (Single Page Application): after the initial HTML download, the UI is updated
+by client-side JavaScript communicating with the server.</p>
+<p>FastAPI is designed to implement backends for SPA and mobile apps, which mostly consist of web
+API end points returning JSON responses instead of server-rendered HTML.  FastAPI leverages
+decorators, type hints and code introspection to eliminate a lot of the boilerplate code for
+web APIs, and also automatically publishes interactive OpenAPI — a.k.a. Swagger —
+documentation for the APIs we create.</p>
+<p>To run <code>web_mojifinder.py</code>, you need to install two packages and their dependencies: FastAPI
+and uvicorn (or another ASGI server, such as Hypercorn).  This is the command to run it with
+uvicorn in development mode:</p>
+<pre><code class="language-console">$ uvicorn web_mojifinder:app --reload
+</code></pre>
+<p>The parameters are <code>web_mojifinder:app</code> — the package name, a colon, and the name of the ASGI
+application defined in it (<code>app</code> is the conventional name) — and <code>--reload</code>, which makes
+uvicorn monitor changes to application source files and automatically reload them.  Here is
+the source code:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from pathlib import Path
+from unicodedata import name
+
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+from pydantic import BaseModel
+
+from charindex import InvertedIndex
+
+STATIC_PATH = Path(__file__).parent.absolute() / 'static'  # pathlib's overloaded / operator
+
+app = FastAPI(  # defines the ASGI app; the parameters are metadata for the docs
+    title='Mojifinder Web',
+    description='Search for Unicode characters by name.',
+)
+
+class CharName(BaseModel):  # a pydantic schema for a JSON response with char and name fields
+    char: str
+    name: str
+
+def init(app):  # build the index and load the static HTML form, attaching both to app.state
+    app.state.index = InvertedIndex()
+    app.state.form = (STATIC_PATH / 'form.html').read_text()
+
+init(app)  # run init when this module is loaded by the ASGI server
+
+@app.get('/search', response_model=list[CharName])  # describes the response format
+async def search(q: str):  # parameters not in the route path come from the query string
+    chars = sorted(app.state.index.search(q))
+    return ({'char': c, 'name': name(c)} for c in chars)  # dicts compatible with the model
+
+@app.get('/', response_class=HTMLResponse, include_in_schema=False)
+def form():  # regular functions can also produce responses
+    return app.state.form
+
+# no main function: the module is loaded and driven by the ASGI server
+</code></pre>
+<p>FastAPI assumes that any parameters that appear in the function or coroutine signature that
+are not in the route path will be passed in the HTTP query string, e.g., <code>/search?q=cat</code>.
+Since <code>q</code> has no default, FastAPI will return a 422 (Unprocessable Entity) status if <code>q</code> is
+missing from the query string.  Returning an iterable of dicts compatible with the
+<code>response_model</code> schema allows FastAPI to build the JSON response according to the
+<code>response_model</code> in the <code>@app.get</code> decorator.</p>
+<p>This module has no direct calls to <code>asyncio</code>.  FastAPI is built on the Starlette ASGI
+toolkit, which in turn uses <code>asyncio</code>.  Also note that the body of <code>search</code> doesn’t use
+<code>await</code>, <code>async with</code> or <code>async for</code>, therefore it could be a plain function.  It’s defined as
+a coroutine just to show that FastAPI knows how to handle it.  In a real app, most endpoints
+will query databases or hit other remote servers, so it is a critical advantage of FastAPI —
+and ASGI frameworks in general — to support coroutines that can take advantage of
+asynchronous libraries for network I/O.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>The <code>init</code> and <code>form</code> functions to load and serve the static HTML form are a hack to make
+the example short and easy to run.  The recommended best practice is to have a
+proxy/load-balancer in front of the ASGI server to handle all static assets, and also use a
+CDN (Content Delivery Network) when possible.</p>
+</blockquote>
+<p>There are no return type hints in <code>search</code> and <code>form</code>.  Instead, FastAPI relies on the
+<code>response_model=</code> keyword argument in the route decorators.  The “Response Model” page in the
+FastAPI documentation explains: “The response model is declared in this parameter instead of
+as a function return type annotation, because the path function may not actually return that
+response model but rather return a dict, database object or some other model, and then use the
+<code>response_model</code> to perform the field limiting and serialization.”</p>
+<h3 id="an-asyncio-tcp-server"><a class="header" href="#an-asyncio-tcp-server">An <code>asyncio</code> TCP Server</a></h3>
+<p>The <code>tcp_mojifinder.py</code> program uses plain TCP to communicate with a client like Telnet or
+Netcat, so it can be written using <code>asyncio</code> without external dependencies — and without
+reinventing HTTP.  The user types a query at a <code>?&gt;</code> prompt, and the server responds with one
+line per character found: the code point, the character and its name.  Let’s start with the
+<code>supervisor</code> coroutine and the <code>main</code> function that drives the program:</p>
+<!-- nocheck -->
+<pre><code class="language-python">async def supervisor(index: InvertedIndex, host: str, port: int) -&gt; None:
+    server = await asyncio.start_server(  # quickly gets a started asyncio.Server
+        functools.partial(finder, index),  # the callback to run for each client connection
+        host, port)
+
+    addr = server.sockets[0].getsockname()  # address and port of the first socket
+    print(f'Serving on {addr}. Hit CTRL-C to stop.')
+    await server.serve_forever()  # suspend supervisor here, while the server runs
+
+def main(host: str = '127.0.0.1', port_arg: str = '2323'):
+    port = int(port_arg)
+    print('Building index.')
+    index = InvertedIndex()  # build the inverted index
+    try:
+        asyncio.run(supervisor(index, host, port))  # start the event loop running supervisor
+    except KeyboardInterrupt:  # avoid a distracting traceback on Ctrl-C
+        print('\nServer shut down.')
+
+if __name__ == '__main__':
+    main(*sys.argv[1:])
+</code></pre>
+<p>This <code>await</code> quickly gets an instance of <code>asyncio.Server</code>, a TCP socket server.  By default,
+<code>start_server</code> creates and starts the server, so it’s ready to receive connections.  The first
+argument to <code>start_server</code> is <code>client_connected_cb</code>, a callback to run when a new client
+connection starts.  The callback can be a function or a coroutine, but it must accept exactly
+two arguments: an <code>asyncio.StreamReader</code> and an <code>asyncio.StreamWriter</code>.  However, our <code>finder</code>
+coroutine also needs to get an <code>index</code>, so we use <code>functools.partial</code> to bind that parameter
+and obtain a callable that takes the reader and writer.  Adapting user functions to callback
+APIs is the most common use case for <code>functools.partial</code> (see
+<a href="first-class-functions.html#freezing-arguments-with-functoolspartial">Freezing Arguments with <code>functools.partial</code></a>).</p>
+<p>Although <code>start_server</code> already started the server as a concurrent task, we need to <code>await</code> on
+the <code>serve_forever</code> method so that <code>supervisor</code> is suspended there.  Without this line,
+<code>supervisor</code> would return immediately, ending the loop started with
+<code>asyncio.run(supervisor(...))</code>, and exiting the program.</p>
+<p>You may find it easier to understand how control flows in <code>tcp_mojifinder.py</code> if you study the
+output it generates on the server console:</p>
+<pre><code class="language-console">$ python3 tcp_mojifinder.py
+Building index.
+Serving on ('127.0.0.1', 2323). Hit Ctrl-C to stop.
+ From ('127.0.0.1', 58192): 'cat face'
+   To ('127.0.0.1', 58192): 10 results.
+ From ('127.0.0.1', 58192): 'fire'
+   To ('127.0.0.1', 58192): 11 results.
+ From ('127.0.0.1', 58192): '\x00'
+Close ('127.0.0.1', 58192).
+^C
+Server shut down.
+$
+</code></pre>
+<p><code>Building index.</code> is output by <code>main</code>; there’s a short delay while the index is built.
+<code>Serving on...</code> is output by <code>supervisor</code>.  Each <code>From</code>/<code>To</code> pair is one iteration of a
+<code>while</code> loop in <code>finder</code>.  The TCP/IP stack assigned port 58192 to the Telnet client.  If you
+connect several clients to the server, you’ll see their various ports in the output.  The
+<code>'\x00'</code> query came from hitting Ctrl-C on the client terminal; the <code>while</code> loop in <code>finder</code>
+exits, and <code>finder</code> displays the <code>Close</code> message.  Meanwhile the server is still running,
+ready to service another client.  Hitting Ctrl-C on the server terminal cancels
+<code>server.serve_forever</code>, ending <code>supervisor</code> and the event loop.</p>
+<p>After <code>main</code> builds the index and starts the event loop, <code>supervisor</code> quickly displays the
+<code>Serving on...</code> message and is suspended at the <code>await server.serve_forever()</code> line.  At that
+point, control flows into the event loop and stays there, occasionally coming back to the
+<code>finder</code> coroutine, which yields control back to the event loop whenever it needs to wait for
+the network to send or receive data.  While the event loop is alive, a new instance of the
+<code>finder</code> coroutine will be started for each client that connects to the server.  In this way,
+many clients can be handled concurrently by this simple server.</p>
+<p>Now let’s see the top of <code>tcp_mojifinder.py</code>, with the <code>finder</code> coroutine:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import asyncio
+import functools
+import sys
+
+from charindex import InvertedIndex, format_results  # format_results: text-based UI display
+
+CRLF = b'\r\n'
+PROMPT = b'?&gt; '
+
+async def finder(index: InvertedIndex,  # wrapped with functools.partial in supervisor
+                 reader: asyncio.StreamReader,
+                 writer: asyncio.StreamWriter) -&gt; None:
+    client = writer.get_extra_info('peername')  # the remote client address
+    while True:  # a dialog that lasts until a control character is received
+        writer.write(PROMPT)  # can't await! write is a plain method
+        await writer.drain()  # must await! drain is a coroutine that flushes the buffer
+        data = await reader.readline()  # a coroutine that returns bytes
+        if not data:  # no bytes: the client closed the connection
+            break
+        try:
+            query = data.decode().strip()  # decode the bytes to str, using UTF-8
+        except UnicodeDecodeError:  # control bytes, e.g. from Ctrl-C in Telnet
+            query = '\x00'
+        print(f' From {client}: {query!r}')  # log the query to the server console
+        if query:
+            if ord(query[:1]) &lt; 32:  # exit the loop on a control or null character
+                break
+            results = await search(query, index, writer)  # do the actual search
+            print(f'   To {client}: {results} results.')
+
+    writer.close()  # close the StreamWriter...
+    await writer.wait_closed()  # ...and wait for it to close
+    print(f'Close {client}.')
+</code></pre>
+<p>The <code>StreamWriter.write</code> method is not a coroutine, just a plain function; that line sends the
+<code>?&gt;</code> prompt.  <code>StreamWriter.drain</code> flushes the writer buffer; it is a coroutine, so it must be
+driven with <code>await</code>.  <code>StreamReader.readline</code> is a coroutine that returns <code>bytes</code>.  A
+<code>UnicodeDecodeError</code> may happen when the user hits Ctrl-C and the Telnet client sends control
+bytes; if that happens, we replace the query with a null character, for simplicity.</p>
+<p>The last piece of this example is the <code>search</code> coroutine:</p>
+<!-- nocheck -->
+<pre><code class="language-python">async def search(query: str,  # a coroutine because it writes to a StreamWriter and drains it
+                 index: InvertedIndex,
+                 writer: asyncio.StreamWriter) -&gt; int:
+    chars = index.search(query)  # query the inverted index
+    lines = (line.encode() + CRLF for line  # UTF-8 encoded lines, e.g. b'U+0039\t9\tDIGIT NINE\r\n'
+                in format_results(chars))
+    writer.writelines(lines)  # surprisingly, writer.writelines is not a coroutine...
+    await writer.drain()  # ...but writer.drain() is. Don't forget the await!
+    status_line = f'{"─" * 66} {len(chars)} found'  # build a status line, then send it
+    writer.write(status_line.encode() + CRLF)
+    await writer.drain()
+    return len(chars)
+</code></pre>
+<p>Note that all network I/O in <code>tcp_mojifinder.py</code> is in bytes; we need to decode the bytes
+received from the network, and encode strings before sending them out.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Some of the I/O methods are coroutines and must be driven with <code>await</code>, while others are
+simple functions.  For example, <code>StreamWriter.write</code> is a plain function, because it writes
+to a buffer.  On the other hand, <code>StreamWriter.drain</code> — which flushes the buffer and performs
+the network I/O — is a coroutine, as is <code>StreamReader.readline</code> — but not
+<code>StreamWriter.writelines</code>!  The <code>asyncio</code> API docs clearly label coroutines as such.</p>
+</blockquote>
+<p>Here is a complete, self-contained server and client exchange using the same Streams API —
+the server and the client run in the same event loop, talking over a real TCP socket on
+<code>localhost</code>:</p>
+<pre><code class="language-python">import asyncio
+
+async def handle(reader, writer):  # the server side: upper-case each line received
+    while data := await reader.readline():
+        writer.write(data.upper())
+        await writer.drain()
+    writer.close()
+    await writer.wait_closed()
+
+async def main():
+    server = await asyncio.start_server(handle, '127.0.0.1', 0)  # port 0: any free port
+    port = server.sockets[0].getsockname()[1]
+    async with server:
+        reader, writer = await asyncio.open_connection('127.0.0.1', port)  # the client side
+        for word in ['async', 'await']:
+            writer.write(word.encode() + b'\n')
+            await writer.drain()
+            print((await reader.readline()).decode().strip())
+        writer.close()
+        await writer.wait_closed()
+
+asyncio.run(main())
+# ASYNC
+# AWAIT
+</code></pre>
+<p>The <code>tcp_mojifinder.py</code> code leverages the high-level <code>asyncio</code> Streams API that provides a
+ready-to-use server so you only need to implement a handler function, which can be a plain
+callback or a coroutine.  There is also a lower-level Transports and Protocols API, inspired
+by the transport and protocols abstractions in the Twisted framework.  Refer to the <code>asyncio</code>
+documentation for more information, including TCP and UDP echo servers and clients
+implemented with that lower-level API.</p>
+<p>Our next topic is <code>async for</code> and the objects that make it work.</p>
+<h2 id="asynchronous-iteration-and-asynchronous-iterables"><a class="header" href="#asynchronous-iteration-and-asynchronous-iterables">Asynchronous Iteration and Asynchronous Iterables</a></h2>
+<p>We saw in <a href="#asynchronous-context-managers">Asynchronous Context Managers</a> how <code>async with</code>
+works with objects implementing the <code>__aenter__</code> and <code>__aexit__</code> methods returning awaitables
+— usually in the form of coroutine objects.</p>
+<p>Similarly, <code>async for</code> works with <em>asynchronous iterables</em>: objects that implement
+<code>__aiter__</code>.  However, <code>__aiter__</code> must be a regular method — not a coroutine method — and it
+must return an <em>asynchronous iterator</em>.  An asynchronous iterator provides an <code>__anext__</code>
+coroutine method that returns an awaitable — often a coroutine object.  They are also expected
+to implement <code>__aiter__</code>, which usually returns <code>self</code>.  This mirrors the important
+distinction of iterables and iterators we discussed in
+<a href="iterators-generators.html#dont-make-the-iterable-an-iterator-for-itself">Don’t Make the Iterable an Iterator for Itself</a>.</p>
+<p>The aiopg asynchronous PostgreSQL driver documentation has an example that illustrates the use
+of <code>async for</code> to iterate over the rows of a database cursor:</p>
+<!-- nocheck -->
+<pre><code class="language-python">async def go():
+    pool = await aiopg.create_pool(dsn)
+    async with pool.acquire() as conn:
+        async with conn.cursor() as cur:
+            await cur.execute("SELECT 1")
+            ret = []
+            async for row in cur:
+                ret.append(row)
+            assert ret == [(1,)]
+</code></pre>
+<p>In this example the query will return a single row, but in a realistic scenario you may have
+thousands of rows in response to a <code>SELECT</code> query.  For large responses, the cursor will not be
+loaded with all the rows in a single batch.  Therefore it is important that
+<code>async for row in cur:</code> does not block the event loop while the cursor may be waiting for
+additional rows.  By implementing the cursor as an asynchronous iterator, aiopg may yield to
+the event loop at each <code>__anext__</code> call, and resume later when more rows arrive from
+PostgreSQL.</p>
+<p>Here is a hand-written asynchronous iterator, for comparison with what comes next:</p>
+<pre><code class="language-python">import asyncio
+
+class Ticker:  # an asynchronous iterator: __aiter__ returns self, __anext__ is a coroutine
+    def __init__(self, count):
+        self.count = count
+
+    def __aiter__(self):  # a plain method
+        return self
+
+    async def __anext__(self):  # a coroutine
+        if self.count == 0:
+            raise StopAsyncIteration  # the asynchronous counterpart of StopIteration
+        await asyncio.sleep(.01)  # pretend to wait for data to arrive
+        self.count -= 1
+        return self.count
+
+async def main():
+    return [n async for n in Ticker(3)]
+
+asyncio.run(main())
+# [2, 1, 0]
+</code></pre>
+<h3 id="asynchronous-generator-functions"><a class="header" href="#asynchronous-generator-functions">Asynchronous Generator Functions</a></h3>
+<p>You can implement an asynchronous iterator by writing a class with <code>__anext__</code> and
+<code>__aiter__</code>, but there is a simpler way: write a function declared with <code>async def</code> and use
+<code>yield</code> in its body.  This parallels how generator functions simplify the classic Iterator
+pattern.</p>
+<p>Let’s study a simple example using <code>async for</code> and implementing an asynchronous generator.
+We saw <code>blogdom.py</code>, a script that probed domain names.  Now suppose we find other uses for the
+<code>probe</code> coroutine we defined there, and decide to put it into a new module — <code>domainlib.py</code> —
+together with a new <code>multi_probe</code> asynchronous generator that takes a list of domain names and
+yields results as they are probed.  We’ll look at the implementation of <code>domainlib.py</code> soon,
+but first let’s see how it is used with Python’s asynchronous console.</p>
+<h4 id="experimenting-with-pythons-async-console"><a class="header" href="#experimenting-with-pythons-async-console">Experimenting with Python’s async console</a></h4>
+<p>You can run the interpreter with the <code>-m asyncio</code> command-line option to get an “async REPL”:
+a Python console that imports <code>asyncio</code>, provides a running event loop, and accepts <code>await</code>,
+<code>async for</code> and <code>async with</code> at the top-level prompt — which otherwise are syntax errors when
+used outside of native coroutines:</p>
+<pre><code class="language-console">$ python -m asyncio
+asyncio REPL 3.15.0 ...
+Use "await" directly instead of "asyncio.run()".
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; import asyncio
+&gt;&gt;&gt;
+</code></pre>
+<p>Note how the header says you can use <code>await</code> instead of <code>asyncio.run()</code> — to drive coroutines
+and other awaitables.  Also: the <code>import asyncio</code> line was not typed by the user.  The
+<code>asyncio</code> module is automatically imported and that line makes that fact clear.  Now let’s
+import <code>domainlib.py</code> and play with its two coroutines, <code>probe</code> and <code>multi_probe</code>:</p>
+<pre><code class="language-pycon">&gt;&gt;&gt; await asyncio.sleep(3, 'Rise and shine!')
+'Rise and shine!'
+&gt;&gt;&gt; from domainlib import *
+&gt;&gt;&gt; await probe('python.org')
+Result(domain='python.org', found=True)
+&gt;&gt;&gt; names = 'python.org rust-lang.org golang.org no-lang.invalid'.split()
+&gt;&gt;&gt; async for result in multi_probe(names):
+...      print(*result, sep='\t')
+...
+golang.org      True
+no-lang.invalid False
+python.org      True
+rust-lang.org   True
+</code></pre>
+<p>First, a simple <code>await</code> to see the asynchronous console in action: <code>asyncio.sleep()</code> takes an
+optional second argument that is returned when you <code>await</code> it.  Then we drive the <code>probe</code>
+coroutine; the <code>domainlib</code> version of <code>probe</code> returns a <code>Result</code> named tuple.  We make a list
+of domains.  The <code>.invalid</code> top-level domain is reserved for testing: DNS queries for such
+domains always get an NXDOMAIN response from DNS servers, meaning “that domain does not exist”
+(see RFC 6761).  Finally, we iterate with <code>async for</code> over the <code>multi_probe</code> asynchronous
+generator to display the results.  Note that the results are not in the order the domains
+were given to <code>multi_probe</code>.  They appear as each DNS response comes back.</p>
+<p>That shows that <code>multi_probe</code> is an asynchronous generator because it is compatible with
+<code>async for</code>.  Here are a few more experiments:</p>
+<pre><code class="language-pycon">&gt;&gt;&gt; probe('python.org')
+&lt;coroutine object probe at 0x10e313740&gt;
+&gt;&gt;&gt; multi_probe(names)
+&lt;async_generator object multi_probe at 0x10e246b80&gt;
+&gt;&gt;&gt; for r in multi_probe(names):
+...    print(r)
+...
+Traceback (most recent call last):
+   ...
+TypeError: 'async_generator' object is not iterable
+</code></pre>
+<p>Calling a native coroutine gives you a coroutine object.  Calling an asynchronous generator
+gives you an <code>async_generator</code> object.  We can’t use a regular <code>for</code> loop with asynchronous
+generators because they implement <code>__aiter__</code> instead of <code>__iter__</code>.</p>
+<p>Asynchronous generators are driven by <code>async for</code>, which can be a block statement, and it also
+appears in asynchronous comprehensions, which we’ll cover soon.</p>
+<h4 id="implementing-an-asynchronous-generator"><a class="header" href="#implementing-an-asynchronous-generator">Implementing an asynchronous generator</a></h4>
+<p>Now let’s study the code for <code>domainlib.py</code>, with the <code>multi_probe</code> asynchronous generator:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import asyncio
+import socket
+from collections.abc import Iterable, AsyncIterator
+from typing import NamedTuple
+
+class Result(NamedTuple):  # makes the result from probe easier to read and debug
+    domain: str
+    found: bool
+
+async def probe(domain: str, loop: asyncio.AbstractEventLoop | None = None) -&gt; Result:
+    if loop is None:  # optional loop argument, to avoid repeated get_running_loop calls
+        loop = asyncio.get_running_loop()
+    try:
+        await loop.getaddrinfo(domain, None)
+    except socket.gaierror:
+        return Result(domain, False)
+    return Result(domain, True)
+
+async def multi_probe(domains: Iterable[str]) -&gt; AsyncIterator[Result]:  # an async generator
+    loop = asyncio.get_running_loop()
+    coros = [probe(domain, loop) for domain in domains]  # a list of probe coroutine objects
+    for coro in asyncio.as_completed(coros):  # not async for: as_completed is a classic generator
+        result = await coro  # await on the coroutine object to retrieve the result
+        yield result  # this line makes multi_probe an asynchronous generator
+</code></pre>
+<p><code>probe</code> now gets an optional <code>loop</code> argument, to avoid repeated calls to <code>get_running_loop</code>
+when this coroutine is driven by <code>multi_probe</code>.  An asynchronous generator function produces
+an asynchronous generator object, which can be annotated as <code>AsyncIterator[SomeType]</code>.  The
+<code>for</code> loop could be more concise:</p>
+<!-- nocheck -->
+<pre><code class="language-python">    for coro in asyncio.as_completed(coros):
+        yield await coro
+</code></pre>
+<p>Python parses that as <code>yield (await coro)</code>, so it works.  Here is a version you can run
+anywhere, with simulated DNS latency:</p>
+<pre><code class="language-python">import asyncio
+from collections.abc import Iterable, AsyncIterator
+from typing import NamedTuple
+
+class Result(NamedTuple):
+    domain: str
+    found: bool
+
+DELAYS = {'python.org': .03, 'rust-lang.org': .04, 'golang.org': .01, 'no-lang.invalid': .02}
+
+async def probe(domain: str) -&gt; Result:
+    await asyncio.sleep(DELAYS[domain])  # stands in for a DNS query
+    return Result(domain, not domain.endswith('.invalid'))
+
+async def multi_probe(domains: Iterable[str]) -&gt; AsyncIterator[Result]:
+    coros = [probe(domain) for domain in domains]
+    for coro in asyncio.as_completed(coros):
+        yield await coro
+
+names = 'python.org rust-lang.org golang.org no-lang.invalid'.split()
+
+async def main():
+    async for result in multi_probe(names):
+        print(*result, sep='\t')
+
+asyncio.run(main())
+# golang.org	True
+# no-lang.invalid	False
+# python.org	True
+# rust-lang.org	True
+</code></pre>
+<p>Given <code>domainlib.py</code>, we can demonstrate the use of the <code>multi_probe</code> asynchronous generator
+in <code>domaincheck.py</code>: a script that takes a domain suffix and searches for domains made from
+short Python keywords.  Here is a sample output:</p>
+<pre><code class="language-console">$ ./domaincheck.py net
+FOUND           NOT FOUND
+=====           =========
+in.net
+del.net
+true.net
+for.net
+is.net
+                none.net
+try.net
+                from.net
+and.net
+or.net
+else.net
+with.net
+if.net
+as.net
+                elif.net
+                pass.net
+                not.net
+                def.net
+</code></pre>
+<p>Thanks to <code>domainlib</code>, the code for <code>domaincheck.py</code> is straightforward:</p>
+<!-- nocheck -->
+<pre><code class="language-python">#!/usr/bin/env python3
+import asyncio
+import sys
+from keyword import kwlist
+
+from domainlib import multi_probe
+
+async def main(tld: str) -&gt; None:
+    tld = tld.strip('.')
+    names = (kw for kw in kwlist if len(kw) &lt;= 4)  # keywords with length up to 4
+    domains = (f'{name}.{tld}'.lower() for name in names)  # domain names with the given TLD
+    print('FOUND\t\tNOT FOUND')  # a header for the tabular output
+    print('=====\t\t=========')
+    async for domain, found in multi_probe(domains):  # asynchronously iterate
+        indent = '' if found else '\t\t'  # put the result in the proper column
+        print(f'{indent}{domain}')
+
+if __name__ == '__main__':
+    if len(sys.argv) == 2:
+        asyncio.run(main(sys.argv[1]))  # run main with the command-line argument
+    else:
+        print('Please provide a TLD.', f'Example: {sys.argv[0]} COM.BR')
+</code></pre>
+<p>Generators have one extra use unrelated to iteration: they can be made into context managers.
+This also applies to asynchronous generators.</p>
+<h4 id="asynchronous-generators-as-context-managers"><a class="header" href="#asynchronous-generators-as-context-managers">Asynchronous generators as context managers</a></h4>
+<p>Writing our own asynchronous context managers is not a frequent programming task, but if you
+need to write one, consider using the
+<a href="https://docs.python.org/3/library/contextlib.html#contextlib.asynccontextmanager"><code>@asynccontextmanager</code></a>
+decorator from the <code>contextlib</code> module.  That’s very similar to the <code>@contextmanager</code> decorator
+we studied in <a href="context-managers.html#using-contextmanager">Using <code>@contextmanager</code></a>.  An
+interesting example combining <code>@asynccontextmanager</code> with <code>loop.run_in_executor</code> appears in
+Caleb Hattingh’s book <em>Using Asyncio in Python</em>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def web_page(url):  # the decorated function must be an asynchronous generator
+    loop = asyncio.get_running_loop()
+    data = await loop.run_in_executor(  # download_webpage blocks: run it in a thread
+        None, download_webpage, url)
+    yield data  # lines before this become __aenter__; data is bound to the as target
+    await loop.run_in_executor(None, update_stats, url)  # lines after become __aexit__
+
+async with web_page('google.com') as data:  # use web_page with async with
+    process(data)
+</code></pre>
+<p>Suppose <code>download_webpage</code> is a blocking function using the <code>requests</code> library; we run it in a
+separate thread to avoid blocking the event loop.  All lines before the <code>yield</code> expression will
+become the <code>__aenter__</code> coroutine method of the asynchronous context manager built by the
+decorator.  The value of <code>data</code> will be bound to the <code>data</code> variable after the <code>as</code> clause in
+the <code>async with</code> statement.  Lines after the <code>yield</code> will become the <code>__aexit__</code> coroutine
+method.  Here, another blocking call is delegated to the thread executor.  And here is a
+runnable sketch of the same shape:</p>
+<pre><code class="language-python">import asyncio
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def session(name):
+    await asyncio.sleep(.01)  # pretend to open a connection
+    print(f'open {name}')
+    try:
+        yield name.upper()
+    finally:
+        await asyncio.sleep(.01)  # pretend to close it
+        print(f'close {name}')
+
+async def main():
+    async with session('db') as s:
+        print('using', s)
+
+asyncio.run(main())
+# open db
+# using DB
+# close db
+</code></pre>
+<p>Now let’s wrap up our coverage of asynchronous generator functions by contrasting them with
+native coroutines.</p>
+<h4 id="asynchronous-generators-versus-native-coroutines"><a class="header" href="#asynchronous-generators-versus-native-coroutines">Asynchronous generators versus native coroutines</a></h4>
+<p>Here are some key similarities and differences between a native coroutine and an asynchronous
+generator function:</p>
+<ul>
+<li>Both are declared with <code>async def</code>.</li>
+<li>An asynchronous generator always has a <code>yield</code> expression in its body — that’s what makes it
+a generator.  A native coroutine never contains <code>yield</code>.</li>
+<li>A native coroutine may <code>return</code> some value other than <code>None</code>.  An asynchronous generator can
+only use empty <code>return</code> statements.</li>
+<li>Native coroutines are awaitable: they can be driven by <code>await</code> expressions or passed to one
+of the many <code>asyncio</code> functions that take awaitable arguments, such as <code>create_task</code>.
+Asynchronous generators are not awaitable.  They are asynchronous iterables, driven by
+<code>async for</code> or by asynchronous comprehensions.</li>
+</ul>
+<p>Time to talk about asynchronous comprehensions.</p>
+<h3 id="async-comprehensions-and-async-generator-expressions"><a class="header" href="#async-comprehensions-and-async-generator-expressions">Async Comprehensions and Async Generator Expressions</a></h3>
+<p><a href="https://peps.python.org/pep-0530/"><strong>PEP 530</strong></a> — Asynchronous Comprehensions introduced the
+use of <code>async for</code> and <code>await</code> in the syntax of comprehensions and generator expressions.  The
+only construct defined by PEP 530 that can appear outside an <code>async def</code> body is an
+asynchronous generator expression.</p>
+<h4 id="defining-and-using-an-asynchronous-generator-expression"><a class="header" href="#defining-and-using-an-asynchronous-generator-expression">Defining and using an asynchronous generator expression</a></h4>
+<p>Given the <code>multi_probe</code> asynchronous generator, we could write another asynchronous generator
+returning only the names of the domains found.  Here is how, continuing with the runnable
+<code>multi_probe</code> defined above:</p>
+<pre><code class="language-python">gen_found = (name async for name, found in multi_probe(names) if found)
+gen_found  # an async_generator object, like those returned by multi_probe
+# &lt;async_generator object &lt;genexpr&gt; at 0x10a8f9700&gt;
+
+async def main():
+    async for name in gen_found:  # driven by async for, inside a coroutine
+        print(name)
+
+asyncio.run(main())
+# golang.org
+# python.org
+# rust-lang.org
+</code></pre>
+<p>The use of <code>async for</code> makes this an asynchronous generator expression.  It can be defined
+anywhere in a Python module.  The asynchronous generator expression builds an
+<code>async_generator</code> object — exactly the same type of object returned by an asynchronous
+generator function like <code>multi_probe</code>.  The asynchronous generator object is driven by the
+<code>async for</code> statement, which in turn can only appear inside an <code>async def</code> body or in the
+magic asynchronous console.</p>
+<p>To summarize: an asynchronous generator expression can be defined anywhere in your program,
+but it can only be consumed inside a native coroutine or asynchronous generator function.
+The remaining constructs introduced by PEP 530 can only be defined and used inside native
+coroutines or asynchronous generator functions.</p>
+<h4 id="asynchronous-comprehensions"><a class="header" href="#asynchronous-comprehensions">Asynchronous comprehensions</a></h4>
+<p>Yury Selivanov — the author of PEP 530 — justifies the need for asynchronous comprehensions
+with three short code snippets.  We can all agree that we should be able to rewrite this code:</p>
+<!-- nocheck -->
+<pre><code class="language-python">result = []
+async for i in aiter():
+    if i % 2:
+        result.append(i)
+</code></pre>
+<p>like this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">result = [i async for i in aiter() if i % 2]
+</code></pre>
+<p>In addition, given a native coroutine <code>fun</code>, we should be able to write this:</p>
+<!-- nocheck -->
+<pre><code class="language-python">result = [await fun() for fun in funcs]
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Using <code>await</code> in a list comprehension is similar to using <code>asyncio.gather</code> — except that the
+comprehension awaits each coroutine in turn, while <code>gather</code> runs them concurrently.
+<code>gather</code> also gives you more control over exception handling, thanks to its optional
+<code>return_exceptions</code> argument.</p>
+</blockquote>
+<p>Here are both, running with the simulated <code>probe</code>:</p>
+<pre><code class="language-python">async def main():
+    sorted_names = sorted(names)
+    coros = [probe(name) for name in sorted_names]
+    print(await asyncio.gather(*coros))  # concurrent
+    print([await probe(name) for name in sorted_names])  # one after the other
+
+asyncio.run(main())
+# [Result(domain='golang.org', found=True), Result(domain='no-lang.invalid', found=False), Result(domain='python.org', found=True), Result(domain='rust-lang.org', found=True)]
+# [Result(domain='golang.org', found=True), Result(domain='no-lang.invalid', found=False), Result(domain='python.org', found=True), Result(domain='rust-lang.org', found=True)]
+</code></pre>
+<p>The list of names is sorted to show that the results come out in the order they were
+submitted, in both cases.</p>
+<p>PEP 530 allows the use of <code>async for</code> and <code>await</code> in list comprehensions as well as in <code>dict</code>
+and <code>set</code> comprehensions.  We can use the <code>await</code> keyword in the expression before the <code>for</code>
+or <code>async for</code> clause, and also in the expression after the <code>if</code> clause:</p>
+<pre><code class="language-python">async def main():
+    print({name: found async for name, found in multi_probe(names)})
+    print(sorted({name for name in names if (await probe(name)).found}))
+
+asyncio.run(main())
+# {'golang.org': True, 'no-lang.invalid': False, 'python.org': True, 'rust-lang.org': True}
+# ['golang.org', 'python.org', 'rust-lang.org']
+</code></pre>
+<p>Note the extra parentheses around the <code>await</code> expression in the set comprehension, due to the
+higher precedence of the <code>.</code> (dot) operator.  Again, all of these comprehensions can only
+appear inside an <code>async def</code> body or in the enchanted asynchronous console.</p>
+<p>Now let’s talk about a very important feature of the <code>async</code> statements, <code>async</code> expressions,
+and the objects they create.  Those constructs are often used with <code>asyncio</code> but, they are
+actually library independent.</p>
+<h2 id="async-beyond-asyncio-curio"><a class="header" href="#async-beyond-asyncio-curio">async Beyond asyncio: Curio</a></h2>
+<p>Python’s <code>async</code>/<code>await</code> language constructs are not tied to any specific event loop or
+library.  (That’s in contrast with JavaScript, where <code>async</code>/<code>await</code> is hardwired to the
+built-in event loop and runtime environment.)  Thanks to the extensible API provided by
+special methods, anyone sufficiently motivated can write their own asynchronous runtime
+environment and framework to drive native coroutines, asynchronous generators, etc.</p>
+<p>That’s what David Beazley did in his <a href="https://github.com/dabeaz/curio">Curio</a> project.  He was
+interested in rethinking how these new language features could be used in a framework built
+from scratch.  Recall that <code>asyncio</code> was released in Python 3.4, and it used <code>yield from</code>
+instead of <code>await</code>, so its API could not leverage asynchronous context managers, asynchronous
+iterators, and everything else that the <code>async</code>/<code>await</code> keywords made possible.  As a result,
+Curio has a cleaner API and a simpler implementation, compared to <code>asyncio</code>.  Here is
+<code>blogdom.py</code> rewritten to use Curio:</p>
+<!-- nocheck -->
+<pre><code class="language-python">#!/usr/bin/env python3
+from curio import run, TaskGroup
+import curio.socket as socket
+from keyword import kwlist
+
+MAX_KEYWORD_LEN = 4
+
+async def probe(domain: str) -&gt; tuple[str, bool]:  # no need to get the event loop, because...
+    try:
+        await socket.getaddrinfo(domain, None)  # ...getaddrinfo is a top-level function
+    except socket.gaierror:
+        return (domain, False)
+    return (domain, True)
+
+async def main() -&gt; None:
+    names = (kw for kw in kwlist if len(kw) &lt;= MAX_KEYWORD_LEN)
+    domains = (f'{name}.dev'.lower() for name in names)
+    async with TaskGroup() as group:  # monitor and control several coroutines
+        for domain in domains:
+            await group.spawn(probe, domain)  # start a coroutine, managed by the group
+        async for task in group:  # yields Task instances as each is completed
+            domain, found = task.result
+            mark = '+' if found else ' '
+            print(f'{mark} {domain}')
+
+if __name__ == '__main__':
+    run(main())
+</code></pre>
+<p><code>probe</code> doesn’t need to get the event loop, because <code>getaddrinfo</code> is a top-level function of
+<code>curio.socket</code>, not a method of a <code>loop</code> object — as it is in <code>asyncio</code>.  A <code>TaskGroup</code> is a
+core concept in Curio, to monitor and control several coroutines, and to make sure they are all
+executed and cleaned up.  <code>TaskGroup.spawn</code> is how you start a coroutine, managed by a specific
+<code>TaskGroup</code> instance.  The coroutine is wrapped by a <code>Task</code>.  Iterating with <code>async for</code> over a
+<code>TaskGroup</code> yields <code>Task</code> instances as each is completed.  And <code>run(main())</code> is the sensible way
+to start an asynchronous program that Curio pioneered — <code>asyncio.run</code> came later.</p>
+<p>Task groups support <em>structured concurrency</em>: a form of concurrent programming that constrains
+all the activity of a group of asynchronous tasks to a single entry and exit point.  This is
+analogous to structured programming, which eschewed the <code>GOTO</code> command and introduced block
+statements to limit the entry and exit points of loops and subroutines.  When used as an
+asynchronous context manager, a <code>TaskGroup</code> ensures that all tasks spawned inside are completed
+or cancelled, and any exceptions raised, upon exiting the enclosed block.</p>
+<p>Another important feature of Curio is better support for programming with coroutines and
+threads in the same codebase — a necessity in most nontrivial asynchronous programs.  The
+design of Curio has been influential.  The <a href="https://trio.readthedocs.io/">Trio</a> framework
+started by Nathaniel J. Smith was heavily inspired by Curio, and calls its task groups
+“nurseries”.  Curio and Trio also prompted Python contributors to improve the usability of the
+<code>asyncio</code> API.  For example, in its earliest releases, <code>asyncio</code> users very often had to get
+and pass around a <code>loop</code> object; in recent versions of Python, direct access to the loop is
+rarely needed.</p>
+<h3 id="structured-concurrency-with-taskgroup"><a class="header" href="#structured-concurrency-with-taskgroup">Structured Concurrency with <code>TaskGroup</code></a></h3>
+<p>The ideas of Curio and Trio arrived in the standard library in Python 3.11.
+<a href="https://peps.python.org/pep-0654/"><strong>PEP 654</strong></a> — Exception Groups and <code>except*</code> said that
+“implementing a better task spawning API in asyncio, inspired by Trio nurseries, was the main
+motivation for this PEP”, and that API is
+<a href="https://docs.python.org/3/library/asyncio-task.html#task-groups"><code>asyncio.TaskGroup</code></a>:</p>
+<pre><code class="language-python">import asyncio
+
+async def probe(domain: str) -&gt; tuple[str, bool]:
+    await asyncio.sleep(DELAYS[domain])
+    return (domain, not domain.endswith('.invalid'))
+
+async def main() -&gt; None:
+    async with asyncio.TaskGroup() as tg:  # the block waits for all tasks to finish
+        tasks = [tg.create_task(probe(domain)) for domain in names]
+    for task in tasks:  # all tasks are done here
+        domain, found = task.result()
+        print('+' if found else ' ', domain)
+
+asyncio.run(main())
+# + python.org
+# + rust-lang.org
+# + golang.org
+#   no-lang.invalid
+</code></pre>
+<p>Compared to <code>asyncio.gather</code>, a <code>TaskGroup</code> has much better failure semantics.  If any task
+raises an exception, the group cancels all the other tasks, waits for them, and then raises an
+<code>ExceptionGroup</code> collecting the errors, which you can handle with <code>except*</code> (see
+<a href="errors.html#tut-exception-groups">Raising and Handling Multiple Unrelated Exceptions</a>):</p>
+<pre><code class="language-python">async def fails():
+    await asyncio.sleep(.01)
+    raise ValueError('boom')
+
+async def slow():
+    try:
+        await asyncio.sleep(10)
+    except asyncio.CancelledError:
+        print('slow was cancelled')  # the group cancels the other tasks
+        raise
+
+async def main():
+    try:
+        async with asyncio.TaskGroup() as tg:
+            tg.create_task(fails())
+            tg.create_task(slow())
+    except* ValueError as eg:
+        print('caught', repr(eg.exceptions[0]))
+
+asyncio.run(main())
+# slow was cancelled
+# caught ValueError('boom')
+</code></pre>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Prefer <code>asyncio.TaskGroup</code> to <code>asyncio.gather</code> and bare <code>create_task</code> calls in new code.
+Combine it with <code>asyncio.timeout()</code> (also new in Python 3.11), an asynchronous context
+manager that cancels the block if it takes too long:</p>
+<pre><code class="language-python">async with asyncio.timeout(10):  # raises TimeoutError after 10 seconds
+    async with asyncio.TaskGroup() as tg:
+        ...
+</code></pre>
+</blockquote>
+<p>Type annotations for asynchronous types are our next topic.</p>
+<h2 id="type-hinting-asynchronous-objects"><a class="header" href="#type-hinting-asynchronous-objects">Type Hinting Asynchronous Objects</a></h2>
+<p>The return type of a native coroutine describes what you get when you <code>await</code> on that
+coroutine, which is the type of the object that appears in the <code>return</code> statements in the body
+of the native coroutine function.  (This differs from the annotations of classic coroutines, as
+discussed in <a href="iterators-generators.html#generic-type-hints-for-classic-coroutines">Generic Type Hints for Classic Coroutines</a>.)
+This chapter provided many examples of annotated native coroutines, including <code>probe</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">async def probe(domain: str) -&gt; tuple[str, bool]:
+    try:
+        await socket.getaddrinfo(domain, None)
+    except socket.gaierror:
+        return (domain, False)
+    return (domain, True)
+</code></pre>
+<p>If you need to annotate a parameter that takes a coroutine object, then the generic type is
+<code>collections.abc.Coroutine[YieldType, SendType, ReturnType]</code>.  That type, and the following
+types are used to annotate asynchronous objects (all from <code>collections.abc</code>, except the
+context manager, which is in <code>contextlib</code>; the corresponding names in <code>typing</code> are deprecated
+aliases):</p>
+<!-- nocheck -->
+<pre><code class="language-python">class Coroutine(Awaitable[V_co], Generic[T_co, T_contra, V_co]): ...
+class AsyncIterable(Generic[T_co]): ...
+class AsyncIterator(AsyncIterable[T_co]): ...
+class AsyncGenerator(AsyncIterator[T_co], Generic[T_co, T_contra]): ...
+class Awaitable(Generic[T_co]): ...
+class AbstractAsyncContextManager(Generic[T_co]): ...  # in contextlib
+</code></pre>
+<p>There are three aspects of those generic types worth highlighting.</p>
+<p>First: they are all covariant on the first type parameter, which is the type of the items
+yielded from these objects.  Recall rule #1 of
+<a href="type-hints-more.html#variance-rules-of-thumb">Variance rules of thumb</a>: if a formal type
+parameter defines a type for data that comes out of the object, it can be covariant.</p>
+<p>Second: <code>AsyncGenerator</code> and <code>Coroutine</code> are contravariant on the second to last parameter.
+That’s the type of the argument of the low-level <code>.send()</code> method that the event loop calls to
+drive asynchronous generators and coroutines.  As such, it is an “input” type.  Therefore, it
+can be contravariant, per variance rule of thumb #2: if a formal type parameter defines a type
+for data that goes into the object after its initial construction, it can be contravariant.</p>
+<p>Third: <code>AsyncGenerator</code> has no return type, in contrast with <code>collections.abc.Generator</code>.
+Returning a value by raising <code>StopIteration(value)</code> was one of the hacks that enabled generators
+to operate as coroutines and support <code>yield from</code>, as we saw in
+<a href="iterators-generators.html#classic-coroutines">Classic Coroutines</a>.  There is no such overlap
+among the asynchronous objects: <code>AsyncGenerator</code> objects don’t return values, and are completely
+separate from native coroutine objects, which are annotated with <code>Coroutine</code>.</p>
+<p>Finally, let’s briefly discuss the advantages and challenges of asynchronous programming.</p>
+<h2 id="how-async-works-and-how-it-doesnt"><a class="header" href="#how-async-works-and-how-it-doesnt">How Async Works and How It Doesn’t</a></h2>
+<p>The sections closing this chapter discuss high-level ideas around asynchronous programming,
+regardless of the language or library you are using.  Let’s begin by explaining the #1 reason
+why asynchronous programming is appealing, followed by a popular myth, and how to deal with it.</p>
+<h3 id="running-circles-around-blocking-calls"><a class="header" href="#running-circles-around-blocking-calls">Running Circles Around Blocking Calls</a></h3>
+<p>Ryan Dahl, the inventor of Node.js, introduces the philosophy of his project by saying “We’re
+doing I/O completely wrong.”  He defines a <em>blocking function</em> as one that does file or network
+I/O, and argues that we can’t treat them as we treat nonblocking functions.  To explain why, he
+presents numbers like those in the second column of this table:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Device</th><th style="text-align: right">CPU cycles</th><th style="text-align: right">Proportional “human” scale</th></tr>
+</thead>
+<tbody>
+<tr><td>L1 cache</td><td style="text-align: right">3</td><td style="text-align: right">3 seconds</td></tr>
+<tr><td>L2 cache</td><td style="text-align: right">14</td><td style="text-align: right">14 seconds</td></tr>
+<tr><td>RAM</td><td style="text-align: right">250</td><td style="text-align: right">250 seconds</td></tr>
+<tr><td>disk</td><td style="text-align: right">41,000,000</td><td style="text-align: right">1.3 years</td></tr>
+<tr><td>network</td><td style="text-align: right">240,000,000</td><td style="text-align: right">7.6 years</td></tr>
+</tbody>
+</table>
+</div>
+<p>To make sense of that table, bear in mind that modern CPUs with GHz clocks run billions of
+cycles per second.  Let’s say that a CPU runs exactly 1 billion cycles per second.  That CPU can
+make more than 333 million L1 cache reads in 1 second, or 4 (four!) network reads in the same
+time.  The third column puts those numbers in perspective by multiplying the second column by a
+constant factor.  So, in an alternate universe, if one read from L1 cache took 3 seconds, then a
+network read would take 7.6 years!</p>
+<p>That explains why a disciplined approach to asynchronous programming can lead to
+high-performance servers.  The challenge is achieving that discipline.  The first step is to
+recognize that “I/O bound system” is a fantasy.</p>
+<h3 id="the-myth-of-io-bound-systems"><a class="header" href="#the-myth-of-io-bound-systems">The Myth of I/O-Bound Systems</a></h3>
+<p>A commonly repeated meme is that asynchronous programming is good for “I/O bound systems”.
+There are no “I/O-bound systems”.  You may have I/O-bound <em>functions</em>.  Perhaps the vast
+majority of the functions in your system are I/O bound; i.e., they spend more time waiting for
+I/O than crunching data.  While waiting, they cede control to the event loop, which can then
+drive some other pending task.  But inevitably, any nontrivial system will have some parts that
+are CPU bound.  Even trivial systems reveal that, under stress.</p>
+<p>A famous example: when Yury Selivanov released uvloop, “a fast, drop-in replacement of the
+built-in asyncio event loop”, in 2016, his benchmarks of a simple HTTP echo server — the
+archetypal “I/O-bound system” — showed that the bottleneck was not the event loop at all, but
+the HTTP header parser, written in Python.  Whenever a function written in Python was parsing
+headers, the event loop was blocked.  He had to write <code>httptools</code>, a binding to a C parser,
+before the faster event loop could make a difference.</p>
+<p>Given that any nontrivial system will have CPU-bound functions, dealing with them is the key to
+success in asynchronous programming.</p>
+<h3 id="avoiding-cpu-bound-traps"><a class="header" href="#avoiding-cpu-bound-traps">Avoiding CPU-Bound Traps</a></h3>
+<p>If you’re using Python at scale, you should have some automated tests designed specifically to
+detect performance regressions as soon as they appear.  This is critically important with
+asynchronous code, but also relevant to threaded Python code — because of the GIL.  If you wait
+until the slowdown starts bothering the development team, it’s too late.  The fix will probably
+require some major makeover.  Here are some options for when you identify a CPU-hogging
+bottleneck:</p>
+<ul>
+<li>Delegate the task to a Python process pool.</li>
+<li>Delegate the task to an external task queue.</li>
+<li>Rewrite the relevant code in Cython, C, Rust, or some other language that compiles to machine
+code and interfaces with the Python/C API, preferably releasing the GIL.</li>
+<li>Decide that you can afford the performance hit and do nothing — but record the decision to
+make it easier to revert to it later.</li>
+</ul>
+<p>The external task queue should be chosen and integrated as soon as possible at the start of the
+project, so that nobody in the team hesitates to use it when needed.  The last option — do
+nothing — falls in the category of technical debt.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p><code>asyncio</code> has a <em>debug mode</em> (<code>python -X dev</code>, or <code>asyncio.run(main(), debug=True)</code>) that
+logs coroutines that were never awaited, and callbacks that take more than 100ms — a cheap
+way to spot code that blocks the event loop.  See
+<a href="https://docs.python.org/3/library/asyncio-dev.html">Developing with asyncio</a>.</p>
+</blockquote>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<blockquote>
+<p>The problem with normal approaches to asynchronous programming is that they’re
+all-or-nothing propositions.  You rewrite all your code so none of it blocks or you’re just
+wasting your time.</p>
+<p>— Alvaro Videla and Jason J. W. Williams, <em>RabbitMQ in Action</em></p>
+</blockquote>
+<p>That epigraph is apt for two reasons.  At a high level, it reminds us to avoid blocking the
+event loop by delegating slow tasks to a different processing unit, from a simple thread all
+the way to a distributed task queue.  At a lower level, it is also a warning: once you write
+your first <code>async def</code>, your program is inevitably going to have more and more <code>async def</code>,
+<code>await</code>, <code>async with</code> and <code>async for</code>.  And using non-asynchronous libraries suddenly becomes a
+challenge.</p>
+<p>After the simple spinner examples in <a href="concurrency-models.html">Concurrency Models in Python</a>, here
+our main focus was asynchronous programming with native coroutines, starting with the
+<code>blogdom.py</code> DNS probing example, followed by the concept of awaitables.  While reading the
+source code of <code>flags_asyncio.py</code>, we found the first example of an asynchronous context
+manager.</p>
+<p>The more advanced variations of the flag downloading program introduced two powerful functions:
+the <code>asyncio.as_completed</code> generator and the <code>asyncio.to_thread</code> coroutine (and the
+<code>loop.run_in_executor</code> method underneath it).  We also saw the concept and application of a
+semaphore to limit the number of concurrent downloads — as expected from well-behaved HTTP
+clients.</p>
+<p>Server-side asynchronous programming was presented through the mojifinder examples: a FastAPI
+web service and <code>tcp_mojifinder.py</code> — the latter using just <code>asyncio</code> and the TCP protocol.</p>
+<p>Asynchronous iteration and asynchronous iterables were the next major topic, with sections on
+<code>async for</code>, Python’s async console, asynchronous generators, asynchronous generator
+expressions and asynchronous comprehensions.</p>
+<p>The last examples in the chapter were <code>blogdom.py</code> rewritten with the Curio framework, to
+demonstrate how Python’s asynchronous features are not tied to the <code>asyncio</code> package, and
+<code>asyncio.TaskGroup</code>, the standard library’s version of structured concurrency.</p>
+<p>Finally, the sections under <a href="#how-async-works-and-how-it-doesnt">How Async Works and How It Doesn’t</a>
+discussed the main appeal of asynchronous programming, the misconception of “I/O-bound
+systems”, and dealing with the inevitable CPU-bound parts of your program.</p>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li>The <a href="https://docs.python.org/3/library/asyncio.html"><code>asyncio</code></a> documentation, in
+particular <a href="https://docs.python.org/3/library/asyncio-dev.html">Developing with asyncio</a>,
+which documents debug mode and common mistakes.</li>
+<li>Caleb Hattingh, <em>Using Asyncio in Python</em> (O’Reilly).</li>
+<li>David Beazley’s PyOhio 2016 keynote “Fear and Awaiting in Async”, a live-coded
+introduction to how the asynchronous objects in this chapter work, without any framework.</li>
+<li>Nathaniel J. Smith, “Some thoughts on asynchronous API design in a post-async/await world”
+and “Notes on structured concurrency, or: Go statement considered harmful”.</li>
+<li>Łukasz Langa’s video series “Learn Python’s AsyncIO”, and his PyCon 2020 talk
+“AsyncIO + Music”.</li>
+<li>Lynn Root, “Advanced asyncio: Solving Real-world Production Problems”, EuroPython 2019.</li>
+<li>Bob Nystrom, “What Color Is Your Function?”, on the incompatible execution models of plain
+functions versus async functions in JavaScript, Python, C# and other languages.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="executors.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="metaprogramming.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="executors.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="metaprogramming.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

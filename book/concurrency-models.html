@@ -1,0 +1,1475 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Concurrency Models in Python - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="concurrency-models-in-python"><a class="header" href="#concurrency-models-in-python">Concurrency Models in Python</a></h1>
+<p>This chapter introduces Python’s core packages for concurrent programming —
+<code>threading</code>, <code>multiprocessing</code> and <code>asyncio</code> — through simple examples that compare
+them.  After a brief conceptual introduction, we’ll write the same small program three
+ways, use it to understand the real impact of the Global Interpreter Lock, and then
+distribute CPU-intensive work over several processes using queues.  The last part of the
+chapter is a high-level overview of the tools, libraries and architectures that let
+Python applications scale far beyond what the standard library provides.</p>
+<h2 id="the-big-picture"><a class="header" href="#the-big-picture">The Big Picture</a></h2>
+<p>There are many factors that make concurrent programming hard, but the most basic one is
+this: starting threads or processes is easy enough, but how do you keep track of them?</p>
+<p>When you call a function, the calling code is blocked until the function returns.  So you
+know when the function is done, and you can easily get the value it returned.  If the
+function raises an exception, the calling code can surround the call site with
+<code>try</code>/<code>except</code> to catch the error.</p>
+<p>Those familiar options are not available when you start a thread or process: you don’t
+automatically know when it’s done, and getting back results or errors requires setting up
+some communication channel, such as a message queue.</p>
+<p>Additionally, starting a thread or a process is not cheap, so you don’t want to start one
+of them just to perform a single computation and quit.  Often you want to amortize the
+startup cost by making each thread or process into a “worker” that enters a loop and
+stands by for inputs to work on.  This further complicates communications and introduces
+more questions.  How do you make a worker quit when you don’t need it anymore?  And how
+do you make it quit without interrupting a job partway, leaving half-baked data and
+unreleased resources — like open files?  Again the usual answers involve messages and
+queues.</p>
+<p>A coroutine is cheap to start.  If you start a coroutine using the <code>await</code> keyword, it’s
+easy to get a value returned by it, it can be safely cancelled, and you have a clear site
+to catch exceptions.  But coroutines are often started by the asynchronous framework, and
+that can make them as hard to monitor as threads or processes.</p>
+<p>Finally, Python coroutines and threads are not suitable for CPU-intensive tasks, as we’ll
+see.  That’s why concurrent programming requires learning new concepts and coding
+patterns.  Let’s first make sure we are on the same page regarding some core concepts.</p>
+<h2 id="a-bit-of-jargon"><a class="header" href="#a-bit-of-jargon">A Bit of Jargon</a></h2>
+<p>Here are some terms used in this chapter and the next two:</p>
+<dl>
+<dt id="concurrency"><a class="header" href="#concurrency"><strong>Concurrency</strong></a></dt>
+<dd>The ability to handle multiple pending tasks, making progress one at a time or in
+parallel (if possible) so that each of them eventually succeeds or fails.  A
+single-core CPU is capable of concurrency if it runs an OS scheduler that interleaves
+the execution of the pending tasks.  Also known as multitasking.</dd>
+<dt id="parallelism"><a class="header" href="#parallelism"><strong>Parallelism</strong></a></dt>
+<dd>The ability to execute multiple computations at the same time.  This requires a
+multicore CPU, multiple CPUs, a GPU, or multiple computers in a cluster.</dd>
+<dt id="execution-unit"><a class="header" href="#execution-unit"><strong>Execution unit</strong></a></dt>
+<dd>General term for objects that execute code concurrently, each with independent state
+and call stack.  Python natively supports three kinds of execution units: processes,
+threads and coroutines.</dd>
+<dt id="process"><a class="header" href="#process"><strong>Process</strong></a></dt>
+<dd>An instance of a computer program while it is running, using memory and a slice of the
+CPU time.  Modern desktop operating systems routinely manage hundreds of processes
+concurrently, with each process isolated in its own private memory space.  Processes
+communicate via pipes, sockets or memory-mapped files — all of which can only carry raw
+bytes.  Python objects must be serialized (converted) into raw bytes to pass from one
+process to another.  This is costly, and not all Python objects are serializable.  A
+process can spawn subprocesses, each called a child process.  These are also isolated
+from each other and from the parent.  Processes allow <em>preemptive multitasking</em>: the OS
+scheduler preempts — i.e., suspends — each running process periodically to allow other
+processes to run.  This means that a frozen process can’t freeze the whole system — in
+theory.</dd>
+<dt id="thread"><a class="header" href="#thread"><strong>Thread</strong></a></dt>
+<dd>An execution unit within a single process.  When a process starts, it uses a single
+thread: the main thread.  A process can create more threads to operate concurrently by
+calling operating system APIs.  Threads within a process share the same memory space,
+which holds live Python objects.  This allows easy data sharing between threads, but
+can also lead to corrupted data when more than one thread updates the same object
+concurrently.  Like processes, threads also enable preemptive multitasking under the
+supervision of the OS scheduler.  A thread consumes fewer resources than a process doing
+the same job.</dd>
+<dt id="coroutine"><a class="header" href="#coroutine"><strong>Coroutine</strong></a></dt>
+<dd>A function that can suspend itself and resume later.  In Python, classic coroutines are
+built from generator functions (see <a href="iterators-generators.html#classic-coroutines">Classic Coroutines</a>),
+and native coroutines are defined with <code>async def</code> (see
+<a href="asyncio.html">Asynchronous Programming</a>).  Python coroutines usually run within a single
+thread under the supervision of an <em>event loop</em>, also in the same thread.  Asynchronous
+programming frameworks such as <code>asyncio</code>, Curio or Trio provide an event loop and
+supporting libraries for nonblocking, coroutine-based I/O.  Coroutines support
+<em>cooperative multitasking</em>: each coroutine must explicitly cede control with the <code>yield</code>
+or <code>await</code> keyword, so that another may proceed concurrently (but not in parallel).  This
+means that any blocking code in a coroutine blocks the execution of the event loop and
+all other coroutines — in contrast with the preemptive multitasking supported by
+processes and threads.  On the other hand, each coroutine consumes fewer resources than
+a thread or process doing the same job.</dd>
+<dt id="queue"><a class="header" href="#queue"><strong>Queue</strong></a></dt>
+<dd>A data structure that lets us put and get items, usually in FIFO order: first in, first
+out.  Queues allow separate execution units to exchange application data and control
+messages, such as error codes and signals to terminate.  The implementation of a queue
+varies according to the underlying concurrency model: the <code>queue</code> package in Python’s
+standard library provides queue classes to support threads, while the <code>multiprocessing</code>
+and <code>asyncio</code> packages implement their own queue classes.  The <code>queue</code> and <code>asyncio</code>
+packages also include queues that are not FIFO: <code>LifoQueue</code> and <code>PriorityQueue</code>.</dd>
+<dt id="lock"><a class="header" href="#lock"><strong>Lock</strong></a></dt>
+<dd>An object that execution units can use to synchronize their actions and avoid
+corrupting data.  While updating a shared data structure, the running code should hold
+an associated lock.  This signals other parts of the program to wait until the lock is
+released before accessing the same data structure.  The simplest type of lock is also
+known as a <em>mutex</em> (for mutual exclusion).  The implementation of a lock depends on the
+underlying concurrency model.</dd>
+<dt id="contention"><a class="header" href="#contention"><strong>Contention</strong></a></dt>
+<dd>Dispute over a limited asset.  Resource contention happens when multiple execution
+units try to access a shared resource — such as a lock or storage.  There’s also CPU
+contention, when compute-intensive processes or threads must wait for the OS scheduler
+to give them a share of the CPU time.</dd>
+</dl>
+<p>Now let’s use some of that jargon to understand concurrency support in Python.</p>
+<h3 id="processes-threads-and-pythons-infamous-gil"><a class="header" href="#processes-threads-and-pythons-infamous-gil">Processes, Threads, and Python’s Infamous GIL</a></h3>
+<p>Here is how the concepts we just saw apply to Python programming, in 10 points:</p>
+<ol>
+<li>Each instance of the Python interpreter is a process.  You can start additional Python
+processes using the <code>multiprocessing</code> or <code>concurrent.futures</code> libraries.  Python’s
+<code>subprocess</code> library is designed to launch processes to run external programs,
+regardless of the languages used to write them.</li>
+<li>The Python interpreter uses a single thread to run the user’s program and the memory
+garbage collector.  You can start additional Python threads using the <code>threading</code> or
+<code>concurrent.futures</code> libraries.</li>
+<li>Access to object reference counts and other internal interpreter state is controlled by
+a lock, the <em>Global Interpreter Lock</em> (GIL).  Only one Python thread can hold the GIL at
+any time.  This means that only one thread can execute Python code at any time,
+regardless of the number of CPU cores.</li>
+<li>To prevent a Python thread from holding the GIL indefinitely, Python’s bytecode
+interpreter pauses the current Python thread every 5ms by default, releasing the GIL.
+(Call <code>sys.getswitchinterval()</code> to get the interval; change it with
+<code>sys.setswitchinterval(s)</code>.)  The thread can then try to reacquire the GIL, but if
+there are other threads waiting for it, the OS scheduler may pick one of them to
+proceed.</li>
+<li>When we write Python code, we have no control over the GIL.  But a built-in function or
+an extension written in C — or any language that interfaces at the Python/C API level —
+can release the GIL while running time-consuming tasks.</li>
+<li>Every Python standard library function that makes a <em>syscall</em> (a call to a function of
+the operating system kernel) releases the GIL.  This includes all functions that
+perform disk I/O, network I/O, and <code>time.sleep()</code>.  Many CPU-intensive functions in the
+NumPy/SciPy libraries, as well as the compressing/decompressing functions from the
+<code>zlib</code> and <code>bz2</code> modules, also release the GIL.</li>
+<li>Extensions that integrate at the Python/C API level can also launch other non-Python
+threads that are not affected by the GIL.  Such GIL-free threads generally cannot
+change Python objects, but they can read from and write to the memory underlying
+objects that support the buffer protocol, such as <code>bytearray</code>, <code>array.array</code> and NumPy
+arrays.</li>
+<li>The effect of the GIL on network programming with Python threads is relatively small,
+because the I/O functions release the GIL, and reading or writing to the network always
+implies high latency — compared to reading and writing to memory.  Consequently, each
+individual thread spends a lot of time waiting anyway, so their execution can be
+interleaved without major impact on the overall throughput.  That’s why David Beazley
+says: “Python threads are great at doing nothing.”</li>
+<li>Contention over the GIL slows down compute-intensive Python threads.  Sequential,
+single-threaded code is simpler and faster for such tasks.</li>
+<li>To run CPU-intensive Python code on multiple cores, you must use multiple Python
+processes — or, with the newer options described in the note below, a free-threaded
+build or multiple interpreters.</li>
+</ol>
+<p>Here is a good summary from the <a href="https://docs.python.org/3/library/threading.html"><code>threading</code></a>
+module documentation:</p>
+<blockquote>
+<p><strong>CPython implementation detail:</strong> In CPython, due to the Global Interpreter Lock, only
+one thread can execute Python code at once (even though certain performance-oriented
+libraries might overcome this limitation).  If you want your application to make better
+use of the computational resources of multi-core machines, you are advised to use
+<code>multiprocessing</code> or <code>concurrent.futures.ProcessPoolExecutor</code>.  However, threading is
+still an appropriate model if you want to run multiple I/O-bound tasks simultaneously.</p>
+</blockquote>
+<p>That paragraph starts with “CPython implementation detail” because the GIL is not part of
+the Python language definition.  The Jython and IronPython implementations don’t have a
+GIL, though both have lagged far behind CPython.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Since Python 3.13, CPython can be built without the GIL — the <em>free-threaded</em> build,
+usually installed as a separate <code>python3.13t</code> (or <code>python3.14t</code>, etc.) executable.  In
+that build, threads can run Python code on several cores at once, so the CPU-bound
+experiments later in this chapter behave very differently.  Python 3.14 made the
+free-threaded build officially supported, but it is still optional, and the default
+build still has a GIL.  You can check which build you are running:</p>
+<pre><code class="language-python">import sysconfig
+sysconfig.get_config_var('Py_GIL_DISABLED')  # 1 in a free-threaded build
+# 0
+</code></pre>
+<p>Free threading removes the GIL’s protection, so code that shares mutable data between
+threads needs locks even more than before.  Everything this chapter says about the
+difficulty of threads and locks applies with full force.</p>
+</blockquote>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>The GIL does not affect coroutines, because by default they share the same Python
+thread among themselves and with the supervising event loop provided by an asynchronous
+framework.  It is possible to use multiple threads in an asynchronous program, but the
+best practice is that one thread runs the event loop and all coroutines, while
+additional threads carry out specific tasks.  This will be explained in
+<a href="asyncio.html#delegating-tasks-to-executors">Delegating Tasks to Executors</a>.</p>
+</blockquote>
+<p>Enough concepts for now.  Let’s see some code.</p>
+<h2 id="a-concurrent-hello-world"><a class="header" href="#a-concurrent-hello-world">A Concurrent Hello World</a></h2>
+<p>During a discussion about threads and how to avoid the GIL, Python contributor Michele
+Simionato posted an example that is like a concurrent “Hello World”: the simplest
+program to show how Python can “walk and chew gum”.  His program used <code>multiprocessing</code>,
+but here it’s adapted to introduce <code>threading</code> and <code>asyncio</code> as well.  Let’s start with
+the <code>threading</code> version, which may look familiar if you’ve studied threads in Java or C.</p>
+<h3 id="spinner-with-threads"><a class="header" href="#spinner-with-threads">Spinner with Threads</a></h3>
+<p>The idea of the next few examples is simple: start a function that blocks for 3 seconds
+while animating characters in the terminal to let the user know that the program is
+“thinking” and not stalled.</p>
+<p>The script makes an animated spinner displaying each character in the string <code>"\|/-"</code> in
+the same screen position.  When the slow computation finishes, the line with the spinner
+is cleared and the result is shown: <code>Answer: 42</code>.  Running it, you see something like
+this, with the last line spinning for 3 seconds before it is replaced by <code>Answer: 42</code>:</p>
+<pre><code class="language-console">$ python3 spinner_thread.py
+spinner object: &lt;Thread(Thread-1 (spin), initial)&gt;
+| thinking!
+</code></pre>
+<p>Here are the first two functions of <code>spinner_thread.py</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import itertools
+import time
+from threading import Thread, Event
+
+def spin(msg: str, done: Event) -&gt; None:  # this function will run in a separate thread
+    for char in itertools.cycle(r'\|/-'):  # an infinite loop: cycle yields chars forever
+        status = f'\r{char} {msg}'  # \r moves the cursor back to the start of the line
+        print(status, end='', flush=True)
+        if done.wait(.1):  # True when the event is set by another thread; False on timeout
+            break  # exit the infinite loop
+    blanks = ' ' * len(status)
+    print(f'\r{blanks}\r', end='')  # clear the status line
+
+def slow() -&gt; int:
+    time.sleep(3)  # blocks the main thread, but the GIL is released
+    return 42
+</code></pre>
+<p><code>spin</code> will run in a separate thread.  The <code>done</code> argument is an instance of
+<a href="https://docs.python.org/3/library/threading.html#event-objects"><code>threading.Event</code></a>, a
+simple object to synchronize threads.  The loop is infinite because <code>itertools.cycle</code>
+yields one character at a time, cycling through the string forever.  The trick for
+text-mode animation is to move the cursor back to the start of the line with the carriage
+return ASCII control character (<code>'\r'</code>).</p>
+<p>The <code>Event.wait(timeout=None)</code> method returns <code>True</code> when the event is set by another
+thread; if the timeout elapses, it returns <code>False</code>.  The 0.1s timeout sets the “frame rate”
+of the animation to 10 FPS.  If you want the spinner to go faster, use a smaller timeout.
+After the loop, we clear the status line by overwriting it with spaces and moving the
+cursor back to the beginning.</p>
+<p><code>slow()</code> will be called by the main thread.  Imagine this is a slow API call over the
+network.  Calling <code>sleep</code> blocks the main thread, but the GIL is released so the spinner
+thread can proceed.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>The first important insight of this example is that <code>time.sleep()</code> blocks the calling
+thread but releases the GIL, allowing other Python threads to run.</p>
+</blockquote>
+<p>The <code>spin</code> and <code>slow</code> functions will execute concurrently.  The main thread — the only
+thread when the program starts — will start a new thread to run <code>spin</code> and then call
+<code>slow</code>.  By design, there is no API for terminating a thread in Python.  You must send it
+a message to shut down.</p>
+<p>The <code>threading.Event</code> class is Python’s simplest signalling mechanism to coordinate
+threads.  An <code>Event</code> instance has an internal boolean flag that starts as <code>False</code>.  Calling
+<code>Event.set()</code> sets the flag to <code>True</code>.  While the flag is false, if a thread calls
+<code>Event.wait()</code>, it is blocked until another thread calls <code>Event.set()</code>, at which time
+<code>Event.wait()</code> returns <code>True</code>.  If a timeout in seconds is given to <code>Event.wait(s)</code>, this
+call returns <code>False</code> when the timeout elapses, or returns <code>True</code> as soon as <code>Event.set()</code> is
+called by another thread.</p>
+<p>The <code>supervisor</code> function uses an <code>Event</code> to signal the <code>spin</code> function to exit:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def supervisor() -&gt; int:  # supervisor will return the result of slow
+    done = Event()  # the key to coordinate the main thread and the spinner thread
+    spinner = Thread(target=spin, args=('thinking!', done))  # target function and its args
+    print(f'spinner object: {spinner}')  # &lt;Thread(Thread-1 (spin), initial)&gt;
+    spinner.start()  # start the spinner thread
+    result = slow()  # blocks the main thread; meanwhile, the spinner thread runs
+    done.set()  # set the Event flag to True: this will terminate the loop inside spin
+    spinner.join()  # wait until the spinner thread finishes
+    return result
+
+def main() -&gt; None:
+    result = supervisor()
+    print(f'Answer: {result}')
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+<p>To create a new <code>Thread</code>, provide a function as the <code>target</code> keyword argument, and
+positional arguments to the target as a tuple passed via <code>args</code>.  The repr of the spinner
+object is <code>&lt;Thread(Thread-1 (spin), initial)&gt;</code>, where <code>initial</code> is the state of the thread
+— meaning it has not started.  We call <code>slow</code>, which blocks the main thread.  Meanwhile,
+the secondary thread is running the spinner animation.  When the main thread sets the
+<code>done</code> event, the spinner thread will eventually notice and exit cleanly.  (The separate
+<code>main</code> and <code>supervisor</code> functions make this example look more like the <code>asyncio</code> version
+coming up.)</p>
+<p>Now let’s take a look at a similar example using the <code>multiprocessing</code> package.</p>
+<h3 id="spinner-with-processes"><a class="header" href="#spinner-with-processes">Spinner with Processes</a></h3>
+<p>The <a href="https://docs.python.org/3/library/multiprocessing.html"><code>multiprocessing</code></a> package
+supports running concurrent tasks in separate Python processes instead of threads.  When
+you create a <code>multiprocessing.Process</code> instance, a whole new Python interpreter is started
+as a child process in the background.  Since each Python process has its own GIL, this
+allows your program to use all available CPU cores — but that ultimately depends on the
+operating system scheduler.  We’ll see practical effects in
+<a href="#a-homegrown-process-pool">A Homegrown Process Pool</a>, but for this simple program it
+makes no real difference.</p>
+<p>The point of this section is to show that the <code>multiprocessing</code> API emulates the
+<code>threading</code> API, making it easy to convert simple programs from threads to processes.
+Here are the changed parts of <code>spinner_proc.py</code>; everything else is the same as
+<code>spinner_thread.py</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import itertools
+import time
+from multiprocessing import Process, Event
+from multiprocessing import synchronize
+
+def spin(msg: str, done: synchronize.Event) -&gt; None:
+    ...  # the rest of spin and slow functions are unchanged
+
+def supervisor() -&gt; int:
+    done = Event()
+    spinner = Process(target=spin,
+                      args=('thinking!', done))
+    print(f'spinner object: {spinner}')
+    spinner.start()
+    result = slow()
+    done.set()
+    spinner.join()
+    return result
+
+# main function is unchanged as well
+</code></pre>
+<p>The basic <code>multiprocessing</code> API imitates the <code>threading</code> API, but type hints expose a
+difference: <code>multiprocessing.Event</code> is a function (not a class like <code>threading.Event</code>)
+which returns a <code>synchronize.Event</code> instance, forcing us to import
+<code>multiprocessing.synchronize</code> to write the type hint.  Basic usage of the <code>Process</code> class
+is similar to <code>Thread</code>.  The spinner object is displayed as
+<code>&lt;Process name='Process-1' parent=14868 initial&gt;</code>, where <code>14868</code> is the process ID of the
+Python instance running <code>spinner_proc.py</code>.</p>
+<p>The basic APIs of <code>threading</code> and <code>multiprocessing</code> are similar, but their implementation
+is very different, and <code>multiprocessing</code> has a much larger API to handle the added
+complexity of multiprocess programming.  For example, one challenge when converting from
+threads to processes is how to communicate between processes that are isolated by the
+operating system and can’t share Python objects.  This means that objects crossing process
+boundaries have to be serialized and deserialized, which creates overhead.  In this
+example, the only data that crosses the process boundary is the <code>Event</code> state, which is
+implemented with a low-level OS semaphore in the C code underlying the <code>multiprocessing</code>
+module.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>How a child process is started depends on the <em>start method</em>: <code>'fork'</code> copies the parent
+process, <code>'spawn'</code> starts a fresh interpreter, and <code>'forkserver'</code> forks from a clean
+server process.  The default is <code>'spawn'</code> on Windows and macOS, and since Python 3.14,
+<code>'forkserver'</code> on Linux and other POSIX platforms (it used to be <code>'fork'</code>).  With
+<code>'spawn'</code> and <code>'forkserver'</code>, the child imports your main module, so code that starts
+processes must be protected by <code>if __name__ == '__main__':</code>, as in our examples.  See
+<a href="https://docs.python.org/3/library/multiprocessing.html#contexts-and-start-methods">Contexts and start methods</a>.</p>
+</blockquote>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>The <a href="https://docs.python.org/3/library/multiprocessing.shared_memory.html"><code>multiprocessing.shared_memory</code></a>
+package lets processes share raw bytes and a <code>ShareableList</code>, a mutable sequence type
+that can hold a fixed number of items of types <code>int</code>, <code>float</code>, <code>bool</code> and <code>None</code>, as well
+as <code>str</code> and <code>bytes</code> up to 10 MB per item.  It does not support instances of
+user-defined classes.</p>
+</blockquote>
+<p>Now let’s see how the same behavior can be achieved with coroutines instead of threads or
+processes.</p>
+<h3 id="spinner-with-coroutines"><a class="header" href="#spinner-with-coroutines">Spinner with Coroutines</a></h3>
+<blockquote>
+<p><strong>Note</strong></p>
+<p><a href="asyncio.html">Asynchronous Programming</a> is entirely devoted to asynchronous programming
+with coroutines.  This is just a high-level introduction to contrast this approach with
+the threads and processes concurrency models.  As such, we will overlook many details.</p>
+</blockquote>
+<p>It is the job of OS schedulers to allocate CPU time to drive threads and processes.  In
+contrast, coroutines are driven by an application-level event loop that manages a queue of
+pending coroutines, drives them one by one, monitors events triggered by I/O operations
+initiated by coroutines, and passes control back to the corresponding coroutine when each
+event happens.  The event loop and the library coroutines and the user coroutines all
+execute in a single thread.  Therefore, any time spent in a coroutine slows down the event
+loop — and all other coroutines.</p>
+<p>The coroutine version of the spinner program is easier to understand if we start from the
+<code>main</code> function, then study the <code>supervisor</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def main() -&gt; None:  # the only regular function in this program; the others are coroutines
+    result = asyncio.run(supervisor())  # start the event loop to drive supervisor
+    print(f'Answer: {result}')
+
+async def supervisor() -&gt; int:  # native coroutines are defined with async def
+    spinner = asyncio.create_task(spin('thinking!'))  # schedule spin, returning a Task
+    print(f'spinner object: {spinner}')
+    result = await slow()  # await calls slow, blocking supervisor until slow returns
+    spinner.cancel()  # raises CancelledError inside the spin coroutine
+    return result
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+<p><code>main</code> is the only regular function defined in this program — the others are coroutines.
+The <code>asyncio.run</code> function starts the event loop to drive the coroutine that will
+eventually set the other coroutines in motion.  The <code>main</code> function will stay blocked until
+<code>supervisor</code> returns.  The return value of <code>supervisor</code> will be the return value of
+<code>asyncio.run</code>.</p>
+<p><code>asyncio.create_task</code> schedules the eventual execution of <code>spin</code>, immediately returning an
+instance of <code>asyncio.Task</code>.  The repr of the spinner object looks like
+<code>&lt;Task pending name='Task-2' coro=&lt;spin() running at /path/to/spinner_async.py:11&gt;&gt;</code>.  The
+<code>await</code> keyword calls <code>slow</code>, blocking <code>supervisor</code> until <code>slow</code> returns.  The return value
+of <code>slow</code> will be assigned to <code>result</code>.  The <code>Task.cancel</code> method raises a <code>CancelledError</code>
+exception inside the <code>spin</code> coroutine, as we’ll see next.</p>
+<p>This demonstrates the three main ways of running a coroutine:</p>
+<dl>
+<dt id="asyncioruncoro"><a class="header" href="#asyncioruncoro"><code>asyncio.run(coro())</code></a></dt>
+<dd>Called from a regular function to drive a coroutine object that usually is the entry
+point for all the asynchronous code in the program, like the <code>supervisor</code> in this
+example.  This call blocks until the body of <code>coro</code> returns.  The return value of the
+<code>run()</code> call is whatever the body of <code>coro</code> returns.</dd>
+<dt id="asynciocreate_taskcoro"><a class="header" href="#asynciocreate_taskcoro"><code>asyncio.create_task(coro())</code></a></dt>
+<dd>Called from a coroutine to schedule another coroutine to execute eventually.  This call
+does not suspend the current coroutine.  It returns a <code>Task</code> instance, an object that
+wraps the coroutine object and provides methods to control and query its state.</dd>
+<dt id="await-coro"><a class="header" href="#await-coro"><code>await coro()</code></a></dt>
+<dd>Called from a coroutine to transfer control to the coroutine object returned by
+<code>coro()</code>.  This suspends the current coroutine until the body of <code>coro</code> returns.  The
+value of the <code>await</code> expression is whatever the body of <code>coro</code> returns.</dd>
+</dl>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Remember: invoking a coroutine as <code>coro()</code> immediately returns a coroutine object, but
+does not run the body of the <code>coro</code> function.  Driving the body of coroutines is the job
+of the event loop.</p>
+</blockquote>
+<p>Now let’s study the <code>spin</code> and <code>slow</code> coroutines:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import asyncio
+import itertools
+
+async def spin(msg: str) -&gt; None:  # no need for the Event argument
+    for char in itertools.cycle(r'\|/-'):
+        status = f'\r{char} {msg}'
+        print(status, flush=True, end='')
+        try:
+            await asyncio.sleep(.1)  # pause without blocking other coroutines
+        except asyncio.CancelledError:  # raised when cancel is called on the Task
+            break
+    blanks = ' ' * len(status)
+    print(f'\r{blanks}\r', end='')
+
+async def slow() -&gt; int:
+    await asyncio.sleep(3)  # also await asyncio.sleep instead of time.sleep
+    return 42
+</code></pre>
+<p>We don’t need the <code>Event</code> argument that was used to signal that <code>slow</code> had completed its
+job in <code>spinner_thread.py</code>.  We use <code>await asyncio.sleep(.1)</code> instead of <code>time.sleep(.1)</code>,
+to pause without blocking other coroutines.  <code>asyncio.CancelledError</code> is raised when the
+<code>cancel</code> method is called on the <code>Task</code> controlling this coroutine.  Time to exit the loop.
+The <code>slow</code> coroutine also uses <code>await asyncio.sleep</code> instead of <code>time.sleep</code>.</p>
+<h4 id="experiment-break-the-spinner-for-an-insight"><a class="header" href="#experiment-break-the-spinner-for-an-insight">Experiment: break the spinner for an insight</a></h4>
+<p>Here is an experiment that helps to understand how <code>spinner_async.py</code> works.  Import the
+<code>time</code> module, then go to the <code>slow</code> coroutine and replace the line
+<code>await asyncio.sleep(3)</code> with a call to <code>time.sleep(3)</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">async def slow() -&gt; int:
+    time.sleep(3)
+    return 42
+</code></pre>
+<p>Watching the behavior is more memorable than reading about it.  When you run the
+experiment, this is what you see:</p>
+<ol>
+<li>The spinner object is shown, similar to this:
+<code>&lt;Task pending name='Task-2' coro=&lt;spin() running at /path/to/spinner_async.py:12&gt;&gt;</code>.</li>
+<li>The spinner never appears.  The program hangs for 3 seconds.</li>
+<li><code>Answer: 42</code> is displayed and the program ends.</li>
+</ol>
+<p>To understand what is happening, recall that Python code using <code>asyncio</code> has only one flow
+of execution, unless you’ve explicitly started additional threads or processes.  That
+means only one coroutine executes at any point in time.  Concurrency is achieved by control
+passing from one coroutine to another.  Let’s focus on what happens in the <code>supervisor</code>
+and <code>slow</code> coroutines during the experiment:</p>
+<!-- nocheck -->
+<pre><code class="language-python">async def slow() -&gt; int:
+    time.sleep(3)  # blocks for 3 seconds: nothing else can happen in the program
+    return 42
+
+async def supervisor() -&gt; int:
+    spinner = asyncio.create_task(spin('thinking!'))  # the task is created...
+    print(f'spinner object: {spinner}')  # ...and the display shows it is "pending"
+    result = await slow()  # the await expression transfers control to slow
+    spinner.cancel()  # right after slow returns, the spinner task is cancelled
+    return result
+</code></pre>
+<p>The spinner task is created, to eventually drive the execution of <code>spin</code>, and the display
+shows the <code>Task</code> is “pending”.  The <code>await</code> expression transfers control to the <code>slow</code>
+coroutine.  <code>time.sleep(3)</code> blocks for 3 seconds; nothing else can happen in the program,
+because the main thread is blocked — and it is the only thread.  The operating system will
+continue with other activities.  After 3 seconds, <code>sleep</code> unblocks, and <code>slow</code> returns.
+Right after <code>slow</code> returns, the spinner task is cancelled.  The flow of control never
+reached the body of the <code>spin</code> coroutine.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Never use <code>time.sleep(...)</code> in <code>asyncio</code> coroutines unless you want to pause your whole
+program.  If a coroutine needs to spend some time doing nothing, it should
+<code>await asyncio.sleep(DELAY)</code>.  This yields control back to the <code>asyncio</code> event loop,
+which can drive other pending coroutines.</p>
+</blockquote>
+<h4 id="greenlet-and-gevent"><a class="header" href="#greenlet-and-gevent">Greenlet and gevent</a></h4>
+<p>As we discuss concurrency with coroutines, it’s important to mention the
+<a href="https://pypi.org/project/greenlet/">greenlet</a> package, which has been around for many
+years and is used at scale.  The package supports cooperative multitasking through
+lightweight coroutines — named <em>greenlets</em> — that don’t require any special syntax such as
+<code>yield</code> or <code>await</code>, therefore are easier to integrate into existing, sequential codebases.
+SQLAlchemy uses greenlets internally to implement its asynchronous API compatible with
+<code>asyncio</code>.</p>
+<p>The <a href="https://pypi.org/project/gevent/">gevent</a> networking library monkey patches Python’s
+standard <code>socket</code> module, making it nonblocking by replacing some of its code with
+greenlets.  To a large extent, gevent is transparent to the surrounding code, making it
+easier to adapt sequential applications and libraries — such as database drivers — to
+perform concurrent network I/O.  Numerous open source projects use gevent, including the
+widely deployed Gunicorn — mentioned in <a href="#wsgi-application-servers">WSGI Application Servers</a>.</p>
+<h3 id="supervisors-side-by-side"><a class="header" href="#supervisors-side-by-side">Supervisors Side-by-Side</a></h3>
+<p>The line count of <code>spinner_thread.py</code> and <code>spinner_async.py</code> is nearly the same.  The
+<code>supervisor</code> functions are the heart of these examples.  Let’s compare them in detail.
+Here is the threaded <code>supervisor</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def supervisor() -&gt; int:
+    done = Event()
+    spinner = Thread(target=spin,
+                     args=('thinking!', done))
+    print('spinner object:', spinner)
+    spinner.start()
+    result = slow()
+    done.set()
+    spinner.join()
+    return result
+</code></pre>
+<p>And here is the asynchronous <code>supervisor</code> coroutine:</p>
+<!-- nocheck -->
+<pre><code class="language-python">async def supervisor() -&gt; int:
+    spinner = asyncio.create_task(spin('thinking!'))
+    print('spinner object:', spinner)
+    result = await slow()
+    spinner.cancel()
+    return result
+</code></pre>
+<p>Here is a summary of the differences and similarities to note between the two
+<code>supervisor</code> implementations:</p>
+<ul>
+<li>An <code>asyncio.Task</code> is roughly the equivalent of a <code>threading.Thread</code>.</li>
+<li>A <code>Task</code> drives a coroutine object, and a <code>Thread</code> invokes a callable.</li>
+<li>A coroutine yields control explicitly with the <code>await</code> keyword.</li>
+<li>You don’t instantiate <code>Task</code> objects yourself, you get them by passing a coroutine to
+<code>asyncio.create_task(...)</code>.</li>
+<li>When <code>asyncio.create_task(...)</code> returns a <code>Task</code> object, it is already scheduled to run,
+but a <code>Thread</code> instance must be explicitly told to run by calling its <code>start</code> method.</li>
+<li>In the threaded <code>supervisor</code>, <code>slow</code> is a plain function and is directly invoked by the
+main thread.  In the asynchronous <code>supervisor</code>, <code>slow</code> is a coroutine driven by <code>await</code>.</li>
+<li>There’s no API to terminate a thread from the outside; instead, you must send a signal —
+like setting the <code>done</code> <code>Event</code> object.  For tasks, there is the <code>Task.cancel()</code> instance
+method, which raises <code>CancelledError</code> at the <code>await</code> expression where the coroutine body
+is currently suspended.</li>
+<li>The <code>supervisor</code> coroutine must be started with <code>asyncio.run</code> in the <code>main</code> function.</li>
+</ul>
+<p>One final point related to threads versus coroutines: if you’ve done any nontrivial
+programming with threads, you know how challenging it is to reason about the program
+because the scheduler can interrupt a thread at any time.  You must remember to hold locks
+to protect the critical sections of your program, to avoid getting interrupted in the
+middle of a multistep operation — which could leave data in an invalid state.</p>
+<p>With coroutines, your code is protected against interruption by default.  You must
+explicitly <code>await</code> to let the rest of the program run.  Instead of holding locks to
+synchronize the operations of multiple threads, coroutines are “synchronized” by
+definition: only one of them is running at any time.  When you want to give up control, you
+use <code>await</code> to yield control back to the scheduler.  That’s why it is possible to safely
+cancel a coroutine: by definition, a coroutine can only be cancelled when it’s suspended at
+an <code>await</code> expression, so you can perform cleanup by handling the <code>CancelledError</code>
+exception.</p>
+<p>The <code>time.sleep()</code> call blocks but does nothing.  Now we’ll experiment with a CPU-intensive
+call to get a better understanding of the GIL, as well as the effect of CPU-intensive
+functions in asynchronous code.</p>
+<h2 id="the-real-impact-of-the-gil"><a class="header" href="#the-real-impact-of-the-gil">The Real Impact of the GIL</a></h2>
+<p>In the threading code, you can replace the <code>time.sleep(3)</code> call in the <code>slow</code> function with
+an HTTP client request from your favorite library, and the spinner will keep spinning.
+That’s because a well-designed network library will release the GIL while waiting for the
+network.</p>
+<p>You can also replace the <code>asyncio.sleep(3)</code> expression in the <code>slow</code> coroutine to <code>await</code>
+for a response from a well-designed asynchronous network library, because such libraries
+provide coroutines that yield control back to the event loop while waiting for the
+network.  Meanwhile, the spinner will keep spinning.</p>
+<p>With CPU-intensive code, the story is different.  Consider the function <code>is_prime</code>, which
+returns <code>True</code> if the argument is a prime number, <code>False</code> if it’s not.  It’s an easy-to-read
+primality check, from the <code>ProcessPoolExecutor</code> example in the Python docs:</p>
+<pre><code class="language-python">import math
+
+def is_prime(n: int) -&gt; bool:
+    if n &lt; 2:
+        return False
+    if n == 2:
+        return True
+    if n % 2 == 0:
+        return False
+
+    root = math.isqrt(n)
+    for i in range(3, root + 1, 2):
+        if n % i == 0:
+            return False
+    return True
+
+[n for n in range(30) if is_prime(n)]
+# [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+</code></pre>
+<p>The call <code>is_prime(5_000_111_000_222_021)</code> takes a few seconds on a typical laptop.</p>
+<h3 id="quick-quiz"><a class="header" href="#quick-quiz">Quick Quiz</a></h3>
+<p>Given what we’ve seen so far, take the time to consider the following three-part question.
+One part of the answer is tricky.</p>
+<p>What would happen to the spinner animation if you made the following changes, assuming
+that <code>n = 5_000_111_000_222_021</code> — a prime that takes a few seconds to verify?</p>
+<ol>
+<li>In <code>spinner_proc.py</code>, replace <code>time.sleep(3)</code> with a call to <code>is_prime(n)</code>?</li>
+<li>In <code>spinner_thread.py</code>, replace <code>time.sleep(3)</code> with a call to <code>is_prime(n)</code>?</li>
+<li>In <code>spinner_async.py</code>, replace <code>await asyncio.sleep(3)</code> with a call to <code>is_prime(n)</code>?</li>
+</ol>
+<p>Before you run the code or read on, try figuring out the answers on your own.  Then, you
+may want to copy and modify the <code>spinner_*.py</code> examples as suggested.</p>
+<p>Now the answers, from easier to hardest.</p>
+<p><strong>1. Answer for <code>multiprocessing</code>.</strong>  The spinner is controlled by a child process, so it
+continues spinning while the primality test is computed by the parent process.</p>
+<p><strong>2. Answer for <code>threading</code>.</strong>  The spinner is controlled by a secondary thread, so it
+continues spinning while the primality test is computed by the main thread.</p>
+<p>It’s easy to get this one wrong by overestimating the impact of the GIL.  In this
+particular example, the spinner keeps spinning because Python suspends the running thread
+every 5ms (by default), making the GIL available to other pending threads.  Therefore, the
+main thread running <code>is_prime</code> is interrupted every 5ms, allowing the secondary thread to
+wake up and iterate once through the <code>for</code> loop, until it calls the <code>wait</code> method of the
+<code>done</code> event, at which time it will release the GIL.  The main thread will then grab the
+GIL, and the <code>is_prime</code> computation will proceed for another 5ms.</p>
+<p>This does not have a visible impact on the running time of this specific example, because
+the <code>spin</code> function quickly iterates once and releases the GIL as it waits for the <code>done</code>
+event, so there is not much contention for the GIL.  The main thread running <code>is_prime</code>
+will have the GIL most of the time.</p>
+<p>We got away with a compute-intensive task using threading in this simple experiment
+because there are only two threads: one hogging the CPU, and the other waking up only 10
+times per second to update the spinner.  But if you have two or more threads vying for a
+lot of CPU time, your program will be slower than sequential code.</p>
+<p><strong>3. Answer for <code>asyncio</code>.</strong>  If you call <code>is_prime(5_000_111_000_222_021)</code> in the <code>slow</code>
+coroutine of the <code>spinner_async.py</code> example, the spinner will never appear.  The effect
+would be the same we had when we replaced <code>await asyncio.sleep(3)</code> with <code>time.sleep(3)</code>:
+no spinning at all.  The flow of control will pass from <code>supervisor</code> to <code>slow</code>, and then to
+<code>is_prime</code>.  When <code>is_prime</code> returns, <code>slow</code> returns as well, and <code>supervisor</code> resumes,
+cancelling the <code>spinner</code> task before it is executed even once.  The program appears frozen
+for a few seconds, then shows the answer.</p>
+<h3 id="power-napping-with-sleep0"><a class="header" href="#power-napping-with-sleep0">Power Napping with <code>sleep(0)</code></a></h3>
+<p>One way to keep the spinner alive is to rewrite <code>is_prime</code> as a coroutine, and
+periodically call <code>asyncio.sleep(0)</code> in an <code>await</code> expression to yield control back to the
+event loop:</p>
+<!-- nocheck -->
+<pre><code class="language-python">async def is_prime(n):
+    if n &lt; 2:
+        return False
+    if n == 2:
+        return True
+    if n % 2 == 0:
+        return False
+
+    root = math.isqrt(n)
+    for i in range(3, root + 1, 2):
+        if n % i == 0:
+            return False
+        if i % 100_000 == 1:
+            await asyncio.sleep(0)  # sleep once every 50,000 iterations (the step is 2)
+    return True
+</code></pre>
+<p>However, be aware this will slow down <code>is_prime</code>, and — more importantly — will still slow
+down the event loop and your whole program with it.  When the author of <em>Fluent Python</em>
+used <code>await asyncio.sleep(0)</code> every 100,000 iterations, the spinner was smooth but the
+program ran almost 50% longer than the original <code>is_prime</code> function by itself with the
+same argument.</p>
+<p>Using <code>await asyncio.sleep(0)</code> should be considered a stopgap measure before you refactor
+your asynchronous code to delegate CPU-intensive computations to another process.  We’ll
+see one way of doing that with <code>asyncio.loop.run_in_executor</code> in
+<a href="asyncio.html">Asynchronous Programming</a>.  Another option would be a task queue, which we’ll
+briefly discuss in <a href="#distributed-task-queues">Distributed Task Queues</a>.</p>
+<p>So far, we’ve only experimented with a single call to a CPU-intensive function.  The next
+section presents concurrent execution of multiple CPU-intensive calls.</p>
+<h2 id="a-homegrown-process-pool"><a class="header" href="#a-homegrown-process-pool">A Homegrown Process Pool</a></h2>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>This section shows the use of multiple processes for CPU-intensive tasks, and the common
+pattern of using queues to distribute tasks and collect results.
+<a href="executors.html">Concurrent Executors</a> will show a simpler way of distributing tasks to
+processes: a <code>ProcessPoolExecutor</code> from the <code>concurrent.futures</code> package, which uses
+queues internally.</p>
+</blockquote>
+<p>In this section we’ll write programs to compute the primality of a sample of 20 integers,
+from 2 to 9,999,999,999,999,999 — i.e., 10<sup>16</sup> – 1, or more than 2<sup>53</sup>.
+The sample includes small and large primes, as well as composite numbers with small and
+large prime factors.  Here is <code>primes.py</code>, with the sample and the <code>is_prime</code> function:</p>
+<pre><code class="language-python">import math
+
+NUMBERS = [
+    2, 142702110479723, 299593572317531, 3333333333333301,
+    3333333333333333, 3333335652092209, 4444444444444423,
+    4444444444444444, 4444444488888889, 5555553133149889,
+    5555555555555503, 5555555555555555, 6666666666666666,
+    6666666666666719, 6666667141414921, 7777777536340681,
+    7777777777777753, 7777777777777777, 9999999999999917,
+    9999999999999999,
+]
+
+def is_prime(n: int) -&gt; bool:
+    if n &lt; 2:
+        return False
+    if n == 2:
+        return True
+    if n % 2 == 0:
+        return False
+
+    root = math.isqrt(n)
+    for i in range(3, root + 1, 2):
+        if n % i == 0:
+            return False
+    return True
+</code></pre>
+<p>The <code>sequential.py</code> program provides the performance baseline.  Here is a sample run on
+the 6-core laptop used for <em>Fluent Python</em>:</p>
+<pre><code class="language-console">$ python3 sequential.py
+               2  P  0.000001s
+ 142702110479723  P  0.568328s
+ 299593572317531  P  0.796773s
+3333333333333301  P  2.648625s
+3333333333333333     0.000007s
+3333335652092209     2.672323s
+4444444444444423  P  3.052667s
+4444444444444444     0.000001s
+4444444488888889     3.061083s
+5555553133149889     3.451833s
+5555555555555503  P  3.556867s
+5555555555555555     0.000007s
+6666666666666666     0.000001s
+6666666666666719  P  3.781064s
+6666667141414921     3.778166s
+7777777536340681     4.120069s
+7777777777777753  P  4.141530s
+7777777777777777     0.000007s
+9999999999999917  P  4.678164s
+9999999999999999     0.000007s
+Total time: 40.31s
+</code></pre>
+<p>The results are shown in three columns: the number to be checked; <code>P</code> if it’s a prime
+number, blank if not; and the elapsed time for checking the primality for that specific
+number.  In this example, the total time is approximately the sum of the times for each
+check, but it is computed separately:</p>
+<!-- nocheck -->
+<pre><code class="language-python">#!/usr/bin/env python3
+
+"""
+sequential.py: baseline for comparing sequential, multiprocessing,
+and threading code for CPU-intensive work.
+"""
+
+from time import perf_counter
+from typing import NamedTuple
+
+from primes import is_prime, NUMBERS
+
+class Result(NamedTuple):  # the boolean result of is_prime and the elapsed time
+    prime: bool
+    elapsed: float
+
+def check(n: int) -&gt; Result:  # check(n) calls is_prime(n) and computes the elapsed time
+    t0 = perf_counter()
+    prime = is_prime(n)
+    return Result(prime, perf_counter() - t0)
+
+def main() -&gt; None:
+    print(f'Checking {len(NUMBERS)} numbers sequentially:')
+    t0 = perf_counter()
+    for n in NUMBERS:  # for each number in the sample, call check and display the result
+        prime, elapsed = check(n)
+        label = 'P' if prime else ' '
+        print(f'{n:16}  {label} {elapsed:9.6f}s')
+
+    elapsed = perf_counter() - t0  # compute and display the total elapsed time
+    print(f'Total time: {elapsed:.2f}s')
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+<h3 id="process-based-solution"><a class="header" href="#process-based-solution">Process-Based Solution</a></h3>
+<p>The next example, <code>procs.py</code>, shows the use of multiple processes to distribute the
+primality checks across multiple CPU cores.  These are the times measured with <code>procs.py</code>
+on the same machine:</p>
+<pre><code class="language-console">$ python3 procs.py
+Checking 20 numbers with 12 processes:
+               2  P  0.000002s
+3333333333333333     0.000021s
+4444444444444444     0.000002s
+5555555555555555     0.000018s
+6666666666666666     0.000002s
+ 142702110479723  P  1.350982s
+7777777777777777     0.000009s
+ 299593572317531  P  1.981411s
+9999999999999999     0.000008s
+3333333333333301  P  6.328173s
+3333335652092209     6.419249s
+4444444488888889     7.051267s
+4444444444444423  P  7.122004s
+5555553133149889     7.412735s
+5555555555555503  P  7.603327s
+6666666666666719  P  7.934670s
+6666667141414921     8.017599s
+7777777536340681     8.339623s
+7777777777777753  P  8.388859s
+9999999999999917  P  8.117313s
+20 checks in 9.58s
+</code></pre>
+<p>The last line of the output shows that <code>procs.py</code> was 4.2 times faster than
+<code>sequential.py</code>.</p>
+<h4 id="understanding-the-elapsed-times"><a class="header" href="#understanding-the-elapsed-times">Understanding the elapsed times</a></h4>
+<p>Note that the elapsed time in the first column is for checking that specific number.  For
+example, <code>is_prime(7777777777777753)</code> took almost 8.4s to return <code>True</code>.  Meanwhile, other
+processes were checking other numbers in parallel.</p>
+<p>There were 20 numbers to check.  <code>procs.py</code> starts a number of worker processes equal to
+the number of CPU cores, as determined by <code>multiprocessing.cpu_count()</code>.  The total time
+in this case is much less than the sum of the elapsed time for the individual checks.
+There is some overhead in spinning up processes and in inter-process communication, so
+the end result is that the multiprocess version is only about 4.2 times faster than the
+sequential.  That’s good, but a little disappointing considering the code launches 12
+processes to use all cores on that laptop.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p><code>multiprocessing.cpu_count()</code> returned 12 on that machine, a 6-core Intel i7, because of
+<em>hyperthreading</em>, an Intel technology which executes 2 threads per core.  However,
+hyperthreading works better when one of the threads is not working as hard as the other
+thread in the same core — perhaps the first is stalled waiting for data after a cache
+miss, and the other is crunching numbers.  There’s no free lunch: that laptop performs
+like a 6-CPU machine for compute-intensive work that doesn’t use a lot of memory — like
+that simple primality test.  (Since Python 3.13, <code>os.process_cpu_count()</code> reports the
+number of CPUs the <em>current process</em> is allowed to use, which may be fewer than
+<code>os.cpu_count()</code> in containers.)</p>
+</blockquote>
+<h4 id="code-for-the-multicore-prime-checker"><a class="header" href="#code-for-the-multicore-prime-checker">Code for the multicore prime checker</a></h4>
+<p>When we delegate computing to threads or processes, our code does not call the worker
+function directly, so we can’t simply get a return value.  Instead, the worker is driven
+by the thread or process library, and it eventually produces a result that needs to be
+stored somewhere.  Coordinating workers and collecting results are common uses of queues
+in concurrent programming — and also in distributed systems.  Much of the new code in
+<code>procs.py</code> has to do with setting up and using queues.  Here is the top of the file:</p>
+<!-- nocheck -->
+<pre><code class="language-python">import sys
+from time import perf_counter
+from typing import NamedTuple
+from multiprocessing import Process, SimpleQueue, cpu_count
+from multiprocessing import queues
+
+from primes import is_prime, NUMBERS
+
+class PrimeResult(NamedTuple):  # includes the number checked, to simplify reporting
+    n: int
+    prime: bool
+    elapsed: float
+
+type JobQueue = queues.SimpleQueue[int]  # numbers for the worker processes to check
+type ResultQueue = queues.SimpleQueue[PrimeResult]  # results for main to collect
+
+def check(n: int) -&gt; PrimeResult:  # similar to sequential.py
+    t0 = perf_counter()
+    res = is_prime(n)
+    return PrimeResult(n, res, perf_counter() - t0)
+
+def worker(jobs: JobQueue, results: ResultQueue) -&gt; None:
+    while n := jobs.get():  # 0 is a poison pill: a signal for the worker to finish
+        results.put(check(n))  # invoke the primality check and enqueue a PrimeResult
+    results.put(PrimeResult(0, False, 0.0))  # let the main loop know this worker is done
+
+def start_jobs(
+    procs: int, jobs: JobQueue, results: ResultQueue  # procs: number of worker processes
+) -&gt; None:
+    for n in NUMBERS:
+        jobs.put(n)  # enqueue the numbers to be checked
+    for _ in range(procs):
+        proc = Process(target=worker, args=(jobs, results))  # a child process per worker
+        proc.start()  # start each child process
+        jobs.put(0)  # enqueue one 0 for each process, to terminate them
+</code></pre>
+<p>Trying to emulate <code>threading</code>, <code>multiprocessing</code> provides <code>multiprocessing.SimpleQueue</code>,
+but this is a method bound to a predefined instance of a lower-level <code>BaseContext</code> class.
+We must call this <code>SimpleQueue</code> to build a queue, but we can’t use it in type hints.
+<code>multiprocessing.queues</code> has the <code>SimpleQueue</code> class we need for type hints.</p>
+<p><code>PrimeResult</code> includes the number checked for primality.  Keeping <code>n</code> together with the
+other result fields simplifies displaying results later.  <code>JobQueue</code> is a type alias for a
+<code>SimpleQueue</code> that the <code>main</code> function will use to send numbers to the processes that will
+do the work; <code>ResultQueue</code> is a type alias for a second <code>SimpleQueue</code> that will collect the
+results in <code>main</code>.</p>
+<p><code>worker</code> gets a queue with the numbers to be checked, and another to put results.  In this
+code, the number <code>0</code> is used as a <em>poison pill</em>: a signal for the worker to finish.  If
+<code>n</code> is not <code>0</code>, the loop proceeds (note the <code>:=</code> assignment expression from
+<a href="datastructures.html#tut-loopidioms">Looping Techniques</a>).  <code>start_jobs</code> forks a child
+process for each worker; each child runs the loop inside its own instance of the <code>worker</code>
+function, until it fetches a <code>0</code> from the <code>jobs</code> queue.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The <code>worker</code> function follows a common pattern in concurrent programming: looping
+indefinitely while taking items from a queue and processing each with a function that
+does the actual work.  The loop ends when the queue produces a sentinel value, often
+called a “poison pill”.</p>
+<p><code>None</code> is often used as a sentinel value, but it may be unsuitable if it can occur in the
+data stream.  Calling <code>object()</code> is a common way to get a unique value to use as
+sentinel.  However, that does not work across processes because Python objects must be
+serialized for inter-process communication, and when you <code>pickle.dump</code> and
+<code>pickle.load</code> an instance of <code>object</code>, the unpickled instance is distinct from the
+original: it doesn’t compare equal.  A good alternative to <code>None</code> is the <code>Ellipsis</code>
+built-in object (a.k.a. <code>...</code>), which survives serialization without losing its
+identity.</p>
+</blockquote>
+<pre><code class="language-python">import pickle
+sentinel = object()
+pickle.loads(pickle.dumps(sentinel)) is sentinel
+# False
+pickle.loads(pickle.dumps(...)) is ...
+# True
+</code></pre>
+<p>Now let’s study the <code>main</code> function of <code>procs.py</code>:</p>
+<!-- nocheck -->
+<pre><code class="language-python">def main() -&gt; None:
+    if len(sys.argv) &lt; 2:  # if no argument is given, use the number of CPU cores
+        procs = cpu_count()
+    else:
+        procs = int(sys.argv[1])
+
+    print(f'Checking {len(NUMBERS)} numbers with {procs} processes:')
+    t0 = perf_counter()
+    jobs: JobQueue = SimpleQueue()  # the queues described above
+    results: ResultQueue = SimpleQueue()
+    start_jobs(procs, jobs, results)  # start procs processes to consume jobs and post results
+    checked = report(procs, results)  # retrieve the results and display them
+    elapsed = perf_counter() - t0
+    print(f'{checked} checks in {elapsed:.2f}s')  # how many checks and the total time
+
+def report(procs: int, results: ResultQueue) -&gt; int:
+    checked = 0
+    procs_done = 0
+    while procs_done &lt; procs:  # loop until all processes are done
+        n, prime, elapsed = results.get()  # .get() blocks until there is an item
+        if n == 0:  # if n is zero, then one process exited
+            procs_done += 1
+        else:
+            checked += 1  # otherwise, count the number checked and display the result
+            label = 'P' if prime else ' '
+            print(f'{n:16}  {label} {elapsed:9.6f}s')
+    return checked
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+<p>Calling <code>.get()</code> on a queue blocks until there is an item in the queue.  It’s also possible
+to make this nonblocking, or set a timeout; see the <code>SimpleQueue.get</code> documentation.  The
+results will not come back in the same order the jobs were submitted.  That’s why we put
+<code>n</code> in each <code>PrimeResult</code> tuple.  Otherwise, there would be no way to know which result
+belonged to each number.</p>
+<p>If the main process exits before all subprocesses are done, you may see confusing
+tracebacks on <code>FileNotFoundError</code> exceptions caused by an internal lock in
+<code>multiprocessing</code>.  Debugging concurrent code is always hard, and debugging
+<code>multiprocessing</code> is even harder because of all the complexity behind the thread-like
+façade.  Fortunately, the <code>ProcessPoolExecutor</code> we’ll meet in
+<a href="executors.html">Concurrent Executors</a> is easier to use and more robust.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>An early version of this example had a <em>race condition</em>: a bug that may or may not occur
+depending on the order of actions performed by concurrent execution units.  If “A”
+happens before “B”, all is fine; but if “B” happens first, something goes wrong.  That’s
+the race.</p>
+</blockquote>
+<h4 id="experimenting-with-more-or-fewer-processes"><a class="header" href="#experimenting-with-more-or-fewer-processes">Experimenting with more or fewer processes</a></h4>
+<p>You may want to try running <code>procs.py</code>, passing arguments to set the number of worker
+processes.  For example, <code>python3 procs.py 2</code> will launch two worker processes, producing
+results almost twice as fast as <code>sequential.py</code> — if your machine has at least two cores
+and is not too busy running other programs.</p>
+<p>Running <code>procs.py</code> 12 times with each number of processes from 1 to 20, on that 6-core
+laptop, the lowest median time was with 6 processes: 10.39s, against 40.81s with 1
+process.  Run times increased after 6 processes due to CPU contention, reaching a local
+maximum of 12.51s at 10 processes, and then stayed nearly flat up to 20 processes.</p>
+<h3 id="thread-based-nonsolution"><a class="header" href="#thread-based-nonsolution">Thread-Based Nonsolution</a></h3>
+<p>A version of <code>procs.py</code> using <code>threading</code> instead of <code>multiprocessing</code> is very similar — as
+is usually the case when converting simple examples between these two APIs.  Due to the GIL
+and the compute-intensive nature of <code>is_prime</code>, the threaded version is slower than the
+sequential code, and it gets slower as the number of threads increases, because of CPU
+contention and the cost of <em>context switching</em>.  To switch to a new thread, the OS needs
+to save CPU registers and update the program counter and stack pointer, triggering
+expensive side effects like invalidating CPU caches and possibly even swapping memory
+pages.</p>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>Run the threaded version on a free-threaded build of Python 3.14 or later and the
+picture changes: the threads can then run <code>is_prime</code> on several cores at once, and the
+speedup approaches that of the process-based solution, without the cost of starting
+processes and serializing data.  Single-threaded code runs somewhat slower in the
+free-threaded build, so measure before you switch.</p>
+</blockquote>
+<p>The next two chapters cover more about concurrent programming in Python, using the
+high-level <code>concurrent.futures</code> library to manage threads and processes, and the <code>asyncio</code>
+library for asynchronous programming.  The remaining sections in this chapter aim to
+answer the question: given the limitations discussed so far, how is Python thriving in a
+multicore world?</p>
+<h2 id="python-in-the-multicore-world"><a class="header" href="#python-in-the-multicore-world">Python in the Multicore World</a></h2>
+<p>Consider this citation from the widely quoted article
+<a href="http://www.gotw.ca/publications/concurrency-ddj.htm">“The Free Lunch Is Over: A Fundamental Turn Toward Concurrency in Software”</a>
+by Herb Sutter, from March 2005:</p>
+<blockquote>
+<p>The major processor manufacturers and architectures, from Intel and AMD to Sparc and
+PowerPC, have run out of room with most of their traditional approaches to boosting CPU
+performance.  Instead of driving clock speeds and straight-line instruction throughput
+ever higher, they are instead turning en masse to hyper-threading and multicore
+architectures.</p>
+</blockquote>
+<p>What Sutter calls the “free lunch” was the trend of software getting faster with no
+additional developer effort because CPUs were executing sequential code faster, year after
+year.  Since 2004, that is no longer true: clock speeds and execution optimizations reached
+a plateau, and now any significant increase in performance must come from leveraging
+multiple cores or hyperthreading, advances that only benefit code that is written for
+concurrent execution.</p>
+<p>Python’s story started in the early 1990s, when CPUs were still getting exponentially
+faster at sequential code execution.  There was no talk about multicore CPUs except in
+supercomputers back then.  At the time, the decision to have a GIL was a no-brainer.  The
+GIL makes the interpreter faster when running on a single core, and its implementation
+simpler.  The GIL also makes it easier to write simple extensions through the Python/C API.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>An extension does not need to deal with the GIL at all.  A function written in C or
+Fortran may be hundreds of times faster than the equivalent in Python.  Therefore the
+added complexity of releasing the GIL to leverage multicore CPUs may not be needed in
+many cases.  So we can thank the GIL for many extensions available for Python — and that
+is certainly one of the key reasons why the language is so popular today.</p>
+</blockquote>
+<p>Despite the GIL, Python is thriving in applications that require concurrent or parallel
+execution, thanks to libraries and software architectures that work around the
+limitations of CPython.  Let’s discuss how Python is used in system administration, data
+science, and server-side application development.</p>
+<h3 id="system-administration"><a class="header" href="#system-administration">System Administration</a></h3>
+<p>Python is widely used to manage large fleets of servers, routers, load balancers and
+network-attached storage (NAS).  It’s also a leading option in software-defined networking
+(SDN) and ethical hacking.  Major cloud service providers support Python through libraries
+and tutorials authored by the providers themselves or by their large communities of Python
+users.</p>
+<p>In this domain, Python scripts automate configuration tasks by issuing commands to be
+carried out by the remote machines, so rarely there are CPU-bound operations to be done.
+Threads or coroutines are well suited for such jobs.  In particular, the
+<code>concurrent.futures</code> package we’ll see in <a href="executors.html">Concurrent Executors</a> can be used
+to perform the same operations on many remote machines at the same time without a lot of
+complexity.  Beyond the standard library, there are popular Python-based projects to
+manage server clusters: tools like Ansible and Salt, as well as libraries like Fabric.</p>
+<h3 id="data-science"><a class="header" href="#data-science">Data Science</a></h3>
+<p>Data science — including artificial intelligence — and scientific computing are very well
+served by Python.  Applications in these fields are compute-intensive, but Python users
+benefit from a vast ecosystem of numeric computing libraries written in C, C++, Fortran,
+Cython, Rust, etc. — many of which are able to leverage multicore machines, GPUs and/or
+distributed parallel computing in heterogeneous clusters.  Some examples:</p>
+<dl>
+<dt id="project-jupyter"><a class="header" href="#project-jupyter"><strong>Project Jupyter</strong></a></dt>
+<dd>Two browser-based interfaces — Jupyter Notebook and JupyterLab — that allow users to run
+and document analytics code potentially running across the network on remote machines.
+Both are hybrid Python/JavaScript applications, supporting computing kernels written in
+different languages, all integrated via ZeroMQ — an asynchronous messaging library for
+distributed applications.  The name <em>Jupyter</em> comes from Julia, Python and R, the first
+three languages supported by the Notebook.</dd>
+<dt id="pytorch-and-tensorflow"><a class="header" href="#pytorch-and-tensorflow"><strong>PyTorch and TensorFlow</strong></a></dt>
+<dd>The leading deep learning frameworks.  Both are written mostly in C++, and are able to
+leverage multiple cores, GPUs and clusters.  They support other languages as well, but
+Python is their main focus and is used by the majority of their users.</dd>
+<dt id="dask"><a class="header" href="#dask"><strong>Dask</strong></a></dt>
+<dd>A parallel computing library that can farm out work to local processes or clusters of
+machines.  Dask offers APIs that closely emulate NumPy, pandas and scikit-learn, and
+includes an interactive dashboard showing the flow of data and computations across the
+processes and machines in near real time.</dd>
+</dl>
+<p>These are only some examples to illustrate how the data science community is creating
+solutions that leverage the best of Python and overcome the limitations of the CPython
+runtime.</p>
+<h3 id="server-side-webmobile-development"><a class="header" href="#server-side-webmobile-development">Server-Side Web/Mobile Development</a></h3>
+<p>Python is widely used in web applications and for the backend APIs supporting mobile
+applications.  How is it that Google, YouTube, Dropbox, Instagram, Quora and Reddit —
+among others — managed to build Python server-side applications serving hundreds of
+millions of users 24x7?  Again, the answer goes way beyond what Python provides “out of
+the box”.</p>
+<p>Before we discuss tools to support Python at scale, here is an admonition from the
+Thoughtworks Technology Radar:</p>
+<blockquote>
+<p><strong>High performance envy/web scale envy</strong></p>
+<p>We see many teams run into trouble because they have chosen complex tools, frameworks
+or architectures because they “might need to scale”.  Companies such as Twitter and
+Netflix need to support extreme loads and so need these architectures, but they also
+have extremely skilled development teams able to handle the complexity.  Most situations
+do not require these kinds of engineering feats; teams should keep their web scale envy
+in check in favor of simpler solutions that still get the job done.</p>
+</blockquote>
+<p>At web scale, the key is an architecture that allows horizontal scaling.  At that point,
+all systems are distributed systems, and no single programming language is likely to be
+the right choice for every part of the solution.  Martin Kleppmann’s <em>Designing
+Data-Intensive Applications</em> (O’Reilly) is an accessible book on the subject, anchored on
+solid research and practical experience.  Typical components of such systems, often
+found in Python deployments, include:</p>
+<ul>
+<li>application caches: memcached, Redis, Varnish;</li>
+<li>relational databases: PostgreSQL, MySQL;</li>
+<li>document databases: Apache CouchDB, MongoDB;</li>
+<li>full-text indexes: Elasticsearch, Apache Solr;</li>
+<li>message queues: RabbitMQ, Redis.</li>
+</ul>
+<p>There are other industrial-strength open source products in each of those categories.
+Major cloud providers also offer their own proprietary alternatives.  For Python
+server-side applications, two specific components are often deployed:</p>
+<ul>
+<li>An <em>application server</em> to distribute the load among several instances of the Python
+application, handling client requests before they reach the application code.</li>
+<li>A <em>task queue</em> built around a message queue, providing a higher-level, easier-to-use API
+to distribute tasks to processes running on other machines.</li>
+</ul>
+<p>The next two sections explore these components.</p>
+<h3 id="wsgi-application-servers"><a class="header" href="#wsgi-application-servers">WSGI Application Servers</a></h3>
+<p>WSGI — the Web Server Gateway Interface — is a standard API for a Python framework or
+application to receive requests from an HTTP server and send responses to it.  WSGI
+application servers manage one or more processes running your application, maximizing the
+use of the available CPUs: clients connect to an HTTP server that delivers static files
+and routes other requests to the application server, which forks child processes to run
+the application code, leveraging multiple CPU cores.</p>
+<p>The best-known application servers in Python web projects are mod_wsgi (for users of the
+Apache HTTP server), uWSGI, Gunicorn and NGINX Unit.  uWSGI and Gunicorn are often used with
+the NGINX HTTP server.  uWSGI offers a lot of extra functionality, including an application
+cache, a task queue and cron-like periodic tasks; on the flip side, it is much harder to
+configure properly than Gunicorn.</p>
+<p>The main point: all of these application servers can potentially use all CPU cores on the
+server by forking multiple Python processes to run traditional web apps written in good
+old sequential code in Django, Flask, Pyramid, etc.  This explains why it’s been possible
+to earn a living as a Python web developer without ever studying the <code>threading</code>,
+<code>multiprocessing</code> or <code>asyncio</code> modules: the application server handles concurrency
+transparently.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>WSGI is a synchronous API.  It doesn’t support coroutines with <code>async</code>/<code>await</code> — the most
+efficient way to implement WebSockets or HTTP long polling in Python.  The ASGI
+(Asynchronous Server Gateway Interface) specification is a successor to WSGI, designed
+for asynchronous Python web frameworks such as FastAPI, Starlette, Sanic and aiohttp, as
+well as Django, which has added asynchronous functionality.  ASGI servers include
+Uvicorn, Hypercorn and Daphne.</p>
+</blockquote>
+<p>Now let’s turn to another way of bypassing the GIL to achieve higher performance with
+server-side Python applications.</p>
+<h3 id="distributed-task-queues"><a class="header" href="#distributed-task-queues">Distributed Task Queues</a></h3>
+<p>When the application server delivers a request to one of the Python processes running your
+code, your app needs to respond quickly: you want the process to be available to handle the
+next request as soon as possible.  However, some requests demand actions that may take
+longer — for example, sending email or generating a PDF.  That’s the problem that
+distributed task queues are designed to solve.</p>
+<p>Celery and RQ are the best known open source task queues with Python APIs.  Cloud
+providers also offer their own proprietary task queues.  These products wrap a message
+queue and offer a high-level API for delegating tasks to workers, possibly running on
+different machines.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>In the context of task queues, the words <em>producer</em> and <em>consumer</em> are used instead of
+traditional client/server terminology.  For example, a Django view handler produces job
+requests, which are put in the queue to be consumed by one or more PDF rendering
+processes.</p>
+</blockquote>
+<p>Quoting directly from Celery’s FAQ, here are some typical use cases:</p>
+<blockquote>
+<ul>
+<li>Running something in the background.  For example, to finish the web request as soon
+as possible, then update the users page incrementally.  This gives the user the
+impression of good performance and “snappiness”, even though the real work might
+actually take some time.</li>
+<li>Running something after the web request has finished.</li>
+<li>Making sure something is done, by executing it asynchronously and using retries.</li>
+<li>Scheduling periodic work.</li>
+</ul>
+</blockquote>
+<p>Besides solving these immediate problems, task queues support horizontal scalability.
+Producers and consumers are decoupled: a producer doesn’t call a consumer, it puts a
+request in a queue.  Consumers don’t need to know anything about the producers.  Crucially,
+you can easily add more workers to consume tasks as demand grows.  That’s why Celery and RQ
+are called distributed task queues.</p>
+<p>Recall that our simple <code>procs.py</code> used two queues: one for job requests, the other for
+collecting results.  The distributed architecture of Celery and RQ uses a similar pattern.
+Both support using the Redis NoSQL database as a message queue and result storage.  Celery
+also supports other message queues like RabbitMQ or Amazon SQS, as well as other databases
+for result storage.</p>
+<p>This wraps up our introduction to concurrency in Python.  The next two chapters will
+continue this theme, focusing on the <code>concurrent.futures</code> and <code>asyncio</code> packages of the
+standard library.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>After a bit of theory, this chapter presented the spinner scripts implemented in each of
+Python’s three native concurrency programming models:</p>
+<ul>
+<li>threads, with the <code>threading</code> package;</li>
+<li>processes, with <code>multiprocessing</code>;</li>
+<li>asynchronous coroutines with <code>asyncio</code>.</li>
+</ul>
+<p>We then explored the real impact of the GIL with an experiment: changing the spinner
+examples to compute the primality of a large integer and observe the resulting behavior.
+This demonstrated graphically that CPU-intensive functions must be avoided in <code>asyncio</code>, as
+they block the event loop.  The threaded version of the experiment worked — despite the GIL
+— because Python periodically interrupts threads, and the example used only two threads:
+one doing compute-intensive work, and the other driving the animation only 10 times per
+second.  The <code>multiprocessing</code> variant worked around the GIL, starting a new process just
+for the animation, while the main process did the primality check.</p>
+<p>The next example, computing several primes, highlighted the difference between
+<code>multiprocessing</code> and <code>threading</code>, proving that only processes allow (GIL-enabled) Python
+to benefit from multicore CPUs.  Python’s GIL makes threads worse than sequential code for
+heavy computations.</p>
+<p>The GIL dominates discussions about concurrent and parallel computing in Python, but we
+should not overestimate its impact.  That was the point of
+<a href="#python-in-the-multicore-world">Python in the Multicore World</a>.  For example, the GIL
+doesn’t affect many use cases of Python in system administration.  On the other hand, the
+data science and server-side development communities have worked around the GIL with
+industrial-strength solutions tailored to their specific needs.  The last two sections
+mentioned two common elements to support Python server-side applications at scale: WSGI
+application servers and distributed task queues.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>To manage complexity, we need constraints.  Structured programming took away arbitrary
+jumps; object-oriented programming added information hiding; functional programming adds
+immutability.  After we get used to these constraints, we see them as blessings: they
+make reasoning about the code much easier.  Lack of constraints is the main problem with
+the threads-and-locks model of concurrent programming: threads can share access to
+arbitrary, mutable data structures; the scheduler can interrupt a thread at almost any
+point, even in the middle of <code>a += 1</code>; and locks are only advisory — nothing prevents
+code that forgot to take a lock from corrupting data.  In contrast, the <em>actor model</em>
+used by Erlang and Elixir — where an actor cannot share state, communicates only by
+sending messages that hold copies of data, and handles one message at a time — imposes
+constraints that make concurrency much easier to reason about.</p>
+</blockquote>
+<blockquote>
+<p><strong>See also</strong></p>
+<ul>
+<li>The <a href="https://docs.python.org/3/library/threading.html"><code>threading</code></a>,
+<a href="https://docs.python.org/3/library/multiprocessing.html"><code>multiprocessing</code></a> (including
+its “Programming guidelines”) and
+<a href="https://docs.python.org/3/library/concurrent.interpreters.html"><code>concurrent.interpreters</code></a>
+module documentation.</li>
+<li>The <a href="https://docs.python.org/3/howto/free-threading-python.html">Python free-threading guide</a>
+and <a href="https://peps.python.org/pep-0703/"><strong>PEP 703</strong></a> — Making the Global Interpreter
+Lock Optional in CPython.</li>
+<li>Jim Anderson, “An Intro to Threading in Python”, at Real Python; Caleb Hattingh, <em>Using
+Asyncio in Python</em>, chapter 2, “The Truth About Threads”.</li>
+<li><em>High Performance Python</em>, 2nd ed., by Micha Gorelick and Ian Ozsvald (O’Reilly).</li>
+<li>David Beazley, “Understanding the Python GIL”, and Anthony Shaw, <em>CPython Internals</em>.</li>
+<li>Allen Downey, <em>The Little Book of Semaphores</em>, to learn the hard way how difficult it is
+to reason about threads and locks.</li>
+<li>Paul Butcher, <em>Seven Concurrency Models in Seven Weeks</em> (Pragmatic Bookshelf), and
+Martin Kleppmann, <em>Designing Data-Intensive Applications</em> (O’Reilly).</li>
+<li>Frank McSherry, Michael Isard and Derek G. Murray, “Scalability! But at what COST?”,
+which found parallel systems needing hundreds of cores to outperform a “competent
+single-threaded implementation”.</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="concurrency.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="executors.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="concurrency.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="executors.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

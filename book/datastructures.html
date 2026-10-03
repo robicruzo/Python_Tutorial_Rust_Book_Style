@@ -1,0 +1,853 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Data Structures - The Python Tutorial</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="The official Python tutorial, expanded with material from Fluent Python (2nd ed.)">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/custom-c9618793.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-d83cb863.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d864e11f.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Python Tutorial</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <p><a id="tut-structures"></a></p>
+<h1 id="data-structures"><a class="header" href="#data-structures">Data Structures</a></h1>
+<p>This chapter describes some things you’ve learned about already in more detail,
+and adds some new things as well.</p>
+<p><a id="tut-morelists"></a></p>
+<h2 id="more-on-lists"><a class="header" href="#more-on-lists">More on Lists</a></h2>
+<p>The <a href="https://docs.python.org/3/library/stdtypes.html#typesseq-list">list</a> data type has some more methods. Here are all
+of the methods of list objects:</p>
+<h4 id="listappendvalue-"><a class="header" href="#listappendvalue-"><code>list.append(value, /)</code></a></h4>
+<p>Add an item to the end of the list.  Similar to <code>a[len(a):] = [x]</code>.</p>
+<h4 id="listextenditerable-"><a class="header" href="#listextenditerable-"><code>list.extend(iterable, /)</code></a></h4>
+<p>Extend the list by appending all the items from the iterable.  Similar to
+<code>a[len(a):] = iterable</code>.</p>
+<h4 id="listinsertindex-value-"><a class="header" href="#listinsertindex-value-"><code>list.insert(index, value, /)</code></a></h4>
+<p>Insert an item at a given position.  The first argument is the index of the
+element before which to insert, so <code>a.insert(0, x)</code> inserts at the front of
+the list, and <code>a.insert(len(a), x)</code> is equivalent to <code>a.append(x)</code>.</p>
+<h4 id="listremovevalue-"><a class="header" href="#listremovevalue-"><code>list.remove(value, /)</code></a></h4>
+<p>Remove the first item from the list whose value is equal to <em>value</em>.  It raises a
+<code>ValueError</code> if there is no such item.</p>
+<h4 id="listpopindex-1-"><a class="header" href="#listpopindex-1-"><code>list.pop(index=-1, /)</code></a></h4>
+<p>Remove the item at the given position in the list, and return it.  If no index
+is specified, <code>a.pop()</code> removes and returns the last item in the list.
+It raises an <code>IndexError</code> if the list is empty or the index is
+outside the list range.</p>
+<h4 id="listclear"><a class="header" href="#listclear"><code>list.clear()</code></a></h4>
+<p>Remove all items from the list.  Similar to <code>del a[:]</code>.</p>
+<h4 id="listindexvalue-start-stop"><a class="header" href="#listindexvalue-start-stop"><code>list.index(value[, start[, stop]])</code></a></h4>
+<p>Return zero-based index of the first occurrence of <em>value</em> in the list.
+Raises a <code>ValueError</code> if there is no such item.</p>
+<p>The optional arguments <em>start</em> and <em>end</em> are interpreted as in the slice
+notation and are used to limit the search to a particular subsequence of
+the list.  The returned index is computed relative to the beginning of the full
+sequence rather than the <em>start</em> argument.</p>
+<h4 id="listcountvalue-"><a class="header" href="#listcountvalue-"><code>list.count(value, /)</code></a></h4>
+<p>Return the number of times <em>value</em> appears in the list.</p>
+<h4 id="listsort-keynone-reversefalse"><a class="header" href="#listsort-keynone-reversefalse"><code>list.sort(*, key=None, reverse=False)</code></a></h4>
+<p>Sort the items of the list in place (the arguments can be used for sort
+customization, see <code>sorted()</code> for their explanation).</p>
+<h4 id="listreverse"><a class="header" href="#listreverse"><code>list.reverse()</code></a></h4>
+<p>Reverse the elements of the list in place.</p>
+<h4 id="listcopy"><a class="header" href="#listcopy"><code>list.copy()</code></a></h4>
+<p>Return a shallow copy of the list.  Similar to <code>a[:]</code>.</p>
+<p>An example that uses most of the list methods:</p>
+<pre><code class="language-python">fruits = ['orange', 'apple', 'pear', 'banana', 'kiwi', 'apple', 'banana']
+fruits.count('apple')
+# 2
+fruits.count('tangerine')  # 0
+fruits.index('banana')  # 3
+fruits.index('banana', 4)  # Find next banana starting at position 4
+# 6
+fruits.reverse()
+fruits
+# ['banana', 'apple', 'kiwi', 'banana', 'pear', 'apple', 'orange']
+fruits.append('grape')
+fruits
+# ['banana', 'apple', 'kiwi', 'banana', 'pear', 'apple', 'orange', 'grape']
+fruits.sort()
+fruits
+# ['apple', 'apple', 'banana', 'banana', 'grape', 'kiwi', 'orange', 'pear']
+fruits.pop()  # 'pear'
+</code></pre>
+<p>You might have noticed that methods like <code>insert</code>, <code>remove</code> or <code>sort</code> that
+only modify the list have no return value printed – they return the default
+<code>None</code>. <sup><a href="#id2">1</a></sup>  This is a design principle for all mutable data structures in
+Python.</p>
+<p>Another thing you might notice is that not all data can be sorted or
+compared.  For instance, <code>[None, 'hello', 10]</code> doesn’t sort because
+integers can’t be compared to strings and <code>None</code> can’t be compared to
+other types.  Also, there are some types that don’t have a defined
+ordering relation.  For example, <code>3+4j &lt; 5+7j</code> isn’t a valid
+comparison.</p>
+<p><a id="tut-lists-as-stacks"></a></p>
+<h3 id="using-lists-as-stacks"><a class="header" href="#using-lists-as-stacks">Using Lists as Stacks</a></h3>
+<p>The list methods make it very easy to use a list as a stack, where the last
+element added is the first element retrieved (“last-in, first-out”).  To add an
+item to the top of the stack, use <code>append()</code>.  To retrieve an item from the
+top of the stack, use <code>pop()</code> without an explicit index.  For example:</p>
+<pre><code class="language-python">stack = [3, 4, 5]
+stack.append(6)
+stack.append(7)
+stack
+# [3, 4, 5, 6, 7]
+stack.pop()  # 7
+stack  # [3, 4, 5, 6]
+stack.pop()  # 6
+stack.pop()  # 5
+stack  # [3, 4]
+</code></pre>
+<p><a id="tut-lists-as-queues"></a></p>
+<h3 id="using-lists-as-queues"><a class="header" href="#using-lists-as-queues">Using Lists as Queues</a></h3>
+<p>It is also possible to use a list as a queue, where the first element added is
+the first element retrieved (“first-in, first-out”); however, lists are not
+efficient for this purpose.  While appends and pops from the end of list are
+fast, doing inserts or pops from the beginning of a list is slow (because all
+of the other elements have to be shifted by one).  See
+<a href="https://wiki.python.org/moin/TimeComplexity">TimeComplexity</a> for more information.</p>
+<p>To implement a queue, use <code>collections.deque</code> which was designed to
+have fast appends and pops from both ends.  For example:</p>
+<pre><code class="language-python">from collections import deque
+queue = deque(["Eric", "John", "Michael"])
+queue.append("Terry")           # Terry arrives
+queue.append("Graham")          # Graham arrives
+queue.popleft()                 # The first to arrive now leaves
+# 'Eric'
+queue.popleft()                 # The second to arrive now leaves
+# 'John'
+queue                           # Remaining queue in order of arrival
+# deque(['Michael', 'Terry', 'Graham'])
+</code></pre>
+<p><a id="tut-listcomps"></a></p>
+<h3 id="list-comprehensions"><a class="header" href="#list-comprehensions">List Comprehensions</a></h3>
+<p>List comprehensions provide a concise way to create lists.
+Common applications are to make new lists where each element is the result of
+some operations applied to each member of another sequence or iterable, or to
+create a subsequence of those elements that satisfy a certain condition.</p>
+<p>For example, assume we want to create a list of squares, like:</p>
+<pre><code class="language-python">squares = []
+for x in range(10):
+    squares.append(x**2)
+squares
+# [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+</code></pre>
+<p>Note that this creates (or overwrites) a variable named <code>x</code> that still exists
+after the loop completes.  We can calculate the list of squares without any
+side effects using:</p>
+<pre><code class="language-python">squares = list(map(lambda x: x**2, range(10)))
+</code></pre>
+<p>or, equivalently:</p>
+<pre><code class="language-python">squares = [x**2 for x in range(10)]
+</code></pre>
+<p>which is more concise and readable.</p>
+<p>A list comprehension consists of brackets containing an expression followed
+by a <code>for</code> clause, then zero or more <code>for</code> or <code>if</code>
+clauses.  The result will be a new list resulting from evaluating the expression
+in the context of the <code>for</code> and <code>if</code> clauses which follow it.
+For example, this listcomp combines the elements of two lists if they are not
+equal:</p>
+<pre><code class="language-python">[(x, y) for x in [1,2,3] for y in [3,1,4] if x != y]
+# [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+</code></pre>
+<p>and it’s equivalent to:</p>
+<pre><code class="language-python">combs = []
+for x in [1,2,3]:
+    for y in [3,1,4]:
+        if x != y:
+            combs.append((x, y))
+combs
+# [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+</code></pre>
+<p>Note how the order of the <code>for</code> and <code>if</code> statements is the
+same in both these snippets.</p>
+<p>If the expression is a tuple (e.g. the <code>(x, y)</code> in the previous example),
+it must be parenthesized.</p>
+<pre><code class="language-python">vec = [-4, -2, 0, 2, 4]
+# create a new list with the values doubled
+[x*2 for x in vec]
+# [-8, -4, 0, 4, 8]
+# filter the list to exclude negative numbers
+[x for x in vec if x &gt;= 0]
+# [0, 2, 4]
+# apply a function to all the elements
+[abs(x) for x in vec]
+# [4, 2, 0, 2, 4]
+# call a method on each element
+freshfruit = ['  banana', '  loganberry ', 'passion fruit  ']
+[weapon.strip() for weapon in freshfruit]
+# ['banana', 'loganberry', 'passion fruit']
+# create a list of 2-tuples like (number, square)
+[(x, x**2) for x in range(6)]
+# [(0, 0), (1, 1), (2, 4), (3, 9), (4, 16), (5, 25)]
+# the tuple must be parenthesized, otherwise an error is raised
+[x, x**2 for x in range(6)]
+#   File "&lt;stdin&gt;", line 1
+#     [x, x**2 for x in range(6)]
+#      ^^^^^^^
+# SyntaxError: did you forget parentheses around the comprehension target?
+# flatten a list using a listcomp with two 'for'
+vec = [[1,2,3], [4,5,6], [7,8,9]]
+[num for elem in vec for num in elem]
+# [1, 2, 3, 4, 5, 6, 7, 8, 9]
+</code></pre>
+<p>List comprehensions can contain complex expressions and nested functions:</p>
+<pre><code class="language-python">from math import pi
+[str(round(pi, i)) for i in range(1, 6)]
+# ['3.1', '3.14', '3.142', '3.1416', '3.14159']
+</code></pre>
+<h3 id="nested-list-comprehensions"><a class="header" href="#nested-list-comprehensions">Nested List Comprehensions</a></h3>
+<p>The initial expression in a list comprehension can be any arbitrary expression,
+including another list comprehension.</p>
+<p>Consider the following example of a 3x4 matrix implemented as a list of
+3 lists of length 4:</p>
+<pre><code class="language-python">matrix = [
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+]
+</code></pre>
+<p>The following list comprehension will transpose rows and columns:</p>
+<pre><code class="language-python">[[row[i] for row in matrix] for i in range(4)]
+# [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
+</code></pre>
+<p>As we saw in the previous section, the inner list comprehension is evaluated in
+the context of the <code>for</code> that follows it, so this example is
+equivalent to:</p>
+<pre><code class="language-python">transposed = []
+for i in range(4):
+    transposed.append([row[i] for row in matrix])
+transposed
+# [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
+</code></pre>
+<p>which, in turn, is the same as:</p>
+<pre><code class="language-python">transposed = []
+for i in range(4):
+    # the following 3 lines implement the nested listcomp
+    transposed_row = []
+    for row in matrix:
+        transposed_row.append(row[i])
+    transposed.append(transposed_row)
+transposed
+# [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
+</code></pre>
+<p>In the real world, you should prefer built-in functions to complex flow statements.
+The <code>zip()</code> function would do a great job for this use case:</p>
+<pre><code class="language-python">list(zip(*matrix))  # [(1, 5, 9), (2, 6, 10), (3, 7, 11), (4, 8, 12)]
+</code></pre>
+<p>See <a href="controlflow.html#tut-unpacking-arguments">Unpacking Argument Lists</a> for details on the asterisk in this line.</p>
+<h3 id="unpacking-in-lists-and-list-comprehensions"><a class="header" href="#unpacking-in-lists-and-list-comprehensions">Unpacking in Lists and List Comprehensions</a></h3>
+<p>The section on <a href="controlflow.html#tut-unpacking-arguments">Unpacking Argument Lists</a> describes the use of <code>*</code> to
+“unpack” the elements of an iterable object, providing each one separately as
+an argument to a function.  Unpacking can also be used in other contexts, for
+example, when creating lists.  When specifying elements of a list, prefixing an
+expression by a <code>*</code> will unpack the result of that expression, adding each of
+its elements to the list we’re creating:</p>
+<pre><code class="language-python">x = [1, 2, 3]
+[0, *x, 4, 5, 6]
+# [0, 1, 2, 3, 4, 5, 6]
+</code></pre>
+<p>This only works if the expression following the <code>*</code> evaluates to an iterable
+object; trying to unpack a non-iterable object will raise an exception:</p>
+<pre><code class="language-python">x = 1
+[0, *x, 2, 3, 4]
+# Traceback (most recent call last):
+#   File "&lt;python-input-1&gt;", line 1, in &lt;module&gt;
+#     [0, *x, 2, 3, 4]
+# TypeError: Value after * must be an iterable, not int
+</code></pre>
+<p>Unpacking can also be used in list comprehensions, as a way to build a new list
+representing the concatenation of an arbitrary number of iterables:</p>
+<pre><code class="language-python">x = [[1, 2, 3], [4, 5, 6], [], [7], [8, 9]]
+[*element for element in x]
+# [1, 2, 3, 4, 5, 6, 7, 8, 9]
+</code></pre>
+<p>Note that the effect is that each element from <code>x</code> is unpacked.  This works
+for arbitrary iterable objects, not just lists:</p>
+<pre><code class="language-python">x = [[1, 2, 3], 'cat', {'spam': 'eggs'}]
+[*element for element in x]
+# [1, 2, 3, 'c', 'a', 't', 'spam']
+</code></pre>
+<p>But if the objects in <code>x</code> are not iterable, this expression would again raise
+an exception.</p>
+<p><a id="tut-del"></a></p>
+<h2 id="the-del-statement"><a class="header" href="#the-del-statement">The <code>del</code> statement</a></h2>
+<p>There is a way to remove an item from a list given its index instead of its
+value: the <code>del</code> statement.  This differs from the <code>pop()</code> method
+which returns a value.  The <code>del</code> statement can also be used to remove
+slices from a list or clear the entire list (which we did earlier by assignment
+of an empty list to the slice).  For example:</p>
+<pre><code class="language-python">a = [-1, 1, 66.25, 333, 333, 1234.5]
+del a[0]
+a
+# [1, 66.25, 333, 333, 1234.5]
+del a[2:4]
+a
+# [1, 66.25, 1234.5]
+del a[:]
+a
+# []
+</code></pre>
+<p><code>del</code> can also be used to delete entire variables:</p>
+<pre><code class="language-python">del a
+</code></pre>
+<p>Referencing the name <code>a</code> hereafter is an error (at least until another value
+is assigned to it).  We’ll find other uses for <code>del</code> later.</p>
+<p><a id="tut-tuples"></a></p>
+<h2 id="tuples-and-sequences"><a class="header" href="#tuples-and-sequences">Tuples and Sequences</a></h2>
+<p>We saw that lists and strings have many common properties, such as indexing and
+slicing operations.  They are two examples of <em>sequence</em> data types (see
+<a href="https://docs.python.org/3/library/stdtypes.html#typesseq">Sequence Types — list, tuple, range</a>).  Since Python is an evolving language, other sequence data
+types may be added.  There is also another standard sequence data type: the
+<em>tuple</em>.</p>
+<p>A tuple consists of a number of values separated by commas, for instance:</p>
+<pre><code class="language-python">t = 12345, 54321, 'hello!'
+t[0]
+# 12345
+t  # (12345, 54321, 'hello!')
+# Tuples may be nested:
+u = t, (1, 2, 3, 4, 5)
+u
+# ((12345, 54321, 'hello!'), (1, 2, 3, 4, 5))
+# Tuples are immutable:
+t[0] = 88888
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# TypeError: 'tuple' object does not support item assignment
+# but they can contain mutable objects:
+v = ([1, 2, 3], [3, 2, 1])
+v
+# ([1, 2, 3], [3, 2, 1])
+# they support unpacking just like lists:
+x = [1, 2, 3]
+0, *x, 4
+# (0, 1, 2, 3, 4)
+</code></pre>
+<p>As you see, on output tuples are always enclosed in parentheses, so that nested
+tuples are interpreted correctly; they may be input with or without surrounding
+parentheses, although often parentheses are necessary anyway (if the tuple is
+part of a larger expression).  It is not possible to assign to the individual
+items of a tuple, however it is possible to create tuples which contain mutable
+objects, such as lists.</p>
+<p>Though tuples may seem similar to lists, they are often used in different
+situations and for different purposes.
+Tuples are <a href="https://docs.python.org/3/glossary.html#term-immutable">immutable</a>, and usually contain a heterogeneous sequence of
+elements that are accessed via unpacking (see later in this section) or indexing
+(or even by attribute in the case of <code>namedtuples</code>).
+Lists are <a href="https://docs.python.org/3/glossary.html#term-mutable">mutable</a>, and their elements are usually homogeneous and are
+accessed by iterating over the list.</p>
+<p>A special problem is the construction of tuples containing 0 or 1 items: the
+syntax has some extra quirks to accommodate these.  Empty tuples are constructed
+by an empty pair of parentheses; a tuple with one item is constructed by
+following a value with a comma (it is not sufficient to enclose a single value
+in parentheses). Ugly, but effective.  For example:</p>
+<pre><code class="language-python">empty = ()
+singleton = 'hello',    # &lt;-- note trailing comma
+len(empty)
+# 0
+len(singleton)  # 1
+singleton  # ('hello',)
+</code></pre>
+<p>The statement <code>t = 12345, 54321, 'hello!'</code> is an example of <em>tuple packing</em>:
+the values <code>12345</code>, <code>54321</code> and <code>'hello!'</code> are packed together in a tuple.
+The reverse operation is also possible:</p>
+<pre><code class="language-python">x, y, z = t
+</code></pre>
+<p>This is called, appropriately enough, <em>sequence unpacking</em> and works for any
+sequence on the right-hand side.  Sequence unpacking requires that there are as
+many variables on the left side of the equals sign as there are elements in the
+sequence.  Note that multiple assignment is really just a combination of tuple
+packing and sequence unpacking.</p>
+<p><a id="tut-sets"></a></p>
+<h2 id="sets"><a class="header" href="#sets">Sets</a></h2>
+<p>Python also includes a data type for <a href="https://docs.python.org/3/library/stdtypes.html#types-set">sets</a>.  A set is
+an unordered collection with no duplicate elements.  Basic uses include
+membership testing and eliminating duplicate entries.  Set objects also
+support mathematical operations like union, intersection, difference, and
+symmetric difference.</p>
+<p>Curly braces or the <code>set()</code> function can be used to create sets.  Note: to
+create an empty set you have to use <code>set()</code>, not <code>{}</code>; the latter creates an
+empty dictionary, a data structure that we discuss in the next section.</p>
+<p>Because sets are unordered, iterating over them or printing them can
+produce the elements in a different order than you expect.</p>
+<p>Here is a brief demonstration:</p>
+<pre><code class="language-python">basket = {'apple', 'orange', 'apple', 'pear', 'orange', 'banana'}
+print(basket)                      # show that duplicates have been removed
+# {'orange', 'banana', 'pear', 'apple'}
+'orange' in basket                 # fast membership testing
+# True
+'crabgrass' in basket  # False
+
+# Demonstrate set operations on unique letters from two words
+
+a = set('abracadabra')
+b = set('alacazam')
+a                                  # unique letters in a
+# {'a', 'r', 'b', 'c', 'd'}
+a - b                              # letters in a but not in b
+# {'r', 'd', 'b'}
+a | b                              # letters in a or b or both
+# {'a', 'c', 'r', 'd', 'b', 'm', 'z', 'l'}
+a &amp; b                              # letters in both a and b
+# {'a', 'c'}
+a ^ b                              # letters in a or b but not both
+# {'r', 'd', 'b', 'm', 'z', 'l'}
+</code></pre>
+<p>Similarly to <a href="#tut-listcomps">list comprehensions</a>, set comprehensions
+are also supported, including comprehensions with unpacking:</p>
+<pre><code class="language-python">a = {x for x in 'abracadabra' if x not in 'abc'}
+a
+# {'r', 'd'}
+
+fruits = [{'apple', 'avocado', 'apricot'}, {'banana', 'blueberry'}]
+{*fruit for fruit in fruits}
+# {'blueberry', 'banana', 'avocado', 'apple', 'apricot'}
+</code></pre>
+<p><a id="tut-dictionaries"></a></p>
+<h2 id="dictionaries"><a class="header" href="#dictionaries">Dictionaries</a></h2>
+<p>Another useful data type built into Python is the <em>dictionary</em> (see
+<a href="https://docs.python.org/3/library/stdtypes.html#typesmapping">Mapping Types — dict</a>). Dictionaries are sometimes found in other languages as
+“associative memories” or “associative arrays”.  Unlike sequences, which are
+indexed by a range of numbers, dictionaries are indexed by <em>keys</em>, which can be
+any immutable type; strings and numbers can always be keys.  Tuples can be used
+as keys if they contain only strings, numbers, or tuples; if a tuple contains
+any mutable object either directly or indirectly, it cannot be used as a key.
+You can’t use lists as keys, since lists can be modified in place using index
+assignments, slice assignments, or methods like <code>append()</code> and
+<code>extend()</code>.</p>
+<p>It is best to think of a dictionary as a set of <em>key: value</em> pairs,
+with the requirement that the keys are unique (within one dictionary). A pair of
+braces creates an empty dictionary: <code>{}</code>. Placing a comma-separated list of
+key:value pairs within the braces adds initial key:value pairs to the
+dictionary; this is also the way dictionaries are written on output.</p>
+<p>The main operations on a dictionary are storing a value with some key and
+extracting the value given the key.  It is also possible to delete a key:value
+pair with <code>del</code>. If you store using a key that is already in use, the old
+value associated with that key is forgotten.</p>
+<p>Extracting a value for a non-existent key by subscripting (<code>d[key]</code>) raises a
+<code>KeyError</code>. To avoid getting this error when trying to access a possibly
+non-existent key, use the <code>get()</code> method instead, which returns
+<code>None</code> (or a specified default value) if the key is not in the dictionary.</p>
+<p>Performing <code>list(d)</code> on a dictionary returns a list of all the keys
+used in the dictionary, in insertion order (if you want it sorted, just use
+<code>sorted(d)</code> instead). To check whether a single key is in the
+dictionary, use the <code>in</code> keyword.</p>
+<p>Here is a small example using a dictionary:</p>
+<pre><code class="language-python">tel = {'jack': 4098, 'sape': 4139}
+tel['guido'] = 4127
+tel
+# {'jack': 4098, 'sape': 4139, 'guido': 4127}
+tel['jack']  # 4098
+tel['irv']
+# Traceback (most recent call last):
+#   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+# KeyError: 'irv'
+print(tel.get('irv'))  # None
+del tel['sape']
+tel['irv'] = 4127
+tel
+# {'jack': 4098, 'guido': 4127, 'irv': 4127}
+list(tel)  # ['jack', 'guido', 'irv']
+sorted(tel)  # ['guido', 'irv', 'jack']
+'guido' in tel  # True
+'jack' not in tel  # False
+</code></pre>
+<p>The <code>dict()</code> constructor builds dictionaries directly from sequences of
+key-value pairs:</p>
+<pre><code class="language-python">dict([('sape', 4139), ('guido', 4127), ('jack', 4098)])
+# {'sape': 4139, 'guido': 4127, 'jack': 4098}
+</code></pre>
+<p>In addition, dict comprehensions can be used to create dictionaries from
+arbitrary key and value expressions:</p>
+<pre><code class="language-python">{x: x**2 for x in (2, 4, 6)}  # {2: 4, 4: 16, 6: 36}
+</code></pre>
+<p>And dictionary unpacking (via <code>**</code>) can be used to merge multiple
+dictionaries:</p>
+<pre><code class="language-python">odds = {i: i**2 for i in (1, 3, 5)}
+evens = {i: i**2 for i in (2, 4, 6)}
+{**odds, **evens}
+# {1: 1, 3: 9, 5: 25, 2: 4, 4: 16, 6: 36}
+
+all_values = [odds, evens, {0: 0}]
+{**i for i in all_values}
+# {1: 1, 3: 9, 5: 25, 2: 4, 4: 16, 6: 36, 0: 0}
+</code></pre>
+<p>When the keys are simple strings, it is sometimes easier to specify pairs using
+keyword arguments:</p>
+<pre><code class="language-python">dict(sape=4139, guido=4127, jack=4098)
+# {'sape': 4139, 'guido': 4127, 'jack': 4098}
+</code></pre>
+<p><a id="tut-loopidioms"></a></p>
+<h2 id="looping-techniques"><a class="header" href="#looping-techniques">Looping Techniques</a></h2>
+<p>When looping through dictionaries, the key and corresponding value can be
+retrieved at the same time using the <code>items()</code> method.</p>
+<pre><code class="language-python">knights = {'gallahad': 'the pure', 'robin': 'the brave'}
+for k, v in knights.items():
+    print(k, v)
+# gallahad the pure
+# robin the brave
+</code></pre>
+<p>When looping through a sequence, the position index and corresponding value can
+be retrieved at the same time using the <code>enumerate()</code> function.</p>
+<pre><code class="language-python">for i, v in enumerate(['tic', 'tac', 'toe']):
+    print(i, v)
+# 0 tic
+# 1 tac
+# 2 toe
+</code></pre>
+<p>To loop over two or more sequences at the same time, the entries can be paired
+with the <code>zip()</code> function.</p>
+<pre><code class="language-python">questions = ['name', 'quest', 'favorite color']
+answers = ['lancelot', 'the holy grail', 'blue']
+for q, a in zip(questions, answers):
+    print('What is your {0}?  It is {1}.'.format(q, a))
+# What is your name?  It is lancelot.
+# What is your quest?  It is the holy grail.
+# What is your favorite color?  It is blue.
+</code></pre>
+<p>To loop over a sequence in reverse, first specify the sequence in a forward
+direction and then call the <code>reversed()</code> function.</p>
+<pre><code class="language-python">for i in reversed(range(1, 10, 2)):
+    print(i)
+# 9
+# 7
+# 5
+# 3
+# 1
+</code></pre>
+<p>To loop over a sequence in sorted order, use the <code>sorted()</code> function which
+returns a new sorted list while leaving the source unaltered.</p>
+<pre><code class="language-python">basket = ['apple', 'orange', 'apple', 'pear', 'orange', 'banana']
+for i in sorted(basket):
+    print(i)
+# apple
+# apple
+# banana
+# orange
+# orange
+# pear
+</code></pre>
+<p>Using <code>set()</code> on a sequence eliminates duplicate elements. The use of
+<code>sorted()</code> in combination with <code>set()</code> over a sequence is an idiomatic
+way to loop over unique elements of the sequence in sorted order.</p>
+<pre><code class="language-python">basket = ['apple', 'orange', 'apple', 'pear', 'orange', 'banana']
+for f in sorted(set(basket)):
+    print(f)
+# apple
+# banana
+# orange
+# pear
+</code></pre>
+<p>It is sometimes tempting to change a list while you are looping over it;
+however, it is often simpler and safer to create a new list instead.</p>
+<pre><code class="language-python">import math
+raw_data = [56.2, float('NaN'), 51.7, 55.3, 52.5, float('NaN'), 47.8]
+filtered_data = []
+for value in raw_data:
+    if not math.isnan(value):
+        filtered_data.append(value)
+filtered_data
+# [56.2, 51.7, 55.3, 52.5, 47.8]
+</code></pre>
+<p><a id="tut-conditions"></a></p>
+<h2 id="more-on-conditions"><a class="header" href="#more-on-conditions">More on Conditions</a></h2>
+<p>The conditions used in <code>while</code> and <code>if</code> statements can contain any
+operators, not just comparisons.</p>
+<p>The comparison operators <code>in</code> and <code>not in</code> are membership tests that
+determine whether a value is in (or not in) a container.  The operators <code>is</code>
+and <code>is not</code> compare whether two objects are really the same object.  All
+comparison operators have the same priority, which is lower than that of all
+numerical operators.</p>
+<p>Comparisons can be chained.  For example, <code>a &lt; b == c</code> tests whether <code>a</code> is
+less than <code>b</code> and moreover <code>b</code> equals <code>c</code>.</p>
+<p>Comparisons may be combined using the Boolean operators <code>and</code> and <code>or</code>, and
+the outcome of a comparison (or of any other Boolean expression) may be negated
+with <code>not</code>.  These have lower priorities than comparison operators; between
+them, <code>not</code> has the highest priority and <code>or</code> the lowest, so that <code>A and not B or C</code> is equivalent to <code>(A and (not B)) or C</code>. As always, parentheses
+can be used to express the desired composition.</p>
+<p>The Boolean operators <code>and</code> and <code>or</code> are so-called <em>short-circuit</em>
+operators: their arguments are evaluated from left to right, and evaluation
+stops as soon as the outcome is determined.  For example, if <code>A</code> and <code>C</code> are
+true but <code>B</code> is false, <code>A and B and C</code> does not evaluate the expression
+<code>C</code>.  When used as a general value and not as a Boolean, the return value of a
+short-circuit operator is the last evaluated argument.</p>
+<p>It is possible to assign the result of a comparison or other Boolean expression
+to a variable.  For example,</p>
+<pre><code class="language-python">string1, string2, string3 = '', 'Trondheim', 'Hammer Dance'
+non_null = string1 or string2 or string3
+non_null
+# 'Trondheim'
+</code></pre>
+<p>Note that in Python, unlike C, assignment inside expressions must be done
+explicitly with the
+<a href="https://docs.python.org/3/faq/design.html#why-can-t-i-use-an-assignment-in-an-expression">walrus operator</a> <code>:=</code>.
+This avoids a common class of problems encountered in C programs: typing <code>=</code>
+in an expression when <code>==</code> was intended.</p>
+<p><a id="tut-comparing"></a></p>
+<h2 id="comparing-sequences-and-other-types"><a class="header" href="#comparing-sequences-and-other-types">Comparing Sequences and Other Types</a></h2>
+<p>Sequence objects typically may be compared to other objects with the same sequence
+type. The comparison uses <em>lexicographical</em> ordering: first the first two
+items are compared, and if they differ this determines the outcome of the
+comparison; if they are equal, the next two items are compared, and so on, until
+either sequence is exhausted. If two items to be compared are themselves
+sequences of the same type, the lexicographical comparison is carried out
+recursively.  If all items of two sequences compare equal, the sequences are
+considered equal. If one sequence is an initial sub-sequence of the other, the
+shorter sequence is the smaller (lesser) one.  Lexicographical ordering for
+strings uses the Unicode code point number to order individual characters.
+Some examples of comparisons between sequences of the same type:</p>
+<pre><code class="language-python">(1, 2, 3)              &lt; (1, 2, 4)
+[1, 2, 3]              &lt; [1, 2, 4]
+'ABC' &lt; 'C' &lt; 'Pascal' &lt; 'Python'
+(1, 2, 3, 4)           &lt; (1, 2, 4)
+(1, 2)                 &lt; (1, 2, -1)
+(1, 2, 3)             == (1.0, 2.0, 3.0)
+(1, 2, ('aa', 'ab'))   &lt; (1, 2, ('abc', 'a'), 4)
+</code></pre>
+<p>Note that comparing objects of different types with <code>&lt;</code> or <code>&gt;</code> is legal
+provided that the objects have appropriate comparison methods.  For example,
+mixed numeric types are compared according to their numeric value, so 0 equals
+0.0, etc.  Otherwise, rather than providing an arbitrary ordering, the
+interpreter will raise a <code>TypeError</code> exception.</p>
+<blockquote>
+<p><strong>Going deeper</strong></p>
+<ul>
+<li><a href="sequences.html">An Array of Sequences</a> — container versus flat sequences, comprehensions and
+generator expressions, tuples as records, unpacking, slicing, <code>array</code>, <code>memoryview</code>, NumPy
+and <code>deque</code>.</li>
+<li><a href="dicts-sets.html">Dictionaries and Sets</a> — mapping APIs, <code>__missing__</code>, <code>defaultdict</code>,
+<code>ChainMap</code>, <code>Counter</code>, immutable mappings, dictionary views, and how hash tables shape the
+behavior of <code>dict</code> and <code>set</code>.</li>
+<li><a href="references.html">Object References, Mutability, and Recycling</a> — variables as labels,
+identity versus equality, shallow and deep copies, mutable parameters, <code>del</code> and garbage
+collection.</li>
+</ul>
+</blockquote>
+<h3 id="footnotes"><a class="header" href="#footnotes">Footnotes</a></h3>
+<ul>
+<li><a id="id2"><strong>[1]</strong></a> Other languages may return the mutated object, which allows method chaining, such as <code>d-&gt;insert("a")-&gt;remove("b")-&gt;sort();</code>.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="function-patterns.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="sequences.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="function-patterns.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="sequences.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>
